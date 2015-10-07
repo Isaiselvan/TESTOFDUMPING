@@ -11,7 +11,8 @@
 #define IFSZ 16
 #define FLTRSZ 120
 #define MAXHOSTSZ 256
-#define SNAP_LEN 65535
+#define SNAP_LEN 65535 // Full packet reading 
+#define PCAPDBUF_LEN 819200 // 10 * 8192 
 
 
 using namespace moodycamel;
@@ -36,7 +37,7 @@ class PacketReader
         // C++11 supports initialising the members
         int optimize = 1;/* passed to pcap_compile to do optimization */
         int snaplen = SNAP_LEN;/* amount of data per packet */
-        int promisc = 0; /* do not change mode; if in promiscuous */
+        int promisc = 1; /* do not change mode; if in promiscuous */
  /* mode, stay in it, otherwise, do not */
         int to_ms = 1000;/* timeout, in milliseconds */
         int m_numberofpackets ;  /*for continous number of packets to capture */
@@ -49,7 +50,11 @@ class PacketReader
 
         // Control thread stop
         bool m_threadStop = false; 
-        static int countPkt; 
+        static int countPkt;
+
+        bool m_bflag;
+        unsigned long int m_buflen;
+ 
  public:
        static PacketReader * GetInstance(){
           if( NULL == m_onlyreader )
@@ -71,6 +76,10 @@ class PacketReader
         void cleanup();
         void PrintStat();
         void StopThread(){m_threadStop = true; }
+        void SetpcapBufl(unsigned long int blen){
+         m_bflag = true;   
+         m_buflen = blen;
+        }
  private:
 
        static PacketReader * m_onlyreader;
@@ -81,7 +90,9 @@ class PacketReader
          // Will not change the affinity if the value is -1 
          m_readeraffinity = -1; 
          m_readerpriority = -1;
+         m_bflag = false;
          strcpy(fliterstr, "");
+         m_buflen = PCAPDBUF_LEN;
         }
         bool SetThreadAttributes();
         void PcapStartUp();

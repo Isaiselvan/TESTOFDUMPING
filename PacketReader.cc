@@ -34,7 +34,66 @@ bool PacketReader::SetThreadAttributes()
 
 void PacketReader::PcapStartUp()
 {
- 
+
+
+	int status ; 
+	char * cp; 
+
+	if(!(m_pcapHandle = pcap_create(m_interfacename, errbuf)))
+	  fprintf(stderr,"%s",errbuf);
+
+	status = pcap_set_snaplen(m_pcapHandle, snaplen);
+	if (status != 0)
+	  fprintf(stderr,"%s: Can't set snapshot length: %s",
+				m_interfacename, pcap_statustostr(status));
+
+	status = pcap_set_promisc(m_pcapHandle, promisc);
+	if (status != 0)
+	  fprintf(stderr,"%s: Can't set promiscuous mode: %s",
+				m_interfacename, pcap_statustostr(status));
+
+	status = pcap_set_timeout(m_pcapHandle, to_ms);
+	if (status != 0)
+	 fprintf(stderr,"%s: pcap_set_timeout failed: %s",
+			    m_interfacename, pcap_statustostr(status));
+	if (m_bflag != 0) {
+	 	status = pcap_set_buffer_size(m_pcapHandle, m_buflen);
+	if (status != 0)
+	fprintf(stderr,"%s: Can't set buffer size: %s",
+			    m_interfacename, pcap_statustostr(status));
+		}
+        status = pcap_activate(m_pcapHandle);
+	if (status < 0) {
+		/*
+		 * pcap_activate() failed.
+		 */
+		cp = pcap_geterr(m_pcapHandle);
+		if (status == PCAP_ERROR)
+			fprintf(stderr,"%s", cp);
+		else if ((status == PCAP_ERROR_NO_SUCH_DEVICE ||
+					status == PCAP_ERROR_PERM_DENIED) &&
+				*cp != '\0')
+			fprintf(stderr,"%s: %s\n(%s)", m_interfacename,
+					pcap_statustostr(status), cp);
+		else
+			fprintf(stderr,"%s: %s", m_interfacename,
+					pcap_statustostr(status));
+                 exit(0);//
+	} else if (status > 0) {
+		/*
+		 * pcap_activate() succeeded, but it's warning us
+		 * of a problem it had.
+		 */
+		cp = pcap_geterr(m_pcapHandle);
+		if (status == PCAP_WARNING)
+			fprintf(stderr,"%s", cp);
+		else if (status == PCAP_WARNING_PROMISC_NOTSUP &&
+				*cp != '\0')
+			fprintf(stderr,"%s: %s\n(%s)", m_interfacename,
+					pcap_statustostr(status), cp);
+	}
+
+#if 0 
  /*
   * Open the network device for packet capture. This must be called
   * before any packets can be captured on the network device.
@@ -45,6 +104,7 @@ void PacketReader::PcapStartUp()
                         m_interfacename, errbuf);
                 exit(2);
         }
+#endif
 
  /*
  *  Look up the network address and subnet mask for the network device
@@ -152,23 +212,45 @@ void PacketReader::Reader_Run()
  PcapStartUp();
  createPcapFheader();
 
-  if (pcap_loop(m_pcapHandle, m_numberofpackets, &PacketReader::WritePKTtoBuf,NULL) < 0) {
+/*  if (pcap_loop(m_pcapHandle, m_numberofpackets, &PacketReader::WritePKTtoBuf,NULL) < 0) {
   sprintf(prestr,"Error reading packets from interface %s",
                         m_interfacename);
                 pcap_perror(m_pcapHandle,prestr);
                 exit(8);
-        }
+        }*/
 
+    register struct pcap_pkthdr *PcapHdr;
+    register const u_char * data;
+    int status;
+    while (1)
+    {
+	    if(m_onlyreader->m_threadStop)
+	    {
+		    //m_onlyreader->cleanup();
+		    pthread_exit(NULL);
+	    }
+
+	    status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
+	    if(status == 1)
+	    {
+		    WritePKTtoBuf(NULL, PcapHdr, data);
+	    }
+	    else if (status == 0)
+	    {
+		    //  fprintf(stdout,"\nWarning: Timeout while reading packet\n");
+	    }
+	    else if (status == -1)
+	    {
+		    fprintf(stderr,"\nError while reading the packets\t from dev:%s %s ",m_interfacename,pcap_geterr(m_pcapHandle));
+		    exit(-1);
+	    }
+
+    }
 
 }
 
 void PacketReader::WritePKTtoBuf(u_char *DummyFile, const struct pcap_pkthdr *PcapHdr, const u_char * data)
 {
-   if(m_onlyreader->m_threadStop)
-   {
-     //m_onlyreader->cleanup();
-     pthread_exit(NULL);
-   }
    countPkt++;
    struct pcktPLUSEpcaphd capture;
              capture.sf_hdr.ts.tv_sec = PcapHdr->ts.tv_sec;

@@ -94,11 +94,14 @@ int main (int argc, char ** argv)
          
           break;
 
-      /* case 'f':
-           break;*/
+       case 'B':
+             if(strlen(optarg) > 1)
+             PacketReader::GetInstance()->SetpcapBufl(atoi(optarg));
+           break;
+/*
 
       // default:
-        ///      ;
+        ///      ;*/
       }
 
   }
@@ -129,6 +132,7 @@ rc = pthread_create(&threads[1], NULL, &Writer, NULL);
 #ifdef USE_SIGNAL
     signal(SIGINT, cleanup);
     signal(SIGPIPE, cleanup);
+    signal(SIGTERM, cleanup);
 #else
     struct sigaction sa;
     sa.sa_handler = cleanup;
@@ -137,6 +141,7 @@ rc = pthread_create(&threads[1], NULL, &Writer, NULL);
 
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGPIPE, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
 #endif /* USE_SIGNAL */
 
 
