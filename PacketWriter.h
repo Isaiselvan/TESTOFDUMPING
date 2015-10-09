@@ -70,8 +70,8 @@ class PacketWriter
         }
         
         bool SetThreadAttributes();
-        void createNewFile();
-        void FlushToFile();
+        inline void createNewFile();
+        inline void FlushToFile();
         
 
    //TODO

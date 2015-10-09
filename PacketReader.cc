@@ -12,15 +12,21 @@ bool PacketReader::SetThreadAttributes()
        return false; // Default thread behaviour 
 
     int readtid = syscall(__NR_gettid);//syscall.h to get the pid associated with thread
-  
+ pthread_t thread = pthread_self(); 
+    std::cout << "DEV: threadID " << thread << std::endl ;
     cpu_set_t csmask;
     CPU_ZERO(&csmask);
     CPU_SET(m_readeraffinity, &csmask);
-   if( sched_setaffinity(readtid, sizeof(cpu_set_t), &csmask) != 0 ) {
+   /*if( sched_setaffinity(readtid, sizeof(cpu_set_t), &csmask) != 0 ) {
      std::cerr <<  "Reader could not set cpu affinity : " << m_readeraffinity << "\n" ; 
      return false;
+   }*/
+
+   if ( pthread_setaffinity_np(thread, sizeof(cpu_set_t), &csmask) != 0 ) {
+     std::cerr << "Reader error on thread set cpu \n";
+     return false;
    }
-   
+  
    // Set the priority of the read thread If priority is set  
    if(-1 == m_readerpriority)
       return true; // return true as affinity is changed
@@ -226,7 +232,7 @@ void PacketReader::Reader_Run()
     {
 	    if(m_onlyreader->m_threadStop)
 	    {
-		    //m_onlyreader->cleanup();
+		    m_onlyreader->cleanup();
 		    pthread_exit(NULL);
 	    }
 
@@ -249,7 +255,7 @@ void PacketReader::Reader_Run()
 
 }
 
-void PacketReader::WritePKTtoBuf(u_char *DummyFile, const struct pcap_pkthdr *PcapHdr, const u_char * data)
+inline void PacketReader::WritePKTtoBuf(u_char *DummyFile, const struct pcap_pkthdr *PcapHdr, const u_char * data)
 {
    countPkt++;
    struct pcktPLUSEpcaphd capture;

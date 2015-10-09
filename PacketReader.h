@@ -39,7 +39,7 @@ class PacketReader
         int snaplen = SNAP_LEN;/* amount of data per packet */
         int promisc = 1; /* do not change mode; if in promiscuous */
  /* mode, stay in it, otherwise, do not */
-        int to_ms = 1000;/* timeout, in milliseconds */
+        int to_ms = 10;/* timeout, in milliseconds */
         int m_numberofpackets ;  /*for continous number of packets to capture */
         u_int32_t net = 0; /* network IP address */
         u_int32_t mask = 0;/* network address mask */
@@ -97,7 +97,7 @@ class PacketReader
         bool SetThreadAttributes();
         void PcapStartUp();
         void createPcapFheader();
-        static void WritePKTtoBuf(u_char *, const struct pcap_pkthdr *, const u_char *);
+        static inline void WritePKTtoBuf(u_char *, const struct pcap_pkthdr *, const u_char *);
    //TODO
    //   //Write filters and controls
    

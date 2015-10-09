@@ -7,8 +7,8 @@ APP_OBJS = main.o\
 
 CPPFLAGS = "-std=c++11" -lpthread -lrt
 ifdef PF_RING
-PCAPLIB = /home/sathyaisai/Sai_Proj/PF_RING/userland/libpcap/libpcap.a \
-          /home/sathyaisai/Sai_Proj/PF_RING/userland/lib/libpfring.a
+PCAPLIB = -L ./lib/ \
+          -lpcap_pf_ring -lpfring 
 else
 PCAPLIB = -lpcap  
 endif

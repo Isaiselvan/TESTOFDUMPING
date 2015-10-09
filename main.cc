@@ -41,6 +41,7 @@ void cleanup(int signo)
 {
  std::cout << "\nSTOPPING THREADS" << std::endl;
  PacketReader::GetInstance()->StopThread();
+ usleep(20);
  PacketWriter::GetInstance()->StopThread();
  // Clean reader
  
@@ -48,9 +49,9 @@ void cleanup(int signo)
 
  // Clean Writeer
  //PacketWriter::GetInstance()->cleanup();
- sleep (2);
- PacketReader::GetInstance()->cleanup();
- exit(2);
+ //sleep (2);
+ //PacketReader::GetInstance()->cleanup();
+ //exit(2);
 }
 
 int main (int argc, char ** argv)

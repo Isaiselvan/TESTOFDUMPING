@@ -16,14 +16,15 @@ bool PacketWriter::SetThreadAttributes()
        return false; // Default thread behaviour
 
     int writetid = syscall(__NR_gettid);//syscall.h to get the pid associated with thread
-
+     pthread_t thread = pthread_self();
+    std::cout << "DEV: threadID2 " << thread << std::endl ;
     cpu_set_t csmask;
     CPU_ZERO(&csmask);
     CPU_SET(m_writeraffinity, &csmask);
-   if( sched_setaffinity(writetid, sizeof(cpu_set_t), &csmask) != 0 ) {
+  /* if( sched_setaffinity(writetid, sizeof(cpu_set_t), &csmask) != 0 ) {
      std::cerr <<  "Reader could not set cpu affinity : " << m_writeraffinity << "\n" ;
      return false;
-   }
+   }*/
 
    // Set the priority of the read thread If priority is set
        if(-1 == m_readerpriority)
@@ -50,7 +51,7 @@ void PacketWriter::cleanup()
 }
 
 extern struct pcap_file_header fileheader;
-void PacketWriter::createNewFile()
+inline void PacketWriter::createNewFile()
 {
   if(FP)
   {
@@ -91,7 +92,7 @@ void PacketWriter::createNewFile()
      std::fwrite((void *)&fileheader, 1, sizeof(fileheader), FP); 
 }
 
-void PacketWriter::FlushToFile()
+inline void PacketWriter::FlushToFile()
 {
 
   int blockSize = 64;
@@ -117,6 +118,7 @@ void PacketWriter::Writer_Run ()
 {
 
   std::cout << "STARTING THE WRITER THREAD" << std::endl;
+  SetThreadAttributes();
   pcktPLUSEpcaphd buffered;
   createNewFile();
 
