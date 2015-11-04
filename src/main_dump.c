@@ -23,8 +23,8 @@
 #define PCAPDBUF_LEN 819200 // 10 * 8192
 
 
-#define RTE_LOGTYPE_APP RTE_LOGTYPE_USER1
-#define PRINT_INFO(fmt, args...)        RTE_LOG(INFO, APP, fmt "\n", ##args)
+#define RTE_LOGTYPE_ICIS RTE_LOGTYPE_USER1
+#define PRINT_INFO(fmt, args...)        RTE_LOG(INFO, ICIS, fmt "\n", ##args)
 
 char m_interfacename[IFSZ] = "lo" ;
 pcap_t *m_pcapHandle;       /* packet capture descriptor */
@@ -111,9 +111,8 @@ int main(int argc, char **argv)
          //if (nb_sys_ports <= 0) FATAL_ERROR("Cannot find ETH devices\n");
 
         /* Create a mempool with per-core cache, initializing every element for be used as mbuf, and allocating on the current NUMA node */
-        //pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
-        pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME, buffer_size-1, 
-                        MEMPOOL_CACHE_SZ, 0, snaplen + RTE_PKTMBUF_HEADROOM, rte_socket_id());
+       // pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
+        pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,buffer_size-1, MEMPOOL_CACHE_SZ, 0, snaplen + RTE_PKTMBUF_HEADROOM, rte_socket_id());
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
         /* Init intermediate queue data structures: the ring. */
@@ -124,9 +123,16 @@ int main(int argc, char **argv)
         for(i=0; i < nb_sys_ports; i++)
                 init_port(i);
 
+        /* Start Pcap  */
+        //PcapStartUp();        
+
         /* Start consumer and producer routine on 2 different cores: consumer launched first... */
         ret =  rte_eal_mp_remote_launch (main_loop_producer, NULL, SKIP_MASTER);
         if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
+        /*RTE_LCORE_FOREACH_SLAVE(i) {
+                if (rte_eal_wait_lcore(i) < 0)
+                        return -1;
+        }*/
 
         /* ... and then loop in consumer */
         //main_loop_producer ( NULL );
@@ -146,7 +152,7 @@ static int main_loop_producer(__attribute__((unused)) void * arg){
         int i;
         //, ret;
 
-
+        PRINT_INFO("Lcore id of producer %d\n", rte_lcore_id());
         /* Start stats */
         alarm(1);
 
@@ -180,6 +186,7 @@ static int main_loop_producer(__attribute__((unused)) void * arg){
                     m->tx_offload = PcapHdr->ts.tv_sec;;
                     m->udata64 =  PcapHdr->ts.tv_usec;
                     m->data_len = (uint16_t)PcapHdr->caplen;
+                    m->pkt_len = (uint16_t) PcapHdr->len;
                     //WritePKTtoBuf(NULL, PcapHdr, data);
                     //printf("Buffer enqueued\n");
                        /*Enqueieing buffer */
@@ -214,7 +221,7 @@ static int main_loop_producer(__attribute__((unused)) void * arg){
         }
         return 0;
 }
-
+#if 1 
 static int main_loop_consumer(__attribute__((unused)) void * arg){
 
         struct timeval t_pack;
@@ -276,7 +283,7 @@ static int main_loop_consumer(__attribute__((unused)) void * arg){
                 /* Compile pcap header */
                 pcap_hdr.ts = t_pack;
                 pcap_hdr.caplen = rte_pktmbuf_data_len(m);
-                pcap_hdr.len = rte_pktmbuf_data_len(m);
+                pcap_hdr.len = m->pkt_len;
                 packet = rte_pktmbuf_mtod(m, u_char * );
 
                 /* Write on pcap */
@@ -296,18 +303,19 @@ static int main_loop_consumer(__attribute__((unused)) void * arg){
                 rte_pktmbuf_free((struct rte_mbuf *)m);
         }
 }
+#endif 
 
 void print_stats (void){
-        struct rte_eth_stats stat;
-        int i;
-        uint64_t good_pkt = 0, miss_pkt = 0;
+        //struct rte_eth_stats stat;
+        //int i;
+        //uint64_t good_pkt = 0, miss_pkt = 0;
        if (!(linktype = pcap_datalink(m_pcapHandle))) {
                 fprintf(stderr,
                         "Error getting link layer type for interface %s",
                         m_interfacename);
                 exit(9);
         }
-        printf("The link layer type for packet capture device %s is: %d.\n",
+        PRINT_INFO("The link layer type for packet capture device %s is: %d.\n",
                 m_interfacename, linktype);
 
 
@@ -318,12 +326,12 @@ void print_stats (void){
         }
 
         /* Print the statistics out */
-        printf("Packet Capture Statistics:\n");
-        printf("%d packets received by filter\n", m_pcapstatus.ps_recv);
-        printf("%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
+        PRINT_INFO("Packet Capture Statistics:\n");
+        PRINT_INFO("%d packets received by filter\n", m_pcapstatus.ps_recv);
+        PRINT_INFO("%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
 
 
-
+#if 0
         /* Print per port stats */
         for (i = 0; i < nb_sys_ports; i++){
                 rte_eth_stats_get(i, &stat);
@@ -334,6 +342,7 @@ void print_stats (void){
         printf("\n-------------------------------------------------");
         printf("\nTOT:     Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 );
         printf("\n");
+#endif
 
 }
 
