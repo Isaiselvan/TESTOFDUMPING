@@ -1,0 +1,54 @@
+
+
+While analysing on capturing packets at very high speed.
+
+We came across two approaches
+
+1. Hardware approach 
+2. Software approach
+
+As Hardware approach will involve lot of money and manual field installations, and ofcourse we are software engineers, We decided to search with Software approach. 
+
+We came across a open source group mainly contributed by intel 
+Dpdk(Data plane develpoment kit). Which will optimally use all hardware resources to achive very high speed packet processing by single core. Using the dpdk library the packet processing speed is increased nearly (x25). 
+
+To acheive this intel provides several libraries like 
+1. 
+
+
+Linux kernel overhead
+ System calls
+ Context switching on blocking I/O
+ Data copying from kernel to user space
+ Interrupt handling in kernel
+
+14.88 millions of 64 byte packets per second on 10G interface
+1.8 GHz -> 1 cycle = 0,55 ns
+1 packet -> 67.2 ns = 120 clock cycles
+
+On a normal software:
+
+CPU to memory speed = 6-8 GBytes/s
+PCI-Express x16 speed = 5 GBytes/s
+Access to RAM = 200 ns
+Access to L3 cache = 4 ns
+Context switch ~= 1000 ns (3.2 GHz)
+
+
+What is used inside DPDK?
+Processor affinity (separate cores)
+ Huge pages (no swap, TLB)
+ UIO (no copying from kernel)
+ Polling (no interrupts overhead)
+ Lockless synchronization (avoid waiting)
+ Batch packets handling
+ SSE, NUMA awareness
+
+
+To model 
+1. Run to completion 
+2. Pipeline model
+
+
+
+A queue manager implements lockless queues A buffer manager pre-allocates fixed size buffers A memory manager allocates pools of objects in memory and uses a ring to store free objects; ensures that objects are spread equally on all DRAM channels Poll mode drivers (PMD) are designed to work without asynchronous notifications, reducing overhead A packet framework – set of libraries that are helpers to develop packet processing
