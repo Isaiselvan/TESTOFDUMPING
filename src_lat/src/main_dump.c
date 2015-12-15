@@ -6,8 +6,8 @@
 
 
 /* Constants of the system */
-#define MEMPOOL_NAME "cluster_mem_pool"                         // Name of the NICs' mem_pool, useless comment....
-#define MEMPOOL_ELEM_SZ 2048                                    // Power of two greater than 1500
+#define MEMPOOL_NAME "cluster_mem_pool"                         // Name of the NICs' mem_pool
+#define MEMPOOL_ELEM_SZ  2048                                    // Power of two greater than 1500
 #define MEMPOOL_CACHE_SZ 512                                    // Max is 512
 
 #define INTERMEDIATERING_NAME "intermedate_ring"
@@ -38,7 +38,7 @@ char prestr[80]; /* prefix string for errors from pcap_perror */
 struct bpf_program prog; /* compiled bpf filter program */
 // C++11 supports initialising the members
 int optimize = 1;/* passed to pcap_compile to do optimization */
-int snaplen = SNAP_LEN;/* amount of data per packet */
+int snaplen =  SNAP_LEN;/* amount of data per packet */
 int promisc = 0; /* 1 do not change mode; if in promiscuous */
 /* mode, stay in it, otherwise, do not */
 int to_ms = 1;/* timeout, in milliseconds */
@@ -54,13 +54,13 @@ int pcount = 0;          /* number of packets actually read */
 bool m_threadStop = false;
 //static int countPkt;
 
-bool m_bflag;
-unsigned long int m_buflen = 4194304; // 2 * 1024 * 1024
+
+unsigned long int m_buflen = 2097152; // 2 * 1024 * 1024
 /* Global vars */
 char * file_name = NULL;
 pcap_dumper_t * pcap_file_p;
 uint64_t max_packets = 0 ;
-uint64_t buffer_size =   2097152;//1048576;
+uint64_t buffer_size =   262144; 
 uint64_t seconds_rotation = 0;
 uint64_t last_rotation = 0;
 int64_t  nb_rotations=0;
@@ -108,8 +108,8 @@ int main(int argc, char **argv)
 #endif 
 
   
-       // pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
-        pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,buffer_size-1, MEMPOOL_CACHE_SZ, 0, snaplen + RTE_PKTMBUF_HEADROOM, rte_socket_id());
+        //pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
+        pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,buffer_size-1, MEMPOOL_CACHE_SZ, 0, /*snaplen + RTE_PKTMBUF_HEADROOM*/MEMPOOL_ELEM_SZ, rte_socket_id());
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
         /* Init intermediate queue data structures: the ring. */
@@ -214,12 +214,12 @@ void PcapStartUp(void)
         if (status != 0)
          fprintf(stderr,"%s: pcap_set_timeout failed: %s",
                             m_interfacename, pcap_statustostr(status));
-        if (m_bflag != 0) {
+        
                 status = pcap_set_buffer_size(m_pcapHandle, m_buflen);
         if (status != 0)
         fprintf(stderr,"%s: Can't set buffer size: %s",
                             m_interfacename, pcap_statustostr(status));
-                }
+                
         status = pcap_activate(m_pcapHandle);
         if (status < 0) {
                 /*
