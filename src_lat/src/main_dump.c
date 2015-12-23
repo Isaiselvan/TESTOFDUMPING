@@ -346,7 +346,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
 
                 /* Continue polling if no packet available */
                 if( unlikely (ret != 0)) {
-                //usleep (100);
+                usleep (100);
                 continue;
                 }
 
