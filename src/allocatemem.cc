@@ -14,66 +14,67 @@ std::vector<inti *> intmem;
 std::vector<inti *> intmem_2;
 
  
-class carbagecollector {
+class garbagecollector {
 
 private :
 
-   std::vector<void*> carbage; //TODO map with time
-   std::vector<void*> arrayCarbage; //TODO map with time
-   static carbagecollector * singleINST;
-   static int CarbageCount ; 
-   static int ArrCarbageCount  ;
+   std::vector<void*> garbage; //TODO map with time
+   std::vector<void*> arrayGarbage; //TODO map with time
+   static garbagecollector * singleINST;
+   static int GarbageCount ; 
+   static int ArrGarbageCount  ;
   
 
 private:
-   carbagecollector(){
-      CarbageCount = 0 ;
-      ArrCarbageCount = 0; 
+   garbagecollector(){
+      GarbageCount = 0 ;
+      ArrGarbageCount = 0; 
        // TODO timer to clear 15 mins older than current time
   }
 
 public: 
-  ~carbagecollector(); 
+  ~garbagecollector(); 
 
-   static carbagecollector* getCarhandler(){
+   static garbagecollector* getGarhandler(){
        if(!singleINST)
-           singleINST = new carbagecollector(); 
+           singleINST = new garbagecollector(); 
 
        return (singleINST); 
    }
 
 
-   void addTocarbage(void * ptr){
-      carbage.push_back(ptr);
-      CarbageCount++;
+   void addTogarbage(void * ptr){
+      garbage.push_back(ptr);
+      GarbageCount++;
    }
 
-   void addToArrCarbage(void * ptr){
-      arrayCarbage.push_back(ptr);
-      ArrCarbageCount++;
+   void addToArrGarbage(void * ptr){
+      arrayGarbage.push_back(ptr);
+      ArrGarbageCount++;
    }
   
    void * getaplaceholder() {
-       void * ret = carbage.back();
-       carbage.pop_back();
-       CarbageCount--;
+       void * ret = garbage.back();
+       garbage.pop_back();
+       GarbageCount--;
        return ret;
    }
    void * getarrayplaceholder() {
-       void * ret = arrayCarbage.back();
-       arrayCarbage.pop_back();
-       ArrCarbageCount--;
+       void * ret = arrayGarbage.back();
+       arrayGarbage.pop_back();
+       ArrGarbageCount--;
        return ret;
    }
 
-   void clearoldcarbage(){}// TODO with timer
+   void clearoldgarbage(){}// TODO with timer
 
-   static inline int getCarbCount(){return CarbageCount;}
-   static inline int getArrCarbCount() {return ArrCarbageCount;} 
+   static inline int getGarbCount(){return GarbageCount;}
+   static inline int getArrGarbCount() {return ArrGarbageCount;} 
 };
+int garbagecollector::GarbageCount = 0;
+int garbagecollector::ArrGarbageCount = 0;
+garbagecollector* garbagecollector::singleINST = NULL;
 
-//carbagecollector::CarbageCount = 0;
-//carbagecollector::ArrCarbageCount = 0;
 
 class inti {
 private :
@@ -105,7 +106,7 @@ public :
  inline void * operator new(size_t size ) throw (std::bad_alloc); 
  inline void * operator new[](size_t size) throw (std::bad_alloc);
  inline void operator delete  ( void* ptr );
- //inline void operator delete[]( void * ptr);
+ inline void operator delete[]( void * ptr, std::size_t sz);
 };
 
 
@@ -116,10 +117,10 @@ int main(int count , char ** argv)
   {
    allamem(); 
    // std::cout << "Out of allocation\n" << std::endl; 
-    // sleep(9);
+     usleep(100);
    delemem_2();
    allamem_2();
-  //   sleep(9);
+   usleep(100);
    delemem(); 
   }
   return 0; 
@@ -171,7 +172,7 @@ inline void * inti::operator new(size_t size) throw (std::bad_alloc)
 {
  void *p;
 
- if( carbagecollector::getCarbCount() == 0)
+ if( garbagecollector::getGarbCount() == 0)
  {
 	 while ((p = malloc(sizeof (inti))) == NULL)
 		 if (p == NULL)
@@ -183,7 +184,7 @@ inline void * inti::operator new(size_t size) throw (std::bad_alloc)
  else
  {
 	 inti *ptr;
-	 ptr = (inti*)carbagecollector::getCarhandler()->getaplaceholder();
+	 ptr = (inti*)garbagecollector::getGarhandler()->getaplaceholder();
 	 if(ptr)
 	 {
 		 p = realloc(ptr, sizeof(inti));
@@ -207,7 +208,7 @@ inline void * inti::operator new(size_t size) throw (std::bad_alloc)
 inline void inti::operator delete(void *ptr)
 { 
   if(ptr)
-  carbagecollector::getCarhandler()->addTocarbage(ptr);
+  garbagecollector::getGarhandler()->addTogarbage(ptr);
   //TODO call destructor
 }
 
@@ -216,13 +217,33 @@ inline void * inti::operator new[](size_t size) throw (std::bad_alloc)
 {
    void *p;
    void *firstEl;
-
-   while ((p = malloc(size * sizeof(inti))) == NULL)
+   if(garbagecollector::getArrGarbCount() == 0)
+   {
+    while ((p = malloc(size * sizeof(inti))) == NULL)
     if (p == NULL)
      {       // report no memory
         static const std::bad_alloc nomem;
         throw(nomem);
      }
+   }
+     else
+   {
+         inti *ptr;
+         ptr = (inti*)garbagecollector::getGarhandler()->getarrayplaceholder();
+         if(ptr)
+         {
+                 p = realloc(ptr,size * sizeof(inti));
+                 if(!p)
+                 {
+                      static const std::bad_alloc nomem;
+                      throw(nomem);
+                 }
+         }else
+         {
+                  static const std::bad_alloc nomem;
+                  throw(nomem);
+         }
+   }
 
     firstEl = p ;
    
@@ -238,4 +259,10 @@ inline void * inti::operator new[](size_t size) throw (std::bad_alloc)
       return (tmp);
 }
 
-
+inline void inti::operator delete [](void *ptr, std::size_t sz)
+{
+  if(ptr)
+  garbagecollector::getGarhandler()->addToArrGarbage(ptr);
+  //TODO call destructor sz/(sizeof(inti)) times by moving the ptr
+  //std::cout << "Delete called for array size = " << sz/(sizeof(inti)) << std::endl ;
+}
