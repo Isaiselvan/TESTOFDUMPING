@@ -110,7 +110,6 @@ int nb_sys_ports;
 //static struct rte_mempool * pktmbuf_pool;
 //static struct rte_ring    * intermediate_ring;
 int snaplen =  SNAP_LEN;/* amount of data per packet */
-char m_interfacename[IFSZ] = "lo" ;
 char fliterstr[FLTRSZ];     /* bpf filter string */
 
 void alarm_routine (__attribute__((unused)) int unused);
@@ -238,7 +237,7 @@ packet_producer(void)
 	unsigned lcore_id;
 	unsigned i, j, portid, nb_rx; 
 	struct lcore_queue_conf *qconf;
-
+        struct timeval t_pack;
 
 
 	lcore_id = rte_lcore_id();
@@ -274,6 +273,9 @@ packet_producer(void)
 
 			for (j = 0; j < nb_rx; j++) {
 				m = pkts_burst[j];
+                                gettimeofday(&t_pack, NULL);
+                                m->tx_offload = t_pack.tv_sec;
+                                m->udata64 =  t_pack.tv_usec;
 				rte_prefetch0(rte_pktmbuf_mtod(m, void *));
                                 rte_ring_enqueue (intermediate_ring, m);
 				//icis_simple_forward(m, portid);
@@ -365,7 +367,7 @@ icis_parse_args(int argc, char **argv)
 
 	argvopt = argv;
 
-	while ((opt = getopt_long(argc, argvopt, "p:q:T:w:c:B:G:W:C:S:i:f:b:",
+	while ((opt = getopt_long(argc, argvopt, "p:q:T:w:c:B:G:W:C:S:f:b:",
 				  lgopts, &option_index)) != EOF) {
 
 		switch (opt) {
@@ -412,8 +414,6 @@ icis_parse_args(int argc, char **argv)
                 case 'C': max_size = atoi (optarg); /* Max file size in KB. When reached, the program quits */
                                 break;
                 case 'S': snaplen = atoi (optarg); /* Snap lenght default 96  */
-                                break;
-                case 'i': strcpy(m_interfacename, optarg); /* Interface name */
                                 break;
                 case 'f': strcpy(fliterstr, optarg); /* BFS filter */
                                 break;
@@ -534,7 +534,7 @@ void alarm_routine (__attribute__((unused)) int unused){
         print_stats();
 
         /* Schedule an other print */
-        alarm(60);
+        alarm(10);
         //signal(SIGALRM, alarm_routine);
 
 }
@@ -561,7 +561,8 @@ static int packet_consumer(__attribute__((unused)) void * arg){
         if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
         last_rotation = t_pack.tv_sec;
         start_secs = t_pack.tv_sec;
-
+        //Print stats
+        alarm_routine(0);
         /* Infinite loop for consumer thread */
         for(;;){
 
@@ -795,10 +796,11 @@ main(int argc, char **argv)
 
 	/* launch per-lcore init on every lcore */
 	rte_eal_mp_remote_launch(icis_launch_one_lcore, NULL, SKIP_MASTER);
+        packet_consumer(NULL);
 	RTE_LCORE_FOREACH_SLAVE(lcore_id) {
 		if (rte_eal_wait_lcore(lcore_id) < 0)
 			return -1;
 	}
-        packet_consumer(NULL);
+//        packet_consumer(NULL);
 	return 0;
 }
