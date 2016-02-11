@@ -58,6 +58,7 @@ bool m_threadStop = false;
 unsigned long int m_buflen = 2097152; // 2 * 1024 * 1024
 /* Global vars */
 char * file_name = NULL;
+char file_name_rotated [1000];
 pcap_dumper_t * pcap_file_p;
 uint64_t max_packets = 0 ;
 uint64_t buffer_size =   262144; 
@@ -321,22 +322,24 @@ static int packet_consumer(__attribute__((unused)) void * arg){
         struct timeval t_pack;
         struct rte_mbuf * m;
         u_char * packet;
-        char file_name_rotated [1000];
+        char file_name_move[1000];
         int ret;
         struct pcap_pkthdr pcap_hdr;
-
-        /* Open pcap file for writing */
-        pd = pcap_open_dead(DLT_EN10MB, 65535 );
-        pcap_file_p = pcap_dump_open(pd, file_name);
-        if(pcap_file_p==NULL)
-                FATAL_ERROR("Error in opening pcap file\n");
-        printf("Opened file %s\n", file_name);
 
         /* Init first rotation */
         ret = gettimeofday(&t_pack, NULL);
         if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
         last_rotation = t_pack.tv_sec;
         start_secs = t_pack.tv_sec;
+
+        /* Open pcap file for writing */
+        pd = pcap_open_dead(DLT_EN10MB, 65535 );
+        sprintf(file_name_rotated, "%s%ld",file_name,last_rotation);
+        pcap_file_p = pcap_dump_open(pd, file_name_rotated);
+        if(pcap_file_p==NULL)
+                FATAL_ERROR("Error in opening pcap file\n");
+        printf("Opened file %s\n", file_name_rotated);
+
 
         /* Infinite loop for consumer thread */
         for(;;){
@@ -367,9 +370,11 @@ static int packet_consumer(__attribute__((unused)) void * arg){
                         /* Close the pcap file */
                         pcap_close(pd);
                         pcap_dump_close(pcap_file_p);
-
+                        sprintf(file_name_move, "%s%s", file_name_rotated, "ready");  
+                        if (rename (file_name_rotated, file_name_move))
+                        printf("\n failed to rename file %s\n", file_name_rotated); 
                         /* Open pcap file for writing */
-                        sprintf(file_name_rotated, "%s%ld", file_name, nb_rotations);
+                        sprintf(file_name_rotated, "%s%ld", file_name, last_rotation);
                         pd = pcap_open_dead(DLT_EN10MB, 65535 );
                         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
                         if(pcap_file_p==NULL)
@@ -448,6 +453,7 @@ static void sig_handler(int signo)
         uint64_t diff;
         int ret;
         struct timeval t_end;
+        char file_name_move[1000];
 
         /* Catch just SIGINT */
         if (signo == SIGINT){
@@ -467,6 +473,9 @@ static void sig_handler(int signo)
                 /* Close the pcap file */
                 pcap_close(pd);
                 pcap_dump_close(pcap_file_p);
+                sprintf(file_name_move, "%s%s", file_name_rotated, "ready");
+                        if (rename (file_name_rotated, file_name_move))
+                printf("\n failed to rename file %s\n", file_name_rotated);
                 exit(0);
         }
 }
