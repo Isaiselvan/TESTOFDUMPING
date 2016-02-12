@@ -198,8 +198,9 @@ int main(int argc , char * argv [])
         i++;
       //  delete[] pcapFile;
     }
+    for (int i = 0; i < filesList.size(); i++)
+    pthread_join(threads[i],NULL);
 
-    pthread_join(threads[0],NULL);
     (void)closedir(dirp);
 
 }
