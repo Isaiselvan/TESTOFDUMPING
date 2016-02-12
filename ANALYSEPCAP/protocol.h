@@ -14,7 +14,7 @@ class protocolBase {
 public :
    protocolBase(libtrace_ipproto_t type, int start, int end){ };
    virtual  ~protocolBase(){};
-   int bandWidthCalc() = 0 {}; 
-   void calculatemetrics() = 0 {}; 
-   void displaymetrics() = 0 {}; 
+   virtual int bandWidthCalc() {} ; // TO be pure , But can't use in Map 
+   virtual void calculatemetrics() {} ; // "
+   virtual void displaymetrics() {} ;  // "
 };

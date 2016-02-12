@@ -29,7 +29,8 @@ INCLUDEPATH  =  -I ./readerwriterqueue/
 
 all:
 	g++ -ltrace -lpthread -o analyse.exe main.cpp	
-
+	g++ -ltrace  -c tcpProto.cpp
+	g++ -ltrace -c displayStats.cpp 
 PCAP_NEW: $(APP_OBJS)
 	$(CXX) $(CPPFLAGS) $(APP_OBJS) -g  -o $@ $(PCAPLIB) 
 	

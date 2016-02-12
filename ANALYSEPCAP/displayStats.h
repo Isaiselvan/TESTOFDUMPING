@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include <map>
 #include "protocol.h"
 #include "libtrace.h"
 
@@ -16,7 +17,7 @@ class displayStats{
   int totaldatalen;
   static displayStats * displayBoard;   
      //Source ethernet address // Node
-  map<string, map<libtrace_ipproto_t, protocolBase > > dashboard; 
+  std::map<std::string, std::map<libtrace_ipproto_t, protocolBase > > dashboard; 
   
   
 
