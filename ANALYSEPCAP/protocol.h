@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include "libtrace.h"
+//#include "libtrace.h"
+#include "libtrace_parallel.h"
 
 
 

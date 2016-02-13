@@ -9,7 +9,7 @@
 #include <list>
 #include <string>
 #include <string.h>
-#include "libtrace.h"
+#include "libtrace_parallel.h"
 using namespace std;
 
 #define DIRPATH "/apps/opt/LIBTRACE/test/"

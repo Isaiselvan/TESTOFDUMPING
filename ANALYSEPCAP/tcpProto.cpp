@@ -1,9 +1,8 @@
 #include "tcpProto.h"
 
 
-int addPkt(libtrace_packet_t *pkt)
+int addPkt(libtrace_packet_t *pkt, m_tcpPacket tcppkt)
 {
-  
   
 
 }

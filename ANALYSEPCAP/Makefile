@@ -5,7 +5,7 @@ APP_OBJS = main.o\
 	   PacketReader.o\
 	   PacketWriter.o
 
-#export LD_LIBRARY_PATH = $(LD_LIBRARY_PATH):/usr/local/lib/
+#export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):/usr/local/lib/
 
 CPPFLAGS = "-std=c++11" -lpthread -lrt
 ifdef PF_RING

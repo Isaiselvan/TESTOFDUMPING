@@ -3,7 +3,8 @@
 #include <string.h>
 #include <list>
 #include "protocol.h"
-#include "libtrace.h"
+//#include "libtrace.h"
+#include "libtrace_parallel.h"
 
 typedef struct TcpPacket{
   libtrace_ether_t ethernetlayer;
@@ -18,6 +19,7 @@ typedef struct tcpSession{
   std::string destIp;
   time_t starttime;
   time_t endtime;
+  int getDataLen(); 
 //port
 //port
 }m_tcpSession; 
@@ -55,7 +57,7 @@ public:
     m_pkt.clear();
     }; 
    
-   int addPkt(libtrace_packet_t *pkt);  
+   int addPkt(libtrace_packet_t *, m_tcpPacket);  
    int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics();
