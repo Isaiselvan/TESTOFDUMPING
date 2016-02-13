@@ -6,11 +6,15 @@
 //#include "libtrace.h"
 #include "libtrace_parallel.h"
 
-typedef struct TcpPacket{
+typedef struct TcpPacket{ // Used as template refer other members to change name
   libtrace_ether_t ethernetlayer;
   libtrace_ip_t  ip4;
   libtrace_ip6_t ipv6;
   libtrace_tcp_t tcp; 
+  int dataLen;
+  bool Downlink;// Set this flag in 
+  int getDataLen(){ return dataLen; }
+    
 }m_tcpPacket;
 
 typedef struct tcpSession{
@@ -19,7 +23,6 @@ typedef struct tcpSession{
   std::string destIp;
   time_t starttime;
   time_t endtime;
-  int getDataLen(); 
 //port
 //port
 }m_tcpSession; 
@@ -56,8 +59,8 @@ public:
     m_session.clear();
     m_pkt.clear();
     }; 
-   
-   int addPkt(libtrace_packet_t *, m_tcpPacket);  
+     
+   int addPkt(libtrace_packet_t *, m_tcpPacket);///Used in template use the same name in other classes  
    int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics();
