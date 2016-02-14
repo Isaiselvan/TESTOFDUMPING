@@ -39,9 +39,12 @@ class displayStats{
   bool StatsAvailable ; //1st time call to dashboard 
   static displayStats * getdashB(){
     
-   if (displayBoard = NULL)
-      return (displayBoard = new displayStats());
-  
+   if (displayBoard == NULL)
+   {
+      displayBoard = new displayStats();
+      
+   }
+   
       return displayBoard;  
    };
   ~displayStats(){};
@@ -60,3 +63,6 @@ class displayStats{
       pthread_mutex_unlock(&disLock);
    }
 };
+
+
+

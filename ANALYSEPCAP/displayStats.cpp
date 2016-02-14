@@ -1,5 +1,8 @@
 #include "displayStats.h"
 
+
+displayStats * displayStats::displayBoard = NULL;
+
   int displayStats::ParsePkt(libtrace_packet_t *pkt)//Going forward change this function to template and move the code to TcpPacket
 
     {
@@ -56,7 +59,9 @@
              tcppkt.ethernetlayer.ether_type = ethertype; 
              
              //Fill Ip Layer 
+             if(ip)
              tcppkt.ip4 = *ip;
+             if(ip6)
              tcppkt.ipv6 = *ip6;
              
              //Fill Layer4/5 details

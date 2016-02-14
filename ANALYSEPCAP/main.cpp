@@ -9,37 +9,13 @@
 #include <list>
 #include <string>
 #include <string.h>
+#include "displayStats.h"
 #include "libtrace_parallel.h"
 using namespace std;
 
 #define DIRPATH "/apps/opt/LIBTRACE/test/"
 const string pcapFileEndStr = "ready.pcap";
 
-/* ---ABHINAY-----
-void per_packet ( libtrace_packet_t *pkt ) 
-{
-    uint16_t src_port , dst_port , ip_len ;
-    struct sockaddr_storage src_stor , dst_stor ;
-    struct sockaddr * src_ip , * dst_ip ;
-    uint8_t proto ;
-    libtrace_ip_t *ip;
- 
-    ip = trace_get_ip ( pkt );
-    if (ip == NULL )
-        return ;
-
-    src_ip = trace_get_source_address (pkt, ( struct sockaddr *)& src_stor );
-    dst_ip = trace_get_destination_address (pkt, ( struct sockaddr *)& dst_stor );
-    src_port = trace_get_source_port (pkt );
-    dst_port = trace_get_destination_port ( pkt );
-
-    ip_len = ntohs (ip -> ip_len );
-    proto = ip -> ip_p ;
-
-     Analysis code goes here... 
-    //cout << "Source ip:" << src_ip << " Destination ip:" << dst_ip << " src port:" << src_port << " dst port:" << dst_port << std::endl;
-}
-*/
 
 uint64_t count = 0;
 
@@ -49,6 +25,7 @@ static void per_packet(libtrace_packet_t *packet)
 	/* This function turns out to be really simple, because we are just
 	 * counting the number of packets in the trace */
 	count += 1;
+        displayStats::getdashB()->ParsePkt(packet);
 }
 
 /* Due to the amount of error checking required in our main function, it
@@ -118,11 +95,21 @@ void* readPcapFile(void* fileName)
 	 * Remember, EOF will return 0 so we only want to continue looping
 	 * as long as the return value is greater than zero
 	 */
+        
 	while (trace_read_packet(trace,packet)>0) {
 		/* Call our per_packet function for every packet */
 		per_packet(packet);
 	}
+        
+        if(!displayStats::getdashB()->StatsAvailable)
+          {
+           libtrace_stat_t *stat =  trace_create_statistics();
+            trace_get_statistics( trace, stat);
+           displayStats::getdashB()->setStats(*stat);
+          }
+          
 
+          displayStats::getdashB()->printstats();
 	/* If the trace is in an error state, then we know that we fell out of
 	 * the above loop because an error occurred rather than EOF being
 	 * reached. Therefore, we should probably tell the user that something

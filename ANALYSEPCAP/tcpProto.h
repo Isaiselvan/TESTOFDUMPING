@@ -12,7 +12,7 @@ typedef struct TcpPacket{ // Used as template refer other members to change name
   libtrace_ip6_t ipv6;
   libtrace_tcp_t tcp; 
   int dataLen;
-  bool Downlink;// Set this flag in 
+  bool Downlink;// Set this flag in
   int getDataLen(){ return dataLen; }
     
 }m_tcpPacket;
