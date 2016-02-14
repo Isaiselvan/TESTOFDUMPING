@@ -152,13 +152,14 @@ bool isPcapfileReady(string fileName)
 int main(int argc , char * argv []) 
 {
     int fileCount = 0, rc = 0, i = 0;
-    DIR *dirp = NULL;
-    dirp = opendir(DIRPATH);
-    struct dirent *dr;
 
     std::list<string> filesList;
     std::list<string>::iterator it;
-
+  while(1) 
+ {
+    DIR *dirp = NULL;
+    dirp = opendir(DIRPATH);
+    struct dirent *dr;
     while ((dr = readdir(dirp)) != NULL)
     {
         if(dr)
@@ -185,9 +186,11 @@ int main(int argc , char * argv [])
         i++;
       //  delete[] pcapFile;
     }
+    i = 0;
     for (int i = 0; i < filesList.size(); i++)
     pthread_join(threads[i],NULL);
-
+    filesList.clear();  
     (void)closedir(dirp);
+ }
 
 }

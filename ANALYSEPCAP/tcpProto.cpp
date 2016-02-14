@@ -27,9 +27,9 @@ void protocolTCP::calculatemetrics() {
 }
 
 void protocolTCP::displaymetrics() {
-    std::cout << "Tcp layer Metrics" << std::endl;
+    std::cout << "\nTcp layer Metrics" << std::endl;
     std::cout << "Tcp total count = " << m_totalpkts << std::endl;
-    std::cout << "Tcp data uage = " << m_totaldata << std::endl; 
+    std::cout << "Tcp data uage = " << m_totaldata << std::endl;    std::cout << "Number of distincted sessions " << m_session.size() << std::endl; 
     
 }
 

@@ -95,7 +95,12 @@ displayStats * displayStats::displayBoard = NULL;
  
    // Access to data and Map So we lock
     pthread_mutex_lock(&disLock);
-    if ( curIntEndtime!=0 && (curIntEndtime < pktTime))
+    if ( curIntEndtime == 0 )
+      {
+        curIntStarttime = pktTime;
+        curIntEndtime = pktTime + 60; 
+      }
+     else if (curIntEndtime < pktTime)
        {
         printstats();
         cleardashB(pktTime,pktTime+60);

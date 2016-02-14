@@ -5,7 +5,7 @@ APP_OBJS = main.o\
 	   tcpProto.o\
 	   displayStats.o
 
-#export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):/usr/local/lib/
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
 
 CPPFLAGS =  -lpthread -lrt -ltrace
 
@@ -22,6 +22,7 @@ CPPFLAGS =  -lpthread -lrt -ltrace
 
 
 all: $(APPNAME)
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
  
 $(APPNAME): $(APP_OBJS)
 	$(CXX) $(CPPFLAGS) $(APP_OBJS) -g  -o $@  

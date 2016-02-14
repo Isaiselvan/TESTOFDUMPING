@@ -370,7 +370,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
                         /* Close the pcap file */
                         pcap_close(pd);
                         pcap_dump_close(pcap_file_p);
-                        sprintf(file_name_move, "%s%s", file_name_rotated, "ready");  
+                        sprintf(file_name_move, "%s%s", file_name_rotated, "ready.pcap");  
                         if (rename (file_name_rotated, file_name_move))
                         printf("\n failed to rename file %s\n", file_name_rotated); 
                         /* Open pcap file for writing */
