@@ -55,13 +55,13 @@ bool m_threadStop = false;
 //static int countPkt;
 
 
-unsigned long int m_buflen = 2097152; // 2 * 1024 * 1024
+unsigned long int m_buflen = 8388608; // 2 * 1024 * 1024
 /* Global vars */
 char * file_name = NULL;
 char file_name_rotated [1000];
 pcap_dumper_t * pcap_file_p;
 uint64_t max_packets = 0 ;
-uint64_t buffer_size =   262144; 
+uint64_t buffer_size =  8388608 ; 
 uint64_t seconds_rotation = 0;
 uint64_t last_rotation = 0;
 int64_t  nb_rotations=0;
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 
   
         //pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
-        pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,buffer_size-1, MEMPOOL_CACHE_SZ, 0, /*snaplen + RTE_PKTMBUF_HEADROOM*/MEMPOOL_ELEM_SZ, rte_socket_id());
+        pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, /*snaplen + RTE_PKTMBUF_HEADROOM*/MEMPOOL_ELEM_SZ, SOCKET_ID_ANY);
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
         /* Init intermediate queue data structures: the ring. */
@@ -473,7 +473,7 @@ static void sig_handler(int signo)
                 /* Close the pcap file */
                 pcap_close(pd);
                 pcap_dump_close(pcap_file_p);
-                sprintf(file_name_move, "%s%s", file_name_rotated, "ready");
+                sprintf(file_name_move, "%s%s", file_name_rotated, "ready.pcap");
                         if (rename (file_name_rotated, file_name_move))
                 printf("\n failed to rename file %s\n", file_name_rotated);
                 exit(0);
