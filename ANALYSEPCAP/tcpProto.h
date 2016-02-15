@@ -64,6 +64,7 @@ public:
    int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics();
+   int addSession(libtrace_packet_t *pkt,m_tcpPacket tcppkt);
    int getPercUplink();
    int getPercDownLink();
 };

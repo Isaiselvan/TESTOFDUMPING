@@ -9,6 +9,7 @@
 #include <list>
 #include <string>
 #include <string.h>
+#include <unistd.h>
 #include "displayStats.h"
 #include "libtrace_parallel.h"
 using namespace std;
@@ -109,7 +110,7 @@ void* readPcapFile(void* fileName)
           }
           
 
-          displayStats::getdashB()->printstats();
+          //displayStats::getdashB()->printstats();
 	/* If the trace is in an error state, then we know that we fell out of
 	 * the above loop because an error occurred rather than EOF being
 	 * reached. Therefore, we should probably tell the user that something
@@ -127,6 +128,7 @@ void* readPcapFile(void* fileName)
         cout << "Count:" << count << std::endl;
         time(&endTime);
         double seconds = difftime(endTime, startTime);
+        //std::cout << clr <<  topLeft ;
         cout << "Completed file:" << filePath << " in:" << seconds << " seconds." << std::endl;
 
         /* Rename the file to indicate that it is completed*/
@@ -191,6 +193,7 @@ int main(int argc , char * argv [])
     pthread_join(threads[i],NULL);
     filesList.clear();  
     (void)closedir(dirp);
+    sleep (1);
  }
 
 }

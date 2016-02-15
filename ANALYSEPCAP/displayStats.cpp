@@ -1,8 +1,13 @@
 #include "displayStats.h"
 
+const char clr[] = { 27, '[', '2', 'J', '\0' };
+const char topLeft[] = { 27, '[', '1', ';', '1', 'H','\0' ,'\n', '\n'};
+std::string protcolname[20];
 
 displayStats * displayStats::displayBoard = NULL;
 
+
+ 
   int displayStats::ParsePkt(libtrace_packet_t *pkt)//Going forward change this function to template and move the code to TcpPacket
 
     {
@@ -12,7 +17,7 @@ displayStats * displayStats::displayBoard = NULL;
 	void *ltheader = NULL;
         uint8_t ether_shost [6] ;
         int starttime = 0;
-        int pktlen = trace_get_wire_length(pkt); 
+        int pktlen =  trace_get_wire_length(pkt); 
         memcpy(ether_shost, trace_get_source_mac(pkt),6);
         //ether_dhost = *(trace_get_source_mac(pkt));
  	uint8_t ether_dhost [6] ;  
@@ -98,13 +103,13 @@ displayStats * displayStats::displayBoard = NULL;
     if ( curIntEndtime == 0 )
       {
         curIntStarttime = pktTime;
-        curIntEndtime = pktTime + 60; 
+        curIntEndtime = pktTime + TIMEINT; 
       }
      else if (curIntEndtime < pktTime)
        {
         printstats();
-        cleardashB(pktTime,pktTime+60);
-        StatsAvailable = false;      
+        cleardashB(pktTime,pktTime + TIMEINT);
+        clearStats();              
        }
      
      protocolBase * protoBase = getProtoBase(node, prototype);
@@ -165,21 +170,58 @@ displayStats * displayStats::displayBoard = NULL;
   }
   
   int displayStats::cleardashB(int newtsrtime, int newendtime){
-   //clear map and protocol base 
+   //clear map and protocol base
+     std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > ::iterator it;
+     std::map<libtrace_ipproto_t, protocolBase* > *innerlayerTmp; 
+      for (it = dashboard.begin(); it != dashboard.end(); it++)
+   {
+     std::map<libtrace_ipproto_t, protocolBase* > ::iterator itr;
+     
+     for (itr = it->second.begin(); itr != it->second.end(); itr++)
+       {
+           if(itr->second)
+             delete (itr->second);
+       }
+          
+         it->second.clear();//Protocol map
+         //innerlayerTmp = &it->second;
+         //innerlayerTmp->clear();
+   }
+     
+        dashboard.clear();//Node clear
+        curIntStarttime = newtsrtime;
+        curIntEndtime = newendtime;
+        totalpkts = 0;
+        totaldatalen = 0; 
+
   }
   void displayStats::printstats(){
+    int node  = 0;
+
+    std::cout << clr <<  topLeft ; 
+    std::cout << "Pcap file stats" << std::endl;
+    std::cout << "\t| received | accepted | filtered | dropped | captured | error |" << std::endl;
+
+    std::cout << "\t| " << pcapStats.received<< "\t| "<< pcapStats.accepted << "\t| " << pcapStats.filtered << "\t| " << pcapStats.dropped << "\t| " << pcapStats.captured << "\t| " << pcapStats.errors << "\t|" << std::endl; 
     //Total display
     std::cout << "Total packts = "<< totalpkts << std::endl; 
-    std::cout  << "Total packetlen ="<< totaldatalen << std::endl;
+    std::cout  << "Total packetlen = "<< (float)(totaldatalen/1024) << "KB" << std::endl;
+    std::cout << "Avergae Packet size = "<< (totaldatalen/(1024 * totalpkts)) << "KB" << std::endl;
+   
    //Total number of nodes
     std::cout << "Total number of nodes =" << dashboard.size() << std::endl;  
+   
    //Total number of protocols in that node
    std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > ::const_iterator it;    
    for (it = dashboard.begin(); it != dashboard.end(); it++)
    {
+    std::cout << "\n\nNode " << ++node << " :" << it->first << std::endl; 
     std::cout << "Total number of protocols = " << it->second.size();
      std::map<libtrace_ipproto_t, protocolBase* > ::const_iterator itr;
      for (itr = it->second.begin(); itr != it->second.end(); itr++)
+         {
+          std::cout << "\n\nProtocol : " << protcolname[itr->first] <<  std::endl;
           itr->second->displaymetrics();
+         }
    }
-  } 
+} 

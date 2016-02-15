@@ -7,7 +7,8 @@
 
 
 class protocolBase { 
- 
+
+protected: 
   int m_starttime;
   int m_endtime; 
   libtrace_ipproto_t m_protocoltyp;  
