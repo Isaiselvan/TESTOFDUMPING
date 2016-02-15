@@ -18,14 +18,14 @@ using namespace std;
 const string pcapFileEndStr = "ready.pcap";
 
 
-uint64_t count = 0;
+//uint64_t count = 0;
 
 static void per_packet(libtrace_packet_t *packet)
 {
 	assert(packet);
 	/* This function turns out to be really simple, because we are just
 	 * counting the number of packets in the trace */
-	count += 1;
+//	count += 1;
         displayStats::getdashB()->ParsePkt(packet);
 }
 
@@ -55,7 +55,7 @@ void* readPcapFile(void* fileName)
         delete[] (char *)fileName;
         time_t startTime, endTime;
         time(&startTime);
-
+        uint64_t count = 0;
         cout << "Got file:" << (char *)fileName  << std::endl;
         cout << "reading Pcap file:" << filePath << std::endl;
 	
@@ -100,6 +100,7 @@ void* readPcapFile(void* fileName)
 	while (trace_read_packet(trace,packet)>0) {
 		/* Call our per_packet function for every packet */
 		per_packet(packet);
+                count += 1;
 	}
         
         if(!displayStats::getdashB()->StatsAvailable)
@@ -126,6 +127,7 @@ void* readPcapFile(void* fileName)
 	 * portable across 64 and 32 bit machines */
 	//printf("Packet Count = %" PRIu64 "\n", count);
         cout << "Count:" << count << std::endl;
+        count = 0; 
         time(&endTime);
         double seconds = difftime(endTime, startTime);
         //std::cout << clr <<  topLeft ;
