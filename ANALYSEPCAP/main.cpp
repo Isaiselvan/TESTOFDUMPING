@@ -15,7 +15,9 @@
 using namespace std;
 
 #define DIRPATH "/apps/opt/LIBTRACE/test/"
+
 const string pcapFileEndStr = "ready.pcap";
+
 
 
 //uint64_t count = 0;
@@ -111,7 +113,6 @@ void* readPcapFile(void* fileName)
           }
           
 
-          //displayStats::getdashB()->printstats();
 	/* If the trace is in an error state, then we know that we fell out of
 	 * the above loop because an error occurred rather than EOF being
 	 * reached. Therefore, we should probably tell the user that something
@@ -132,6 +133,7 @@ void* readPcapFile(void* fileName)
         double seconds = difftime(endTime, startTime);
         //std::cout << clr <<  topLeft ;
         cout << "Completed file:" << filePath << " in:" << seconds << " seconds." << std::endl;
+        //displayStats::getdashB()->printstats();
 
         /* Rename the file to indicate that it is completed*/
         string newFilePath = filePath + ".completed";
@@ -159,6 +161,8 @@ int main(int argc , char * argv [])
 
     std::list<string> filesList;
     std::list<string>::iterator it;
+    pthread_t threads[10];
+
   while(1) 
  {
     DIR *dirp = NULL;
@@ -171,7 +175,7 @@ int main(int argc , char * argv [])
             string fileName = dr->d_name;
             if(isPcapfileReady(fileName))
               {
-                        /* Rename the file to indicate that it is completed*/
+                        /* Rename the file to indicate that it has been taken for processing */
                  string OldFilepath = DIRPATH + fileName;
                  fileName = fileName + ".taken";
                  string newFilePath = DIRPATH + fileName;
@@ -183,13 +187,38 @@ int main(int argc , char * argv [])
         }
     }
     
-    pthread_t threads[filesList.size()];
+    //Count threads more than 5 stop creating threads 
+    DIR *dirp1 = NULL;
+    char procPath[50];
+    sprintf(procPath, "%s%d%s", "/proc/", getpid(), "/task/");
+    dirp1 = opendir(procPath);
+    struct dirent *dr1;
+    int thredCount = 0;
+    while ((dr1 = readdir(dirp1)) != NULL)
+    {
+      if(dr1 && dr1->d_type == DT_DIR)
+        {
+          thredCount++;
+        }
+    }
+     (void)closedir(dirp1);
+      if(thredCount > 5)// limiting the thread count
+      { 
+       cout << "\n Threads exceeding the limit count 5\n" << endl;
+        for (int Ti = 0; Ti < 5; Ti++)// Wait for any 3 threads and start creating 
+        pthread_join(threads[Ti],NULL);
+      }else
+      {
+        sleep (1);
+      }
+    
+
 
     for(it = filesList.begin(); it != filesList.end(); it++)
     {
         char *pcapFile = new char[it->length()];
         strcpy(pcapFile, it->c_str());
-
+           
         cout << "Starting Thread for file:" << pcapFile << std::endl;
         rc = pthread_create(&threads[i], NULL, 
                           readPcapFile, pcapFile);
@@ -200,11 +229,9 @@ int main(int argc , char * argv [])
         i++;
     }
     i = 0;
-   // for (int i = 0; i < filesList.size(); i++)
-   // pthread_join(threads[i],NULL);
+
     filesList.clear();  
     (void)closedir(dirp);
-    sleep (1);
  }
 
 }

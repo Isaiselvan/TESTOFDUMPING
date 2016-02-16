@@ -73,8 +73,10 @@ displayStats * displayStats::displayBoard = NULL;
              tcppkt.tcp = *((libtrace_tcp_t *)ltheader);
 
              //Fill the wirelen of packet
+             if(pktlen > 0)
              tcppkt.dataLen = pktlen;
-        
+             else 
+             tcppkt.dataLen = 0; 
          //Add pkt to protocolbase 
          if( addPkt(tcppkt, pkt,(libtrace_ipproto_t)proto, starttime) == -1)
           return -1;
@@ -201,14 +203,14 @@ displayStats * displayStats::displayBoard = NULL;
     int node  = 0;
 
     std::cout << clr <<  topLeft ; 
-    std::cout << "Pcap file stats" << std::endl;
+    std::cout << "\n\n\nPcap file stats" << std::endl;
     std::cout << "\t| received | accepted | filtered | dropped | captured | error |" << std::endl;
 
     std::cout << "\t| " << pcapStats.received<< "\t| "<< pcapStats.accepted << "\t| " << pcapStats.filtered << "\t| " << pcapStats.dropped << "\t| " << pcapStats.captured << "\t| " << pcapStats.errors << "\t|" << std::endl; 
     //Total display
     std::cout << "Total packts = "<< totalpkts << std::endl; 
     std::cout  << "Total packetlen = "<< (float)(totaldatalen/1024 / 1024) << "MB" << std::endl;
-    std::cout << "Avergae Packet size = "<< (totaldatalen/(1024 * totalpkts)) << "KB" << std::endl;
+    std::cout << "Avergae Packet size = "<< (totalpkts == 0 ? 0: (totaldatalen/(1024 * totalpkts))) << "KB" << std::endl;
    
    //Total number of nodes
     std::cout << "Total number of nodes =" << dashboard.size() << std::endl;  
@@ -217,12 +219,13 @@ displayStats * displayStats::displayBoard = NULL;
    std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > ::const_iterator it;    
    for (it = dashboard.begin(); it != dashboard.end(); it++)
    {
-    std::cout << "\n\nNode " << ++node << " :" << it->first << std::endl; 
+    std::cout << "\nNode " << ++node << " :" << it->first << std::endl; 
     std::cout << "Total number of protocols = " << it->second.size();
+    std::cout << "\n\n" ; 
      std::map<libtrace_ipproto_t, protocolBase* > ::const_iterator itr;
      for (itr = it->second.begin(); itr != it->second.end(); itr++)
          {
-          std::cout << "\n\nProtocol : " << protcolname[itr->first] <<  std::endl;
+          std::cout << "\nProtocol : " << protcolname[itr->first] <<  std::endl;
           itr->second->displaymetrics();
          }
    }

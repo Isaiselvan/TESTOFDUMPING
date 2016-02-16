@@ -40,8 +40,8 @@ private:
    int m_totalipv4;
    int m_totalip6;
    int m_bandwidth; 
-   std::list<m_tcpSession> m_session;
-   std::list<m_tcpPacket>  m_pkt;
+   std::list<m_tcpSession > m_session;
+   std::list<m_tcpPacket  >  m_pkt;
 public:
    protocolTCP(int start,int end):protocolBase(TRACE_IPPROTO_TCP, start, end)
    {
@@ -55,7 +55,7 @@ public:
      m_totalip6 = 0;
    }
 
-   ~protocolTCP(){
+   virtual ~protocolTCP(){
     m_session.clear();
     m_pkt.clear();
     }; 
