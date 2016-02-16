@@ -13,11 +13,11 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_tcpPacket tcppkt)
    
      if(!trace_get_direction (pkt))
      {
-       m_totaldownlink++;
+       m_totaldownlink+=tcppkt.getDataLen();
        tcppkt.Downlink = true; 
      }else 
      {
-      m_totaluplink++;
+      m_totaluplink+=tcppkt.getDataLen();
       tcppkt.Downlink = false;
      }
      
@@ -47,9 +47,9 @@ void protocolTCP::displaymetrics() {
     std::cout << "\nTcp layer Metrics" << std::endl;
     std::cout << "Tcp packet total count = " << m_totalpkts << std::endl;
     std::cout << "Tcp data usage = " << m_totaldata << std::endl;    
-    std::cout << "Number of distincted sessions " << m_session.size() << std::endl;    std::cout << "BandWidth usage " << (bandWidthCalc () / 1024 ) << "Kbps" << std::endl;
-    std::cout << "Total Uplink data = " << (m_totaluplink / 1024) << "KB" << std::endl  ;
-    std::cout << "Total Downlink data = " << (m_totaldownlink/1024) << "KB" << std::endl  ;
+    std::cout << "Number of distincted sessions " << m_session.size() << std::endl;    std::cout << "BandWidth usage " << (bandWidthCalc () / 1024 /1024 ) << "Mbps" << std::endl;
+    std::cout << "Total Uplink data = " << (m_totaluplink / 1024/1024) << "MB" << std::endl  ;
+    std::cout << "Total Downlink data = " << (m_totaldownlink/1024/1024) << "MB" << std::endl  ;
 }
 
 int getPercUplink(){}

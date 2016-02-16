@@ -52,11 +52,11 @@ void* readPcapFile(void* fileName)
 	libtrace_packet_t *packet = NULL;
         string filePath = DIRPATH;
         filePath += (char *)fileName;
-        delete[] (char *)fileName;
         time_t startTime, endTime;
         time(&startTime);
         uint64_t count = 0;
         cout << "Got file:" << (char *)fileName  << std::endl;
+        delete[] (char *)fileName;
         cout << "reading Pcap file:" << filePath << std::endl;
 	
 	/* Creating and initialising a packet structure to store the packets
@@ -170,7 +170,16 @@ int main(int argc , char * argv [])
         {
             string fileName = dr->d_name;
             if(isPcapfileReady(fileName))
+              {
+                        /* Rename the file to indicate that it is completed*/
+                 string OldFilepath = DIRPATH + fileName;
+                 fileName = fileName + ".taken";
+                 string newFilePath = DIRPATH + fileName;
+                 if(rename(OldFilepath.c_str(), newFilePath.c_str()))
+                 cout << "Error renaming the file:" << fileName << " to:" << newFilePath << std::endl;
+                 else 
                  filesList.push_back(fileName);
+              }
         }
     }
     
@@ -184,15 +193,15 @@ int main(int argc , char * argv [])
         cout << "Starting Thread for file:" << pcapFile << std::endl;
         rc = pthread_create(&threads[i], NULL, 
                           readPcapFile, pcapFile);
+                          
         if(rc)
             cout << "Error:: Failed to read pcap file:" << pcapFile << std::endl;
-
+         //readPcapFile(pcapFile);
         i++;
-      //  delete[] pcapFile;
     }
     i = 0;
-    for (int i = 0; i < filesList.size(); i++)
-    pthread_join(threads[i],NULL);
+   // for (int i = 0; i < filesList.size(); i++)
+   // pthread_join(threads[i],NULL);
     filesList.clear();  
     (void)closedir(dirp);
     sleep (1);

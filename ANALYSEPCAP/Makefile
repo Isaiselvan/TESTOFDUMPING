@@ -22,7 +22,7 @@ CPPFLAGS =  -lpthread -lrt -ltrace
 
 
 all: $(APPNAME)
-	`export LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):/usr/local/lib/`
+	
  
 $(APPNAME): $(APP_OBJS)
 	$(CXX) $(CPPFLAGS) $(APP_OBJS) -g  -o $@  

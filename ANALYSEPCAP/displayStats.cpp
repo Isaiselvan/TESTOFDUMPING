@@ -89,14 +89,13 @@ displayStats * displayStats::displayBoard = NULL;
   template <typename T> 
   int displayStats::addPkt(T pkt,libtrace_packet_t * ptrpkt, libtrace_ipproto_t prototype, int pktTime) {
         
-
-
     char buff[10];
-    if(prototype == TRACE_IPPROTO_TCP)
-      trace_ether_ntoa (pkt.ethernetlayer.ether_shost, (char *)buff); //else if 
-     
-    
     std::string node(buff);
+     if ( curIntStarttime > pktTime)
+     {
+            return -1; 
+     }
+     
  
    // Access to data and Map So we lock
     pthread_mutex_lock(&disLock);
@@ -105,14 +104,17 @@ displayStats * displayStats::displayBoard = NULL;
         curIntStarttime = pktTime;
         curIntEndtime = pktTime + TIMEINT; 
       }
-     else if (curIntEndtime < pktTime)
-       {
+    else if (curIntEndtime < pktTime)
+      {
         printstats();
         cleardashB(pktTime,pktTime + TIMEINT);
         clearStats();              
-       }
+    }
+    
+    if(prototype == TRACE_IPPROTO_TCP)
+      trace_ether_ntoa (pkt.ethernetlayer.ether_shost, (char *)buff); //else if 
      
-     protocolBase * protoBase = getProtoBase(node, prototype);
+    protocolBase * protoBase = getProtoBase(node, prototype);
     
       if(protoBase == NULL)
          return -1;
@@ -205,7 +207,7 @@ displayStats * displayStats::displayBoard = NULL;
     std::cout << "\t| " << pcapStats.received<< "\t| "<< pcapStats.accepted << "\t| " << pcapStats.filtered << "\t| " << pcapStats.dropped << "\t| " << pcapStats.captured << "\t| " << pcapStats.errors << "\t|" << std::endl; 
     //Total display
     std::cout << "Total packts = "<< totalpkts << std::endl; 
-    std::cout  << "Total packetlen = "<< (float)(totaldatalen/1024) << "KB" << std::endl;
+    std::cout  << "Total packetlen = "<< (float)(totaldatalen/1024 / 1024) << "MB" << std::endl;
     std::cout << "Avergae Packet size = "<< (totaldatalen/(1024 * totalpkts)) << "KB" << std::endl;
    
    //Total number of nodes
