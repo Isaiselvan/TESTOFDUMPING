@@ -2,6 +2,7 @@
 #include <string>
 #include <string.h>
 //#include "libtrace.h"
+#include <arpa/inet.h>
 #include "libtrace_parallel.h"
 
 
