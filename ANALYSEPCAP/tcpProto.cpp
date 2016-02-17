@@ -35,7 +35,7 @@ int protocolTCP::addSession(libtrace_packet_t *pkt,m_tcpPacket tcppkt)
 }
 
 int protocolTCP::bandWidthCalc () {
-         m_bandwidth = (m_totaldata / (m_endtime - m_starttime)) * 8;
+         m_bandwidth = m_totaldata * 8/ (m_endtime - m_starttime) ;
          return m_bandwidth;
 }
 
@@ -45,9 +45,12 @@ void protocolTCP::calculatemetrics() {
 
 void protocolTCP::displaymetrics() {
     std::cout << "\nTcp layer Metrics" << std::endl;
-    std::cout << "Tcp packet total count = " << m_pkt.size() << std::endl;
-    std::cout << "Tcp data usage = " << m_totaldata << std::endl;    
-    std::cout << "Number of distincted sessions " << m_session.size() << std::endl;    std::cout << "BandWidth usage " << (bandWidthCalc () / 1024 /1024 ) << "Mbps" << std::endl;
+    std::cout << "Tcp packet total count = " << m_totalpkts << std::endl;
+    std::cout << "Total Ipv4 packets = " << m_totalipv4 << std::endl;
+    std::cout << "Total Ipv6 packets = " << m_totalip6 << std::endl;
+    std::cout << "Tcp data usage = " << m_totaldata/1024/1024 << "MB" << std::endl;    
+    std::cout << "Number of distincted sessions " << m_totalSession << std::endl;
+    std::cout << "BandWidth usage " << (bandWidthCalc () / 1024 /1024 ) << "Mbps" << std::endl;
     std::cout << "Total Uplink data = " << (m_totaluplink / 1024/1024) << "MB" << std::endl  ;
     std::cout << "Total Downlink data = " << (m_totaldownlink/1024/1024) << "MB\n" << std::flush  ;
 }

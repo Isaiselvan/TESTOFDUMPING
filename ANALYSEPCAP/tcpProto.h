@@ -13,7 +13,10 @@ typedef struct TcpPacket{ // Used as template refer other members to change name
   libtrace_tcp_t tcp; 
   int dataLen;
   bool Downlink;// Set this flag in
-  int getDataLen(){ return dataLen; }
+  int getDataLen(){ 
+  if(dataLen < 0) 
+  std::cout << "Datalen lessthan 0" << dataLen << std::endl;    
+  return dataLen; }
     
 }m_tcpPacket;
 
@@ -31,23 +34,25 @@ typedef struct tcpSession{
 class protocolTCP : public protocolBase{
 
 private:
-   int m_totalpkts;   
-   int m_totaldata;
-   int m_totaluplink;
-   int m_totaldownlink; 
+   unsigned long  int  m_totalpkts;   
+   unsigned long  int  m_totaldata;
+   unsigned long  int  m_totaluplink;
+   unsigned long  int  m_totaldownlink; 
    int m_percentageUplink;
    int m_percentagedownlink;
    int m_totalipv4;
    int m_totalip6;
    int m_bandwidth; 
-   std::list<m_tcpSession > m_session;
-   std::list<m_tcpPacket  >  m_pkt;
+   unsigned long  int m_totalSession;
+   std::list<m_tcpSession> m_session;
+   std::list<m_tcpPacket>  m_pkt;
 public:
    protocolTCP(int start,int end):protocolBase(TRACE_IPPROTO_TCP, start, end)
    {
      m_totalpkts = 0;
      m_totaldata = 0; 
      m_totaluplink = 0;
+     m_totalSession = 0;
      m_totaldownlink = 0; 
      m_percentageUplink = 0;
      m_percentagedownlink = 0;

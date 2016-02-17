@@ -1,6 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include <inttypes.h>
 #include <err.h>
+#include <cerrno>
 #include <assert.h>
 #include <stdio.h>
 #include <time.h>
@@ -18,7 +20,7 @@ using namespace std;
 
 const string pcapFileEndStr = "ready.pcap";
 
-
+std::ofstream logger("pcapanal.log");
 
 //uint64_t count = 0;
 
@@ -57,9 +59,9 @@ void* readPcapFile(void* fileName)
         time_t startTime, endTime;
         time(&startTime);
         uint64_t count = 0;
-        cout << "Got file:" << (char *)fileName  << std::endl;
+        logger << "Got file:" << (char *)fileName  << std::endl;
         delete[] (char *)fileName;
-        cout << "reading Pcap file:" << filePath << std::endl;
+        logger << "reading Pcap file:" << filePath << std::endl;
 	
 	/* Creating and initialising a packet structure to store the packets
 	 * that we're going to read from the trace */
@@ -127,18 +129,18 @@ void* readPcapFile(void* fileName)
 	 * print our final count. Note the use of the PRIu64 format which is
 	 * portable across 64 and 32 bit machines */
 	//printf("Packet Count = %" PRIu64 "\n", count);
-        cout << "Count:" << count << std::endl;
+        logger << "Count:" << count << std::endl;
         count = 0; 
         time(&endTime);
         double seconds = difftime(endTime, startTime);
-        //std::cout << clr <<  topLeft ;
-        cout << "Completed file:" << filePath << " in:" << seconds << " seconds." << std::endl;
+        //std::logger << clr <<  topLeft ;
+        logger << "Completed file:" << filePath << " in:" << seconds << " seconds." << std::endl;
         //displayStats::getdashB()->printstats();
 
         /* Rename the file to indicate that it is completed*/
         string newFilePath = filePath + ".completed";
         if(rename(filePath.c_str(), newFilePath.c_str()))
-            cout << "Error renaming the file:" << filePath << " to:" << newFilePath << std::endl;
+            logger << "Error renaming the file:" << filePath << " to:" << newFilePath << std::endl;
 
         pthread_exit(NULL);
 }
@@ -155,14 +157,44 @@ bool isPcapfileReady(string fileName)
      return false;
 }
 
+void usage()
+{
+  cerr << "PCAP_ANALY \n" 
+       << "	-l: log name\n" ; 
+}
+int parse_args(int argc, char **argv)
+{
+
+    int option;
+     while ((option = getopt(argc, argv,"l:")) != -1)
+    {
+      switch (option) {
+              case 'l' : 
+                   if(logger)
+                    logger.close(); 
+
+                   logger.open(optarg, std::ofstream::out | std::ofstream::app);
+                   if (logger.fail()) {
+                   cerr << "open failure as expected: " << strerror(errno) << '\n';
+                   return -1;
+                   }
+
+              break;
+              default : 
+              usage(); 
+              return -1; 
+             }    
+    }
+}
+
 int main(int argc , char * argv []) 
 {
     int fileCount = 0, rc = 0, i = 0;
 
     std::list<string> filesList;
     std::list<string>::iterator it;
-    pthread_t threads[10];
-
+    pthread_t threads[20];
+    parse_args(argc,argv); 
   while(1) 
  {
     DIR *dirp = NULL;
@@ -180,7 +212,7 @@ int main(int argc , char * argv [])
                  fileName = fileName + ".taken";
                  string newFilePath = DIRPATH + fileName;
                  if(rename(OldFilepath.c_str(), newFilePath.c_str()))
-                 cout << "Error renaming the file:" << fileName << " to:" << newFilePath << std::endl;
+                 logger << "Error renaming the file:" << fileName << " to:" << newFilePath << std::endl;
                  else 
                  filesList.push_back(fileName);
               }
@@ -198,15 +230,35 @@ int main(int argc , char * argv [])
     {
       if(dr1 && dr1->d_type == DT_DIR)
         {
-          thredCount++;
+           thredCount++;
         }
     }
      (void)closedir(dirp1);
-      if(thredCount > 5)// limiting the thread count
+      if(thredCount > 3)// limiting the thread count .+..+mainthread 
       { 
-       cout << "\n Threads exceeding the limit count 5\n" << endl;
-        for (int Ti = 0; Ti < 5; Ti++)// Wait for any 3 threads and start creating 
-        pthread_join(threads[Ti],NULL);
+      //logger << "\n Checking for faulty thread\n" << endl;
+        // Mechanism to detect Faulty thread
+        struct timespec curtime;
+        int threadexit_status;
+
+        if (clock_gettime(CLOCK_REALTIME, &curtime) == -1) {
+           logger << "Error while reading the real time from clock_gettime" << endl; 
+        }
+        curtime.tv_sec += 60;// Give a sec time 
+
+        for (int Ti = 0; Ti < filesList.size(); Ti++) // Faulty thread timeouts 
+        {
+           threadexit_status = pthread_timedjoin_np(threads[Ti], NULL, &curtime);
+           if (threadexit_status != 0) {
+               
+                pthread_cancel(threads[Ti]);
+              logger << "Cancel request sent to thread after  60 secs of waiting" << threads[Ti] << endl;  
+            }
+        }
+
+
+        // for (int Ti = 0; Ti < filesList.size(); Ti++)// Wait for any 3 threads and start creating 
+         //pthread_join(threads[Ti],NULL);
       }else
       {
         sleep (1);
@@ -219,12 +271,12 @@ int main(int argc , char * argv [])
         char *pcapFile = new char[it->length()];
         strcpy(pcapFile, it->c_str());
            
-        cout << "Starting Thread for file:" << pcapFile << std::endl;
+        logger << "Starting Thread for file:" << pcapFile << std::endl;
         rc = pthread_create(&threads[i], NULL, 
                           readPcapFile, pcapFile);
                           
         if(rc)
-            cout << "Error:: Failed to read pcap file:" << pcapFile << std::endl;
+            logger << "Error:: Failed to read pcap file:" << pcapFile << std::endl;
          //readPcapFile(pcapFile);
         i++;
     }

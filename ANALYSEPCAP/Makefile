@@ -1,6 +1,7 @@
 
 APPNAME = PCAP_ANALY 
 
+
 APP_OBJS = main.o\
 	   tcpProto.o\
 	   displayStats.o
@@ -14,8 +15,11 @@ CPPFLAGS =  -lpthread -lrt -ltrace
 .SUFFIXES:
 	.h .cpp
 
+%.o:%.cpp %.h
+	$(CXX) $(CPPFLAGS) -g -c $^
 %.o:%.cpp
 	$(CXX) $(CPPFLAGS) -g -c $^
+
 
 .PHONY:
 	all clean
@@ -24,11 +28,11 @@ CPPFLAGS =  -lpthread -lrt -ltrace
 all: $(APPNAME)
 	
  
-$(APPNAME): $(APP_OBJS)
+$(APPNAME): $(APP_OBJS) 
 	$(CXX) $(CPPFLAGS) $(APP_OBJS) -g  -o $@  
 	
 clean:
-	-rm *.o $(APPNAME)
+	-rm -f *.o $(APPNAME)
 
 #	g++ -ltrace -lpthread -o analyse.exe main.cpp	
 #	g++ -ltrace  -c tcpProto.cpp

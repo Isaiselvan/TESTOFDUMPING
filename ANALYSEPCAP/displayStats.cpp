@@ -91,8 +91,6 @@ displayStats * displayStats::displayBoard = NULL;
   template <typename T> 
   int displayStats::addPkt(T pkt,libtrace_packet_t * ptrpkt, libtrace_ipproto_t prototype, int pktTime) {
         
-    char buff[10];
-    std::string node(buff);
      if ( curIntStarttime > pktTime)
      {
             return -1; 
@@ -112,10 +110,12 @@ displayStats * displayStats::displayBoard = NULL;
         cleardashB(pktTime,pktTime + TIMEINT);
         clearStats();              
     }
+    char buff[10];
     
     if(prototype == TRACE_IPPROTO_TCP)
       trace_ether_ntoa (pkt.ethernetlayer.ether_shost, (char *)buff); //else if 
      
+    std::string node(buff);
     protocolBase * protoBase = getProtoBase(node, prototype);
     
       if(protoBase == NULL)
@@ -209,8 +209,8 @@ displayStats * displayStats::displayBoard = NULL;
     std::cout << "\t| " << pcapStats.received<< "\t| "<< pcapStats.accepted << "\t| " << pcapStats.filtered << "\t| " << pcapStats.dropped << "\t| " << pcapStats.captured << "\t| " << pcapStats.errors << "\t|" << std::endl; 
     //Total display
     std::cout << "Total packts = "<< totalpkts << std::endl; 
-    std::cout  << "Total packetlen = "<< (float)(totaldatalen/1024 / 1024) << "MB" << std::endl;
-    std::cout << "Avergae Packet size = "<< (totalpkts == 0 ? 0: (totaldatalen/(1024 * totalpkts))) << "KB" << std::endl;
+    std::cout  << "Total packetlen = "<< totaldatalen << std::endl;
+    std::cout << "Avergae Packet size = "<< (totalpkts == 0 ? 0: (totaldatalen/totalpkts/8)) << "KB"<< std::endl;
    
    //Total number of nodes
     std::cout << "Total number of nodes =" << dashboard.size() << std::endl;  

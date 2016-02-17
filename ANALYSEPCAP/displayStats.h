@@ -21,8 +21,8 @@ class displayStats{
   
   int curIntStarttime;
   int curIntEndtime;
-  int totalpkts;
-  int totaldatalen;
+  unsigned long int totalpkts;
+  unsigned long int totaldatalen;
   libtrace_stat_t pcapStats; 
   static displayStats * displayBoard;  
   pthread_mutex_t disLock;  
