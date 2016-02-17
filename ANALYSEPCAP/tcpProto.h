@@ -10,7 +10,9 @@ typedef struct TcpPacket{ // Used as template refer other members to change name
   libtrace_ether_t ethernetlayer;
   libtrace_ip_t  ip4;
   libtrace_ip6_t ipv6;
-  libtrace_tcp_t tcp; 
+  libtrace_tcp_t tcp;
+  int timeStamp; 
+  int ipv; 
   int dataLen;
   bool Downlink;// Set this flag in
   int getDataLen(){ 
@@ -22,12 +24,12 @@ typedef struct TcpPacket{ // Used as template refer other members to change name
 
 typedef struct tcpSession{
 
-  std::string scrIp;
-  std::string destIp;
+  std::string scrIpPort;
+  std::string destIpPort;
   time_t starttime;
   time_t endtime;
-//port
-//port
+  int src;
+  int dst;
 }m_tcpSession; 
 
 

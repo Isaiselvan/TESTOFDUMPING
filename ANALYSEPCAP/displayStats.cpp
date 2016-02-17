@@ -65,9 +65,14 @@ displayStats * displayStats::displayBoard = NULL;
              
              //Fill Ip Layer 
              if(ip)
+             {
              tcppkt.ip4 = *ip;
-             if(ip6)
+             tcppkt.ipv = 4;
+             } else if(ip6)
+             {
              tcppkt.ipv6 = *ip6;
+             tcppkt.ipv = 6;
+             } 
              
              //Fill Layer4/5 details
              tcppkt.tcp = *((libtrace_tcp_t *)ltheader);
@@ -123,10 +128,10 @@ displayStats * displayStats::displayBoard = NULL;
        
       if(prototype == TRACE_IPPROTO_TCP)
         { 
-         if(((protocolTCP *)protoBase)->addPkt(ptrpkt, pkt) == -1)
+         if(((protocolTCP *)protoBase)->addPkt(ptrpkt, pkt) == -1)// addPkt forced function implementation
          return -1; 
         }
-        totaldatalen+=getDataLen(pkt);
+        totaldatalen+=getDataLen(pkt); // getDataLen forced function imple
         totalpkts+=1; 
   
     pthread_mutex_unlock(&disLock);

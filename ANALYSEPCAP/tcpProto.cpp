@@ -29,7 +29,34 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_tcpPacket tcppkt)
 
 int protocolTCP::addSession(libtrace_packet_t *pkt,m_tcpPacket tcppkt)
 {
- 
+  m_tcpSession frameSession; 
+  char addrstr_src[INET_ADDRSTRLEN];  
+  char addrstr_dst[INET_ADDRSTRLEN];
+             if(tcppkt.ipv == 4)
+             {
+             inet_ntop(AF_INET, &(tcppkt.ip4.ip_src), addrstr_src, INET_ADDRSTRLEN);
+             inet_ntop(AF_INET, &(tcppkt.ip4.ip_dst), addrstr_dst, INET_ADDRSTRLEN);
+             }
+             else 
+             {
+             inet_ntop(AF_INET, &(tcppkt.ipv6.ip_src), addrstr_src, INET_ADDRSTRLEN);
+             inet_ntop(AF_INET, &(tcppkt.ipv6.ip_dst), addrstr_dst, INET_ADDRSTRLEN);
+             }
+
+             frameSession.scrIpPort = (std::string)addrstr_src ;
+             frameSession.src = tcppkt.tcp.source;   
+             frameSession.destIpPort = (std::string)addrstr_dst ;
+             frameSession.dst = tcppkt.tcp.dest;
+          
+    if(m_session.size() == 0 ) 
+          {
+             m_session.push_back(frameSession);
+          } 
+    else 
+        {
+
+        }  
+// Iterator for session
 
  return 0;
 }
