@@ -151,21 +151,23 @@ static int packet_producer(__attribute__((unused)) void * arg){
        struct pcap_pkthdr *PcapHdr;
        const u_char * data;
        int status;
-       uint16_t buf_size; 
+       //uint16_t buf_size; 
         /* Infinite loop */
         for (;;) {
 
                 /* Read a burst for current port at queue 'nb_istance'*/
                 //nb_rx = rte_eth_rx_burst(read_from_port, 0, pkts_burst, PKT_BURST_SZ);
+             m = rte_pktmbuf_alloc(pktmbuf_pool);
+             if(unlikely(m == NULL))
+             continue;       
             status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
            // printf("Step 1\n"); 
-           buf_size = (uint16_t)(rte_pktmbuf_data_room_size(pktmbuf_pool) - RTE_PKTMBUF_HEADROOM);
-           if(unlikely(buf_size < PcapHdr->caplen) ) 
-              continue ;
+        //   buf_size = (uint16_t)(rte_pktmbuf_data_room_size(pktmbuf_pool) - RTE_PKTMBUF_HEADROOM);
+          // if(unlikely(buf_size < PcapHdr->caplen) ) 
+            // continue ;
             if(status == 1)
             {
                     //printf("step 2 \n");
-                    m = rte_pktmbuf_alloc(pktmbuf_pool);
                     rte_memcpy(rte_pktmbuf_mtod(m, void *), data,
                                         PcapHdr->caplen);
                     //printf("step 3 \n");
@@ -178,6 +180,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
                       /*Enqueieing buffer */
                     rte_ring_enqueue (intermediate_ring, m);
                     m_numberofpackets++;
+                    m = NULL;
            }
            else if (status == -1)
            {
@@ -403,6 +406,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
 
                 /* Free the buffer */
                 rte_pktmbuf_free((struct rte_mbuf *)m);
+                m = NULL;
         }
 }
 

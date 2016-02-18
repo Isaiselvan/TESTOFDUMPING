@@ -248,11 +248,13 @@ int main(int argc , char * argv [])
 
         for (int Ti = 0; Ti < filesList.size(); Ti++) // Faulty thread timeouts 
         {
-           threadexit_status = pthread_timedjoin_np(threads[Ti], NULL, &curtime);
+            if(threads[Ti] != 0 )
+            threadexit_status = pthread_timedjoin_np(threads[Ti], NULL, &curtime);
            if (threadexit_status != 0) {
                
                 pthread_cancel(threads[Ti]);
-              logger << "Cancel request sent to thread after  60 secs of waiting" << threads[Ti] << endl;  
+              logger << "Cancel request sent to thread after  60 secs of waiting" << threads[Ti] << endl; 
+                  threads[Ti] = 0; 
             }
         }
 
