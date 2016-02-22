@@ -44,7 +44,7 @@ private:
    int m_percentagedownlink;
    int m_totalipv4;
    int m_totalip6;
-   int m_bandwidth; 
+   unsigned long int m_bandwidth; 
    unsigned long  int m_totalSession;
    std::list<m_tcpSession> m_session;
    std::list<m_tcpPacket>  m_pkt;

@@ -142,7 +142,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
 
         PRINT_INFO("Lcore id of producer %d\n", rte_lcore_id());
         /* Start stats */
-        alarm(1);
+        //alarm(1);
 
        // for (i=0;i<nb_sys_ports; i++)
          //       rte_eth_stats_reset ( i );
@@ -151,22 +151,26 @@ static int packet_producer(__attribute__((unused)) void * arg){
        struct pcap_pkthdr *PcapHdr;
        const u_char * data;
        int status;
-       //uint16_t buf_size; 
+       uint16_t buf_size; 
         /* Infinite loop */
         for (;;) {
 
                 /* Read a burst for current port at queue 'nb_istance'*/
                 //nb_rx = rte_eth_rx_burst(read_from_port, 0, pkts_burst, PKT_BURST_SZ);
-             m = rte_pktmbuf_alloc(pktmbuf_pool);
-             if(unlikely(m == NULL))
-             continue;       
             status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
            // printf("Step 1\n"); 
-        //   buf_size = (uint16_t)(rte_pktmbuf_data_room_size(pktmbuf_pool) - RTE_PKTMBUF_HEADROOM);
-          // if(unlikely(buf_size < PcapHdr->caplen) ) 
-            // continue ;
+            buf_size = (uint16_t)(rte_pktmbuf_data_room_size(pktmbuf_pool) - RTE_PKTMBUF_HEADROOM);
+            if(unlikely(buf_size < PcapHdr->caplen) ) 
+             continue ;
             if(status == 1)
             {
+                    while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL);
+                    //m = rte_pktmbuf_alloc(pktmbuf_pool);
+                   // if(unlikely(m == NULL))
+                    //{
+                    // PRINT_INFO("Ring Buffer full\n"); 
+                    // continue;       
+                    //}
                     //printf("step 2 \n");
                     rte_memcpy(rte_pktmbuf_mtod(m, void *), data,
                                         PcapHdr->caplen);
@@ -180,6 +184,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
                       /*Enqueieing buffer */
                     rte_ring_enqueue (intermediate_ring, m);
                     m_numberofpackets++;
+                    rte_prefetch0(rte_pktmbuf_mtod(m, void *));
                     m = NULL;
            }
            else if (status == -1)
@@ -342,6 +347,8 @@ static int packet_consumer(__attribute__((unused)) void * arg){
         if(pcap_file_p==NULL)
                 FATAL_ERROR("Error in opening pcap file\n");
         printf("Opened file %s\n", file_name_rotated);
+         /* Start stats */
+        alarm(1);
 
 
         /* Infinite loop for consumer thread */
