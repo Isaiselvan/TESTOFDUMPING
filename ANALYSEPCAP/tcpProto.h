@@ -68,7 +68,7 @@ public:
     }; 
      
    int addPkt(libtrace_packet_t *, m_tcpPacket);///Used in template use the same name in other classes  
-   int bandWidthCalc();
+   unsigned long int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics();
    int addSession(libtrace_packet_t *pkt,m_tcpPacket tcppkt);

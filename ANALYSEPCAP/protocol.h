@@ -16,7 +16,7 @@ protected:
 public :
    protocolBase(libtrace_ipproto_t type, int start, int end): m_starttime(start),m_endtime(end),m_protocoltyp(type){ };
    virtual  ~protocolBase(){};
-   virtual int bandWidthCalc() {} ; // TO be pure , But can't use in Map 
+   virtual unsigned long int bandWidthCalc() {} ; // TO be pure , But can't use in Map 
    virtual void calculatemetrics() {} ; // "
    virtual void displaymetrics() {} ;  // "
 };

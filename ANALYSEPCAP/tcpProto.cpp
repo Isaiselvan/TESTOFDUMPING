@@ -61,7 +61,7 @@ int protocolTCP::addSession(libtrace_packet_t *pkt,m_tcpPacket tcppkt)
  return 0;
 }
 
-int protocolTCP::bandWidthCalc () {
+unsigned long int protocolTCP::bandWidthCalc () {
          m_bandwidth = m_totaldata * 8/ (m_endtime - m_starttime) ;
          return m_bandwidth;
 }

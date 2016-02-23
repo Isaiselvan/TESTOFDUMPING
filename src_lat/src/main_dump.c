@@ -55,13 +55,13 @@ bool m_threadStop = false;
 //static int countPkt;
 
 
-unsigned long int m_buflen =  8388608;//4194304 * 2 ; // 2 * 1024 * 1024
+unsigned long int m_buflen =  1048576;//4194304 * 2 ; // 2 * 1024 * 1024
 /* Global vars */
 char * file_name = NULL;
 char file_name_rotated [1000];
 pcap_dumper_t * pcap_file_p;
 uint64_t max_packets = 0 ;
-uint64_t buffer_size =  8388608; 
+uint64_t buffer_size = 8388608;
 uint64_t seconds_rotation = 0;
 uint64_t last_rotation = 0;
 int64_t  nb_rotations=0;
@@ -119,12 +119,12 @@ int main(int argc, char **argv)
 
 
         /* Start consumer and producer routine on 2 different cores: consumer launched first... */
-        ret =  rte_eal_mp_remote_launch (packet_producer, NULL, SKIP_MASTER);
+        ret =  rte_eal_mp_remote_launch (packet_consumer, NULL, SKIP_MASTER);
         if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
 
         /* ... and then loop in consumer */
-        //packet_producer ( NULL );
-        packet_consumer(NULL);
+        packet_producer ( NULL );
+        //packet_consumer(NULL);
 
         return 0;
 }
@@ -142,7 +142,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
 
         PRINT_INFO("Lcore id of producer %d\n", rte_lcore_id());
         /* Start stats */
-        //alarm(1);
+        alarm(1);
 
        // for (i=0;i<nb_sys_ports; i++)
          //       rte_eth_stats_reset ( i );
@@ -159,9 +159,10 @@ static int packet_producer(__attribute__((unused)) void * arg){
                 //nb_rx = rte_eth_rx_burst(read_from_port, 0, pkts_burst, PKT_BURST_SZ);
             status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
            // printf("Step 1\n"); 
+            do {
             buf_size = (uint16_t)(rte_pktmbuf_data_room_size(pktmbuf_pool) - RTE_PKTMBUF_HEADROOM);
-            if(unlikely(buf_size < PcapHdr->caplen) ) 
-             continue ;
+            }while (buf_size < PcapHdr->caplen) ; 
+             //continue ;
             if(status == 1)
             {
                     while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL);
@@ -346,9 +347,9 @@ static int packet_consumer(__attribute__((unused)) void * arg){
         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
         if(pcap_file_p==NULL)
                 FATAL_ERROR("Error in opening pcap file\n");
-        printf("Opened file %s\n", file_name_rotated);
+        PRINT_INFO("Opened file %s\n", file_name_rotated);
          /* Start stats */
-        alarm(1);
+        //alarm(1);
 
 
         /* Infinite loop for consumer thread */
@@ -359,7 +360,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
 
                 /* Continue polling if no packet available */
                 if( unlikely (ret != 0)) {
-                usleep (100);
+                //usleep (100);
                 continue;
                 }
 
@@ -382,14 +383,14 @@ static int packet_consumer(__attribute__((unused)) void * arg){
                         pcap_dump_close(pcap_file_p);
                         sprintf(file_name_move, "%s%s", file_name_rotated, "ready.pcap");  
                         if (rename (file_name_rotated, file_name_move))
-                        printf("\n failed to rename file %s\n", file_name_rotated); 
+                        PRINT_INFO("\n failed to rename file %s\n", file_name_rotated); 
                         /* Open pcap file for writing */
                         sprintf(file_name_rotated, "%s%ld", file_name, last_rotation);
                         pd = pcap_open_dead(DLT_EN10MB, 65535 );
                         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
                         if(pcap_file_p==NULL)
                                 FATAL_ERROR("Error in opening pcap file\n");
-                        printf("\nOpened file %s\n", file_name_rotated);
+                     //   PRINT_INFO("Opened file %s\n", file_name_rotated);
                 }
 
                 /* Compile pcap header */
@@ -413,6 +414,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
 
                 /* Free the buffer */
                 rte_pktmbuf_free((struct rte_mbuf *)m);
+                //rte_prefetch0(rte_pktmbuf_mtod(m, void *));
                 m = NULL;
         }
 }
@@ -453,7 +455,7 @@ void alarm_routine (__attribute__((unused)) int unused){
         print_stats();
 
         /* Schedule an other print */
-        alarm(60);
+        alarm(300);
         //signal(SIGALRM, alarm_routine);
 
 }

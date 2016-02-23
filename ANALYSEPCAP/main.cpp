@@ -194,6 +194,8 @@ int main(int argc , char * argv [])
     std::list<string> filesList;
     std::list<string>::iterator it;
     pthread_t threads[20];
+       for(int c =0 ; c < 20 ; c++)
+             threads[c] = 0 ;
     parse_args(argc,argv); 
   while(1) 
  {
@@ -241,15 +243,15 @@ int main(int argc , char * argv [])
         struct timespec curtime;
         int threadexit_status;
 
-        if (clock_gettime(CLOCK_REALTIME, &curtime) == -1) {
-           logger << "Error while reading the real time from clock_gettime" << endl; 
-        }
-        curtime.tv_sec += 60;// Give a sec time 
 
-        for (int Ti = 0; Ti < filesList.size(); Ti++) // Faulty thread timeouts 
+        for (int Ti = 0; Ti < 20; Ti++) // Faulty thread timeouts 
         {
             if(threads[Ti] != 0 )
             {  
+               if (clock_gettime(CLOCK_REALTIME, &curtime) == -1) {
+                logger << "Error while reading the real time from clock_gettime" << endl; 
+               }
+               curtime.tv_sec += 60;// Give a sec time 
              threadexit_status = pthread_timedjoin_np(threads[Ti], NULL, &curtime);
               if (threadexit_status != 0) {
                
