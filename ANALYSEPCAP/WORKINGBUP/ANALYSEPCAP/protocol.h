@@ -1,13 +1,9 @@
-#ifndef PROTOCOL_BASE_H
-#define PROTOCOL_BASE_H
-
 #include <iostream>
 #include <string>
 #include <string.h>
 //#include "libtrace.h"
 #include <arpa/inet.h>
 #include "libtrace_parallel.h"
-#include "packetCmm.h"
 
 
 
@@ -23,9 +19,4 @@ public :
    virtual unsigned long int bandWidthCalc() {} ; // TO be pure , But can't use in Map 
    virtual void calculatemetrics() {} ; // "
    virtual void displaymetrics() {} ;  // "
-   virtual int addPkt(libtrace_packet_t *, m_Packet){
-     std::cout << "protocol not initialised properly \n" << std::endl;
-     }
 };
-
-#endif

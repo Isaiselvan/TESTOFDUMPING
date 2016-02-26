@@ -1,7 +1,7 @@
 #include "tcpProto.h"
 
 
-int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet tcppkt)
+int protocolTCP::addPkt(libtrace_packet_t *pkt, m_tcpPacket tcppkt)
 {
  //DownLink flag can be set here to tcppkt
      m_totalpkts++;
@@ -27,7 +27,7 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet tcppkt)
  // Add session logic
 }
 
-int protocolTCP::addSession(libtrace_packet_t *pkt,m_Packet tcppkt)
+int protocolTCP::addSession(libtrace_packet_t *pkt,m_tcpPacket tcppkt)
 {
   m_tcpSession frameSession; 
   char addrstr_src[INET_ADDRSTRLEN];  
@@ -74,7 +74,6 @@ void protocolTCP::calculatemetrics() {
 
 void protocolTCP::displaymetrics() {
     std::cout << "\nTcp layer Metrics" << std::endl;
-    std::cout << "\nSTARTTIME: " << m_starttime << "\tENDTIME: " << m_endtime << std::endl;
     std::cout << "Tcp packet total count = " << m_totalpkts << std::endl;
     std::cout << "Total Ipv4 packets = " << m_totalipv4 << std::endl;
     std::cout << "Total Ipv6 packets = " << m_totalip6 << std::endl;
@@ -85,7 +84,7 @@ void protocolTCP::displaymetrics() {
     std::cout << "Total Downlink data = " << (m_totaldownlink/1024/1024) << "MB\n" << std::flush  ;
 }
 
-int protocolTCP::getPercUplink(){}
+int getPercUplink(){}
 
-int protocolTCP::getPercDownLink(){}
+int getPercDownLink(){}
 

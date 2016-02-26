@@ -7,9 +7,8 @@
 //#include "libtrace.h"
 #include "libtrace_parallel.h"
 #include "tcpProto.h"
-#include "udpProto.h"
 
-#define TIMEINT 5 
+#define TIMEINT 60
 extern const char clr[]; // = { 27, '[', '2', 'J', '\0' };
 extern const char topLeft[];// = { 27, '[', '1', ';', '1', 'H','\0' };
 
@@ -41,8 +40,7 @@ class displayStats{
    totaldatalen = 0;
    StatsAvailable = false;
    protcolname[TRACE_IPPROTO_TCP] = "TCP";
-   protcolname[TRACE_IPPROTO_UDP] = "UDP"; 
-//   std::cout << "protcolname[TRACE_IPPROTO_TCP] = " << protcolname[TRACE_IPPROTO_TCP] << std::endl; 
+   std::cout << "protcolname[TRACE_IPPROTO_TCP] = " << protcolname[TRACE_IPPROTO_TCP] << std::endl; 
   }
   public : 
   bool StatsAvailable ; //1st time call to dashboard 
@@ -58,8 +56,8 @@ class displayStats{
   ~displayStats(){}
 
   int ParsePkt(libtrace_packet_t *pkt);
-  int addPkt(m_Packet ,libtrace_packet_t *, libtrace_ipproto_t, int);
-//  int getDataLen(m_Packet t){return t.getDataLen(); }
+  template <typename T> int addPkt(T,libtrace_packet_t *, libtrace_ipproto_t, int);
+  template <typename T> int getDataLen(T t){return t.getDataLen(); }
 
   protocolBase*  getProtoBase(std::string node, libtrace_ipproto_t);  
   int cleardashB(int newtsrtime, int newendtime);
