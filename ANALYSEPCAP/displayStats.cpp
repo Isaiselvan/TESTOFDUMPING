@@ -81,7 +81,9 @@ displayStats * displayStats::displayBoard = NULL;
              if(pktlen > 0)
              tcppkt.dataLen = pktlen;
              else 
-             tcppkt.dataLen = 0; 
+             tcppkt.dataLen = 0;
+             
+             tcppkt.timeStamp = starttime;
          //Add pkt to protocolbase 
          if( addPkt(tcppkt, pkt,(libtrace_ipproto_t)proto, starttime) == -1)
           return -1;

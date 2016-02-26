@@ -47,15 +47,17 @@ int protocolTCP::addSession(libtrace_packet_t *pkt,m_tcpPacket tcppkt)
              frameSession.src = tcppkt.tcp.source;   
              frameSession.destIpPort = (std::string)addrstr_dst ;
              frameSession.dst = tcppkt.tcp.dest;
+             
           
-    if(m_session.size() == 0 ) 
-          {
-             m_session.push_back(frameSession);
-          } 
-    else 
-        {
+             if(m_session.size() == 0 ) 
+             {
+              //Add time   
+               m_session.push_back(frameSession);
+             } 
+             else 
+             {
 
-        }  
+             }  
 // Iterator for session
 
  return 0;
