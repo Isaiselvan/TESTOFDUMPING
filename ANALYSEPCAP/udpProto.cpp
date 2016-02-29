@@ -85,6 +85,14 @@ void protocolUDP::displaymetrics() {
     std::cout << "Total Downlink data = " << (m_totaldownlink/1024/1024) << "MB\n" << std::flush  ;
 }
 
+
+int protocolUDP::topLayer(libtrace_packet_t *)
+{
+ // Check if the UPD payload is a GTPU
+ //trace_get_payload_from_udp (libtrace_udp_t *udp, uint32_t *remaining);  
+}
+
+
 int protocolUDP::getPercUplink(){}
 
 int protocolUDP::getPercDownLink(){}

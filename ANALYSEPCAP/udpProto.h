@@ -70,6 +70,7 @@ public:
 
      return LteDash;
    }
+  int topLayer(libtrace_packet_t *);
 };
 
 
