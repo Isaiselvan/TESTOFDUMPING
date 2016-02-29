@@ -6,6 +6,7 @@
 //#include "libtrace.h"
 #include "libtrace_parallel.h"
 #include "packetCmm.h"
+#include "lteGtp.h"
 
 typedef struct udpSession{
 
@@ -33,6 +34,7 @@ private:
    unsigned long  int m_totalSession;
    std::list<m_udpSession> m_session;
    std::list<m_Packet>  m_pkt;
+   LteProtoBase *LteDash; 
 public:
    protocolUDP(int start,int end):protocolBase(TRACE_IPPROTO_UDP, start, end)
    {
@@ -45,11 +47,14 @@ public:
      m_percentagedownlink = 0;
      m_totalipv4 = 0;
      m_totalip6 = 0;
+     LteDash = NULL;
    }
 
    virtual ~protocolUDP(){
     m_session.clear();
     m_pkt.clear();
+    if(LteDash)
+    delete LteDash;
     }; 
      
    int addPkt(libtrace_packet_t *, m_Packet);///Used in template use the same name in other classes  
@@ -59,6 +64,12 @@ public:
    int addSession(libtrace_packet_t *pkt,m_Packet udppkt);
    int getPercUplink();
    int getPercDownLink();
+   LteProtoBase * getLteDash(){
+    if(!LteDash)
+        LteDash = new LteProtoBase(m_starttime, m_endtime);     
+
+     return LteDash;
+   }
 };
 
 
