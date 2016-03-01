@@ -5,6 +5,7 @@ APPNAME = PCAP_ANALY
 APP_OBJS = main.o\
 	   tcpProto.o\
 	   udpProto.o\
+	   lteGtp.o\
 	   displayStats.o
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/

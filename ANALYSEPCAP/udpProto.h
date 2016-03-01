@@ -2,6 +2,7 @@
 #include <string>
 #include <string.h>
 #include <list>
+#include <map>
 #include "protocol.h"
 //#include "libtrace.h"
 #include "libtrace_parallel.h"
@@ -57,7 +58,7 @@ public:
     delete LteDash;
     }; 
      
-   int addPkt(libtrace_packet_t *, m_Packet);///Used in template use the same name in other classes  
+   int addPkt(libtrace_packet_t *, m_Packet);  
    unsigned long int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics();
@@ -70,7 +71,7 @@ public:
 
      return LteDash;
    }
-  int topLayer(libtrace_packet_t *);
+  //int topLayer(libtrace_packet_t *);
 };
 
 

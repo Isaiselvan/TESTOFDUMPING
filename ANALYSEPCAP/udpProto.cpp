@@ -23,8 +23,12 @@ int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet udppkt)
      
 
      m_pkt.push_back(udppkt);
-     
+         
  // Add session logic
+ 
+ // Adding to lte , Will be added only if it has a Gtp
+    getLteDash()->parseGtp(pkt, &udppkt.udp);
+
 }
 
 int protocolUDP::addSession(libtrace_packet_t *pkt,m_Packet udppkt)
@@ -83,14 +87,17 @@ void protocolUDP::displaymetrics() {
     std::cout << "BandWidth usage " << (bandWidthCalc () / 1024 /1024 ) << "Mbps" << std::endl;
     std::cout << "Total Uplink data = " << (m_totaluplink / 1024/1024) << "MB" << std::endl  ;
     std::cout << "Total Downlink data = " << (m_totaldownlink/1024/1024) << "MB\n" << std::flush  ;
+
+   // Print lte stats
+     getLteDash()->printstats();
 }
 
 
-int protocolUDP::topLayer(libtrace_packet_t *)
-{
+//int protocolUDP::topLayer(libtrace_packet_t *)
+//{
  // Check if the UPD payload is a GTPU
  //trace_get_payload_from_udp (libtrace_udp_t *udp, uint32_t *remaining);  
-}
+//}
 
 
 int protocolUDP::getPercUplink(){}
