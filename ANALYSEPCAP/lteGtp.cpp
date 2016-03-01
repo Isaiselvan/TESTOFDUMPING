@@ -11,6 +11,7 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , libtrace_udp_t * udpPkt)
 
  Gtp_ptr = (char *)trace_get_payload_from_udp (udpPkt,&rem);
  
+ 
  if(rem < 8 && !Gtp_ptr)
      return -1; 
 
@@ -29,6 +30,25 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , libtrace_udp_t * udpPkt)
         gtpHeader.m_version = 0;  
      }else 
       return -1; 
+
+    gtpHeader.m_messageType = gtpHrd[1];
+   if(gtpHeader.m_messageType >= 16 && gtpHeader.m_messageType <= 21)
+   {
+     totalGTP_C[0]++;
+     totalGTP_C[1] += m_totaldata;
+   }else if (gtpHeader.m_messageType == 26)
+   {
+     totalError[0]++;
+     totalError[1] += m_totaldata;
+   }else if ( gtpHeader.m_messageType == 255)
+   {
+    totalGTP_U[0]++;
+    totalGTP_U[1] += m_totaldata;
+   }else 
+   {
+    return -1;
+   }
+
  // length 
     gtpHeader.m_length = (gtpHrd[2] << 8) | gtpHrd[3];
     
@@ -39,21 +59,35 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , libtrace_udp_t * udpPkt)
   //Protocol statistics 
    m_totalpkts++;
    m_totaldata += gtpHeader.m_length;
-   
-   
-     
+   totMess[gtpHeader.m_messageType]++; //Individual message split up
+   //gtpHeader.payload = (void *)Gtp_ptr; 
+   memcpy (gtpHeader.payload, (void *)Gtp_ptr,  gtpHeader.m_length);
+  if(gtpHeader.m_messageType == 255)// only G-PDU contains some user data 
+    addPkt(pkt,gtpHeader); 
 
- return 0;
+ return 1;
 }
 
 
-int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd, libtrace_ipproto_t type)
+int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
 {
+ 
+//  TRACE_TYPE_ETH  
+  libtrace_packet_t nextLprt;
 
+  trace_construct_packet(&nextLprt, TRACE_TYPE_ETH, (void *)gtpHrd.payload, gtpHrd.m_length);
+
+#ifdef USER_TCP_UDP
+    {
+       displayStats::getdashB(USER_LAYER_LTE)->ParsePkt(&nextLprt); // If it fails or not
+
+    } 
+#endif 
+ 
+return 1; 
 }
 
-
-int LteProtoBase::getProtoBase(std::string node, libtrace_ipproto_t){
+protocolBase* LteProtoBase::getProtoBase(std::string node, libtrace_ipproto_t){
 
 }
 

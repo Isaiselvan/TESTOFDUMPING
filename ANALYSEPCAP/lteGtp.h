@@ -7,7 +7,8 @@
 #include "libtrace_parallel.h"
 #include "packetCmm.h"
 #include "protocol.h"
-#include <map>
+#include "displayStats.h" 
+//#include <map>
 
 #define MAX_MESSAGE_TYPE 255
 #define packetCount 0
@@ -31,7 +32,8 @@ typedef struct gtphrd {
   uint32_t m_teid; 
   uint16_t m_sequenceNumber; 
   uint8_t m_nPduNumber; 
-  uint8_t m_nextExtensionType;   
+  uint8_t m_nextExtensionType;  
+  char payload[65000]; 
 
 }GTPhrd;
 
@@ -54,7 +56,7 @@ class LteProtoBase {
    unsigned long int totalError[2]; // Message type 26 
 
 //Real user content over lte 
- std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > applayerdasB;
+// std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > applayerdasB;
  //std::list<GTPhrd> m_pkt; Hold when needed 
  
 public :
@@ -79,13 +81,14 @@ public :
   bzero(totalGTP_C, sizeof(unsigned long int) * 2);
   bzero(totalGTP_U, sizeof(unsigned long int) * 2);
   bzero(totalError, sizeof(unsigned long int) * 2);
+  displayStats::getdashB(USER_LAYER_LTE)->cleardashB(start, end);
   }
 
   ~LteProtoBase(){
-   cleardashB(startTime, endtime);
+   displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0);
    }
   int parseGtp(libtrace_packet_t *, libtrace_udp_t *);
-  int addPkt(libtrace_packet_t *, GTPhrd, libtrace_ipproto_t);
+  int addPkt(libtrace_packet_t *, GTPhrd);
   protocolBase*  getProtoBase(std::string node, libtrace_ipproto_t);
   int cleardashB(int newtsrtime, int newendtime);
   void printstats(); // Future will be sending to some other module or UI  

@@ -2,11 +2,11 @@
 APPNAME = PCAP_ANALY 
 
 
-APP_OBJS = main.o\
-	   tcpProto.o\
+APP_OBJS = tcpProto.o\
 	   udpProto.o\
 	   lteGtp.o\
-	   displayStats.o
+	   displayStats.o\
+           main.o
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
 
@@ -15,12 +15,12 @@ CPPFLAGS =  -lpthread -lrt -ltrace
 #INCLUDEPATH  =  -I ./readerwriterqueue/
 
 .SUFFIXES:
-	.h .cpp
+	 .cpp
 
-%.o:%.cpp %.h
-	$(CXX) $(CPPFLAGS) -g -c $^
 %.o:%.cpp
-	$(CXX) $(CPPFLAGS) -g -c $^
+	$(CXX) $(CPPFLAGS) -g -c $^ 
+%.o:%.cpp
+	$(CXX) $(CPPFLAGS) -g -c $^ 
 
 
 .PHONY:
@@ -34,7 +34,7 @@ $(APPNAME): $(APP_OBJS)
 	$(CXX) $(CPPFLAGS) $(APP_OBJS) -g  -o $@  
 	
 clean:
-	-rm -f *.o $(APPNAME)
+	-rm -f *.o *.gch $(APPNAME)
 
 #	g++ -ltrace -lpthread -o analyse.exe main.cpp	
 #	g++ -ltrace  -c tcpProto.cpp

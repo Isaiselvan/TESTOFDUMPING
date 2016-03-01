@@ -28,4 +28,12 @@ typedef struct Packet{ // Used as template refer other members to change name
 
 }m_Packet;
 
+
+enum { CORE_LAYER =0 , 
+       USER_LAYER_LTE,
+       
+       MAX_LAYER
+      };
+
+
 #endif // END PACKET_COMMON_H

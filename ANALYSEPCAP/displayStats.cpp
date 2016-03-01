@@ -1,10 +1,15 @@
 #include "displayStats.h"
+#include "tcpProto.h"
+#include "udpProto.h"
 
 const char clr[] = { 27, '[', '2', 'J', '\0' };
 const char topLeft[] = { 27, '[', '1', ';', '1', 'H','\0' ,'\n', '\n'};
 std::string protcolname[20];
 
-displayStats * displayStats::displayBoard = NULL;
+//displayStats * diBoard[] = {NULL,NULL};
+//displayStats * displayStats::displayBoard = diBoard;
+//displayStats * displayStats::displayBoard[2] = NULL;
+
 
 
  
@@ -212,7 +217,7 @@ displayStats * displayStats::displayBoard = NULL;
      for (itr = it->second.begin(); itr != it->second.end(); itr++)
        {
            if(itr->second)
-             delete (itr->second);
+             delete (itr->second); //Protocol delete
        }
           
          it->second.clear();//Protocol map

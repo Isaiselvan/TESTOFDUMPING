@@ -1,3 +1,5 @@
+#ifndef TCP_PROTO_H
+#define TCP_PROTO_H
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -61,7 +63,7 @@ public:
    int getPercDownLink();
 };
 
-
+#endif //TCP_PROTO_H
 //<sourceIP/Node, >
 //distincted source ip / dest ip duration of session 
 //

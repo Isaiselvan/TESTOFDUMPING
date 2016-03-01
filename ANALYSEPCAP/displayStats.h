@@ -1,13 +1,15 @@
+#ifndef DISPLAY_STATS_H
+#define DISPLAY_STATS_H
+
 #include <iostream>
 #include <string>
 #include <string.h>
 #include <map>
 #include <pthread.h>
-//#include "protocol.h"
+#include "protocol.h"
 //#include "libtrace.h"
+#include "packetCmm.h"
 #include "libtrace_parallel.h"
-#include "tcpProto.h"
-#include "udpProto.h"
 
 #define TIMEINT 5 
 extern const char clr[]; // = { 27, '[', '2', 'J', '\0' };
@@ -15,7 +17,7 @@ extern const char topLeft[];// = { 27, '[', '1', ';', '1', 'H','\0' };
 
 //Max = 20
 extern std::string protcolname[]; 
-// Singleton Displaystat only one display
+// Array of Singleton Displaystat only one display
 class displayStats{
   
   private : 
@@ -25,7 +27,7 @@ class displayStats{
   unsigned long int totalpkts;
   unsigned long int totaldatalen;
   libtrace_stat_t pcapStats; 
-  static displayStats * displayBoard;  
+  static displayStats * displayBoard[MAX_LAYER];  
   pthread_mutex_t disLock;  
      //Source ethernet address // Node
   std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > dashboard; 
@@ -46,14 +48,14 @@ class displayStats{
   }
   public : 
   bool StatsAvailable ; //1st time call to dashboard 
-  static displayStats * getdashB(){
+  static displayStats * getdashB(int layer = CORE_LAYER){
     
-   if (displayBoard == NULL)
+   if (displayBoard[layer] == NULL)
    {
-      displayBoard = new displayStats();
+      displayBoard[layer] = new displayStats();
    }
    
-      return displayBoard;  
+      return displayBoard[layer];  
    }
   ~displayStats(){}
 
@@ -88,4 +90,4 @@ class displayStats{
 };
 
 
-
+#endif // DISPLAY_STATS_H

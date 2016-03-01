@@ -1,3 +1,5 @@
+#ifndef UDP_PROTO_H
+#define UDP_PROTO_H
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -19,6 +21,7 @@ typedef struct udpSession{
   int dst;
 }m_udpSession; 
 
+//class LteProtoBase;
 
 class protocolUDP : public protocolBase{
 
@@ -74,7 +77,7 @@ public:
   //int topLayer(libtrace_packet_t *);
 };
 
-
+#endif //UDP_PROTO_H
 //<sourceIP/Node, >
 //distincted source ip / dest ip duration of session 
 //
