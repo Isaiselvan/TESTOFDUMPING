@@ -10,7 +10,7 @@ APP_OBJS = tcpProto.o\
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
 
-CPPFLAGS =  -lpthread -lrt -ltrace
+CPPFLAGS =  -lpthread -lrt -ltrace -DUSER_TCP_UDP
 
 #INCLUDEPATH  =  -I ./readerwriterqueue/
 

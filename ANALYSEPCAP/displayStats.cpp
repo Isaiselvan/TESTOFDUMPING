@@ -1,3 +1,5 @@
+//#include <algorithm>
+
 #include "displayStats.h"
 #include "tcpProto.h"
 #include "udpProto.h"
@@ -8,8 +10,9 @@ std::string protcolname[20];
 
 //displayStats * diBoard[] = {NULL,NULL};
 //displayStats * displayStats::displayBoard = diBoard;
-//displayStats * displayStats::displayBoard[2] = NULL;
+displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
 
+//std::fill_n(displayStats * displayStats::displayBoard, NULL, MAX_LAYER);
 
 
  
