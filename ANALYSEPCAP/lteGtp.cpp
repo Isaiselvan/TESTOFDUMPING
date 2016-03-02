@@ -64,6 +64,26 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
    //gtpHeader.payload = (void *)Gtp_ptr;
    char *gtp_payload = Gtp_ptr + 8; 
    memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.m_length - 8);
+/*if (Buffer[0] & 0x07)
+ * {
+ *   // if any one of the flag isset, then min 4 bytes extra header will be present
+ *      if (Buffer[0] & 0x02)
+ *          NumPresent_ = true;
+ *
+ *              if (Buffer[0] & 0x01)
+ *                     NPduNum
+ *
+ *                         if (Buffer[0] & 0x04)
+ *                                 ExtHdr
+ *
+ *                                 }
+ *
+ *                                 if(any)
+ *                                 8 + 4
+ *
+ *                                 if(exthdr)
+ *                                 + 4 + 4 */
+
   if(gtpHeader.m_messageType == 255)// only G-PDU contains some user data 
     addPkt(pkt,gtpHeader); 
 
