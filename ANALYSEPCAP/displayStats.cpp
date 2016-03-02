@@ -257,11 +257,14 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
   void displayStats::printstats(){
     int node  = 0;
 
+    if(layer == CORE_LAYER)
+    { 
     std::cout << clr <<  topLeft ; 
     std::cout << "\n\n\nPcap file stats" << std::endl;
     std::cout << "\t| received | accepted | filtered | dropped | captured | error |" << std::endl;
 
     std::cout << "\t| " << pcapStats.received<< "\t| "<< pcapStats.accepted << "\t| " << pcapStats.filtered << "\t| " << pcapStats.dropped << "\t| " << pcapStats.captured << "\t| " << pcapStats.errors << "\t|" << std::endl; 
+    }
     //Total display
     std::cout << "Total packts = "<< totalpkts << std::endl; 
     std::cout  << "Total packetlen = "<< totaldatalen << std::endl;

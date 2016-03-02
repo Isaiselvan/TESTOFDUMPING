@@ -92,6 +92,7 @@ public :
   protocolBase*  getProtoBase(std::string node, libtrace_ipproto_t);
   int cleardashB(int newtsrtime, int newendtime);
   void printstats(); // Future will be sending to some other module or UI  
+  unsigned long int bandWidthCalc () ;
 
 };
 

@@ -98,10 +98,38 @@ int LteProtoBase::cleardashB(int newtsrtime, int newendtime)
 
 }
 
+unsigned long int LteProtoBase::bandWidthCalc () {
+
+         if ((endtime - startTime) < 1)
+              return 0;
+
+         m_bandwidth = m_totaldata * 8/ (endtime - startTime) ;
+         return (m_bandwidth / 1024 /1024 ); // return in Mbps
+}
+
+
+
 void LteProtoBase::printstats(){
 
-    std::cout << "\n\tReached Lte Metrics \n" << std::endl;
-    std::cout << "\t total Packets with Gtp :" << m_totalpkts << std::endl;
-    std::cout << "\t total length of gtp packet : " << m_totaldata << std::endl; 
+    std::cout << "\n\tLte Metrics \n" << std::endl;
+    std::cout << "\nSTARTTIME: " << startTime << "\tENDTIME: " << endtime << std::endl;
+    std::cout << "\t total GTP packets :" << m_totalpkts << std::endl;
+    std::cout << "\t total length of gtp packet : " << m_totaldata << std::endl;
+    std::cout << "\t Avergae Packet size = "<< (m_totalpkts == 0 ? 0: (m_totaldata/m_totalpkts/8)) << "KB"<< std::endl;
+    std::cout << "\t Lte Bandwidth usage " << bandWidthCalc() << " Mbps"<< std::endl;
+    std::cout << "\t Total control plane packets: " << totalGTP_C[0] << std::endl;
+    std::cout << "\t Total G-PDU packets: "  << totalGTP_U[0] << std::endl;
+    std::cout << "\t Total control plane datalen: " << totalGTP_C[1] << std::endl;
+    std::cout << "\t Total G-PDU datalen: "<< totalGTP_U[1] << std::endl;
 
+    std::cout << "\t Total gtp-u with error code: "<< totalError[1] << std::endl;
+       
+    //Packet spitup based on message type
+    std::cout << "\t Gtpu message type slipt up " << std::endl;
+    for(int i = 0; i < 8; i++)
+     std::cout << "\t"<< messType[validMess[i]] << " : " << totMess[validMess[i]] << std::endl;
+    
+
+   std::cout << "User plane traffic \n" << std::endl;
+   displayStats::getdashB(USER_LAYER_LTE)->printstats();
 }
