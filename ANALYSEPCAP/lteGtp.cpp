@@ -63,7 +63,7 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
    totMess[gtpHeader.m_messageType]++; //Individual message split up
    //gtpHeader.payload = (void *)Gtp_ptr;
    char *gtp_payload = Gtp_ptr + 8; 
-   memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.m_length - 8 );
+   memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.m_length - 8);
   if(gtpHeader.m_messageType == 255)// only G-PDU contains some user data 
     addPkt(pkt,gtpHeader); 
 
@@ -75,17 +75,27 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
 {
  
 //  TRACE_TYPE_ETH  
-  libtrace_packet_t nextLprt;
+  libtrace_packet_t *nextLprt = trace_create_packet();
+  if(nextLprt == NULL)
+     return -1;
 
-  trace_construct_packet(&nextLprt, TRACE_TYPE_ETH, (void *)gtpHrd.payload, gtpHrd.m_length);
+  trace_construct_packet(nextLprt, TRACE_TYPE_ETH, (void *)gtpHrd.payload, gtpHrd.m_length);
 
 #ifdef USER_TCP_UDP
     {
-       displayStats::getdashB(USER_LAYER_LTE)->ParsePkt(&nextLprt); // If it fails or not
+       libtrace_packet_t * constPktPtr = trace_strip_packet(nextLprt);
+       if(constPktPtr)
+       {
+           libtrace_ip_t * IPcheck =   trace_get_ip (constPktPtr) ;
+  
+        if(IPcheck)
+       displayStats::getdashB(USER_LAYER_LTE)->ParsePkt(constPktPtr); // If it fails or not
+       }
      //isaiselvan;
     } 
 #endif 
- 
+
+   trace_destroy_packet(nextLprt); 
 return 1; 
 }
 
