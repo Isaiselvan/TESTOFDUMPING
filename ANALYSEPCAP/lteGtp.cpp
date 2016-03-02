@@ -1,18 +1,18 @@
 #include "lteGtp.h"
 
 
-int LteProtoBase::parseGtp(libtrace_packet_t * pkt , libtrace_udp_t * udpPkt)
+int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
 {
  //Check if the UPD payload is a GTPU
  uint32_t rem =0;
- char *Gtp_ptr= NULL;  
+ char *Gtp_ptr= udpPkt;  
  char gtpHrd[8]; //64 bits
  GTPhrd gtpHeader;
 
- Gtp_ptr = (char *)trace_get_payload_from_udp (udpPkt,&rem);
+ //Gtp_ptr = (char *)trace_get_payload_from_udp (udpPkt,&rem);
  
  
- if(rem < 8 && !Gtp_ptr)
+ if(!Gtp_ptr)
      return -1; 
 
  memcpy(gtpHrd, Gtp_ptr, 8) ;
@@ -31,26 +31,27 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , libtrace_udp_t * udpPkt)
      }else 
       return -1; 
 
-    gtpHeader.m_messageType = gtpHrd[1];
+
+ // length 
+    gtpHeader.m_length = (gtpHrd[2] << 8) | gtpHrd[3];
+    
+   gtpHeader.m_messageType = gtpHrd[1];
    if(gtpHeader.m_messageType >= 16 && gtpHeader.m_messageType <= 21)
    {
      totalGTP_C[0]++;
-     totalGTP_C[1] += m_totaldata;
+     totalGTP_C[1] += gtpHeader.m_length;
    }else if (gtpHeader.m_messageType == 26)
    {
      totalError[0]++;
-     totalError[1] += m_totaldata;
+     totalError[1] += gtpHeader.m_length;
    }else if ( gtpHeader.m_messageType == 255)
    {
     totalGTP_U[0]++;
-    totalGTP_U[1] += m_totaldata;
+    totalGTP_U[1] += gtpHeader.m_length;
    }else 
    {
     return -1;
    }
-
- // length 
-    gtpHeader.m_length = (gtpHrd[2] << 8) | gtpHrd[3];
     
     // Store the TEID
     gtpHeader.m_teid  = (gtpHrd[4] << 24) | (gtpHrd[5] << 16) |
@@ -60,8 +61,9 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , libtrace_udp_t * udpPkt)
    m_totalpkts++;
    m_totaldata += gtpHeader.m_length;
    totMess[gtpHeader.m_messageType]++; //Individual message split up
-   //gtpHeader.payload = (void *)Gtp_ptr; 
-   memcpy (gtpHeader.payload, (void *)Gtp_ptr,  gtpHeader.m_length);
+   //gtpHeader.payload = (void *)Gtp_ptr;
+   char *gtp_payload = Gtp_ptr + 8; 
+   memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.m_length - 8 );
   if(gtpHeader.m_messageType == 255)// only G-PDU contains some user data 
     addPkt(pkt,gtpHeader); 
 
@@ -97,5 +99,9 @@ int LteProtoBase::cleardashB(int newtsrtime, int newendtime)
 }
 
 void LteProtoBase::printstats(){
+
+    std::cout << "\n\tReached Lte Metrics \n" << std::endl;
+    std::cout << "\t total Packets with Gtp :" << m_totalpkts << std::endl;
+    std::cout << "\t total length of gtp packet : " << m_totaldata << std::endl; 
 
 }

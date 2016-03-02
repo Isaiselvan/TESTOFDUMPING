@@ -11,7 +11,7 @@
 #include "packetCmm.h"
 #include "libtrace_parallel.h"
 
-#define TIMEINT 5 
+#define TIMEINT 10 
 extern const char clr[]; // = { 27, '[', '2', 'J', '\0' };
 extern const char topLeft[];// = { 27, '[', '1', ';', '1', 'H','\0' };
 
@@ -31,7 +31,7 @@ class displayStats{
   pthread_mutex_t disLock;  
      //Source ethernet address // Node
   std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > dashboard; 
-  
+  Displaylayer layer;  
   
 
   private :
@@ -48,14 +48,14 @@ class displayStats{
   }
   public : 
   bool StatsAvailable ; //1st time call to dashboard 
-  static displayStats * getdashB(int layer = CORE_LAYER){
+  static displayStats * getdashB(Displaylayer lay = CORE_LAYER){
     
-   if (displayBoard[layer] == NULL)
+   if (displayBoard[lay] == NULL)
    {
-      displayBoard[layer] = new displayStats();
+      displayBoard[lay] = new displayStats();
+      displayBoard[lay]->layer = lay; 
    }
-   
-      return displayBoard[layer];  
+      return displayBoard[lay];  
    }
   ~displayStats(){}
 

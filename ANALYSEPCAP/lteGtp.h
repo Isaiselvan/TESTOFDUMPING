@@ -10,7 +10,7 @@
 #include "displayStats.h" 
 //#include <map>
 
-#define MAX_MESSAGE_TYPE 255
+#define MAX_MESSAGE_TYPE 256
 #define packetCount 0
 #define datalen 1
 
@@ -87,7 +87,7 @@ public :
   ~LteProtoBase(){
    displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0);
    }
-  int parseGtp(libtrace_packet_t *, libtrace_udp_t *);
+  int parseGtp(libtrace_packet_t *, char *);
   int addPkt(libtrace_packet_t *, GTPhrd);
   protocolBase*  getProtoBase(std::string node, libtrace_ipproto_t);
   int cleardashB(int newtsrtime, int newendtime);

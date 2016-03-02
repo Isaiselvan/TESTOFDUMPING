@@ -25,11 +25,11 @@ typedef struct Packet{ // Used as template refer other members to change name
   if(dataLen < 0)
   std::cout << "Datalen lessthan 0" << dataLen << std::endl;
   return dataLen; }
-
+  char pay_load[128]; // Max snaplen for analysis
 }m_Packet;
 
 
-enum { CORE_LAYER =0 , 
+enum Displaylayer { CORE_LAYER =0 , 
        USER_LAYER_LTE,
        
        MAX_LAYER

@@ -27,8 +27,9 @@ int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet udppkt)
  // Add session logic
  
  // Adding to lte , Will be added only if it has a Gtp
-    getLteDash()->parseGtp(pkt, &udppkt.udp);
+    getLteDash()->parseGtp(pkt, (char *)udppkt.pay_load);
 
+  return 0; 
 }
 
 int protocolUDP::addSession(libtrace_packet_t *pkt,m_Packet udppkt)

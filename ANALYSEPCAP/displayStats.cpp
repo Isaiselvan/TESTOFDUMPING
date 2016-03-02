@@ -43,21 +43,23 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
 	if (rem == 0)
 		return -1;
 
-          if (ethertype == TRACE_ETHERTYPE_IP) {
+        if (ethertype == TRACE_ETHERTYPE_IP) {
 		ip = (libtrace_ip_t *)ltheader;
 
-		ltheader = trace_get_payload_from_ip(ip, &proto, &rem);
-
+		//ltheader = trace_get_payload_from_ip(ip, &proto, &rem);
+                //  ltheader = trace_get_transport(pkt, &proto, &rem);
 	} else if (ethertype == TRACE_ETHERTYPE_IPV6) {
 		ip6 = (libtrace_ip6_t *)ltheader;
 
-		ltheader = trace_get_payload_from_ip6(ip6, &proto, &rem);
-
+		//ltheader = trace_get_payload_from_ip6(ip6, &proto, &rem);
+                //  ltheader = trace_get_transport(pkt, &proto, &rem);
 	} else {
 		return -1;
 	}
-     
-       	if (ltheader == NULL)
+        
+        rem = 0;
+        ltheader = trace_get_transport(pkt, &proto, &rem);
+       	if (ltheader == NULL || rem == 0)
 	return -1;
         //Time of packet trace_get_seconds
         starttime = trace_get_seconds(pkt);
@@ -101,6 +103,17 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
              
              //Fill Layer4/5 details
              ppkt.udp = *((libtrace_udp_t *)ltheader);
+             char *udp_payload;
+             void *transport  ;
+             //rem = 0; 
+             libtrace_udp_t *udp;
+             udp = (libtrace_udp_t *)ltheader;
+             //transport = trace_get_transport(
+
+             udp_payload = (char *)trace_get_payload_from_udp(udp,&rem);
+
+             if(udp_payload && rem != 0) 
+             memcpy (ppkt.pay_load, udp_payload, sizeof(ppkt.pay_load));
 
         }else 
          return -1; // Support for other protocols can be extended..
@@ -143,10 +156,16 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
     protocolBase * protoBase = getProtoBase(node, prototype);
     
       if(protoBase == NULL)
+      {
+       pthread_mutex_unlock(&disLock);
        return -1;
-       
+      }
+
       if(protoBase->addPkt(ptrpkt, pkt) == -1)// addPkt forced function implementation
+      {
+       pthread_mutex_unlock(&disLock);
        return -1; 
+      }
 
         totaldatalen+=pkt.getDataLen(); // getDataLen forced function imple
         totalpkts+=1; 
