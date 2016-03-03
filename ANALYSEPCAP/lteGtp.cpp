@@ -62,8 +62,6 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
    m_totaldata += gtpHeader.m_length;
    totMess[gtpHeader.m_messageType]++; //Individual message split up
    //gtpHeader.payload = (void *)Gtp_ptr;
-   char *gtp_payload = Gtp_ptr + 8; 
-   memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.m_length - 8);
 /*if (Buffer[0] & 0x07)
  * {
  *   // if any one of the flag isset, then min 4 bytes extra header will be present
@@ -83,6 +81,34 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
  *
  *                                 if(exthdr)
  *                                 + 4 + 4 */
+   gtpHeader.m_extensionHeaderFlag = false; 
+   gtpHeader.m_sequenceNumberFlag  = false;
+   gtpHeader.m_nPduNumberFlag = false; 
+ 
+   int gtpHr_len = 8;
+     
+   if(gtpHrd[0] & 0x07)
+   {
+      gtpHr_len+=4;
+
+     if (gtpHrd[0] & 0x02)
+        gtpHeader.m_sequenceNumberFlag  = true;
+   
+     if (gtpHrd[0] & 0x01)
+        gtpHeader.m_nPduNumberFlag = true; 
+
+     if (gtpHrd[0] & 0x04)
+        {
+        gtpHeader.m_extensionHeaderFlag = true;
+        gtpHr_len+=4;
+        } 
+   
+   }   
+    
+
+   char *gtp_payload = Gtp_ptr + gtpHr_len; 
+   gtpHeader.payLoadLen = gtpHeader.m_length - gtpHr_len;
+   memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.payLoadLen);
 
   if(gtpHeader.m_messageType == 255)// only G-PDU contains some user data 
     addPkt(pkt,gtpHeader); 
@@ -98,23 +124,34 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   libtrace_packet_t *nextLprt = trace_create_packet();
   if(nextLprt == NULL)
      return -1;
-
-  trace_construct_packet(nextLprt, TRACE_TYPE_ETH, (void *)gtpHrd.payload, gtpHrd.m_length);
+   
+  char * GtpPayload = gtpHrd.payload;
+  while( gtpHrd.payLoadLen > 40)
+  {
+  trace_construct_packet(nextLprt, trace_get_link_type(pkt), (void *)GtpPayload, gtpHrd.m_length);
 
 #ifdef USER_TCP_UDP
-    {
-       libtrace_packet_t * constPktPtr = trace_strip_packet(nextLprt);
-       if(constPktPtr)
-       {
-           libtrace_ip_t * IPcheck =   trace_get_ip (constPktPtr) ;
+    
+       //libtrace_packet_t * constPktPtr = trace_strip_packet(nextLprt);
+      // if(constPktPtr)
+      // {
+           libtrace_ip_t * IPcheck =   trace_get_ip (nextLprt) ;
   
         if(IPcheck)
-       displayStats::getdashB(USER_LAYER_LTE)->ParsePkt(constPktPtr); // If it fails or not
-       }
-     //isaiselvan;
-    } 
-#endif 
+        {
+       displayStats::getdashB(USER_LAYER_LTE)->ParsePkt(nextLprt); // If it fails or not
+        std::cout << "\nExtracted the payload successfully\n" <<std::endl;
+         break;
+        }
+      // }
 
+     if(!gtpHrd.m_extensionHeaderFlag)
+      break; 
+
+      GtpPayload += 4;
+      gtpHrd.payLoadLen -= 4;
+#endif 
+  }
    trace_destroy_packet(nextLprt); 
 return 1; 
 }
@@ -140,7 +177,8 @@ unsigned long int LteProtoBase::bandWidthCalc () {
 
 
 void LteProtoBase::printstats(){
-
+    if(!m_totalpkts)
+     return;
     std::cout << "\n\tLte Metrics \n" << std::endl;
     std::cout << "\nSTARTTIME: " << startTime << "\tENDTIME: " << endtime << std::endl;
     std::cout << "\t total GTP packets :" << m_totalpkts << std::endl;

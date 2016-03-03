@@ -33,7 +33,8 @@ typedef struct gtphrd {
   uint16_t m_sequenceNumber; 
   uint8_t m_nPduNumber; 
   uint8_t m_nextExtensionType;  
-  char payload[65000]; 
+  char payload[65000];
+  int payLoadLen; 
 
 }GTPhrd;
 

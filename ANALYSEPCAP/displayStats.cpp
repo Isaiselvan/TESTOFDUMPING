@@ -265,6 +265,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
 
     std::cout << "\t| " << pcapStats.received<< "\t| "<< pcapStats.accepted << "\t| " << pcapStats.filtered << "\t| " << pcapStats.dropped << "\t| " << pcapStats.captured << "\t| " << pcapStats.errors << "\t|" << std::endl; 
     }
+    if(!totalpkts)
+       return;
     //Total display
     std::cout << "Total packts = "<< totalpkts << std::endl; 
     std::cout  << "Total packetlen = "<< totaldatalen << std::endl;
