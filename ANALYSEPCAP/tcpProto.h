@@ -57,7 +57,7 @@ public:
    int addPkt(libtrace_packet_t *, m_Packet);///Used in template use the same name in other classes  
    unsigned long int bandWidthCalc();
    void calculatemetrics();
-   void displaymetrics();
+   void displaymetrics(std::string splunkkey);
    int addSession(libtrace_packet_t *pkt,m_Packet tcppkt);
    int getPercUplink();
    int getPercDownLink();

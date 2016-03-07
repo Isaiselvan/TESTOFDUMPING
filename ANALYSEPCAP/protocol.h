@@ -23,7 +23,7 @@ public :
    virtual  ~protocolBase(){};
    virtual unsigned long int bandWidthCalc() {} ; // TO be pure , But can't use in Map 
    virtual void calculatemetrics() {} ; // "
-   virtual void displaymetrics() {} ;  // "
+   virtual void displaymetrics(std::string splunkKey) {} ;  // "
    virtual int addPkt(libtrace_packet_t *, m_Packet){
      std::cout << "protocol not initialised properly \n" << std::endl;
      }

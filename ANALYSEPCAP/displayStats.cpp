@@ -145,6 +145,7 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
     else if (curIntEndtime < pktTime)
       {
         printstats();
+        displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0); // Find a correct location later
         cleardashB(pktTime,pktTime + TIMEINT);
         clearStats();              
     }
@@ -154,6 +155,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
       trace_ether_ntoa (pkt.ethernetlayer.ether_shost, (char *)buff); //else if 
      
     std::string node(buff);
+    if(layer != CORE_LAYER)
+       node = "UserTraffic";
     protocolBase * protoBase = getProtoBase(node, prototype);
     
       if(protoBase == NULL)
@@ -274,13 +277,13 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
     std::cout << "Avergae Packet size = "<< (totalpkts == 0 ? 0: (totaldatalen/totalpkts/8)) << "KB"<< std::endl;
     time_t curT = curIntStarttime; 
     struct tm * curTimeInfo;
-    char TimeBuf[100];
+    char TimeBuf[300];
     curTimeInfo = localtime(&curT);
     strftime(TimeBuf, 100, "%F:%T", curTimeInfo);
     std::string curTime(TimeBuf);
-    std::cout << "<Splunk>;" << "<" << curTime << ">;Total_packets=" << totalpkts << std::endl;
-    std::cout << "<Splunk>;" << "<" << curTime << ">;Total_len=" << totaldatalen << std::endl;
-    std::cout << "<Splunk>;" << "<" << curTime << ">;Toatl_Node=" << dashboard.size() << std::endl;
+    //std::cout << "<Splunk>;" << "<" << curTime << ">;Total_packets=" << totalpkts << std::endl;
+    //std::cout << "<Splunk>;" << "<" << curTime << ">;Total_len=" << totaldatalen << std::endl;
+    //std::cout << "<Splunk>;" << "<" << curTime << ">;Toatl_Node=" << dashboard.size() << std::endl;
       
    //Total number of nodes
     std::cout << "Total number of nodes =" << dashboard.size() << std::endl;  
@@ -290,14 +293,21 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
    for (it = dashboard.begin(); it != dashboard.end(); it++)
    {
     std::cout << "\nNode " << ++node << " :" << it->first << std::endl; 
-    std::cout << "<Splunk>;" << "<" << curTime << ">;<Node"<<it->first<<">;";
+    //std::cout << "<Splunk>;" << "<" << curTime << ">;<Node"<<it->first<<">;";
     std::cout << "Total_protocols = " << it->second.size();
     std::cout << "\n\n" ; 
      std::map<libtrace_ipproto_t, protocolBase* > ::const_iterator itr;
      for (itr = it->second.begin(); itr != it->second.end(); itr++)
          {
+          sprintf(TimeBuf, "Splunk %s node=%d Mac=%s Layer=%d TransPotocol=%s"
+           , curTime.c_str(),node - 1, it->first.c_str(), layer, protcolname[itr->first].c_str());
           std::cout << "\nProtocol : " << protcolname[itr->first] <<  std::endl;
-          itr->second->displaymetrics();
+          itr->second->displaymetrics((std::string)TimeBuf);
          }
+   }
+   if(layer == CORE_LAYER)
+   {
+   std::cout << "User plane traffic \n" << std::endl;
+   displayStats::getdashB(USER_LAYER_LTE)->printstats();
    }
 } 

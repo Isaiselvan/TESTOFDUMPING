@@ -57,14 +57,15 @@ public:
    virtual ~protocolUDP(){
     m_session.clear();
     m_pkt.clear();
-    if(LteDash)
-    delete LteDash;
+    if(LteDash){
+       delete LteDash;
+     }
     }; 
      
    int addPkt(libtrace_packet_t *, m_Packet);  
    unsigned long int bandWidthCalc();
    void calculatemetrics();
-   void displaymetrics();
+   void displaymetrics(std::string splunkkey);
    int addSession(libtrace_packet_t *pkt,m_Packet udppkt);
    int getPercUplink();
    int getPercDownLink();

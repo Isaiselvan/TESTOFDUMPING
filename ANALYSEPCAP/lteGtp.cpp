@@ -62,25 +62,6 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
    m_totaldata += gtpHeader.m_length;
    totMess[gtpHeader.m_messageType]++; //Individual message split up
    //gtpHeader.payload = (void *)Gtp_ptr;
-/*if (Buffer[0] & 0x07)
- * {
- *   // if any one of the flag isset, then min 4 bytes extra header will be present
- *      if (Buffer[0] & 0x02)
- *          NumPresent_ = true;
- *
- *              if (Buffer[0] & 0x01)
- *                     NPduNum
- *
- *                         if (Buffer[0] & 0x04)
- *                                 ExtHdr
- *
- *                                 }
- *
- *                                 if(any)
- *                                 8 + 4
- *
- *                                 if(exthdr)
- *                                 + 4 + 4 */
    gtpHeader.m_extensionHeaderFlag = false; 
    gtpHeader.m_sequenceNumberFlag  = false;
    gtpHeader.m_nPduNumberFlag = false; 
@@ -125,38 +106,32 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   if(nextLprt == NULL)
      return -1;
 // Commented lines test for dummy packet , user level traffic succeeded 
-  //libtrace_linktype_t lnk;
-  //uint32_t rem =0 ;
+  libtrace_linktype_t lnk;
+  uint32_t rem =0 ;
+  uint16_t ethertype;  
   //char * chekPlod = (char *) trace_get_packet_buffer(pkt, &lnk, &rem); 
+  char * chekPlod = (char *)trace_get_layer2(pkt, &lnk, &rem);
   char * GtpPayload = gtpHrd.payload;
+  char maclay[gtpHrd.m_length+14];
+  memcpy(maclay, chekPlod, 14);
   while( gtpHrd.payLoadLen > 40)
   {
-  trace_construct_packet(nextLprt, trace_get_link_type(pkt), (void *)GtpPayload, gtpHrd.m_length);  
-    //trace_construct_packet(nextLprt, lnk, chekPlod, rem); 
+  //char macPgtp[gtpHrd.m_length+14];
+  memcpy(maclay + 14, GtpPayload, gtpHrd.m_length+14);
+  trace_construct_packet(nextLprt, lnk, (void *)maclay, gtpHrd.m_length+14);  
+  //trace_construct_packet(nextLprt, trace_get_link_type(pkt), chekPlod, rem); 
 
 #ifdef USER_TCP_UDP
     
-       //libtrace_packet_t * constPktPtr = trace_strip_packet(nextLprt);
-      // if(constPktPtr)
-      // {
            libtrace_ip_t * IPcheck =   trace_get_ip (nextLprt) ;
   
         if(IPcheck)
         {
-           //  static int b = 0; 
-           // if ( b != 0 )
-            // {
-              // b = 0;
-            // return 1; 
-            //  }    
-          // b++;
-          std::cout << "\nExtracted the payload successfully\n" <<std::endl;
-          //std::cout << "\n PacketPayload " << chekPlod << std::endl;
-          //std::cout << "\n\n\n Actual Gtp payload " << GtpPayload  << std::endl;
+          //std::cout << "\nExtracted the payload successfully\n" <<std::endl;
+          
           displayStats::getdashB(USER_LAYER_LTE)->ParsePkt(nextLprt); // If it fails or not
          break;
         }
-      // }
 
      if(!gtpHrd.m_extensionHeaderFlag)
       break; 
@@ -189,7 +164,7 @@ unsigned long int LteProtoBase::bandWidthCalc () {
 
 
 
-void LteProtoBase::printstats(){
+void LteProtoBase::printstats(std::string splunkkey){
     if(!m_totalpkts)
      return;
     std::cout << "\n\tLte Metrics \n" << std::endl;
@@ -209,8 +184,15 @@ void LteProtoBase::printstats(){
     std::cout << "\t Gtpu message type slipt up " << std::endl;
     for(int i = 0; i < 8; i++)
      std::cout << "\t"<< messType[validMess[i]] << " : " << totMess[validMess[i]] << std::endl;
+   
     
+    std::cout << splunkkey <<" LteProtocol=GTP " <<" Total_pkt=" << m_totalpkts << " Total_Datalen=" << m_totaldata/1024/1024
+               << " BandWidth=" << (bandWidthCalc () / 1024 /1024 ) << " Total_Uplink="
+                << (m_totaluplink / 1024/1024) << " Total_DoLink=" << (m_totaldownlink/1024/1024);
 
-   std::cout << "User plane traffic \n" << std::endl;
-   displayStats::getdashB(USER_LAYER_LTE)->printstats();
+   for(int i = 0; i < 8; i++)
+     std::cout << " "<< messType[validMess[i]] << "=" << totMess[validMess[i]] ; 
+                 
+     std::cout << std::endl;
+
 }

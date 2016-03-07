@@ -77,7 +77,7 @@ void protocolUDP::calculatemetrics() {
 
 }
 
-void protocolUDP::displaymetrics() {
+void protocolUDP::displaymetrics(std::string splunkkey) {
     std::cout << "\nUdp layer Metrics" << std::endl;
     std::cout << "\nSTARTTIME: " << m_starttime << "\tENDTIME: " << m_endtime << std::endl;
     std::cout << "Udp packet total count = " << m_totalpkts << std::endl;
@@ -88,9 +88,13 @@ void protocolUDP::displaymetrics() {
     std::cout << "BandWidth usage " << (bandWidthCalc () / 1024 /1024 ) << "Mbps" << std::endl;
     std::cout << "Total Uplink data = " << (m_totaluplink / 1024/1024) << "MB" << std::endl  ;
     std::cout << "Total Downlink data = " << (m_totaldownlink/1024/1024) << "MB\n" << std::flush  ;
-
+    
+    std::cout << splunkkey << " Total_pkt=" << m_totalpkts << " Total_Datalen=" << m_totaldata/1024/1024
+               << " BandWidth=" << (bandWidthCalc () / 1024 /1024 ) << " Total_Uplink="
+                << (m_totaluplink / 1024/1024) << " Total_DoLink=" << (m_totaldownlink/1024/1024) <<
+                 " Ipv4=" << m_totalipv4 << " Ipv6=" << m_totalip6 << std::endl;
    // Print lte stats
-     getLteDash()->printstats();
+     getLteDash()->printstats(splunkkey);
 }
 
 

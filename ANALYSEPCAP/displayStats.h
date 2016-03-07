@@ -11,7 +11,7 @@
 #include "packetCmm.h"
 #include "libtrace_parallel.h"
 
-#define TIMEINT 2085 
+#define TIMEINT 10 
 extern const char clr[]; // = { 27, '[', '2', 'J', '\0' };
 extern const char topLeft[];// = { 27, '[', '1', ';', '1', 'H','\0' };
 

@@ -71,28 +71,28 @@ public :
    m_bandwidth = 0 ; 
    bzero(totMess, sizeof(int) * MAX_MESSAGE_TYPE);
    //Initialse interested messages alone
-  messType[0x10] ="Create PDP Context Request";// 11
-  messType[0x11] ="Create PDP Context Response";
-  messType[0x12]= "Update PDP Context Request";
-  messType[0x13] = "Update PDP Context Response"; 
-  messType[0x14] = "Delete PDP Context Request";
-  messType[0x15] = "Delete PDP Context Response";//15
-  messType[0x1A] = "Error Indication";//26 
+  messType[0x10] ="Create_PDP_Context_Request";// 11
+  messType[0x11] ="Create_PDP_Context_Response";
+  messType[0x12]= "Update_PDP_Context_Request";
+  messType[0x13] = "Update_PDP_Context_Response"; 
+  messType[0x14] = "Delete_PDP_Context_Request";
+  messType[0x15] = "Delete_PDP_Context_Response";//15
+  messType[0x1A] = "Error_Indication";//26 
   messType[0xFF] = "G-PDU";//255 
   bzero(totalGTP_C, sizeof(unsigned long int) * 2);
   bzero(totalGTP_U, sizeof(unsigned long int) * 2);
   bzero(totalError, sizeof(unsigned long int) * 2);
-  displayStats::getdashB(USER_LAYER_LTE)->cleardashB(start, end);
+  //displayStats::getdashB(USER_LAYER_LTE)->cleardashB(start, end);
   }
 
   ~LteProtoBase(){
-   displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0);
+   //displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0);
    }
   int parseGtp(libtrace_packet_t *, char *);
   int addPkt(libtrace_packet_t *, GTPhrd);
   protocolBase*  getProtoBase(std::string node, libtrace_ipproto_t);
   int cleardashB(int newtsrtime, int newendtime);
-  void printstats(); // Future will be sending to some other module or UI  
+  void printstats(std::string splunkStr); // Future will be sending to some other module or UI  
   unsigned long int bandWidthCalc () ;
 
 };
