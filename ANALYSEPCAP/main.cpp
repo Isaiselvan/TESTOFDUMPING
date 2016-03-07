@@ -141,8 +141,8 @@ void* readPcapFile(void* fileName)
         string newFilePath = filePath + ".completed";
         if(rename(filePath.c_str(), newFilePath.c_str()))
             logger << "Error renaming the file:" << filePath << " to:" << newFilePath << std::endl;
-
-        pthread_exit(NULL);
+        int ret = 0 ; 
+        pthread_exit(&ret);
 }
 
 bool isPcapfileReady(string fileName)

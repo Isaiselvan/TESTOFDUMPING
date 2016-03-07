@@ -124,11 +124,15 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   libtrace_packet_t *nextLprt = trace_create_packet();
   if(nextLprt == NULL)
      return -1;
-   
+// Commented lines test for dummy packet , user level traffic succeeded 
+  //libtrace_linktype_t lnk;
+  //uint32_t rem =0 ;
+  //char * chekPlod = (char *) trace_get_packet_buffer(pkt, &lnk, &rem); 
   char * GtpPayload = gtpHrd.payload;
   while( gtpHrd.payLoadLen > 40)
   {
-  trace_construct_packet(nextLprt, trace_get_link_type(pkt), (void *)GtpPayload, gtpHrd.m_length);
+  trace_construct_packet(nextLprt, trace_get_link_type(pkt), (void *)GtpPayload, gtpHrd.m_length);  
+    //trace_construct_packet(nextLprt, lnk, chekPlod, rem); 
 
 #ifdef USER_TCP_UDP
     
@@ -139,8 +143,17 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   
         if(IPcheck)
         {
-       displayStats::getdashB(USER_LAYER_LTE)->ParsePkt(nextLprt); // If it fails or not
-        std::cout << "\nExtracted the payload successfully\n" <<std::endl;
+           //  static int b = 0; 
+           // if ( b != 0 )
+            // {
+              // b = 0;
+            // return 1; 
+            //  }    
+          // b++;
+          std::cout << "\nExtracted the payload successfully\n" <<std::endl;
+          //std::cout << "\n PacketPayload " << chekPlod << std::endl;
+          //std::cout << "\n\n\n Actual Gtp payload " << GtpPayload  << std::endl;
+          displayStats::getdashB(USER_LAYER_LTE)->ParsePkt(nextLprt); // If it fails or not
          break;
         }
       // }

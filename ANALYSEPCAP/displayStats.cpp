@@ -42,8 +42,9 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
          * 	 * further */
 	if (rem == 0)
 		return -1;
-
-        if (ethertype == TRACE_ETHERTYPE_IP) {
+          
+        
+         if (ethertype == TRACE_ETHERTYPE_IP) {
 		ip = (libtrace_ip_t *)ltheader;
 
 		//ltheader = trace_get_payload_from_ip(ip, &proto, &rem);
@@ -269,9 +270,18 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
        return;
     //Total display
     std::cout << "Total packts = "<< totalpkts << std::endl; 
-    std::cout  << "Total packetlen = "<< totaldatalen << std::endl;
+    std::cout << "Total packetlen = "<< totaldatalen << std::endl;
     std::cout << "Avergae Packet size = "<< (totalpkts == 0 ? 0: (totaldatalen/totalpkts/8)) << "KB"<< std::endl;
-   
+    time_t curT = curIntStarttime; 
+    struct tm * curTimeInfo;
+    char TimeBuf[100];
+    curTimeInfo = localtime(&curT);
+    strftime(TimeBuf, 100, "%F:%T", curTimeInfo);
+    std::string curTime(TimeBuf);
+    std::cout << "<Splunk>;" << "<" << curTime << ">;Total_packets=" << totalpkts << std::endl;
+    std::cout << "<Splunk>;" << "<" << curTime << ">;Total_len=" << totaldatalen << std::endl;
+    std::cout << "<Splunk>;" << "<" << curTime << ">;Toatl_Node=" << dashboard.size() << std::endl;
+      
    //Total number of nodes
     std::cout << "Total number of nodes =" << dashboard.size() << std::endl;  
    
@@ -280,7 +290,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
    for (it = dashboard.begin(); it != dashboard.end(); it++)
    {
     std::cout << "\nNode " << ++node << " :" << it->first << std::endl; 
-    std::cout << "Total number of protocols = " << it->second.size();
+    std::cout << "<Splunk>;" << "<" << curTime << ">;<Node"<<it->first<<">;";
+    std::cout << "Total_protocols = " << it->second.size();
     std::cout << "\n\n" ; 
      std::map<libtrace_ipproto_t, protocolBase* > ::const_iterator itr;
      for (itr = it->second.begin(); itr != it->second.end(); itr++)
