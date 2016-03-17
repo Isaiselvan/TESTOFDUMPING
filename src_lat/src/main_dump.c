@@ -19,7 +19,7 @@
 #define IFSZ 16
 #define FLTRSZ 120
 #define MAXHOSTSZ 256
-#define SNAP_LEN 65535 // Full packet reading
+#define SNAP_LEN 65536// Full packet reading
 #define PCAPDBUF_LEN 819200 // 10 * 8192
 
 
@@ -55,13 +55,13 @@ bool m_threadStop = false;
 //static int countPkt;
 
 
-unsigned long int m_buflen =  1048576;//4194304 * 2 ; // 2 * 1024 * 1024
+unsigned long int m_buflen =  1048576 * 6;//4194304 * 2 ; // 2 * 1024 * 1024
 /* Global vars */
 char * file_name = NULL;
 char file_name_rotated [1000];
 pcap_dumper_t * pcap_file_p;
 uint64_t max_packets = 0 ;
-uint64_t buffer_size = 8388608;
+uint64_t buffer_size = 1048576 * 2;
 uint64_t seconds_rotation = 0;
 uint64_t last_rotation = 0;
 int64_t  nb_rotations=0;
@@ -109,8 +109,8 @@ int main(int argc, char **argv)
 #endif 
 
   
-        //pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
-        pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
+        //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
         /* Init intermediate queue data structures: the ring. */
@@ -151,28 +151,26 @@ static int packet_producer(__attribute__((unused)) void * arg){
        struct pcap_pkthdr *PcapHdr;
        const u_char * data;
        int status;
-       uint16_t buf_size; 
+       //uint16_t buf_size; 
         /* Infinite loop */
         for (;;) {
-
+                   m = rte_pktmbuf_alloc(pktmbuf_pool);
+                    if(unlikely(m == NULL))
+                    {
+                    // PRINT_INFO("Ring Buffer full\n"); 
+                    continue;       
+                    }
                 /* Read a burst for current port at queue 'nb_istance'*/
                 //nb_rx = rte_eth_rx_burst(read_from_port, 0, pkts_burst, PKT_BURST_SZ);
             status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
            // printf("Step 1\n"); 
-            do {
-            buf_size = (uint16_t)(rte_pktmbuf_data_room_size(pktmbuf_pool) - RTE_PKTMBUF_HEADROOM);
-            }while (buf_size < PcapHdr->caplen) ; 
+            //do {
+            //buf_size = (uint16_t)(rte_pktmbuf_data_room_size(pktmbuf_pool) - RTE_PKTMBUF_HEADROOM);
+            //}while (buf_size < PcapHdr->caplen) ; 
              //continue ;
             if(status == 1)
             {
-                    while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL);
-                    //m = rte_pktmbuf_alloc(pktmbuf_pool);
-                   // if(unlikely(m == NULL))
-                    //{
-                    // PRINT_INFO("Ring Buffer full\n"); 
-                    // continue;       
-                    //}
-                    //printf("step 2 \n");
+                  //  while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL);
                     rte_memcpy(rte_pktmbuf_mtod(m, void *), data,
                                         PcapHdr->caplen);
                     //printf("step 3 \n");

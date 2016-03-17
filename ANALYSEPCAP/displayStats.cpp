@@ -279,7 +279,7 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
     struct tm * curTimeInfo;
     char TimeBuf[300];
     curTimeInfo = localtime(&curT);
-    strftime(TimeBuf, 100, "%F:%T", curTimeInfo);
+    strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
     //std::cout << "<Splunk>;" << "<" << curTime << ">;Total_packets=" << totalpkts << std::endl;
     //std::cout << "<Splunk>;" << "<" << curTime << ">;Total_len=" << totaldatalen << std::endl;

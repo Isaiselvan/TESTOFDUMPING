@@ -1,612 +1,263 @@
-
-Creating new Node 
-
-
-Creating new Node 
+[2J[1;1H
 
 
-Creating new Node 
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 1840875	| 0	| 0	| 0	| 0	|
+Total packts = 840582
+Total packetlen = 84084216
+Avergae Packet size = 12KB
+Total number of nodes =1
+
+Node 1 :00:00:00:00:00:00
+Total_protocols = 1
 
 
-Creating new Node 
+Protocol : TCP
 
+Tcp layer Metrics
 
-Creating new Node 
-
-
-Creating new Node 
-
-
-Creating new Node 
-
-
-Creating new Node 
-
-
-Creating new Node 
-
-
-Creating new Node 
-
-
-Creating new Node 
-
-
-Creating new Node 
+STARTTIME: 1458140498	ENDTIME: 1458140508
+Tcp packet total count = 840582
+Total Ipv4 packets = 840582
+Total Ipv6 packets = 0
+Tcp data usage = 80MB
+Number of distincted sessions 0
+BandWidth usage 64Mbps
+Total Uplink data = 80MB
+Total Downlink data = 0MB
+Splunk 2016-03-16 20:31:38 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=840582 Total_Datalen=80 BandWidth=64 Total_Uplink=80 Total_DoLink=0 Ipv4=840582 Ipv6=0
+User plane traffic 
 
 [2J[1;1H
 
 
 Pcap file stats
 	| received | accepted | filtered | dropped | captured | error |
-	| 0	| 0	| 0	| 0	| 0	| 0	|
-Total packts = 3739
-Total packetlen = 4145295
-Avergae Packet size = 138KB
-Total number of nodes =13
-
-Node 1 :00:00:00:59:00:aa
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 1870
-Total Ipv4 packets = 1870
-Total Ipv6 packets = 0
-Udp data usage = 1MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 1MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=0 Mac=00:00:00:59:00:aa Layer=0 TransPotocol=UDP Total_pkt=1870 Total_Datalen=1 BandWidth=0 Total_Uplink=1 Total_DoLink=0 Ipv4=1870 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :1870
-	 total length of gtp packet : 1974720
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 1870
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 1974720
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 1870
-Splunk 2015-03-20:16:58:34 node=0 Mac=00:00:00:59:00:aa Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=1870 Total_Datalen=1 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=1870
-
-Node 2 :00:00:00:eb:00:01
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 187
-Total Ipv4 packets = 187
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=1 Mac=00:00:00:eb:00:01 Layer=0 TransPotocol=UDP Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=187 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :187
-	 total length of gtp packet : 197472
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 187
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 197472
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 187
-Splunk 2015-03-20:16:58:34 node=1 Mac=00:00:00:eb:00:01 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=187
-
-Node 3 :00:00:00:eb:00:02
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 187
-Total Ipv4 packets = 187
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=2 Mac=00:00:00:eb:00:02 Layer=0 TransPotocol=UDP Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=187 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :187
-	 total length of gtp packet : 197472
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 187
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 197472
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 187
-Splunk 2015-03-20:16:58:34 node=2 Mac=00:00:00:eb:00:02 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=187
-
-Node 4 :00:00:00:eb:00:03
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 187
-Total Ipv4 packets = 187
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=3 Mac=00:00:00:eb:00:03 Layer=0 TransPotocol=UDP Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=187 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :187
-	 total length of gtp packet : 197472
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 187
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 197472
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 187
-Splunk 2015-03-20:16:58:34 node=3 Mac=00:00:00:eb:00:03 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=187
-
-Node 5 :00:00:00:eb:00:04
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 186
-Total Ipv4 packets = 186
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=4 Mac=00:00:00:eb:00:04 Layer=0 TransPotocol=UDP Total_pkt=186 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=186 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :186
-	 total length of gtp packet : 196416
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 186
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 196416
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 186
-Splunk 2015-03-20:16:58:34 node=4 Mac=00:00:00:eb:00:04 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=186 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=186
-
-Node 6 :00:00:00:eb:00:05
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 185
-Total Ipv4 packets = 185
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=5 Mac=00:00:00:eb:00:05 Layer=0 TransPotocol=UDP Total_pkt=185 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=185 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :185
-	 total length of gtp packet : 195360
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 185
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 195360
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 185
-Splunk 2015-03-20:16:58:34 node=5 Mac=00:00:00:eb:00:05 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=185 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=185
-
-Node 7 :00:00:00:eb:00:06
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 185
-Total Ipv4 packets = 185
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=6 Mac=00:00:00:eb:00:06 Layer=0 TransPotocol=UDP Total_pkt=185 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=185 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :185
-	 total length of gtp packet : 195360
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 185
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 195360
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 185
-Splunk 2015-03-20:16:58:34 node=6 Mac=00:00:00:eb:00:06 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=185 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=185
-
-Node 8 :00:00:00:eb:00:07
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 187
-Total Ipv4 packets = 187
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=7 Mac=00:00:00:eb:00:07 Layer=0 TransPotocol=UDP Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=187 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :187
-	 total length of gtp packet : 197472
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 187
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 197472
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 187
-Splunk 2015-03-20:16:58:34 node=7 Mac=00:00:00:eb:00:07 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=187
-
-Node 9 :00:00:00:eb:00:08
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 186
-Total Ipv4 packets = 186
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=8 Mac=00:00:00:eb:00:08 Layer=0 TransPotocol=UDP Total_pkt=186 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=186 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :186
-	 total length of gtp packet : 196416
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 186
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 196416
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 186
-Splunk 2015-03-20:16:58:34 node=8 Mac=00:00:00:eb:00:08 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=186 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=186
-
-Node 10 :00:00:00:eb:00:09
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 187
-Total Ipv4 packets = 187
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=9 Mac=00:00:00:eb:00:09 Layer=0 TransPotocol=UDP Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=187 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :187
-	 total length of gtp packet : 197472
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 187
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 197472
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 187
-Splunk 2015-03-20:16:58:34 node=9 Mac=00:00:00:eb:00:09 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=187
-
-Node 11 :00:00:00:eb:00:0a
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 187
-Total Ipv4 packets = 187
-Total Ipv6 packets = 0
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=10 Mac=00:00:00:eb:00:0a Layer=0 TransPotocol=UDP Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=187 Ipv6=0
-
-	Lte Metrics 
-
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-	 total GTP packets :187
-	 total length of gtp packet : 197472
-	 Avergae Packet size = 132KB
-	 Lte Bandwidth usage 0 Mbps
-	 Total control plane packets: 0
-	 Total G-PDU packets: 187
-	 Total control plane datalen: 0
-	 Total G-PDU datalen: 197472
-	 Total gtp-u with error code: 0
-	 Gtpu message type slipt up 
-	Create_PDP_Context_Request : 0
-	Create_PDP_Context_Response : 0
-	Update_PDP_Context_Request : 0
-	Update_PDP_Context_Response : 0
-	Delete_PDP_Context_Request : 0
-	Delete_PDP_Context_Response : 0
-	Error_Indication : 0
-	G-PDU : 187
-Splunk 2015-03-20:16:58:34 node=10 Mac=00:00:00:eb:00:0a Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=187 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=187
-
-Node 12 :3e:a0:a3:f5:44:f4
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 2
-Total Ipv4 packets = 0
-Total Ipv6 packets = 2
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=11 Mac=3e:a0:a3:f5:44:f4 Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=0 Ipv6=2
-
-Node 13 :6e:08:cf:c3:3c:05
-Total_protocols = 1
-
-
-Protocol : UDP
-
-Udp layer Metrics
-
-STARTTIME: 1426850914	ENDTIME: 1426852999
-Udp packet total count = 3
-Total Ipv4 packets = 0
-Total Ipv6 packets = 3
-Udp data usage = 0MB
-Number of distincted sessions 0
-BandWidth usage 0Mbps
-Total Uplink data = 0MB
-Total Downlink data = 0MB
-Splunk 2015-03-20:16:58:34 node=12 Mac=6e:08:cf:c3:3c:05 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=0 Ipv6=3
-User plane traffic 
-
-Total packts = 3734
-Total packetlen = 4010316
-Avergae Packet size = 134KB
+	| 0	| 37	| 0	| 0	| 0	| 0	|
+Total packts = 37
+Total packetlen = 6306
+Avergae Packet size = 21KB
 Total number of nodes =1
 
-Node 1 :UserTraffic
+Node 1 :00:00:00:00:00:00
 Total_protocols = 1
 
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458140509	ENDTIME: 1458140519
+Tcp packet total count = 37
+Total Ipv4 packets = 37
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-16 20:31:49 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=37 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=37 Ipv6=0
+User plane traffic 
+
+[2J[1;1H
+
+
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 39	| 0	| 0	| 0	| 0	|
+Total packts = 39
+Total packetlen = 6590
+Avergae Packet size = 21KB
+Total number of nodes =1
+
+Node 1 :00:00:00:00:00:00
+Total_protocols = 2
+
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458140654	ENDTIME: 1458140664
+Tcp packet total count = 33
+Total Ipv4 packets = 33
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-16 20:34:14 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=33 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=33 Ipv6=0
 
 Protocol : UDP
 
 Udp layer Metrics
 
-STARTTIME: 1457384784	ENDTIME: 1457386869
-Udp packet total count = 3734
-Total Ipv4 packets = 3734
+STARTTIME: 1458140654	ENDTIME: 1458140664
+Udp packet total count = 6
+Total Ipv4 packets = 6
 Total Ipv6 packets = 0
-Udp data usage = 3MB
+Udp data usage = 0MB
 Number of distincted sessions 0
 BandWidth usage 0Mbps
-Total Uplink data = 3MB
+Total Uplink data = 0MB
 Total Downlink data = 0MB
-Splunk 2016-03-08:02:36:24 node=0 Mac=UserTraffic Layer=1 TransPotocol=UDP Total_pkt=3734 Total_Datalen=3 BandWidth=0 Total_Uplink=3 Total_DoLink=0 Ipv4=3734 Ipv6=0
+Splunk 2016-03-16 20:34:14 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+User plane traffic 
 
-Creating new Node 
-
-
-Creating new Node 
+[2J[1;1H
 
 
-Creating new Node 
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 59	| 0	| 0	| 0	| 0	|
+Total packts = 59
+Total packetlen = 8585
+Avergae Packet size = 18KB
+Total number of nodes =1
+
+Node 1 :00:00:00:00:00:00
+Total_protocols = 1
 
 
-Creating new Node 
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458140666	ENDTIME: 1458140676
+Tcp packet total count = 59
+Total Ipv4 packets = 59
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-16 20:34:26 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=59 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=59 Ipv6=0
+User plane traffic 
+
+[2J[1;1H
 
 
-Creating new Node 
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 1362908	| 0	| 0	| 0	| 0	|
+Total packts = 560753
+Total packetlen = 52288774
+Avergae Packet size = 11KB
+Total number of nodes =1
+
+Node 1 :00:00:00:00:00:00
+Total_protocols = 1
 
 
-Creating new Node 
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458140681	ENDTIME: 1458140691
+Tcp packet total count = 560753
+Total Ipv4 packets = 560753
+Total Ipv6 packets = 0
+Tcp data usage = 49MB
+Number of distincted sessions 0
+BandWidth usage 39Mbps
+Total Uplink data = 49MB
+Total Downlink data = 0MB
+Splunk 2016-03-16 20:34:41 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=560753 Total_Datalen=49 BandWidth=39 Total_Uplink=49 Total_DoLink=0 Ipv4=560753 Ipv6=0
+User plane traffic 
+
+[2J[1;1H
 
 
-Creating new Node 
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 1890058	| 0	| 0	| 0	| 0	|
+Total packts = 666273
+Total packetlen = 53590310
+Avergae Packet size = 10KB
+Total number of nodes =1
+
+Node 1 :00:00:00:00:00:00
+Total_protocols = 1
 
 
-Creating new Node 
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458140692	ENDTIME: 1458140702
+Tcp packet total count = 666273
+Total Ipv4 packets = 666273
+Total Ipv6 packets = 0
+Tcp data usage = 51MB
+Number of distincted sessions 0
+BandWidth usage 40Mbps
+Total Uplink data = 51MB
+Total Downlink data = 0MB
+Splunk 2016-03-16 20:34:52 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=666273 Total_Datalen=51 BandWidth=40 Total_Uplink=51 Total_DoLink=0 Ipv4=666273 Ipv6=0
+User plane traffic 
+
+[2J[1;1H
 
 
-Creating new Node 
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 1898322	| 0	| 0	| 0	| 0	|
+Total packts = 759743
+Total packetlen = 69461359
+Avergae Packet size = 11KB
+Total number of nodes =1
+
+Node 1 :00:00:00:00:00:00
+Total_protocols = 1
 
 
-Creating new Node 
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458140703	ENDTIME: 1458140713
+Tcp packet total count = 759743
+Total Ipv4 packets = 759743
+Total Ipv6 packets = 0
+Tcp data usage = 66MB
+Number of distincted sessions 0
+BandWidth usage 52Mbps
+Total Uplink data = 66MB
+Total Downlink data = 0MB
+Splunk 2016-03-16 20:35:03 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=759743 Total_Datalen=66 BandWidth=52 Total_Uplink=66 Total_DoLink=0 Ipv4=759743 Ipv6=0
+User plane traffic 
+
+[2J[1;1H
+
+
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 1999043	| 0	| 0	| 0	| 0	|
+Total packts = 945325
+Total packetlen = 96496389
+Avergae Packet size = 12KB
+Total number of nodes =1
+
+Node 1 :00:00:00:00:00:00
+Total_protocols = 1
+
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458140714	ENDTIME: 1458140724
+Tcp packet total count = 945325
+Total Ipv4 packets = 945325
+Total Ipv6 packets = 0
+Tcp data usage = 92MB
+Number of distincted sessions 0
+BandWidth usage 73Mbps
+Total Uplink data = 92MB
+Total Downlink data = 0MB
+Splunk 2016-03-16 20:35:14 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=945325 Total_Datalen=92 BandWidth=73 Total_Uplink=92 Total_DoLink=0 Ipv4=945325 Ipv6=0
+User plane traffic 
 
