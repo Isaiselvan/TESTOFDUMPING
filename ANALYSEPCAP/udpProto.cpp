@@ -22,7 +22,7 @@ int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet udppkt)
      }
      
 
-     m_pkt.push_back(udppkt);
+    //m_pkt.push_back(udppkt); //Comment
          
  // Add session logic
  
@@ -57,7 +57,7 @@ int protocolUDP::addSession(libtrace_packet_t *pkt,m_Packet udppkt)
              if(m_session.size() == 0 ) 
              {
               //Add time   
-               m_session.push_back(frameSession);
+               //m_session.push_back(frameSession);
              } 
              else 
              {

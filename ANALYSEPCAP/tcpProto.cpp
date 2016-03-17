@@ -22,7 +22,7 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet tcppkt)
      }
      
 
-     m_pkt.push_back(tcppkt);
+     //m_pkt.push_back(tcppkt);
      
  // Add session logic
 }
