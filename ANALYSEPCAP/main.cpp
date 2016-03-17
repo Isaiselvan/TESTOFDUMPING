@@ -17,10 +17,11 @@
 using namespace std;
 
 #define DIRPATH "/apps/opt/LIBTRACE/test/"
-
+#define MAX_THREAD 20
 const string pcapFileEndStr = "ready.pcap";
 
 std::ofstream logger("pcapanal.log");
+pthread_t threads[MAX_THREAD];
 
 //uint64_t count = 0;
 
@@ -141,7 +142,12 @@ void* readPcapFile(void* fileName)
         string newFilePath = filePath + ".completed";
         if(rename(filePath.c_str(), newFilePath.c_str()))
             logger << "Error renaming the file:" << filePath << " to:" << newFilePath << std::endl;
-        int ret = 0 ; 
+        int ret = pthread_self();
+        for(int c =0 ; c < MAX_THREAD ; c++)
+        {  
+          if(ret == threads[c]) 
+            threads[c] = 0 ;         
+        }
         pthread_exit(&ret);
 }
 
@@ -193,8 +199,7 @@ int main(int argc , char * argv [])
 
     std::list<string> filesList;
     std::list<string>::iterator it;
-    pthread_t threads[20];
-       for(int c =0 ; c < 20 ; c++)
+       for(int c =0 ; c < MAX_THREAD ; c++)
              threads[c] = 0 ;
     parse_args(argc,argv); 
   while(1) 
@@ -221,7 +226,7 @@ int main(int argc , char * argv [])
         }
     }
     
-    //Count threads more than 5 stop creating threads 
+    //Count threads 
     DIR *dirp1 = NULL;
     char procPath[50];
     sprintf(procPath, "%s%d%s", "/proc/", getpid(), "/task/");
@@ -244,7 +249,7 @@ int main(int argc , char * argv [])
         int threadexit_status;
 
 
-        for (int Ti = 0; Ti < 20; Ti++) // Faulty thread timeouts 
+        for (int Ti = 0; Ti < MAX_THREAD; Ti++) // Faulty thread timeouts 
         {
             if(threads[Ti] != 0 )
             {  
@@ -278,13 +283,26 @@ int main(int argc , char * argv [])
         strcpy(pcapFile, it->c_str());
            
         logger << "Starting Thread for file:" << pcapFile << std::endl;
-        rc = pthread_create(&threads[i], NULL, 
+        while (i < MAX_THREAD)
+        {
+            if(threads[i] == 0)
+            { 
+            rc = pthread_create(&threads[i], NULL, 
                           readPcapFile, pcapFile);
                           
-        if(rc)
+            if(rc)
             logger << "Error:: Failed to read pcap file:" << pcapFile << std::endl;
+            i++;
+            break;
+            }else if(i == MAX_THREAD)
+              {
+                i = 0;
+                sleep(10);
+              } 
+
+           i++;
          //readPcapFile(pcapFile);
-        i++;
+        }
     }
     i = 0;
 
