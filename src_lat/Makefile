@@ -18,7 +18,7 @@ SRCS-y := src/main_dump.c
 #SRCS-y := src/main_copy.c
 
 CFLAGS += -O3
-#CFLAGS += -g
+#CFLAGS += -g -ggdb
 CFLAGS += $(WERROR_FLAGS)
 
 include $(RTE_SDK)/mk/rte.extapp.mk
