@@ -108,7 +108,7 @@ int main(int argc, char **argv)
 #endif 
 
   
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1,/* MEMPOOL_ELEM_SZ*/ snaplen + RTE_PKTMBUF_HEADROOM, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1,/* MEMPOOL_ELEM_SZ*/ snaplen + 100 + RTE_PKTMBUF_HEADROOM, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
         //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
@@ -338,7 +338,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
         start_secs = t_pack.tv_sec;
 
         /* Open pcap file for writing */
-        pd = pcap_open_dead(DLT_EN10MB, snaplen );
+        pd = pcap_open_dead(DLT_EN10MB, 65535);
         sprintf(file_name_rotated, "%s%ld",file_name,last_rotation);
         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
         if(pcap_file_p==NULL)
@@ -383,7 +383,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                         PRINT_INFO("\n failed to rename file %s\n", file_name_rotated); 
                         /* Open pcap file for writing */
                         sprintf(file_name_rotated, "%s%ld", file_name, last_rotation);
-                        pd = pcap_open_dead(DLT_EN10MB, snaplen );
+                        pd = pcap_open_dead(DLT_EN10MB, 65535);
                         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
                         if(pcap_file_p==NULL)
                                 FATAL_ERROR("Error in opening pcap file\n");
@@ -394,7 +394,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                 pcap_hdr.ts = t_pack;
                 pcap_hdr.caplen = rte_pktmbuf_data_len(m);
                 pcap_hdr.len = m->pkt_len;
-                packet = rte_pktmbuf_mtod(m, u_char * );
+                packet = rte_pktmbuf_mtod(m, u_char *);
 
                 /* Write on pcap */
                 pcap_dump ((u_char *)pcap_file_p, & pcap_hdr,  packet);
