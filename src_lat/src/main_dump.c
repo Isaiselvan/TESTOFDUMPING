@@ -7,7 +7,7 @@
 
 /* Constants of the system */
 #define MEMPOOL_NAME "cluster_mem_pool"                         // Name of the NICs' mem_pool
-#define MEMPOOL_ELEM_SZ  2048                                    // Power of two greater than 1500
+#define MEMPOOL_ELEM_SZ  512                                    // Power of two greater than 1500
 #define MEMPOOL_CACHE_SZ 512                                    // Max is 512
 
 #define INTERMEDIATERING_NAME "intermedate_ring"
@@ -19,7 +19,7 @@
 #define IFSZ 16
 #define FLTRSZ 120
 #define MAXHOSTSZ 256
-#define SNAP_LEN 65536// Full packet reading
+#define SNAP_LEN 256 // Full packet reading
 #define PCAPDBUF_LEN 819200 // 10 * 8192
 
 
@@ -54,14 +54,13 @@ int pcount = 0;          /* number of packets actually read */
 bool m_threadStop = false;
 //static int countPkt;
 
-
-unsigned long int m_buflen =  1048576 * 6;//4194304 * 2 ; // 2 * 1024 * 1024
+unsigned long int m_buflen =  1048576 * 6;//4194304 * 2 ; // 2 * 1024 * 1024 Pcap lib ring size
 /* Global vars */
 char * file_name = NULL;
 char file_name_rotated [1000];
 pcap_dumper_t * pcap_file_p;
 uint64_t max_packets = 0 ;
-uint64_t buffer_size = 1048576 * 2;
+uint64_t buffer_size = 1048576 * 4; //Ring size
 uint64_t seconds_rotation = 0;
 uint64_t last_rotation = 0;
 int64_t  nb_rotations=0;
@@ -109,13 +108,14 @@ int main(int argc, char **argv)
 #endif 
 
   
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1,/* MEMPOOL_ELEM_SZ*/ snaplen + 128 + RTE_PKTMBUF_HEADROOM, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
         //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
         /* Init intermediate queue data structures: the ring. */
-        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME,buffer_size, rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
+        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
         if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
+
 
 
         /* Start consumer and producer routine on 2 different cores: consumer launched first... */
@@ -136,52 +136,50 @@ static int packet_producer(__attribute__((unused)) void * arg){
 //      struct rte_mbuf * pkts_burst[PKT_BURST_SZ];
 //      struct timeval t_pack;
         struct rte_mbuf * m;
-//      int read_from_port = 0;
-        //int i;
-        //, ret;
-
         PRINT_INFO("Lcore id of producer %d\n", rte_lcore_id());
         /* Start stats */
         alarm(1);
-
-       // for (i=0;i<nb_sys_ports; i++)
-         //       rte_eth_stats_reset ( i );
         PcapStartUp();
 
        struct pcap_pkthdr *PcapHdr;
        const u_char * data;
        int status;
-       //uint16_t buf_size; 
+      // int debug =0 ;
         /* Infinite loop */
         for (;;) {
-                   m = rte_pktmbuf_alloc(pktmbuf_pool);
-                    if(unlikely(m == NULL))
-                    {
-                    // PRINT_INFO("Ring Buffer full\n"); 
-                    continue;       
-                    }
-                /* Read a burst for current port at queue 'nb_istance'*/
-                //nb_rx = rte_eth_rx_burst(read_from_port, 0, pkts_burst, PKT_BURST_SZ);
-            status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
-           // printf("Step 1\n"); 
-            //do {
-            //buf_size = (uint16_t)(rte_pktmbuf_data_room_size(pktmbuf_pool) - RTE_PKTMBUF_HEADROOM);
-            //}while (buf_size < PcapHdr->caplen) ; 
-             //continue ;
+
+		if(unlikely(rte_ring_full(intermediate_ring)))
+		{
+			//debug++;
+		//	printf("Ring Buffer full %d\n", debug);
+  		continue;
+		}     
+		//debug = 0 ; 
+		m = rte_pktmbuf_alloc(pktmbuf_pool);
+		if( unlikely(m == NULL))
+		{
+//			PRINT_INFO("Memory full, free%d, %d\n", rte_mempool_free_count(pktmbuf_pool), rte_mempool_count(pktmbuf_pool)); 
+		continue;       
+		}
+
+		status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
+             
             if(status == 1)
             {
-                  //  while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL);
-                    rte_memcpy(rte_pktmbuf_mtod(m, void *), data,
+                    rte_memcpy(rte_pktmbuf_mtod(m, u_char *), data,
                                         PcapHdr->caplen);
                     //printf("step 3 \n");
-                   //m = data;
                     nb_captured_packets++;
                     m->tx_offload = PcapHdr->ts.tv_sec;;
                     m->udata64 =  PcapHdr->ts.tv_usec;
                     m->data_len = (uint16_t)PcapHdr->caplen;
                     m->pkt_len = (uint16_t) PcapHdr->len;
                       /*Enqueieing buffer */
-                    rte_ring_enqueue (intermediate_ring, m);
+                    if(EDQUOT == rte_ring_enqueue (intermediate_ring, m) )
+                    {
+                      printf("Reached Water mark\n");
+                    }
+
                     m_numberofpackets++;
                     rte_prefetch0(rte_pktmbuf_mtod(m, void *));
                     m = NULL;
@@ -190,10 +188,10 @@ static int packet_producer(__attribute__((unused)) void * arg){
            {
                     PRINT_INFO("\nError while reading the packets\t from dev:%s %s ",m_interfacename,pcap_geterr(m_pcapHandle));
                     FATAL_ERROR("Error while reading the packets\n");
-
-           }
-
-
+           } 
+           
+               if(m)
+                   rte_pktmbuf_free( (struct rte_mbuf *)m);    
         }
         return 0;
 }
@@ -324,7 +322,7 @@ if (pcap_compile(m_pcapHandle,&prog,fliterstr,optimize,mask) < 0) {
         }
 }
 
-static int packet_consumer(__attribute__((unused)) void * arg){
+static  int packet_consumer(__attribute__((unused)) void * arg){
 
         struct timeval t_pack;
         struct rte_mbuf * m;
@@ -340,7 +338,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
         start_secs = t_pack.tv_sec;
 
         /* Open pcap file for writing */
-        pd = pcap_open_dead(DLT_EN10MB, 65535 );
+        pd = pcap_open_dead(DLT_EN10MB, snaplen);
         sprintf(file_name_rotated, "%s%ld",file_name,last_rotation);
         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
         if(pcap_file_p==NULL)
@@ -353,12 +351,13 @@ static int packet_consumer(__attribute__((unused)) void * arg){
         /* Infinite loop for consumer thread */
         for(;;){
 
+
                 /* Dequeue packet */
                 ret = rte_ring_dequeue(intermediate_ring, (void**)&m);
-
+                //ring_full = false;
                 /* Continue polling if no packet available */
-                if( unlikely (ret != 0)) {
-                //usleep (100);
+                if( unlikely(ret < 0)) {
+                usleep(5);
                 continue;
                 }
 
@@ -384,7 +383,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
                         PRINT_INFO("\n failed to rename file %s\n", file_name_rotated); 
                         /* Open pcap file for writing */
                         sprintf(file_name_rotated, "%s%ld", file_name, last_rotation);
-                        pd = pcap_open_dead(DLT_EN10MB, 65535 );
+                        pd = pcap_open_dead(DLT_EN10MB, snaplen);
                         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
                         if(pcap_file_p==NULL)
                                 FATAL_ERROR("Error in opening pcap file\n");
@@ -395,7 +394,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
                 pcap_hdr.ts = t_pack;
                 pcap_hdr.caplen = rte_pktmbuf_data_len(m);
                 pcap_hdr.len = m->pkt_len;
-                packet = rte_pktmbuf_mtod(m, u_char * );
+                packet = rte_pktmbuf_mtod(m, u_char *);
 
                 /* Write on pcap */
                 pcap_dump ((u_char *)pcap_file_p, & pcap_hdr,  packet);
@@ -411,8 +410,7 @@ static int packet_consumer(__attribute__((unused)) void * arg){
                         sig_handler(SIGINT);
 
                 /* Free the buffer */
-                rte_pktmbuf_free((struct rte_mbuf *)m);
-                //rte_prefetch0(rte_pktmbuf_mtod(m, void *));
+                rte_pktmbuf_free( (struct rte_mbuf *)m);
                 m = NULL;
         }
 }
