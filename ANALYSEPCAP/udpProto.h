@@ -62,7 +62,7 @@ public:
      }
     }; 
      
-   int addPkt(libtrace_packet_t *, m_Packet);  
+   int addPkt(libtrace_packet_t *, m_Packet&);  
    unsigned long int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics(std::string splunkkey);

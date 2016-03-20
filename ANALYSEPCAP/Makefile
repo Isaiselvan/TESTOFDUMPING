@@ -6,10 +6,11 @@ APP_OBJS = tcpProto.o\
 	   udpProto.o\
 	   lteGtp.o\
 	   displayStats.o\
+	   hostDpi.o \
            main.o
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
-
+CPPINC = -I /usr/local/include/libndpi-1.7.0/libndpi/
 CPPFLAGS =  -lpthread -lrt -ltrace -DUSER_TCP_UDP
 
 #INCLUDEPATH  =  -I ./readerwriterqueue/
@@ -18,9 +19,7 @@ CPPFLAGS =  -lpthread -lrt -ltrace -DUSER_TCP_UDP
 	 .cpp
 
 %.o:%.cpp
-	$(CXX) $(CPPFLAGS) -g -c $^ 
-%.o:%.cpp
-	$(CXX) $(CPPFLAGS) -g -c $^ 
+	$(CXX) $(CPPFLAGS) $(CPPINC) -g -c $^ 
 
 
 .PHONY:
