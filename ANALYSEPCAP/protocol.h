@@ -9,6 +9,7 @@
 #include "libtrace_parallel.h"
 #include "packetCmm.h"
 #include <ctime>
+#include "hostDpi.h"
 
 
 

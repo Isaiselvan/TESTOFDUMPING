@@ -78,12 +78,12 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
              if(ip)
              {
              ppkt.ip4 = *ip;
-             ppkt.ip_ptr = (uint8_t*)ip;
+             ppkt.ip_ptr = (uint8_t *)ip;
              ppkt.ipv = 4;
              } else if(ip6)
              {
              ppkt.ipv6 = *ip6;
-             ppkt.ip_ptr = (uint8_t*)ip6;
+             ppkt.ip_ptr = (uint8_t *)ip6;
              ppkt.ipv = 6;
              } 
              //

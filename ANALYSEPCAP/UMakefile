@@ -14,8 +14,9 @@ APP_OBJS = tcpProto.o\
 
 #CPPFLAGS 
 #LIBPATH  = -L /usr/local/lib/
-CPPINC = -I /usr/local/include/libndpi-1.7.0/libndpi/
+NDPIINC = -I /usr/local/include/libndpi-1.7.0/libndpi/
 LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
+NDPILIB = -lndpi
 #LIBFLAGS = -DUSER_TCP_UDP
 
 #INCLUDEPATH  =  -I ./readerwriterqueue/
@@ -24,7 +25,7 @@ LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
 	 .cpp
 
 %.o:%.cpp
-	$(CXX) $(CPPFLAGS) $(CPPINC) -g -c $^ 
+	$(CXX) $(CPPFLAGS) $(NDPIINC) -g -c $^ 
 
 
 .PHONY:
@@ -35,7 +36,7 @@ all: $(APPNAME)
 	
  
 $(APPNAME): $(APP_OBJS) 
-	$(CXX) -g main.cpp  -o $@ $(CPPFLAGS) $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) 
+	$(CXX) -g main.cpp  -o $@ $(CPPFLAGS) $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB) 
 	
 clean:
 	-rm -f *.o  $(APPNAME)

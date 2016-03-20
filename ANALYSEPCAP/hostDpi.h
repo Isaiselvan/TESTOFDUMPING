@@ -6,15 +6,15 @@
 #include "packetCmm.h"
 
 static u_int32_t detection_tick_resolution = 1000;
-extern char *_protoFilePath;
+static char *_protoFilePath = "./protos.txt";
 class appLayer 
 {
   struct ndpi_detection_module_struct *ndpi_struct;
-  
   u_int64_t protocol_counter[NDPI_MAX_SUPPORTED_PROTOCOLS + NDPI_MAX_NUM_CUSTOM_PROTOCOLS + 1];
   u_int64_t protocol_counter_bytes[NDPI_MAX_SUPPORTED_PROTOCOLS + NDPI_MAX_NUM_CUSTOM_PROTOCOLS + 1]; 
 
-
+  u_int32_t size_id_struct ;
+  u_int32_t size_flow_struct ;
 
 static void *malloc_wrapper(unsigned long size) {
 
@@ -43,7 +43,10 @@ public :
   NDPI_PROTOCOL_BITMASK all;
   NDPI_BITMASK_SET_ALL(all);
   ndpi_set_protocol_detection_bitmask2(ndpi_struct, &all);
-
+  // Get size of id and flow struct
+  size_id_struct = ndpi_detection_get_sizeof_ndpi_id_struct();
+  size_flow_struct = ndpi_detection_get_sizeof_ndpi_flow_struct();
+  //
   memset(protocol_counter, 0, sizeof(protocol_counter));
   memset(protocol_counter_bytes, 0, sizeof(protocol_counter_bytes));
 

@@ -35,6 +35,8 @@ private:
    unsigned long  int m_totalSession;
    std::list<m_tcpSession> m_session;
    std::list<m_Packet>  m_pkt;
+
+   appLayer layerSeven;   
 public:
    protocolTCP(int start,int end):protocolBase(TRACE_IPPROTO_TCP, start, end)
    {

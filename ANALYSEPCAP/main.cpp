@@ -25,7 +25,7 @@ pthread_t threads[MAX_THREAD];
 
 //uint64_t count = 0;
 //Dpi
-static char *_protoFilePath   = NULL;
+extern char *_protoFilePath;
 
 static void per_packet(libtrace_packet_t *packet)
 {

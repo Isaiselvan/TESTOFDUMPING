@@ -21,7 +21,8 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet &tcppkt)
       tcppkt.Downlink = false;
      }
      
-
+      
+     layerSeven.processPkt(pkt, tcppkt);
      //m_pkt.push_back(tcppkt);
      
  // Add session logic
@@ -59,7 +60,8 @@ int protocolTCP::addSession(libtrace_packet_t *pkt,m_Packet tcppkt)
 
              }  
 // Iterator for session
-
+// Deep Packet inspection
+             
  return 0;
 }
 
