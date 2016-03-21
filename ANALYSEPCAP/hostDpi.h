@@ -5,10 +5,11 @@
 #include "libtrace_parallel.h"
 #include "packetCmm.h"
 
+
 #define NUM_ROOTS                 512
 
 static u_int32_t detection_tick_resolution = 1000;
-static char *_protoFilePath = "./protos.txt";
+static std::string _protoFilePath = "./protos.txt";
 class appLayer 
 {
   struct ndpi_detection_module_struct *ndpi_struct;
@@ -79,8 +80,8 @@ public :
   memset(protocol_counter, 0, sizeof(protocol_counter));
   memset(protocol_counter_bytes, 0, sizeof(protocol_counter_bytes));
 
-    if(_protoFilePath != NULL)
-    ndpi_load_protocols_file(ndpi_struct, _protoFilePath);
+    if(_protoFilePath.length())
+    ndpi_load_protocols_file(ndpi_struct,(char *) _protoFilePath.c_str());
 
   } 
 

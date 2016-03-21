@@ -25572,3 +25572,1954 @@ Creating new Node
 
 Creating new Node 
 
+
+Creating new Node 
+
+
+Creating new Node 
+
+[2J[1;1H
+
+
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 103	| 0	| 0	| 0	| 0	|
+Total packts = 47
+Total packetlen = 5418
+Avergae Packet size = 14KB
+Total number of nodes =19
+
+Node 1 :00:50:56:bc:00:77
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=0 Mac=00:50:56:bc:00:77 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 2 :00:50:56:bc:10:db
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=1 Mac=00:50:56:bc:10:db Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 3 :00:50:56:bc:18:6c
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 2
+Total Ipv4 packets = 2
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=2 Mac=00:50:56:bc:18:6c Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=2 Ipv6=0
+
+Node 4 :00:50:56:bc:19:85
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=3 Mac=00:50:56:bc:19:85 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 5 :00:50:56:bc:1c:a0
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=4 Mac=00:50:56:bc:1c:a0 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 6 :00:50:56:bc:28:42
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 2
+Total Ipv4 packets = 2
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=5 Mac=00:50:56:bc:28:42 Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=2 Ipv6=0
+
+Node 7 :00:50:56:bc:2a:93
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=6 Mac=00:50:56:bc:2a:93 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 8 :00:50:56:bc:33:4e
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=7 Mac=00:50:56:bc:33:4e Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 9 :00:50:56:bc:44:2e
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=8 Mac=00:50:56:bc:44:2e Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 10 :00:50:56:bc:4e:ea
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 9
+Total Ipv4 packets = 9
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=9 Mac=00:50:56:bc:4e:ea Layer=0 TransPotocol=UDP Total_pkt=9 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=9 Ipv6=0
+
+Node 11 :00:50:56:bc:52:af
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=10 Mac=00:50:56:bc:52:af Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 12 :00:50:56:bc:54:49
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=11 Mac=00:50:56:bc:54:49 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 13 :00:50:56:bc:57:3f
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=12 Mac=00:50:56:bc:57:3f Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 14 :00:50:56:bc:5d:10
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=13 Mac=00:50:56:bc:5d:10 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 15 :00:50:56:bc:68:14
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=14 Mac=00:50:56:bc:68:14 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 16 :00:50:56:bc:68:ca
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=15 Mac=00:50:56:bc:68:ca Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 17 :00:50:56:bc:6e:ac
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=16 Mac=00:50:56:bc:6e:ac Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 18 :00:50:56:bc:7a:96
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=17 Mac=00:50:56:bc:7a:96 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 19 :00:50:56:bc:7f:68
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563977	ENDTIME: 1458563987
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:37 node=18 Mac=00:50:56:bc:7f:68 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+User plane traffic 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+[2J[1;1H
+
+
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 215	| 0	| 0	| 0	| 0	|
+Total packts = 148
+Total packetlen = 18199
+Avergae Packet size = 15KB
+Total number of nodes =25
+
+Node 1 :00:26:98:12:1a:42
+Total_protocols = 1
+
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Tcp packet total count = 61
+Total Ipv4 packets = 61
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=0 Mac=00:26:98:12:1a:42 Layer=0 TransPotocol=TCP Total_pkt=61 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=61 Ipv6=0
+Splunk 2016-03-21  08:39:48 node=0 Mac=00:26:98:12:1a:42 Layer=0 TransPotocol=TCP AppLayer= SSH Total_pkt=61 Total_Datalen=0
+
+Node 2 :00:50:56:bc:08:37
+Total_protocols = 1
+
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Tcp packet total count = 36
+Total Ipv4 packets = 36
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=1 Mac=00:50:56:bc:08:37 Layer=0 TransPotocol=TCP Total_pkt=36 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=36 Ipv6=0
+Splunk 2016-03-21  08:39:48 node=1 Mac=00:50:56:bc:08:37 Layer=0 TransPotocol=TCP AppLayer= SSH Total_pkt=36 Total_Datalen=0
+
+Node 3 :00:50:56:bc:0c:6f
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=2 Mac=00:50:56:bc:0c:6f Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 4 :00:50:56:bc:17:bd
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=3 Mac=00:50:56:bc:17:bd Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 5 :00:50:56:bc:18:6c
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=4 Mac=00:50:56:bc:18:6c Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 6 :00:50:56:bc:19:85
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=5 Mac=00:50:56:bc:19:85 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 7 :00:50:56:bc:22:97
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=6 Mac=00:50:56:bc:22:97 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 8 :00:50:56:bc:23:f2
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=7 Mac=00:50:56:bc:23:f2 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 9 :00:50:56:bc:24:96
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=8 Mac=00:50:56:bc:24:96 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 10 :00:50:56:bc:28:42
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=9 Mac=00:50:56:bc:28:42 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 11 :00:50:56:bc:28:b0
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=10 Mac=00:50:56:bc:28:b0 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 12 :00:50:56:bc:2e:44
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=11 Mac=00:50:56:bc:2e:44 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 13 :00:50:56:bc:37:85
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=12 Mac=00:50:56:bc:37:85 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 14 :00:50:56:bc:39:25
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=13 Mac=00:50:56:bc:39:25 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 15 :00:50:56:bc:3e:c5
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=14 Mac=00:50:56:bc:3e:c5 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 16 :00:50:56:bc:42:2e
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=15 Mac=00:50:56:bc:42:2e Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 17 :00:50:56:bc:46:8e
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 6
+Total Ipv4 packets = 6
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=16 Mac=00:50:56:bc:46:8e Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+
+Node 18 :00:50:56:bc:51:0b
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=17 Mac=00:50:56:bc:51:0b Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 19 :00:50:56:bc:52:b0
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=18 Mac=00:50:56:bc:52:b0 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 20 :00:50:56:bc:6f:28
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=19 Mac=00:50:56:bc:6f:28 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 21 :00:50:56:bc:70:6a
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=20 Mac=00:50:56:bc:70:6a Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 22 :00:50:56:bc:72:a4
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=21 Mac=00:50:56:bc:72:a4 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 23 :00:50:56:bc:7a:96
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 2
+Total Ipv4 packets = 2
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=22 Mac=00:50:56:bc:7a:96 Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=2 Ipv6=0
+
+Node 24 :00:50:56:bc:7d:bd
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=23 Mac=00:50:56:bc:7d:bd Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 25 :00:50:56:bc:7d:fa
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563988	ENDTIME: 1458563998
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:48 node=24 Mac=00:50:56:bc:7d:fa Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+User plane traffic 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+[2J[1;1H
+
+
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 185	| 0	| 0	| 0	| 0	|
+Total packts = 111
+Total packetlen = 13479
+Avergae Packet size = 15KB
+Total number of nodes =25
+
+Node 1 :00:26:98:12:1a:42
+Total_protocols = 1
+
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Tcp packet total count = 48
+Total Ipv4 packets = 48
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=0 Mac=00:26:98:12:1a:42 Layer=0 TransPotocol=TCP Total_pkt=48 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=48 Ipv6=0
+Splunk 2016-03-21  08:39:59 node=0 Mac=00:26:98:12:1a:42 Layer=0 TransPotocol=TCP AppLayer= SSH Total_pkt=48 Total_Datalen=0
+
+Node 2 :00:50:56:bc:03:23
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=1 Mac=00:50:56:bc:03:23 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 3 :00:50:56:bc:08:37
+Total_protocols = 1
+
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Tcp packet total count = 24
+Total Ipv4 packets = 24
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=2 Mac=00:50:56:bc:08:37 Layer=0 TransPotocol=TCP Total_pkt=24 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=24 Ipv6=0
+Splunk 2016-03-21  08:39:59 node=2 Mac=00:50:56:bc:08:37 Layer=0 TransPotocol=TCP AppLayer= SSH Total_pkt=24 Total_Datalen=0
+
+Node 4 :00:50:56:bc:0a:3d
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=3 Mac=00:50:56:bc:0a:3d Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 5 :00:50:56:bc:0a:c9
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=4 Mac=00:50:56:bc:0a:c9 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 6 :00:50:56:bc:17:bd
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=5 Mac=00:50:56:bc:17:bd Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 7 :00:50:56:bc:19:43
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=6 Mac=00:50:56:bc:19:43 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 8 :00:50:56:bc:1a:b6
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=7 Mac=00:50:56:bc:1a:b6 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 9 :00:50:56:bc:1e:9b
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=8 Mac=00:50:56:bc:1e:9b Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 10 :00:50:56:bc:20:3c
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=9 Mac=00:50:56:bc:20:3c Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 11 :00:50:56:bc:23:f2
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 2
+Total Ipv4 packets = 2
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=10 Mac=00:50:56:bc:23:f2 Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=2 Ipv6=0
+
+Node 12 :00:50:56:bc:24:55
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=11 Mac=00:50:56:bc:24:55 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 13 :00:50:56:bc:2c:9f
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=12 Mac=00:50:56:bc:2c:9f Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 14 :00:50:56:bc:3a:ea
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=13 Mac=00:50:56:bc:3a:ea Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 15 :00:50:56:bc:3a:f3
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=14 Mac=00:50:56:bc:3a:f3 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 16 :00:50:56:bc:3e:65
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=15 Mac=00:50:56:bc:3e:65 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 17 :00:50:56:bc:49:ae
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=16 Mac=00:50:56:bc:49:ae Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 18 :00:50:56:bc:4e:ea
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=17 Mac=00:50:56:bc:4e:ea Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 19 :00:50:56:bc:4f:45
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=18 Mac=00:50:56:bc:4f:45 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 20 :00:50:56:bc:64:ff
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 2
+Total Ipv4 packets = 2
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=19 Mac=00:50:56:bc:64:ff Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=2 Ipv6=0
+
+Node 21 :00:50:56:bc:66:e1
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=20 Mac=00:50:56:bc:66:e1 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 22 :00:50:56:bc:6b:61
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=21 Mac=00:50:56:bc:6b:61 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 23 :00:50:56:bc:6e:bb
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=22 Mac=00:50:56:bc:6e:bb Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 24 :00:50:56:bc:7c:c7
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=23 Mac=00:50:56:bc:7c:c7 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 25 :00:50:56:bc:7e:f9
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458563999	ENDTIME: 1458564009
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:39:59 node=24 Mac=00:50:56:bc:7e:f9 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+User plane traffic 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+[2J[1;1H
+
+
+Pcap file stats
+	| received | accepted | filtered | dropped | captured | error |
+	| 0	| 211	| 0	| 0	| 0	| 0	|
+Total packts = 143
+Total packetlen = 15216
+Avergae Packet size = 13KB
+Total number of nodes =19
+
+Node 1 :00:26:98:12:1a:42
+Total_protocols = 1
+
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Tcp packet total count = 61
+Total Ipv4 packets = 61
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=0 Mac=00:26:98:12:1a:42 Layer=0 TransPotocol=TCP Total_pkt=61 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=61 Ipv6=0
+Splunk 2016-03-21  08:40:10 node=0 Mac=00:26:98:12:1a:42 Layer=0 TransPotocol=TCP AppLayer= SSH Total_pkt=61 Total_Datalen=0
+
+Node 2 :00:50:56:bc:08:37
+Total_protocols = 1
+
+
+Protocol : TCP
+
+Tcp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Tcp packet total count = 38
+Total Ipv4 packets = 38
+Total Ipv6 packets = 0
+Tcp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=1 Mac=00:50:56:bc:08:37 Layer=0 TransPotocol=TCP Total_pkt=38 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=38 Ipv6=0
+Splunk 2016-03-21  08:40:10 node=1 Mac=00:50:56:bc:08:37 Layer=0 TransPotocol=TCP AppLayer= SSH Total_pkt=38 Total_Datalen=0
+
+Node 3 :00:50:56:bc:12:6c
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=2 Mac=00:50:56:bc:12:6c Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 4 :00:50:56:bc:13:13
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=3 Mac=00:50:56:bc:13:13 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 5 :00:50:56:bc:15:34
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=4 Mac=00:50:56:bc:15:34 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 6 :00:50:56:bc:24:96
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=5 Mac=00:50:56:bc:24:96 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 7 :00:50:56:bc:25:6b
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=6 Mac=00:50:56:bc:25:6b Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 8 :00:50:56:bc:28:54
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=7 Mac=00:50:56:bc:28:54 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 9 :00:50:56:bc:2c:9f
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=8 Mac=00:50:56:bc:2c:9f Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 10 :00:50:56:bc:38:f5
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=9 Mac=00:50:56:bc:38:f5 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 11 :00:50:56:bc:3b:31
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=10 Mac=00:50:56:bc:3b:31 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 12 :00:50:56:bc:4f:45
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=11 Mac=00:50:56:bc:4f:45 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 13 :00:50:56:bc:50:dc
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=12 Mac=00:50:56:bc:50:dc Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 14 :00:50:56:bc:5c:b8
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=13 Mac=00:50:56:bc:5c:b8 Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 15 :00:50:56:bc:70:2f
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=14 Mac=00:50:56:bc:70:2f Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+
+Node 16 :00:50:56:bc:78:0d
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=15 Mac=00:50:56:bc:78:0d Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 17 :00:50:56:bc:7a:85
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 1
+Total Ipv4 packets = 1
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=16 Mac=00:50:56:bc:7a:85 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+
+Node 18 :00:50:56:bc:7c:c7
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 2
+Total Ipv4 packets = 2
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=17 Mac=00:50:56:bc:7c:c7 Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=2 Ipv6=0
+
+Node 19 :00:50:56:bc:7d:bd
+Total_protocols = 1
+
+
+Protocol : UDP
+
+Udp layer Metrics
+
+STARTTIME: 1458564010	ENDTIME: 1458564020
+Udp packet total count = 3
+Total Ipv4 packets = 3
+Total Ipv6 packets = 0
+Udp data usage = 0MB
+Number of distincted sessions 0
+BandWidth usage 0Mbps
+Total Uplink data = 0MB
+Total Downlink data = 0MB
+Splunk 2016-03-21  08:40:10 node=18 Mac=00:50:56:bc:7d:bd Layer=0 TransPotocol=UDP Total_pkt=3 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=3 Ipv6=0
+User plane traffic 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
+
+Creating new Node 
+
