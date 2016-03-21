@@ -261,6 +261,8 @@ int main(int argc , char * argv [])
                }
                curtime.tv_sec += 60;// Give a sec time 
                //threadexit_status = pthread_timedjoin_np(threadId, NULL, &curtime);
+                  //pthread_join(threadId,NULL);
+                 sleep(3);//20 * 3 = 60 secs window size 
               if (threadexit_status != 0) {
               //Don't cancel a thread . if it has locked a resource the resource remains locked for ever Dead lock :(( 
                 //pthread_cancel(threadId);
