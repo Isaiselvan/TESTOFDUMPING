@@ -14,6 +14,7 @@ host:"googlesyndacation.com"@Google
 host:"venere.com"@Venere
 host:"kataweb.it",host:"repubblica.it"@Repubblica
 host:"ntop"@ntop
+host:"verizon.com"@verizon
 #  IP based Subprotocols
 #  Format:
 #  ip:<value>,ip:<value>,.....@<subproto>

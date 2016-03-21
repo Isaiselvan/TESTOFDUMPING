@@ -90,6 +90,8 @@ void protocolTCP::displaymetrics(std::string splunkkey) {
                << " BandWidth=" << (bandWidthCalc () / 1024 /1024 ) << " Total_Uplink=" 
                 << (m_totaluplink / 1024/1024) << " Total_DoLink=" << (m_totaldownlink/1024/1024) << 
                  " Ipv4=" << m_totalipv4 << " Ipv6=" << m_totalip6 << std::endl;
+
+  layerSeven.printStat(splunkkey);
 }
 
 int protocolTCP::getPercUplink(){}

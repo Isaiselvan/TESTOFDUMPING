@@ -10,7 +10,7 @@ APP_OBJS = tcpProto.o\
            main.o
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
-NDPIINC = -I /usr/local/include/libndpi-1.7.0/libndpi/
+NDPIINC = -I /usr/local/include/libndpi-1.7.1/libndpi/
 CPPFLAGS =  -lpthread -lrt -ltrace -DUSER_TCP_UDP
 NDPILIB =  -lndpi
 

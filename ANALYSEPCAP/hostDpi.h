@@ -5,16 +5,45 @@
 #include "libtrace_parallel.h"
 #include "packetCmm.h"
 
+#define NUM_ROOTS                 512
+
 static u_int32_t detection_tick_resolution = 1000;
 static char *_protoFilePath = "./protos.txt";
 class appLayer 
 {
   struct ndpi_detection_module_struct *ndpi_struct;
-  u_int64_t protocol_counter[NDPI_MAX_SUPPORTED_PROTOCOLS + NDPI_MAX_NUM_CUSTOM_PROTOCOLS + 1];
-  u_int64_t protocol_counter_bytes[NDPI_MAX_SUPPORTED_PROTOCOLS + NDPI_MAX_NUM_CUSTOM_PROTOCOLS + 1]; 
+  long long unsigned int protocol_counter[NDPI_MAX_SUPPORTED_PROTOCOLS + NDPI_MAX_NUM_CUSTOM_PROTOCOLS + 1];
+  long long unsigned int protocol_counter_bytes[NDPI_MAX_SUPPORTED_PROTOCOLS + NDPI_MAX_NUM_CUSTOM_PROTOCOLS + 1]; 
 
   u_int32_t size_id_struct ;
   u_int32_t size_flow_struct ;
+
+  typedef struct ndpi_flow {
+  u_int32_t lower_ip;
+  u_int32_t upper_ip;
+  u_int16_t lower_port;
+  u_int16_t upper_port;
+  u_int8_t detection_completed, protocol;
+  u_int16_t vlan_id;
+  struct ndpi_flow_struct *ndpi_flow;
+  char lower_name[48], upper_name[48];
+  u_int8_t ip_version;
+  u_int64_t last_seen;
+  u_int64_t bytes;
+  u_int32_t packets;
+
+  // result only, not used for flow identification
+  ndpi_protocol detected_protocol;
+
+  char host_server_name[192];
+  char bittorent_hash[41];
+
+  struct {
+    char client_certificate[48], server_certificate[48];
+  } ssl;
+
+  ndpi_id_struct *src, *dst;
+  } ndpi_flow_t;
 
 static void *malloc_wrapper(unsigned long size) {
 

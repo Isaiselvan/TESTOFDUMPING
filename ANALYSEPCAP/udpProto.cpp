@@ -24,8 +24,9 @@ int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet &udppkt)
 
     //m_pkt.push_back(udppkt); //Comment
          
- // Add session logic
- 
+ // Add AppLayer
+    layerSeven.processPkt(pkt, udppkt);
+     
  // Adding to lte , Will be added only if it has a Gtp
     getLteDash()->parseGtp(pkt, (char *)udppkt.pay_load);
 
