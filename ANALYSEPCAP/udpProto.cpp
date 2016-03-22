@@ -96,6 +96,9 @@ void protocolUDP::displaymetrics(std::string splunkkey) {
                  " Ipv4=" << m_totalipv4 << " Ipv6=" << m_totalip6 << std::endl;
    // Print lte stats
      getLteDash()->printstats(splunkkey);
+
+   // Applayer info
+      layerSeven.printStat(splunkkey);    
 }
 
 
