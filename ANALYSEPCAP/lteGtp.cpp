@@ -88,8 +88,10 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
     
 
    char *gtp_payload = Gtp_ptr + gtpHr_len; 
-   gtpHeader.payLoadLen = gtpHeader.m_length - gtpHr_len;
-   memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.payLoadLen);
+   //gtpHeader.payLoadLen = gtpHeader.m_length - gtpHr_len;
+   int CapLen = 256 - gtpHr_len; // 256 captureLength 
+   gtpHeader.payLoadLen = CapLen;
+   memcpy (gtpHeader.payload, (void *)gtp_payload,  CapLen);
 
   if(gtpHeader.m_messageType == 255)// only G-PDU contains some user data 
     addPkt(pkt,gtpHeader); 

@@ -14,7 +14,7 @@ APP_OBJS = tcpProto.o\
 
 #CPPFLAGS 
 #LIBPATH  = -L /usr/local/lib/
-NDPIINC = -I /usr/local/include/libndpi-1.7.0/libndpi/
+NDPIINC = -I /usr/local/include/libndpi-1.7.1/libndpi/
 LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
 NDPILIB = -lndpi
 #LIBFLAGS = -DUSER_TCP_UDP
@@ -36,7 +36,7 @@ all: $(APPNAME)
 	
  
 $(APPNAME): $(APP_OBJS) 
-	$(CXX) -g main.cpp  -o $@ $(CPPFLAGS) $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB) 
+	$(CXX) -g main.cpp  -o $@ $(CPPFLAGS) $(NDPIINC) $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB) 
 	
 clean:
 	-rm -f *.o  $(APPNAME)
