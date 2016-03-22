@@ -7,7 +7,7 @@
 const char clr[] = { 27, '[', '2', 'J', '\0' };
 const char topLeft[] = { 27, '[', '1', ';', '1', 'H','\0' ,'\n', '\n'};
 std::string protcolname[20];
-
+pthread_mutex_t displayStats::disLock[MAX_LAYER];
 //displayStats * diBoard[] = {NULL,NULL};
 //displayStats * displayStats::displayBoard = diBoard;
 displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
@@ -141,7 +141,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
      
  
    // Access to data and Map So we lock
-    pthread_mutex_lock(&disLock);
+    pthread_mutex_lock(&disLock[layer]);
+    {
     if ( curIntEndtime == 0 )
       {
         curIntStarttime = pktTime;
@@ -166,20 +167,20 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
     
       if(protoBase == NULL)
       {
-       pthread_mutex_unlock(&disLock);
+       pthread_mutex_unlock(&disLock[layer]);
        return -1;
       }
 
       if(protoBase->addPkt(ptrpkt, pkt) == -1)// addPkt forced function implementation
       {
-       pthread_mutex_unlock(&disLock);
+       pthread_mutex_unlock(&disLock[layer]);
        return -1; 
       }
 
         totaldatalen+=pkt.getDataLen(); // getDataLen forced function imple
         totalpkts+=1; 
-  
-    pthread_mutex_unlock(&disLock);
+    }
+    pthread_mutex_unlock(&disLock[layer]);
 
    return 0; 
   }

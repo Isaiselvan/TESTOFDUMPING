@@ -1,19 +1,895 @@
-Splunk 2016-03-22  15:51:21 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=23 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=23 Ipv6=0
-Splunk 2016-03-22  15:51:21 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP AppLayer=Unknown Total_pkt=23 Total_Datalen=1942 bytes
-Splunk 2016-03-22  15:51:56 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=21 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=21 Ipv6=0
-Splunk 2016-03-22  15:51:56 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP AppLayer=Unknown Total_pkt=21 Total_Datalen=1750 bytes
-Splunk 2016-03-22  15:51:56 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=UDP Total_pkt=693117 Total_Datalen=1002 BandWidth=267 Total_Uplink=1002 Total_DoLink=0 Ipv4=693117 Ipv6=0
-Splunk 2016-03-22  15:51:56 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=UDP AppLayer=Unknown Total_pkt=693117 Total_Datalen=1050765372 bytes
-Splunk 2016-03-22  15:52:31 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=23 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=23 Ipv6=0
-Splunk 2016-03-22  15:52:31 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP AppLayer=Unknown Total_pkt=23 Total_Datalen=1942 bytes
-Splunk 2016-03-22  15:53:06 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=21 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=21 Ipv6=0
-Splunk 2016-03-22  15:53:06 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP AppLayer=Unknown Total_pkt=21 Total_Datalen=1750 bytes
-Splunk 2016-03-22  15:53:40 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=20 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=20 Ipv6=0
-Splunk 2016-03-22  15:53:40 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP AppLayer=Unknown Total_pkt=20 Total_Datalen=1692 bytes
-Splunk 2016-03-22  15:53:40 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
-Splunk 2016-03-22  15:53:40 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=3 Total_Datalen=312 bytes
-Splunk 2016-03-22  15:53:40 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=UDP AppLayer=COAP Total_pkt=1 Total_Datalen=149 bytes
-Splunk 2016-03-22  15:54:11 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=23 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=23 Ipv6=0
-Splunk 2016-03-22  15:54:11 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP AppLayer=Unknown Total_pkt=23 Total_Datalen=1942 bytes
-Splunk 2016-03-22  15:54:46 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP Total_pkt=21 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=21 Ipv6=0
-Splunk 2016-03-22  15:54:46 node=0 Mac=00:00:00:00:00:00 Layer=0 TransPotocol=TCP AppLayer=Unknown Total_pkt=21 Total_Datalen=1750 bytes
+Splunk 2016-03-22  16:54:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=24 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=24 Ipv6=0
+Splunk 2016-03-22  16:54:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=3 Total_Datalen=427 bytes
+Splunk 2016-03-22  16:54:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=21 Total_Datalen=8882 bytes
+Splunk 2016-03-22  16:54:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  16:54:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=5 Total_Datalen=1214 bytes
+Splunk 2016-03-22  16:54:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3461 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3461 Ipv6=0
+Splunk 2016-03-22  16:54:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=3 Total_Datalen=656 bytes
+Splunk 2016-03-22  16:54:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=13 Total_Datalen=11670 bytes
+Splunk 2016-03-22  16:54:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3444 Total_Datalen=60371400 bytes
+Splunk 2016-03-22  16:54:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=NetFlix Total_pkt=1 Total_Datalen=259 bytes
+Splunk 2016-03-22  16:54:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  16:54:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=Yahoo Total_pkt=2 Total_Datalen=166 bytes
+Splunk 2016-03-22  16:54:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=3 Total_Datalen=237 bytes
+Splunk 2016-03-22  16:54:59 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8078 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8078 Ipv6=0
+Splunk 2016-03-22  16:54:59 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8078 Total_Datalen=692852 bytes
+Splunk 2016-03-22  16:55:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=29 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=29 Ipv6=0
+Splunk 2016-03-22  16:55:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=3 Total_Datalen=579 bytes
+Splunk 2016-03-22  16:55:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=26 Total_Datalen=8402 bytes
+Splunk 2016-03-22  16:55:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=12 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=12 Ipv6=0
+Splunk 2016-03-22  16:55:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=12 Total_Datalen=2786 bytes
+Splunk 2016-03-22  16:55:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3417 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3417 Ipv6=0
+Splunk 2016-03-22  16:55:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=3 Total_Datalen=390 bytes
+Splunk 2016-03-22  16:55:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=18774 bytes
+Splunk 2016-03-22  16:55:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3399 Total_Datalen=60275910 bytes
+Splunk 2016-03-22  16:55:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=12 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=12 Ipv6=0
+Splunk 2016-03-22  16:55:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=Yahoo Total_pkt=6 Total_Datalen=480 bytes
+Splunk 2016-03-22  16:55:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:55:10 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8115 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8115 Ipv6=0
+Splunk 2016-03-22  16:55:10 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8115 Total_Datalen=695882 bytes
+Splunk 2016-03-22  16:55:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=20 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=20 Ipv6=0
+Splunk 2016-03-22  16:55:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=20 Total_Datalen=6752 bytes
+Splunk 2016-03-22  16:55:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  16:55:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=8 Total_Datalen=2198 bytes
+Splunk 2016-03-22  16:55:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3550 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3550 Ipv6=0
+Splunk 2016-03-22  16:55:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=11 Total_Datalen=15759 bytes
+Splunk 2016-03-22  16:55:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3539 Total_Datalen=60377022 bytes
+Splunk 2016-03-22  16:55:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  16:55:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=Yahoo Total_pkt=2 Total_Datalen=166 bytes
+Splunk 2016-03-22  16:55:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:55:21 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8103 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8103 Ipv6=0
+Splunk 2016-03-22  16:55:21 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=Oscar Total_pkt=1 Total_Datalen=154 bytes
+Splunk 2016-03-22  16:55:21 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8102 Total_Datalen=694568 bytes
+Splunk 2016-03-22  16:55:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=32 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=32 Ipv6=0
+Splunk 2016-03-22  16:55:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  16:55:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=16 Total_Datalen=5075 bytes
+Splunk 2016-03-22  16:55:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=Google Total_pkt=12 Total_Datalen=1624 bytes
+Splunk 2016-03-22  16:55:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  16:55:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=8 Total_Datalen=1838 bytes
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3240 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3240 Ipv6=0
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=9 Total_Datalen=11291 bytes
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3217 Total_Datalen=56943450 bytes
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=Google Total_pkt=10 Total_Datalen=2495 bytes
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=9 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=9 Ipv6=0
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=Yahoo Total_pkt=2 Total_Datalen=166 bytes
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=Google Total_pkt=3 Total_Datalen=273 bytes
+Splunk 2016-03-22  16:55:32 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  16:55:32 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7744 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7744 Ipv6=0
+Splunk 2016-03-22  16:55:32 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7744 Total_Datalen=661544 bytes
+Splunk 2016-03-22  16:55:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=25 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=25 Ipv6=0
+Splunk 2016-03-22  16:55:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  16:55:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=23 Total_Datalen=7172 bytes
+Splunk 2016-03-22  16:55:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=9 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=9 Ipv6=0
+Splunk 2016-03-22  16:55:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=9 Total_Datalen=2640 bytes
+Splunk 2016-03-22  16:55:43 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3043 Total_Datalen=50 BandWidth=40 Total_Uplink=50 Total_DoLink=0 Ipv4=3043 Ipv6=0
+Splunk 2016-03-22  16:55:43 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  16:55:43 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=11 Total_Datalen=16806 bytes
+Splunk 2016-03-22  16:55:43 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3030 Total_Datalen=52690796 bytes
+Splunk 2016-03-22  16:55:43 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  16:55:43 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=8 Total_Datalen=632 bytes
+Splunk 2016-03-22  16:55:43 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7270 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7270 Ipv6=0
+Splunk 2016-03-22  16:55:43 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7270 Total_Datalen=620088 bytes
+Splunk 2016-03-22  16:55:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=12 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=12 Ipv6=0
+Splunk 2016-03-22  16:55:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=12 Total_Datalen=3620 bytes
+Splunk 2016-03-22  16:55:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:55:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  16:55:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3378 Total_Datalen=55 BandWidth=44 Total_Uplink=55 Total_DoLink=0 Ipv4=3378 Ipv6=0
+Splunk 2016-03-22  16:55:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=8506 bytes
+Splunk 2016-03-22  16:55:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3371 Total_Datalen=58059726 bytes
+Splunk 2016-03-22  16:55:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:55:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  16:55:54 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7833 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7833 Ipv6=0
+Splunk 2016-03-22  16:55:54 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7833 Total_Datalen=670900 bytes
+Splunk 2016-03-22  16:56:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=34 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=34 Ipv6=0
+Splunk 2016-03-22  16:56:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  16:56:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=30 Total_Datalen=9803 bytes
+Splunk 2016-03-22  16:56:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:56:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  16:56:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3042 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3042 Ipv6=0
+Splunk 2016-03-22  16:56:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  16:56:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=19 Total_Datalen=14188 bytes
+Splunk 2016-03-22  16:56:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3019 Total_Datalen=53978990 bytes
+Splunk 2016-03-22  16:56:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  16:56:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=5 Total_Datalen=395 bytes
+Splunk 2016-03-22  16:56:05 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7348 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7348 Ipv6=0
+Splunk 2016-03-22  16:56:05 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7348 Total_Datalen=628016 bytes
+Splunk 2016-03-22  16:56:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=14 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=14 Ipv6=0
+Splunk 2016-03-22  16:56:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  16:56:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=12 Total_Datalen=3621 bytes
+Splunk 2016-03-22  16:56:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  16:56:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=5 Total_Datalen=1512 bytes
+Splunk 2016-03-22  16:56:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3071 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3071 Ipv6=0
+Splunk 2016-03-22  16:56:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  16:56:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=8506 bytes
+Splunk 2016-03-22  16:56:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3062 Total_Datalen=53796876 bytes
+Splunk 2016-03-22  16:56:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  16:56:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=5 Total_Datalen=395 bytes
+Splunk 2016-03-22  16:56:16 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7448 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7448 Ipv6=0
+Splunk 2016-03-22  16:56:16 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7448 Total_Datalen=633780 bytes
+Splunk 2016-03-22  16:56:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=18 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=18 Ipv6=0
+Splunk 2016-03-22  16:56:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=18 Total_Datalen=5431 bytes
+Splunk 2016-03-22  16:56:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:56:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:56:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3322 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3322 Ipv6=0
+Splunk 2016-03-22  16:56:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=9 Total_Datalen=13082 bytes
+Splunk 2016-03-22  16:56:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3313 Total_Datalen=57318394 bytes
+Splunk 2016-03-22  16:56:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:56:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:56:27 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7754 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7754 Ipv6=0
+Splunk 2016-03-22  16:56:27 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7754 Total_Datalen=663508 bytes
+Splunk 2016-03-22  16:56:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=29 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=29 Ipv6=0
+Splunk 2016-03-22  16:56:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  16:56:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=17 Total_Datalen=5362 bytes
+Splunk 2016-03-22  16:56:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=Google Total_pkt=6 Total_Datalen=480 bytes
+Splunk 2016-03-22  16:56:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:56:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:56:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3417 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3417 Ipv6=0
+Splunk 2016-03-22  16:56:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  16:56:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=9 Total_Datalen=13090 bytes
+Splunk 2016-03-22  16:56:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3398 Total_Datalen=60368764 bytes
+Splunk 2016-03-22  16:56:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=Google Total_pkt=4 Total_Datalen=403 bytes
+Splunk 2016-03-22  16:56:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:56:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:56:38 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8171 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8171 Ipv6=0
+Splunk 2016-03-22  16:56:38 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8171 Total_Datalen=699008 bytes
+Splunk 2016-03-22  16:56:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=12 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=12 Ipv6=0
+Splunk 2016-03-22  16:56:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=12 Total_Datalen=3620 bytes
+Splunk 2016-03-22  16:56:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:56:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  16:56:49 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3509 Total_Datalen=57 BandWidth=45 Total_Uplink=57 Total_DoLink=0 Ipv4=3509 Ipv6=0
+Splunk 2016-03-22  16:56:49 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=8507 bytes
+Splunk 2016-03-22  16:56:49 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3502 Total_Datalen=60281948 bytes
+Splunk 2016-03-22  16:56:49 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:56:49 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  16:56:49 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8111 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8111 Ipv6=0
+Splunk 2016-03-22  16:56:49 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8111 Total_Datalen=694970 bytes
+Splunk 2016-03-22  16:57:00 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=23 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=23 Ipv6=0
+Splunk 2016-03-22  16:57:00 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=23 Total_Datalen=5827 bytes
+Splunk 2016-03-22  16:57:00 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:57:00 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:57:00 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3498 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3498 Ipv6=0
+Splunk 2016-03-22  16:57:00 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=13 Total_Datalen=13408 bytes
+Splunk 2016-03-22  16:57:00 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3485 Total_Datalen=60373346 bytes
+Splunk 2016-03-22  16:57:00 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:57:00 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:57:00 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8158 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8158 Ipv6=0
+Splunk 2016-03-22  16:57:00 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8158 Total_Datalen=698388 bytes
+Splunk 2016-03-22  16:57:11 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=25 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=25 Ipv6=0
+Splunk 2016-03-22  16:57:11 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  16:57:11 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=19 Total_Datalen=4141 bytes
+Splunk 2016-03-22  16:57:11 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:57:11 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  16:57:11 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3498 Total_Datalen=56 BandWidth=45 Total_Uplink=56 Total_DoLink=0 Ipv4=3498 Ipv6=0
+Splunk 2016-03-22  16:57:11 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  16:57:11 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=12 Total_Datalen=8937 bytes
+Splunk 2016-03-22  16:57:11 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3480 Total_Datalen=59265840 bytes
+Splunk 2016-03-22  16:57:11 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:57:11 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  16:57:11 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8005 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8005 Ipv6=0
+Splunk 2016-03-22  16:57:11 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=Oscar Total_pkt=1 Total_Datalen=186 bytes
+Splunk 2016-03-22  16:57:11 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8004 Total_Datalen=685300 bytes
+Splunk 2016-03-22  16:57:22 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=24 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=24 Ipv6=0
+Splunk 2016-03-22  16:57:22 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=24 Total_Datalen=9307 bytes
+Splunk 2016-03-22  16:57:22 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:57:22 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1152 bytes
+Splunk 2016-03-22  16:57:22 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3484 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3484 Ipv6=0
+Splunk 2016-03-22  16:57:22 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=13892 bytes
+Splunk 2016-03-22  16:57:22 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3469 Total_Datalen=60280354 bytes
+Splunk 2016-03-22  16:57:22 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  16:57:22 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=5 Total_Datalen=395 bytes
+Splunk 2016-03-22  16:57:22 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8101 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8101 Ipv6=0
+Splunk 2016-03-22  16:57:22 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8101 Total_Datalen=694240 bytes
+Splunk 2016-03-22  16:57:33 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=22 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=22 Ipv6=0
+Splunk 2016-03-22  16:57:33 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  16:57:33 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=18 Total_Datalen=5433 bytes
+Splunk 2016-03-22  16:57:33 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:57:33 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  16:57:33 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3501 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3501 Ipv6=0
+Splunk 2016-03-22  16:57:33 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  16:57:33 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=12326 bytes
+Splunk 2016-03-22  16:57:33 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3487 Total_Datalen=60281158 bytes
+Splunk 2016-03-22  16:57:33 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:57:33 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  16:57:33 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8102 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8102 Ipv6=0
+Splunk 2016-03-22  16:57:33 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8102 Total_Datalen=694298 bytes
+Splunk 2016-03-22  16:57:44 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=17 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=17 Ipv6=0
+Splunk 2016-03-22  16:57:44 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  16:57:44 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5223 bytes
+Splunk 2016-03-22  16:57:44 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:57:44 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=1 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=0
+Splunk 2016-03-22  16:57:44 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:57:44 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3595 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3595 Ipv6=0
+Splunk 2016-03-22  16:57:44 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  16:57:44 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12945 bytes
+Splunk 2016-03-22  16:57:44 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3586 Total_Datalen=60379204 bytes
+Splunk 2016-03-22  16:57:44 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:57:44 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=1 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=0 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=0
+Splunk 2016-03-22  16:57:44 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:57:44 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8117 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8117 Ipv6=0
+Splunk 2016-03-22  16:57:44 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8117 Total_Datalen=695642 bytes
+Splunk 2016-03-22  16:57:55 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  16:57:55 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5223 bytes
+Splunk 2016-03-22  16:57:55 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:57:55 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:57:55 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3443 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3443 Ipv6=0
+Splunk 2016-03-22  16:57:55 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12946 bytes
+Splunk 2016-03-22  16:57:55 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3436 Total_Datalen=60370616 bytes
+Splunk 2016-03-22  16:57:55 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:57:55 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:57:55 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8145 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8145 Ipv6=0
+Splunk 2016-03-22  16:57:55 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8145 Total_Datalen=697550 bytes
+Splunk 2016-03-22  16:58:06 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  16:58:06 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  16:58:06 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=3 Total_Datalen=210 bytes
+Splunk 2016-03-22  16:58:06 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3418 Total_Datalen=57 BandWidth=45 Total_Uplink=57 Total_DoLink=0 Ipv4=3418 Ipv6=0
+Splunk 2016-03-22  16:58:06 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  16:58:06 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=3 Total_Datalen=210 bytes
+Splunk 2016-03-22  16:58:06 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3411 Total_Datalen=60276894 bytes
+Splunk 2016-03-22  16:58:06 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8148 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8148 Ipv6=0
+Splunk 2016-03-22  16:58:06 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8148 Total_Datalen=697614 bytes
+Splunk 2016-03-22  16:58:17 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=27 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=27 Ipv6=0
+Splunk 2016-03-22  16:58:17 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  16:58:17 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=25 Total_Datalen=10816 bytes
+Splunk 2016-03-22  16:58:17 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:58:17 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  16:58:17 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3428 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3428 Ipv6=0
+Splunk 2016-03-22  16:58:17 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  16:58:17 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=13 Total_Datalen=17080 bytes
+Splunk 2016-03-22  16:58:17 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3412 Total_Datalen=60368888 bytes
+Splunk 2016-03-22  16:58:17 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=NetFlix Total_pkt=1 Total_Datalen=259 bytes
+Splunk 2016-03-22  16:58:17 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:58:17 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  16:58:17 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8093 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8093 Ipv6=0
+Splunk 2016-03-22  16:58:17 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8093 Total_Datalen=693876 bytes
+Splunk 2016-03-22  16:58:28 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=17 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=17 Ipv6=0
+Splunk 2016-03-22  16:58:28 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=17 Total_Datalen=5360 bytes
+Splunk 2016-03-22  16:58:28 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:58:28 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:58:28 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3208 Total_Datalen=52 BandWidth=41 Total_Uplink=52 Total_DoLink=0 Ipv4=3208 Ipv6=0
+Splunk 2016-03-22  16:58:28 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=8 Total_Datalen=13013 bytes
+Splunk 2016-03-22  16:58:28 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3200 Total_Datalen=54542608 bytes
+Splunk 2016-03-22  16:58:28 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:58:28 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:58:28 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7449 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7449 Ipv6=0
+Splunk 2016-03-22  16:58:28 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7449 Total_Datalen=635894 bytes
+Splunk 2016-03-22  16:58:39 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=21 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=21 Ipv6=0
+Splunk 2016-03-22  16:58:39 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  16:58:39 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=3832 bytes
+Splunk 2016-03-22  16:58:39 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:58:39 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:58:39 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3070 Total_Datalen=50 BandWidth=40 Total_Uplink=50 Total_DoLink=0 Ipv4=3070 Ipv6=0
+Splunk 2016-03-22  16:58:39 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  16:58:39 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12945 bytes
+Splunk 2016-03-22  16:58:39 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3057 Total_Datalen=53427034 bytes
+Splunk 2016-03-22  16:58:39 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:58:39 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:58:39 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7381 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7381 Ipv6=0
+Splunk 2016-03-22  16:58:39 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7381 Total_Datalen=628264 bytes
+Splunk 2016-03-22  16:58:50 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=12 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=12 Ipv6=0
+Splunk 2016-03-22  16:58:50 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=12 Total_Datalen=5011 bytes
+Splunk 2016-03-22  16:58:50 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:58:50 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  16:58:50 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3142 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3142 Ipv6=0
+Splunk 2016-03-22  16:58:50 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=8505 bytes
+Splunk 2016-03-22  16:58:50 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3135 Total_Datalen=53801014 bytes
+Splunk 2016-03-22  16:58:50 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:58:50 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  16:58:50 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7428 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7428 Ipv6=0
+Splunk 2016-03-22  16:58:50 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7428 Total_Datalen=632744 bytes
+Splunk 2016-03-22  16:59:01 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=16 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=16 Ipv6=0
+Splunk 2016-03-22  16:59:01 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=16 Total_Datalen=5340 bytes
+Splunk 2016-03-22  16:59:01 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  16:59:01 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=5 Total_Datalen=1512 bytes
+Splunk 2016-03-22  16:59:01 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3232 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3232 Ipv6=0
+Splunk 2016-03-22  16:59:01 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=8 Total_Datalen=13013 bytes
+Splunk 2016-03-22  16:59:01 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3224 Total_Datalen=57313232 bytes
+Splunk 2016-03-22  16:59:01 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:59:01 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:59:01 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7774 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7774 Ipv6=0
+Splunk 2016-03-22  16:59:01 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7774 Total_Datalen=664756 bytes
+Splunk 2016-03-22  16:59:12 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=17 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=17 Ipv6=0
+Splunk 2016-03-22  16:59:12 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  16:59:12 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=11 Total_Datalen=3552 bytes
+Splunk 2016-03-22  16:59:12 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=2 Ipv6=0
+Splunk 2016-03-22  16:59:12 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=2 Total_Datalen=624 bytes
+Splunk 2016-03-22  16:59:12 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3598 Total_Datalen=56 BandWidth=44 Total_Uplink=56 Total_DoLink=0 Ipv4=3598 Ipv6=0
+Splunk 2016-03-22  16:59:12 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  16:59:12 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=6 Total_Datalen=8441 bytes
+Splunk 2016-03-22  16:59:12 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3586 Total_Datalen=58721364 bytes
+Splunk 2016-03-22  16:59:12 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=2 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=2 Ipv6=0
+Splunk 2016-03-22  16:59:12 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=2 Total_Datalen=158 bytes
+Splunk 2016-03-22  16:59:12 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7852 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7852 Ipv6=0
+Splunk 2016-03-22  16:59:12 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7852 Total_Datalen=675094 bytes
+Splunk 2016-03-22  16:59:23 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=24 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=24 Ipv6=0
+Splunk 2016-03-22  16:59:23 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=24 Total_Datalen=7274 bytes
+Splunk 2016-03-22  16:59:23 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  16:59:23 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=8 Total_Datalen=2496 bytes
+Splunk 2016-03-22  16:59:23 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3594 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3594 Ipv6=0
+Splunk 2016-03-22  16:59:23 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=14 Total_Datalen=17010 bytes
+Splunk 2016-03-22  16:59:23 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3580 Total_Datalen=57610792 bytes
+Splunk 2016-03-22  16:59:23 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  16:59:23 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=8 Total_Datalen=632 bytes
+Splunk 2016-03-22  16:59:23 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7728 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7728 Ipv6=0
+Splunk 2016-03-22  16:59:23 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7728 Total_Datalen=662538 bytes
+Splunk 2016-03-22  16:59:34 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=10 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=10 Ipv6=0
+Splunk 2016-03-22  16:59:34 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3480 bytes
+Splunk 2016-03-22  16:59:34 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:59:34 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  16:59:34 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3155 Total_Datalen=53 BandWidth=42 Total_Uplink=53 Total_DoLink=0 Ipv4=3155 Ipv6=0
+Splunk 2016-03-22  16:59:34 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8371 bytes
+Splunk 2016-03-22  16:59:34 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3150 Total_Datalen=56293404 bytes
+Splunk 2016-03-22  16:59:34 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  16:59:34 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  16:59:34 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7623 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7623 Ipv6=0
+Splunk 2016-03-22  16:59:34 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7623 Total_Datalen=652122 bytes
+Splunk 2016-03-22  16:59:45 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=21 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=21 Ipv6=0
+Splunk 2016-03-22  16:59:45 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  16:59:45 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5220 bytes
+Splunk 2016-03-22  16:59:45 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:59:45 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:59:45 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3364 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3364 Ipv6=0
+Splunk 2016-03-22  16:59:45 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  16:59:45 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12941 bytes
+Splunk 2016-03-22  16:59:45 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3351 Total_Datalen=60365862 bytes
+Splunk 2016-03-22  16:59:45 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:59:45 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:59:45 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8092 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8092 Ipv6=0
+Splunk 2016-03-22  16:59:45 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8092 Total_Datalen=693928 bytes
+Splunk 2016-03-22  16:59:56 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=20 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=20 Ipv6=0
+Splunk 2016-03-22  16:59:56 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=20 Total_Datalen=5602 bytes
+Splunk 2016-03-22  16:59:56 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:59:56 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  16:59:56 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3053 Total_Datalen=50 BandWidth=40 Total_Uplink=50 Total_DoLink=0 Ipv4=3053 Ipv6=0
+Splunk 2016-03-22  16:59:56 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=13144 bytes
+Splunk 2016-03-22  16:59:56 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3043 Total_Datalen=53062206 bytes
+Splunk 2016-03-22  16:59:56 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  16:59:56 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  16:59:56 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7177 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7177 Ipv6=0
+Splunk 2016-03-22  16:59:56 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7177 Total_Datalen=620902 bytes
+Splunk 2016-03-22  17:00:07 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=19 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=19 Ipv6=0
+Splunk 2016-03-22  17:00:07 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  17:00:07 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=7287 bytes
+Splunk 2016-03-22  17:00:07 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:00:07 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:00:07 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3398 Total_Datalen=55 BandWidth=44 Total_Uplink=55 Total_DoLink=0 Ipv4=3398 Ipv6=0
+Splunk 2016-03-22  17:00:07 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  17:00:07 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=9 Total_Datalen=9001 bytes
+Splunk 2016-03-22  17:00:07 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3385 Total_Datalen=58245098 bytes
+Splunk 2016-03-22  17:00:07 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:00:07 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:00:07 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7795 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7795 Ipv6=0
+Splunk 2016-03-22  17:00:07 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7795 Total_Datalen=668710 bytes
+Splunk 2016-03-22  17:00:18 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=17 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=17 Ipv6=0
+Splunk 2016-03-22  17:00:18 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  17:00:18 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5223 bytes
+Splunk 2016-03-22  17:00:18 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:00:18 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:00:18 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3176 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3176 Ipv6=0
+Splunk 2016-03-22  17:00:18 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  17:00:18 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12946 bytes
+Splunk 2016-03-22  17:00:18 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3167 Total_Datalen=56755830 bytes
+Splunk 2016-03-22  17:00:18 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:00:18 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:00:18 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7737 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7737 Ipv6=0
+Splunk 2016-03-22  17:00:18 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7737 Total_Datalen=660678 bytes
+Splunk 2016-03-22  17:00:29 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=10 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=10 Ipv6=0
+Splunk 2016-03-22  17:00:29 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3481 bytes
+Splunk 2016-03-22  17:00:29 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:00:29 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:00:29 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3010 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3010 Ipv6=0
+Splunk 2016-03-22  17:00:29 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8365 bytes
+Splunk 2016-03-22  17:00:29 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3005 Total_Datalen=53978402 bytes
+Splunk 2016-03-22  17:00:29 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:00:29 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:00:29 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7433 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7433 Ipv6=0
+Splunk 2016-03-22  17:00:29 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7433 Total_Datalen=633334 bytes
+Splunk 2016-03-22  17:00:40 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=19 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=19 Ipv6=0
+Splunk 2016-03-22  17:00:40 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  17:00:40 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5222 bytes
+Splunk 2016-03-22  17:00:40 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:00:40 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=1 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=0
+Splunk 2016-03-22  17:00:40 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:00:40 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3234 Total_Datalen=51 BandWidth=40 Total_Uplink=51 Total_DoLink=0 Ipv4=3234 Ipv6=0
+Splunk 2016-03-22  17:00:40 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  17:00:40 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12950 bytes
+Splunk 2016-03-22  17:00:40 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3223 Total_Datalen=53713638 bytes
+Splunk 2016-03-22  17:00:40 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:00:40 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP LteProtocol=GTP  Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Create_PDP_Context_Request=0 Create_PDP_Context_Response=0 Update_PDP_Context_Request=0 Update_PDP_Context_Response=1 Delete_PDP_Context_Request=0 Delete_PDP_Context_Response=0 Error_Indication=0 G-PDU=0
+Splunk 2016-03-22  17:00:40 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:00:40 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7408 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7408 Ipv6=0
+Splunk 2016-03-22  17:00:40 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7408 Total_Datalen=630982 bytes
+Splunk 2016-03-22  17:00:51 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=13 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=13 Ipv6=0
+Splunk 2016-03-22  17:00:51 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  17:00:51 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=11 Total_Datalen=3550 bytes
+Splunk 2016-03-22  17:00:51 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:00:51 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:00:51 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=2964 Total_Datalen=50 BandWidth=40 Total_Uplink=50 Total_DoLink=0 Ipv4=2964 Ipv6=0
+Splunk 2016-03-22  17:00:51 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  17:00:51 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8366 bytes
+Splunk 2016-03-22  17:00:51 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=2957 Total_Datalen=53329442 bytes
+Splunk 2016-03-22  17:00:51 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:00:51 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:00:51 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7339 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7339 Ipv6=0
+Splunk 2016-03-22  17:00:51 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7339 Total_Datalen=625788 bytes
+Splunk 2016-03-22  17:01:02 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:01:02 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5222 bytes
+Splunk 2016-03-22  17:01:02 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:01:02 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:01:02 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3051 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3051 Ipv6=0
+Splunk 2016-03-22  17:01:02 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12944 bytes
+Splunk 2016-03-22  17:01:02 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3044 Total_Datalen=54165080 bytes
+Splunk 2016-03-22  17:01:02 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:01:02 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:01:02 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7466 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7466 Ipv6=0
+Splunk 2016-03-22  17:01:02 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7466 Total_Datalen=635774 bytes
+Splunk 2016-03-22  17:01:13 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=26 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=26 Ipv6=0
+Splunk 2016-03-22  17:01:13 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  17:01:13 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=20 Total_Datalen=5611 bytes
+Splunk 2016-03-22  17:01:13 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  17:01:13 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=5 Total_Datalen=1416 bytes
+Splunk 2016-03-22  17:01:13 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3296 Total_Datalen=53 BandWidth=43 Total_Uplink=53 Total_DoLink=0 Ipv4=3296 Ipv6=0
+Splunk 2016-03-22  17:01:13 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  17:01:13 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=11 Total_Datalen=13749 bytes
+Splunk 2016-03-22  17:01:13 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3279 Total_Datalen=56578038 bytes
+Splunk 2016-03-22  17:01:13 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  17:01:13 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=7 Total_Datalen=553 bytes
+Splunk 2016-03-22  17:01:13 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7689 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7689 Ipv6=0
+Splunk 2016-03-22  17:01:13 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7689 Total_Datalen=656944 bytes
+Splunk 2016-03-22  17:01:24 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:01:24 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5406 bytes
+Splunk 2016-03-22  17:01:24 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  17:01:24 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=5 Total_Datalen=1608 bytes
+Splunk 2016-03-22  17:01:24 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3198 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3198 Ipv6=0
+Splunk 2016-03-22  17:01:24 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=8 Total_Datalen=12203 bytes
+Splunk 2016-03-22  17:01:24 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3190 Total_Datalen=56849788 bytes
+Splunk 2016-03-22  17:01:24 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:01:24 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:01:24 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7687 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7687 Ipv6=0
+Splunk 2016-03-22  17:01:24 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7687 Total_Datalen=657960 bytes
+Splunk 2016-03-22  17:01:35 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=16 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=16 Ipv6=0
+Splunk 2016-03-22  17:01:35 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=16 Total_Datalen=5291 bytes
+Splunk 2016-03-22  17:01:35 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:01:35 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:01:35 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3035 Total_Datalen=51 BandWidth=40 Total_Uplink=51 Total_DoLink=0 Ipv4=3035 Ipv6=0
+Splunk 2016-03-22  17:01:35 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=8 Total_Datalen=13019 bytes
+Splunk 2016-03-22  17:01:35 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3027 Total_Datalen=53702922 bytes
+Splunk 2016-03-22  17:01:35 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:01:35 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:01:35 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7368 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7368 Ipv6=0
+Splunk 2016-03-22  17:01:35 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=Oscar Total_pkt=1 Total_Datalen=154 bytes
+Splunk 2016-03-22  17:01:35 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7367 Total_Datalen=627734 bytes
+Splunk 2016-03-22  17:01:46 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=16 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=16 Ipv6=0
+Splunk 2016-03-22  17:01:46 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  17:01:46 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3480 bytes
+Splunk 2016-03-22  17:01:46 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:01:46 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:01:46 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3142 Total_Datalen=53 BandWidth=42 Total_Uplink=53 Total_DoLink=0 Ipv4=3142 Ipv6=0
+Splunk 2016-03-22  17:01:46 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  17:01:46 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8367 bytes
+Splunk 2016-03-22  17:01:46 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3131 Total_Datalen=56108270 bytes
+Splunk 2016-03-22  17:01:46 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:01:46 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:01:46 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7628 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7628 Ipv6=0
+Splunk 2016-03-22  17:01:46 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7628 Total_Datalen=652564 bytes
+Splunk 2016-03-22  17:01:57 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=16 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=16 Ipv6=0
+Splunk 2016-03-22  17:01:57 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=16 Total_Datalen=5293 bytes
+Splunk 2016-03-22  17:01:57 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:01:57 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:01:57 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3076 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3076 Ipv6=0
+Splunk 2016-03-22  17:01:57 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12944 bytes
+Splunk 2016-03-22  17:01:57 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3069 Total_Datalen=53797138 bytes
+Splunk 2016-03-22  17:01:57 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:01:57 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:01:57 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7418 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7418 Ipv6=0
+Splunk 2016-03-22  17:01:57 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7418 Total_Datalen=631590 bytes
+Splunk 2016-03-22  17:02:08 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=13 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=13 Ipv6=0
+Splunk 2016-03-22  17:02:08 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=3 Total_Datalen=427 bytes
+Splunk 2016-03-22  17:02:08 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3480 bytes
+Splunk 2016-03-22  17:02:08 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:02:08 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:02:08 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3021 Total_Datalen=51 BandWidth=40 Total_Uplink=51 Total_DoLink=0 Ipv4=3021 Ipv6=0
+Splunk 2016-03-22  17:02:08 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=3 Total_Datalen=656 bytes
+Splunk 2016-03-22  17:02:08 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8368 bytes
+Splunk 2016-03-22  17:02:08 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3013 Total_Datalen=53609058 bytes
+Splunk 2016-03-22  17:02:08 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:02:08 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:02:08 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7378 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7378 Ipv6=0
+Splunk 2016-03-22  17:02:08 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7378 Total_Datalen=628522 bytes
+Splunk 2016-03-22  17:02:19 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=22 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=22 Ipv6=0
+Splunk 2016-03-22  17:02:19 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=3 Total_Datalen=579 bytes
+Splunk 2016-03-22  17:02:19 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=19 Total_Datalen=5534 bytes
+Splunk 2016-03-22  17:02:19 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:02:19 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:02:19 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3187 Total_Datalen=53 BandWidth=43 Total_Uplink=53 Total_DoLink=0 Ipv4=3187 Ipv6=0
+Splunk 2016-03-22  17:02:19 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=3 Total_Datalen=390 bytes
+Splunk 2016-03-22  17:02:19 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=13151 bytes
+Splunk 2016-03-22  17:02:19 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3174 Total_Datalen=56571452 bytes
+Splunk 2016-03-22  17:02:19 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:02:19 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:02:19 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7726 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7726 Ipv6=0
+Splunk 2016-03-22  17:02:19 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7726 Total_Datalen=659524 bytes
+Splunk 2016-03-22  17:02:30 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=21 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=21 Ipv6=0
+Splunk 2016-03-22  17:02:30 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=21 Total_Datalen=9097 bytes
+Splunk 2016-03-22  17:02:30 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  17:02:30 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=7 Total_Datalen=2136 bytes
+Splunk 2016-03-22  17:02:30 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3371 Total_Datalen=57 BandWidth=45 Total_Uplink=57 Total_DoLink=0 Ipv4=3371 Ipv6=0
+Splunk 2016-03-22  17:02:30 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=11 Total_Datalen=13359 bytes
+Splunk 2016-03-22  17:02:30 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3359 Total_Datalen=60274006 bytes
+Splunk 2016-03-22  17:02:30 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=NetFlix Total_pkt=1 Total_Datalen=259 bytes
+Splunk 2016-03-22  17:02:30 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  17:02:30 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=7 Total_Datalen=553 bytes
+Splunk 2016-03-22  17:02:30 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8075 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8075 Ipv6=0
+Splunk 2016-03-22  17:02:30 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8075 Total_Datalen=692570 bytes
+Splunk 2016-03-22  17:02:41 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=14 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=14 Ipv6=0
+Splunk 2016-03-22  17:02:41 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  17:02:41 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3480 bytes
+Splunk 2016-03-22  17:02:41 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:02:41 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:02:41 node=1 Mac=34:17:eb:af:08:f3 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=0 Ipv6=1
+Splunk 2016-03-22  17:02:41 node=1 Mac=34:17:eb:af:08:f3 Layer=0 TransPotocol=UDP AppLayer=MDNS Total_pkt=1 Total_Datalen=111 bytes
+Splunk 2016-03-22  17:02:41 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3386 Total_Datalen=56 BandWidth=45 Total_Uplink=56 Total_DoLink=0 Ipv4=3386 Ipv6=0
+Splunk 2016-03-22  17:02:41 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  17:02:41 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8370 bytes
+Splunk 2016-03-22  17:02:41 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3377 Total_Datalen=59448314 bytes
+Splunk 2016-03-22  17:02:41 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:02:41 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:02:41 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7989 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7989 Ipv6=0
+Splunk 2016-03-22  17:02:41 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7989 Total_Datalen=686620 bytes
+Splunk 2016-03-22  17:02:52 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=17 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=17 Ipv6=0
+Splunk 2016-03-22  17:02:52 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  17:02:52 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5222 bytes
+Splunk 2016-03-22  17:02:52 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:02:52 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:02:52 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3568 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3568 Ipv6=0
+Splunk 2016-03-22  17:02:52 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  17:02:52 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12940 bytes
+Splunk 2016-03-22  17:02:52 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3559 Total_Datalen=60377862 bytes
+Splunk 2016-03-22  17:02:52 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:02:52 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:02:52 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8190 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8190 Ipv6=0
+Splunk 2016-03-22  17:02:52 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8190 Total_Datalen=700290 bytes
+Splunk 2016-03-22  17:03:03 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=14 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=14 Ipv6=0
+Splunk 2016-03-22  17:03:03 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=14 Total_Datalen=5151 bytes
+Splunk 2016-03-22  17:03:03 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  17:03:03 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=5 Total_Datalen=1512 bytes
+Splunk 2016-03-22  17:03:03 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3420 Total_Datalen=56 BandWidth=44 Total_Uplink=56 Total_DoLink=0 Ipv4=3420 Ipv6=0
+Splunk 2016-03-22  17:03:03 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12080 bytes
+Splunk 2016-03-22  17:03:03 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3413 Total_Datalen=58708354 bytes
+Splunk 2016-03-22  17:03:03 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:03:03 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:03:03 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7981 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7981 Ipv6=0
+Splunk 2016-03-22  17:03:03 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7981 Total_Datalen=681842 bytes
+Splunk 2016-03-22  17:03:14 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=19 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=19 Ipv6=0
+Splunk 2016-03-22  17:03:14 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  17:03:14 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5221 bytes
+Splunk 2016-03-22  17:03:14 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  17:03:14 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=7 Total_Datalen=2232 bytes
+Splunk 2016-03-22  17:03:14 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3140 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3140 Ipv6=0
+Splunk 2016-03-22  17:03:14 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  17:03:14 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12941 bytes
+Splunk 2016-03-22  17:03:14 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3129 Total_Datalen=54169834 bytes
+Splunk 2016-03-22  17:03:14 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:03:14 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:03:14 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7411 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7411 Ipv6=0
+Splunk 2016-03-22  17:03:14 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=Oscar Total_pkt=1 Total_Datalen=122 bytes
+Splunk 2016-03-22  17:03:14 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7410 Total_Datalen=632344 bytes
+Splunk 2016-03-22  17:03:25 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:03:25 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  17:03:25 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=13 Total_Datalen=3722 bytes
+Splunk 2016-03-22  17:03:25 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:03:25 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:03:25 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3127 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3127 Ipv6=0
+Splunk 2016-03-22  17:03:25 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  17:03:25 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=8 Total_Datalen=8574 bytes
+Splunk 2016-03-22  17:03:25 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3117 Total_Datalen=53799618 bytes
+Splunk 2016-03-22  17:03:25 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:03:25 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:03:25 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7398 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7398 Ipv6=0
+Splunk 2016-03-22  17:03:25 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7398 Total_Datalen=630342 bytes
+Splunk 2016-03-22  17:03:36 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=22 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=22 Ipv6=0
+Splunk 2016-03-22  17:03:36 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=22 Total_Datalen=9167 bytes
+Splunk 2016-03-22  17:03:36 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  17:03:36 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=7 Total_Datalen=2136 bytes
+Splunk 2016-03-22  17:03:36 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3256 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3256 Ipv6=0
+Splunk 2016-03-22  17:03:36 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=12 Total_Datalen=13655 bytes
+Splunk 2016-03-22  17:03:36 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3244 Total_Datalen=57498808 bytes
+Splunk 2016-03-22  17:03:36 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  17:03:36 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=7 Total_Datalen=553 bytes
+Splunk 2016-03-22  17:03:36 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7809 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7809 Ipv6=0
+Splunk 2016-03-22  17:03:36 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7809 Total_Datalen=667928 bytes
+Splunk 2016-03-22  17:03:47 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=21 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=21 Ipv6=0
+Splunk 2016-03-22  17:03:47 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  17:03:47 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5221 bytes
+Splunk 2016-03-22  17:03:47 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:03:47 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:03:47 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3400 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3400 Ipv6=0
+Splunk 2016-03-22  17:03:47 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  17:03:47 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12946 bytes
+Splunk 2016-03-22  17:03:47 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3387 Total_Datalen=60368126 bytes
+Splunk 2016-03-22  17:03:47 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:03:47 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:03:47 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8120 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8120 Ipv6=0
+Splunk 2016-03-22  17:03:47 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8120 Total_Datalen=695810 bytes
+Splunk 2016-03-22  17:03:58 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=10 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=10 Ipv6=0
+Splunk 2016-03-22  17:03:58 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3481 bytes
+Splunk 2016-03-22  17:03:58 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:03:58 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:03:58 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3369 Total_Datalen=57 BandWidth=45 Total_Uplink=57 Total_DoLink=0 Ipv4=3369 Ipv6=0
+Splunk 2016-03-22  17:03:58 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8366 bytes
+Splunk 2016-03-22  17:03:58 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3364 Total_Datalen=60274232 bytes
+Splunk 2016-03-22  17:03:58 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:03:58 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:03:58 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8095 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8095 Ipv6=0
+Splunk 2016-03-22  17:03:58 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8095 Total_Datalen=693728 bytes
+Splunk 2016-03-22  17:04:09 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:04:09 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5221 bytes
+Splunk 2016-03-22  17:04:09 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:04:09 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:04:09 node=1 Mac=34:17:eb:af:08:c3 Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+Splunk 2016-03-22  17:04:09 node=1 Mac=34:17:eb:af:08:c3 Layer=0 TransPotocol=UDP AppLayer=NetBIOS Total_pkt=1 Total_Datalen=247 bytes
+Splunk 2016-03-22  17:04:09 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3361 Total_Datalen=57 BandWidth=45 Total_Uplink=57 Total_DoLink=0 Ipv4=3361 Ipv6=0
+Splunk 2016-03-22  17:04:09 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12946 bytes
+Splunk 2016-03-22  17:04:09 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3354 Total_Datalen=60273540 bytes
+Splunk 2016-03-22  17:04:09 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:04:09 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:04:09 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8075 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8075 Ipv6=0
+Splunk 2016-03-22  17:04:09 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8075 Total_Datalen=692782 bytes
+Splunk 2016-03-22  17:04:09 node=4 Mac=d8:8d:12:52:60:84 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:04:09 node=4 Mac=d8:8d:12:52:60:84 Layer=0 TransPotocol=UDP AppLayer=NetBIOS Total_pkt=4 Total_Datalen=384 bytes
+Splunk 2016-03-22  17:04:20 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=17 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=17 Ipv6=0
+Splunk 2016-03-22  17:04:20 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  17:04:20 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=11 Total_Datalen=3550 bytes
+Splunk 2016-03-22  17:04:20 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:04:20 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:04:20 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3366 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3366 Ipv6=0
+Splunk 2016-03-22  17:04:20 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  17:04:20 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8363 bytes
+Splunk 2016-03-22  17:04:20 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3355 Total_Datalen=60366046 bytes
+Splunk 2016-03-22  17:04:20 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:04:20 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:04:20 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8095 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8095 Ipv6=0
+Splunk 2016-03-22  17:04:20 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8095 Total_Datalen=693850 bytes
+Splunk 2016-03-22  17:04:31 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:04:31 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5220 bytes
+Splunk 2016-03-22  17:04:31 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:04:31 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:04:31 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3381 Total_Datalen=56 BandWidth=44 Total_Uplink=56 Total_DoLink=0 Ipv4=3381 Ipv6=0
+Splunk 2016-03-22  17:04:31 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12941 bytes
+Splunk 2016-03-22  17:04:31 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3374 Total_Datalen=58798188 bytes
+Splunk 2016-03-22  17:04:31 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:04:31 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:04:31 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7907 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7907 Ipv6=0
+Splunk 2016-03-22  17:04:31 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7907 Total_Datalen=677768 bytes
+Splunk 2016-03-22  17:04:42 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=17 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=17 Ipv6=0
+Splunk 2016-03-22  17:04:42 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  17:04:42 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=13 Total_Datalen=3721 bytes
+Splunk 2016-03-22  17:04:42 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:04:42 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:04:42 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3107 Total_Datalen=52 BandWidth=42 Total_Uplink=52 Total_DoLink=0 Ipv4=3107 Ipv6=0
+Splunk 2016-03-22  17:04:42 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  17:04:42 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=8 Total_Datalen=8574 bytes
+Splunk 2016-03-22  17:04:42 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3095 Total_Datalen=55090518 bytes
+Splunk 2016-03-22  17:04:42 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:04:42 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:04:42 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7501 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7501 Ipv6=0
+Splunk 2016-03-22  17:04:42 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7501 Total_Datalen=641286 bytes
+Splunk 2016-03-22  17:04:42 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=UDP Total_pkt=1 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=1 Ipv6=0
+Splunk 2016-03-22  17:04:42 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=UDP AppLayer=NetBIOS Total_pkt=1 Total_Datalen=247 bytes
+Splunk 2016-03-22  17:04:42 node=3 Mac=d8:8d:12:52:60:84 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:04:42 node=3 Mac=d8:8d:12:52:60:84 Layer=0 TransPotocol=UDP AppLayer=NetBIOS Total_pkt=4 Total_Datalen=384 bytes
+Splunk 2016-03-22  17:04:53 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=27 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=27 Ipv6=0
+Splunk 2016-03-22  17:04:53 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  17:04:53 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=25 Total_Datalen=10767 bytes
+Splunk 2016-03-22  17:04:53 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  17:04:53 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=8 Total_Datalen=2215 bytes
+Splunk 2016-03-22  17:04:53 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3467 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3467 Ipv6=0
+Splunk 2016-03-22  17:04:53 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  17:04:53 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=13 Total_Datalen=17073 bytes
+Splunk 2016-03-22  17:04:53 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3451 Total_Datalen=54188622 bytes
+Splunk 2016-03-22  17:04:53 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=NetFlix Total_pkt=1 Total_Datalen=259 bytes
+Splunk 2016-03-22  17:04:53 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=9 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=9 Ipv6=0
+Splunk 2016-03-22  17:04:53 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=9 Total_Datalen=711 bytes
+Splunk 2016-03-22  17:04:53 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7434 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7434 Ipv6=0
+Splunk 2016-03-22  17:04:53 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7434 Total_Datalen=633726 bytes
+Splunk 2016-03-22  17:05:04 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:05:04 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5222 bytes
+Splunk 2016-03-22  17:05:04 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:05:04 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:05:04 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3495 Total_Datalen=56 BandWidth=44 Total_Uplink=56 Total_DoLink=0 Ipv4=3495 Ipv6=0
+Splunk 2016-03-22  17:05:04 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12949 bytes
+Splunk 2016-03-22  17:05:04 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3488 Total_Datalen=58897408 bytes
+Splunk 2016-03-22  17:05:04 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:05:04 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:05:04 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7996 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7996 Ipv6=0
+Splunk 2016-03-22  17:05:04 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7996 Total_Datalen=683432 bytes
+Splunk 2016-03-22  17:05:15 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:05:15 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  17:05:15 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=11 Total_Datalen=3552 bytes
+Splunk 2016-03-22  17:05:15 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:05:15 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:05:15 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3251 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3251 Ipv6=0
+Splunk 2016-03-22  17:05:15 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  17:05:15 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=6 Total_Datalen=8436 bytes
+Splunk 2016-03-22  17:05:15 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3241 Total_Datalen=56852794 bytes
+Splunk 2016-03-22  17:05:15 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:05:15 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:05:15 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7605 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7605 Ipv6=0
+Splunk 2016-03-22  17:05:15 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7605 Total_Datalen=652506 bytes
+Splunk 2016-03-22  17:05:26 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=18 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=18 Ipv6=0
+Splunk 2016-03-22  17:05:26 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  17:05:26 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=16 Total_Datalen=5339 bytes
+Splunk 2016-03-22  17:05:26 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:05:26 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:05:26 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3388 Total_Datalen=56 BandWidth=45 Total_Uplink=56 Total_DoLink=0 Ipv4=3388 Ipv6=0
+Splunk 2016-03-22  17:05:26 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  17:05:26 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=8 Total_Datalen=13014 bytes
+Splunk 2016-03-22  17:05:26 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3378 Total_Datalen=59444452 bytes
+Splunk 2016-03-22  17:05:26 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:05:26 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:05:26 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7962 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7962 Ipv6=0
+Splunk 2016-03-22  17:05:26 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7962 Total_Datalen=682760 bytes
+Splunk 2016-03-22  17:05:37 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=10 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=10 Ipv6=0
+Splunk 2016-03-22  17:05:37 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3480 bytes
+Splunk 2016-03-22  17:05:37 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:05:37 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:05:37 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3629 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3629 Ipv6=0
+Splunk 2016-03-22  17:05:37 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8371 bytes
+Splunk 2016-03-22  17:05:37 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3624 Total_Datalen=60289664 bytes
+Splunk 2016-03-22  17:05:37 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:05:37 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:05:37 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8110 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8110 Ipv6=0
+Splunk 2016-03-22  17:05:37 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8110 Total_Datalen=695658 bytes
+Splunk 2016-03-22  17:05:48 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=24 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=24 Ipv6=0
+Splunk 2016-03-22  17:05:48 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  17:05:48 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=18 Total_Datalen=5462 bytes
+Splunk 2016-03-22  17:05:48 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:05:48 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:05:48 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3467 Total_Datalen=57 BandWidth=46 Total_Uplink=57 Total_DoLink=0 Ipv4=3467 Ipv6=0
+Splunk 2016-03-22  17:05:48 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  17:05:48 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=9 Total_Datalen=13086 bytes
+Splunk 2016-03-22  17:05:48 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3452 Total_Datalen=60279640 bytes
+Splunk 2016-03-22  17:05:48 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:05:48 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:05:48 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8148 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8148 Ipv6=0
+Splunk 2016-03-22  17:05:48 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8148 Total_Datalen=697248 bytes
+Splunk 2016-03-22  17:05:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:05:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=7286 bytes
+Splunk 2016-03-22  17:05:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  17:05:59 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=5 Total_Datalen=1512 bytes
+Splunk 2016-03-22  17:05:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3153 Total_Datalen=53 BandWidth=42 Total_Uplink=53 Total_DoLink=0 Ipv4=3153 Ipv6=0
+Splunk 2016-03-22  17:05:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=9 Total_Datalen=9000 bytes
+Splunk 2016-03-22  17:05:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3144 Total_Datalen=56108624 bytes
+Splunk 2016-03-22  17:05:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=5 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=5 Ipv6=0
+Splunk 2016-03-22  17:05:59 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=5 Total_Datalen=395 bytes
+Splunk 2016-03-22  17:05:59 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7695 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7695 Ipv6=0
+Splunk 2016-03-22  17:05:59 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7695 Total_Datalen=656190 bytes
+Splunk 2016-03-22  17:06:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=16 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=16 Ipv6=0
+Splunk 2016-03-22  17:06:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=16 Total_Datalen=5293 bytes
+Splunk 2016-03-22  17:06:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:06:10 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:06:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3116 Total_Datalen=52 BandWidth=41 Total_Uplink=52 Total_DoLink=0 Ipv4=3116 Ipv6=0
+Splunk 2016-03-22  17:06:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12950 bytes
+Splunk 2016-03-22  17:06:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3109 Total_Datalen=54725970 bytes
+Splunk 2016-03-22  17:06:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:06:10 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:06:10 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7485 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7485 Ipv6=0
+Splunk 2016-03-22  17:06:10 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7485 Total_Datalen=639868 bytes
+Splunk 2016-03-22  17:06:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=21 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=21 Ipv6=0
+Splunk 2016-03-22  17:06:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  17:06:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5222 bytes
+Splunk 2016-03-22  17:06:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:06:21 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:06:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3377 Total_Datalen=53 BandWidth=42 Total_Uplink=53 Total_DoLink=0 Ipv4=3377 Ipv6=0
+Splunk 2016-03-22  17:06:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  17:06:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12947 bytes
+Splunk 2016-03-22  17:06:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3364 Total_Datalen=56305880 bytes
+Splunk 2016-03-22  17:06:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:06:21 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:06:21 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7621 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7621 Ipv6=0
+Splunk 2016-03-22  17:06:21 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7621 Total_Datalen=652026 bytes
+Splunk 2016-03-22  17:06:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=10 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=10 Ipv6=0
+Splunk 2016-03-22  17:06:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3481 bytes
+Splunk 2016-03-22  17:06:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:06:32 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:06:32 node=1 Mac=34:17:eb:af:08:c3 Layer=0 TransPotocol=TCP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  17:06:32 node=1 Mac=34:17:eb:af:08:c3 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=8 Total_Datalen=548 bytes
+Splunk 2016-03-22  17:06:32 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3048 Total_Datalen=50 BandWidth=40 Total_Uplink=50 Total_DoLink=0 Ipv4=3048 Ipv6=0
+Splunk 2016-03-22  17:06:32 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=8 Total_Datalen=464 bytes
+Splunk 2016-03-22  17:06:32 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8365 bytes
+Splunk 2016-03-22  17:06:32 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3035 Total_Datalen=53426174 bytes
+Splunk 2016-03-22  17:06:32 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:06:32 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:06:32 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7377 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7377 Ipv6=0
+Splunk 2016-03-22  17:06:32 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7377 Total_Datalen=628368 bytes
+Splunk 2016-03-22  17:06:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=19 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=19 Ipv6=0
+Splunk 2016-03-22  17:06:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=19 Total_Datalen=6893 bytes
+Splunk 2016-03-22  17:06:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  17:06:43 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=8 Total_Datalen=2496 bytes
+Splunk 2016-03-22  17:06:43 node=1 Mac=34:17:eb:af:08:c3 Layer=0 TransPotocol=TCP Total_pkt=15 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=15 Ipv6=0
+Splunk 2016-03-22  17:06:43 node=1 Mac=34:17:eb:af:08:c3 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=15 Total_Datalen=1030 bytes
+Splunk 2016-03-22  17:06:43 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3071 Total_Datalen=50 BandWidth=40 Total_Uplink=50 Total_DoLink=0 Ipv4=3071 Ipv6=0
+Splunk 2016-03-22  17:06:43 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=15 Total_Datalen=870 bytes
+Splunk 2016-03-22  17:06:43 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=9 Total_Datalen=16663 bytes
+Splunk 2016-03-22  17:06:43 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3047 Total_Datalen=53334358 bytes
+Splunk 2016-03-22  17:06:43 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=8 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8 Ipv6=0
+Splunk 2016-03-22  17:06:43 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=8 Total_Datalen=632 bytes
+Splunk 2016-03-22  17:06:43 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7399 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7399 Ipv6=0
+Splunk 2016-03-22  17:06:43 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7399 Total_Datalen=628908 bytes
+Splunk 2016-03-22  17:06:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=16 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=16 Ipv6=0
+Splunk 2016-03-22  17:06:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1006 bytes
+Splunk 2016-03-22  17:06:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3481 bytes
+Splunk 2016-03-22  17:06:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:06:54 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:06:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3452 Total_Datalen=55 BandWidth=44 Total_Uplink=55 Total_DoLink=0 Ipv4=3452 Ipv6=0
+Splunk 2016-03-22  17:06:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=1046 bytes
+Splunk 2016-03-22  17:06:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8366 bytes
+Splunk 2016-03-22  17:06:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3441 Total_Datalen=58617866 bytes
+Splunk 2016-03-22  17:06:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:06:54 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:06:54 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7955 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7955 Ipv6=0
+Splunk 2016-03-22  17:06:54 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7955 Total_Datalen=680268 bytes
+Splunk 2016-03-22  17:07:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=26 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=26 Ipv6=0
+Splunk 2016-03-22  17:07:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=26 Total_Datalen=9478 bytes
+Splunk 2016-03-22  17:07:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  17:07:05 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=7 Total_Datalen=2136 bytes
+Splunk 2016-03-22  17:07:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3384 Total_Datalen=55 BandWidth=44 Total_Uplink=55 Total_DoLink=0 Ipv4=3384 Ipv6=0
+Splunk 2016-03-22  17:07:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=14 Total_Datalen=13571 bytes
+Splunk 2016-03-22  17:07:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3369 Total_Datalen=58705882 bytes
+Splunk 2016-03-22  17:07:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=NetFlix Total_pkt=1 Total_Datalen=259 bytes
+Splunk 2016-03-22  17:07:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=7 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7 Ipv6=0
+Splunk 2016-03-22  17:07:05 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=7 Total_Datalen=553 bytes
+Splunk 2016-03-22  17:07:05 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7920 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7920 Ipv6=0
+Splunk 2016-03-22  17:07:05 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7920 Total_Datalen=678060 bytes
+Splunk 2016-03-22  17:07:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=14 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=14 Ipv6=0
+Splunk 2016-03-22  17:07:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  17:07:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3480 bytes
+Splunk 2016-03-22  17:07:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:07:16 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:07:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3191 Total_Datalen=53 BandWidth=42 Total_Uplink=53 Total_DoLink=0 Ipv4=3191 Ipv6=0
+Splunk 2016-03-22  17:07:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=726 bytes
+Splunk 2016-03-22  17:07:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8364 bytes
+Splunk 2016-03-22  17:07:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3182 Total_Datalen=56018508 bytes
+Splunk 2016-03-22  17:07:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:07:16 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:07:16 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7615 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7615 Ipv6=0
+Splunk 2016-03-22  17:07:16 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7615 Total_Datalen=650832 bytes
+Splunk 2016-03-22  17:07:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=17 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=17 Ipv6=0
+Splunk 2016-03-22  17:07:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=357 bytes
+Splunk 2016-03-22  17:07:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=15 Total_Datalen=5223 bytes
+Splunk 2016-03-22  17:07:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:07:27 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:07:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3255 Total_Datalen=54 BandWidth=43 Total_Uplink=54 Total_DoLink=0 Ipv4=3255 Ipv6=0
+Splunk 2016-03-22  17:07:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=2 Total_Datalen=320 bytes
+Splunk 2016-03-22  17:07:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12944 bytes
+Splunk 2016-03-22  17:07:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3246 Total_Datalen=56853276 bytes
+Splunk 2016-03-22  17:07:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:07:27 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:07:27 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7733 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7733 Ipv6=0
+Splunk 2016-03-22  17:07:27 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7733 Total_Datalen=661264 bytes
+Splunk 2016-03-22  17:07:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=16 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=16 Ipv6=0
+Splunk 2016-03-22  17:07:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=16 Total_Datalen=5290 bytes
+Splunk 2016-03-22  17:07:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:07:38 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=6 Total_Datalen=1872 bytes
+Splunk 2016-03-22  17:07:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3383 Total_Datalen=56 BandWidth=45 Total_Uplink=56 Total_DoLink=0 Ipv4=3383 Ipv6=0
+Splunk 2016-03-22  17:07:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=7 Total_Datalen=12949 bytes
+Splunk 2016-03-22  17:07:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3376 Total_Datalen=59721392 bytes
+Splunk 2016-03-22  17:07:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:07:38 node=1 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=6 Total_Datalen=474 bytes
+Splunk 2016-03-22  17:07:38 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=8069 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=8069 Ipv6=0
+Splunk 2016-03-22  17:07:38 node=2 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=8069 Total_Datalen=690566 bytes
+Splunk 2016-03-22  17:07:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP Total_pkt=14 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=14 Ipv6=0
+Splunk 2016-03-22  17:07:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=4 Total_Datalen=649 bytes
+Splunk 2016-03-22  17:07:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=10 Total_Datalen=3480 bytes
+Splunk 2016-03-22  17:07:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:07:49 node=0 Mac=00:1b:17:00:01:11 Layer=0 TransPotocol=UDP AppLayer=DNS Total_pkt=4 Total_Datalen=1248 bytes
+Splunk 2016-03-22  17:07:49 node=1 Mac=34:17:eb:af:08:c3 Layer=0 TransPotocol=TCP Total_pkt=6 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=6 Ipv6=0
+Splunk 2016-03-22  17:07:49 node=1 Mac=34:17:eb:af:08:c3 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=6 Total_Datalen=412 bytes
+Splunk 2016-03-22  17:07:49 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP Total_pkt=3045 Total_Datalen=51 BandWidth=41 Total_Uplink=51 Total_DoLink=0 Ipv4=3045 Ipv6=0
+Splunk 2016-03-22  17:07:49 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=HTTP Total_pkt=10 Total_Datalen=1074 bytes
+Splunk 2016-03-22  17:07:49 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSL Total_pkt=5 Total_Datalen=8366 bytes
+Splunk 2016-03-22  17:07:49 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=3030 Total_Datalen=53795116 bytes
+Splunk 2016-03-22  17:07:49 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP Total_pkt=4 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=4 Ipv6=0
+Splunk 2016-03-22  17:07:49 node=2 Mac=34:17:eb:af:09:49 Layer=0 TransPotocol=UDP AppLayer=NetFlix Total_pkt=4 Total_Datalen=316 bytes
+Splunk 2016-03-22  17:07:49 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP Total_pkt=7447 Total_Datalen=0 BandWidth=0 Total_Uplink=0 Total_DoLink=0 Ipv4=7447 Ipv6=0
+Splunk 2016-03-22  17:07:49 node=3 Mac=34:17:eb:af:0b:fd Layer=0 TransPotocol=TCP AppLayer=SSH Total_pkt=7447 Total_Datalen=633568 bytes

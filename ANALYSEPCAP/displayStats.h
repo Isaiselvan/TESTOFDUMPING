@@ -11,7 +11,7 @@
 #include "packetCmm.h"
 #include "libtrace_parallel.h"
 
-#define TIMEINT 30 //Sec 
+#define TIMEINT 10 //Sec 
 extern const char clr[]; // = { 27, '[', '2', 'J', '\0' };
 extern const char topLeft[];// = { 27, '[', '1', ';', '1', 'H','\0' };
 
@@ -28,7 +28,7 @@ class displayStats{
   unsigned long int totaldatalen;
   libtrace_stat_t pcapStats; 
   static displayStats * displayBoard[MAX_LAYER];  
-  pthread_mutex_t disLock;  
+  static pthread_mutex_t disLock[MAX_LAYER];  
      //Source ethernet address // Node
   std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > dashboard; 
   Displaylayer layer;  
