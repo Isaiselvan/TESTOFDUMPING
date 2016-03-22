@@ -6,7 +6,8 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
  //Check if the UPD payload is a GTPU
  uint32_t rem =0;
  char *Gtp_ptr= udpPkt;  
- char gtpHrd[8]; //64 bits
+ static char gtpHrd[8]; //64 bits
+ memset(gtpHrd, 0, sizeof(gtpHrd));
  GTPhrd gtpHeader;
 
  //Gtp_ptr = (char *)trace_get_payload_from_udp (udpPkt,&rem);
@@ -114,7 +115,9 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   //char * chekPlod = (char *) trace_get_packet_buffer(pkt, &lnk, &rem); 
   char * chekPlod = (char *)trace_get_layer2(pkt, &lnk, &rem);
   char * GtpPayload = gtpHrd.payload;
-  char maclay[gtpHrd.m_length+14];
+ // static char maclay[gtpHrd.m_length+14];
+  static char maclay[256 + 14];
+  memset (maclay, 0, sizeof(maclay));
   memcpy(maclay, chekPlod, 14);
   while( gtpHrd.payLoadLen > 40)
   {
