@@ -1,7 +1,7 @@
 #include "udpProto.h"
 
 
-int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet &udppkt)
+int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet udppkt)
 {
  //DownLink flag can be set here to tcppkt
      m_totalpkts++;

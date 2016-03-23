@@ -1,7 +1,7 @@
 #include "tcpProto.h"
 
 
-int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet &tcppkt)
+int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet tcppkt)
 {
  //DownLink flag can be set here to tcppkt
      m_totalpkts++;

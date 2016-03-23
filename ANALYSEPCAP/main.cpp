@@ -22,6 +22,7 @@ const string pcapFileEndStr = "ready.pcap";
 
 std::ofstream logger("pcapanal.log");
 pthread_t threads[MAX_THREAD];
+std::string protcolname[20];
 
 //uint64_t count = 0;
 //Dpi
@@ -198,7 +199,8 @@ int parse_args(int argc, char **argv)
 int main(int argc , char * argv []) 
 {
     int fileCount = 0, rc = 0, i = 0;
-
+    protcolname[TRACE_IPPROTO_TCP] = "TCP";
+    protcolname[TRACE_IPPROTO_UDP] = "UDP";
     std::list<string> filesList;
     std::list<string>::iterator it;
        for(int c =0 ; c < MAX_THREAD ; c++)

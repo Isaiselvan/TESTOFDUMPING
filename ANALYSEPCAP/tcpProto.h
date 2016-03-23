@@ -56,7 +56,7 @@ public:
     m_pkt.clear();
     }; 
      
-   int addPkt(libtrace_packet_t *, m_Packet&);///Used in template use the same name in other classes  
+   int addPkt(libtrace_packet_t *, m_Packet);///Used in template use the same name in other classes  
    unsigned long int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics(std::string splunkkey);

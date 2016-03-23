@@ -41,8 +41,8 @@ class displayStats{
    totalpkts = 0;
    totaldatalen = 0;
    StatsAvailable = false;
-   protcolname[TRACE_IPPROTO_TCP] = "TCP";
-   protcolname[TRACE_IPPROTO_UDP] = "UDP"; 
+   //protcolname[TRACE_IPPROTO_TCP] = "TCP";
+   //protcolname[TRACE_IPPROTO_UDP] = "UDP"; 
 //   std::cout << "protcolname[TRACE_IPPROTO_TCP] = " << protcolname[TRACE_IPPROTO_TCP] << std::endl; 
   }
   public : 
