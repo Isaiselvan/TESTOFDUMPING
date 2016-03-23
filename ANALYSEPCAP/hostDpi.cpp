@@ -109,7 +109,7 @@ void appLayer::printStat(std::string &splunk)
         {
            if ( protocol_counter[i] > 0 ){
              std::cout << splunk << " AppLayer=" << ndpi_get_proto_name(ndpi_struct, i) << " Total_pkt="  << protocol_counter[i] << " Total_Datalen=" << protocol_counter_bytes[i]<< 
-             " bytes" << std::endl; 
+             " bytes  BandWidth=" << (protocol_counter_bytes[i] * 8 ) << std::endl; 
            }   
         }
 }
