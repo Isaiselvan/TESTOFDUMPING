@@ -191,9 +191,9 @@ void LteProtoBase::printstats(std::string splunkkey){
      std::cout << "\t"<< messType[validMess[i]] << " : " << totMess[validMess[i]] << std::endl;
    
     
-    std::cout << splunkkey <<" LteProtocol=GTP " <<" Total_pkt=" << m_totalpkts << " Total_Datalen=" << m_totaldata/1024/1024
-               << " BandWidth=" << (bandWidthCalc () / 1024 /1024 ) << " Total_Uplink="
-                << (m_totaluplink / 1024/1024) << " Total_DoLink=" << (m_totaldownlink/1024/1024);
+    std::cout << splunkkey <<" LteProtocol=GTP " <<" Total_pkt=" << m_totalpkts << " Total_Datalen=" << m_totaldata
+               << " BandWidth=" << (bandWidthCalc ()) << " Total_Uplink="
+                << (m_totaluplink) << " Total_DoLink=" << (m_totaldownlink);
 
    for(int i = 0; i < 8; i++)
      std::cout << " "<< messType[validMess[i]] << "=" << totMess[validMess[i]] ; 

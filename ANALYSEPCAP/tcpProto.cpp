@@ -86,9 +86,9 @@ void protocolTCP::displaymetrics(std::string splunkkey) {
     std::cout << "Total Uplink data = " << (m_totaluplink / 1024/1024) << "MB" << std::endl  ;
     std::cout << "Total Downlink data = " << (m_totaldownlink/1024/1024) << "MB\n" << std::flush  ;
 
-   std::cout << splunkkey << " Total_pkt=" << m_totalpkts << " Total_Datalen=" << m_totaldata/1024/1024 
-               << " BandWidth=" << (bandWidthCalc () / 1024 /1024 ) << " Total_Uplink=" 
-                << (m_totaluplink / 1024/1024) << " Total_DoLink=" << (m_totaldownlink/1024/1024) << 
+   std::cout << splunkkey << " Total_pkt=" << m_totalpkts << " Total_Datalen=" << m_totaldata 
+               << " BandWidth=" << (bandWidthCalc ()) << " Total_Uplink=" 
+                << (m_totaluplink ) << " Total_DoLink=" << (m_totaldownlink) << 
                  " Ipv4=" << m_totalipv4 << " Ipv6=" << m_totalip6 << std::endl;
 
   layerSeven.printStat(splunkkey);
