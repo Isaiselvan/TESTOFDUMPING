@@ -6,7 +6,6 @@
 
 const char clr[] = { 27, '[', '2', 'J', '\0' };
 const char topLeft[] = { 27, '[', '1', ';', '1', 'H','\0' ,'\n', '\n'};
-std::string protcolname[20];
 pthread_mutex_t displayStats::disLock[MAX_LAYER];
 //displayStats * diBoard[] = {NULL,NULL};
 //displayStats * displayStats::displayBoard = diBoard;
@@ -154,7 +153,7 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
         displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0); // Find a correct location later
         cleardashB(pktTime,pktTime + TIMEINT);
         clearStats();              
-    }
+      }
     char buff[10];
     
    // if(prototype == TRACE_IPPROTO_TCP)

@@ -6,8 +6,7 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
  //Check if the UPD payload is a GTPU
  uint32_t rem =0;
  char *Gtp_ptr= udpPkt;  
- static char gtpHrd[8]; //64 bits
- memset(gtpHrd, 0, sizeof(gtpHrd));
+ char gtpHrd[8]; //64 bits
  GTPhrd gtpHeader;
 
  //Gtp_ptr = (char *)trace_get_payload_from_udp (udpPkt,&rem);
@@ -57,6 +56,9 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
     // Store the TEID
     gtpHeader.m_teid  = (gtpHrd[4] << 24) | (gtpHrd[5] << 16) |
       				(gtpHrd[6] << 8)  | (gtpHrd[7]);
+  
+  if( gtpHeader.m_length > 8192)
+   return -1;
     
   //Protocol statistics 
    m_totalpkts++;
@@ -66,7 +68,7 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
    gtpHeader.m_extensionHeaderFlag = false; 
    gtpHeader.m_sequenceNumberFlag  = false;
    gtpHeader.m_nPduNumberFlag = false; 
- 
+    
    int gtpHr_len = 8;
      
    if(gtpHrd[0] & 0x07)
@@ -89,10 +91,10 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
     
 
    char *gtp_payload = Gtp_ptr + gtpHr_len; 
-   //gtpHeader.payLoadLen = gtpHeader.m_length - gtpHr_len;
-   int CapLen = 256 - gtpHr_len; // 256 captureLength 
-   gtpHeader.payLoadLen = CapLen;
-   memcpy (gtpHeader.payload, (void *)gtp_payload,  CapLen);
+   //if(gtpHeader.m_length > 250)
+   //gtpHeader.m_length = 200;
+   gtpHeader.payLoadLen = gtpHeader.m_length - gtpHr_len;
+   memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.payLoadLen);
 
   if(gtpHeader.m_messageType == 255)// only G-PDU contains some user data 
     addPkt(pkt,gtpHeader); 
@@ -114,10 +116,10 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   uint16_t ethertype;  
   //char * chekPlod = (char *) trace_get_packet_buffer(pkt, &lnk, &rem); 
   char * chekPlod = (char *)trace_get_layer2(pkt, &lnk, &rem);
+  if(!chekPlod || !rem)
+   return -1;
   char * GtpPayload = gtpHrd.payload;
- // static char maclay[gtpHrd.m_length+14];
-  static char maclay[256 + 14];
-  memset (maclay, 0, sizeof(maclay));
+  char maclay[gtpHrd.m_length+14];
   memcpy(maclay, chekPlod, 14);
   while( gtpHrd.payLoadLen > 40)
   {

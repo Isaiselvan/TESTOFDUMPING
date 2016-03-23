@@ -1,7 +1,8 @@
 #ifndef HOST_DPI_H
 #define HOST_DPI_H
 #include <stdlib.h>
-#include <ndpi_main.h>
+#include <string.h>
+#include "ndpi_main.h"
 #include "libtrace_parallel.h"
 #include "packetCmm.h"
 

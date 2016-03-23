@@ -6,7 +6,9 @@ APP_OBJS = tcpProto.o\
 	   udpProto.o\
 	   lteGtp.o\
 	   displayStats.o\
-	   hostDpi.o
+	   hostDpi.o \
+	   sip.o 
+           
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
 
@@ -16,6 +18,7 @@ APP_OBJS = tcpProto.o\
 #LIBPATH  = -L /usr/local/lib/
 NDPIINC = -I /usr/local/include/libndpi-1.7.1/libndpi/
 LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
+#LIBFLAGS =  -lpthread  -lrt -ltrace
 NDPILIB = -lndpi
 #LIBFLAGS = -DUSER_TCP_UDP
 
