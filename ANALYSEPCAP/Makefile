@@ -7,6 +7,7 @@ APP_OBJS = tcpProto.o\
 	   lteGtp.o\
 	   displayStats.o\
 	   hostDpi.o \
+           sip.o \
            main.o
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
