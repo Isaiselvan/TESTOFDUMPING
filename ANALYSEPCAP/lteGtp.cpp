@@ -106,6 +106,7 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
 int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
 {
  
+#ifdef USER_TCP_UDP
 //  TRACE_TYPE_ETH  
   libtrace_packet_t *nextLprt = trace_create_packet();
   if(nextLprt == NULL)
@@ -131,7 +132,6 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   trace_construct_packet(nextLprt, lnk, (void *)maclay, gtpHrd.m_length+14);  
   //trace_construct_packet(nextLprt, trace_get_link_type(pkt), chekPlod, rem); 
 
-#ifdef USER_TCP_UDP
     
            libtrace_ip_t * IPcheck =   trace_get_ip (nextLprt) ;
   
@@ -148,9 +148,9 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
 
       GtpPayload += 4;
       gtpHrd.payLoadLen -= 4;
-#endif 
   }
    trace_destroy_packet(nextLprt); 
+#endif 
 return 1; 
 }
 
