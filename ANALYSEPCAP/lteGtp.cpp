@@ -91,8 +91,8 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
     
 
    char *gtp_payload = Gtp_ptr + gtpHr_len; 
-   //if(gtpHeader.m_length > 250)
-   //gtpHeader.m_length = 200;
+   if(gtpHeader.m_length > 250)
+   gtpHeader.m_length = 200;
    gtpHeader.payLoadLen = gtpHeader.m_length - gtpHr_len;
    memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.payLoadLen);
 
@@ -124,7 +124,10 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   while( gtpHrd.payLoadLen > 40)
   {
   //char macPgtp[gtpHrd.m_length+14];
+
   memcpy(maclay + 14, GtpPayload, gtpHrd.m_length+14);
+std::cout << "DEV: gtpHrd.m_lengt " << gtpHrd.m_length << " gtpHeader.payLoadLen"
+  << gtpHrd.payLoadLen << std::endl; 
   trace_construct_packet(nextLprt, lnk, (void *)maclay, gtpHrd.m_length+14);  
   //trace_construct_packet(nextLprt, trace_get_link_type(pkt), chekPlod, rem); 
 
