@@ -91,8 +91,8 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
     
 
    char *gtp_payload = Gtp_ptr + gtpHr_len; 
-   //if(gtpHeader.m_length > 250)
-   //gtpHeader.m_length = 200;
+   if(gtpHeader.m_length > 250)
+   gtpHeader.m_length = 200;
    gtpHeader.payLoadLen = gtpHeader.m_length - gtpHr_len;
    memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.payLoadLen);
 

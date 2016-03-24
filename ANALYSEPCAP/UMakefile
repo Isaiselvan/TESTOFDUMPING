@@ -26,7 +26,7 @@ NDPILIB = -lndpi
 	 .cpp
 
 %.o:%.cpp
-	$(CXX) $(CPPFLAGS) $(NDPIINC) -g -c $^ 
+	$(CXX) $(CPPFLAGS) $(NDPIINC) $(LIBFLAGS) -g -c $^ 
 
 
 .PHONY:
