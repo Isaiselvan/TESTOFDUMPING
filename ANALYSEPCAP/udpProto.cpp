@@ -24,8 +24,9 @@ int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet udppkt)
 
     //m_pkt.push_back(udppkt); //Comment
          
- // Add session logic
- 
+ // Add AppLayer
+    layerSeven.processPkt(pkt, udppkt);
+     
  // Adding to lte , Will be added only if it has a Gtp
     getLteDash()->parseGtp(pkt, (char *)udppkt.pay_load);
 
@@ -89,12 +90,15 @@ void protocolUDP::displaymetrics(std::string splunkkey) {
     std::cout << "Total Uplink data = " << (m_totaluplink / 1024/1024) << "MB" << std::endl  ;
     std::cout << "Total Downlink data = " << (m_totaldownlink/1024/1024) << "MB\n" << std::flush  ;
     
-    std::cout << splunkkey << " Total_pkt=" << m_totalpkts << " Total_Datalen=" << m_totaldata/1024/1024
-               << " BandWidth=" << (bandWidthCalc () / 1024 /1024 ) << " Total_Uplink="
-                << (m_totaluplink / 1024/1024) << " Total_DoLink=" << (m_totaldownlink/1024/1024) <<
+    std::cout << splunkkey << " Total_pkt=" << m_totalpkts << " Total_Datalen=" << m_totaldata
+               << " BandWidth=" << (bandWidthCalc () ) << " Total_Uplink="
+                << (m_totaluplink ) << " Total_DoLink=" << (m_totaldownlink) <<
                  " Ipv4=" << m_totalipv4 << " Ipv6=" << m_totalip6 << std::endl;
    // Print lte stats
      getLteDash()->printstats(splunkkey);
+
+   // Applayer info
+      layerSeven.printStat(splunkkey);    
 }
 
 

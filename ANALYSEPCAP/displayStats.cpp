@@ -6,11 +6,10 @@
 
 const char clr[] = { 27, '[', '2', 'J', '\0' };
 const char topLeft[] = { 27, '[', '1', ';', '1', 'H','\0' ,'\n', '\n'};
-std::string protcolname[20];
-
+pthread_mutex_t displayStats::disLock[MAX_LAYER];
 //displayStats * diBoard[] = {NULL,NULL};
 //displayStats * displayStats::displayBoard = diBoard;
-displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
+displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
 
 //std::fill_n(displayStats * displayStats::displayBoard, NULL, MAX_LAYER);
 
@@ -25,7 +24,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
 	void *ltheader = NULL;
         uint8_t ether_shost [6] ;
         int starttime = 0;
-        int pktlen =  trace_get_wire_length(pkt); 
+        int pktlen =  trace_get_wire_length(pkt);
+        int ipSize =0; 
         memcpy(ether_shost, trace_get_source_mac(pkt),6);
         //ether_dhost = *(trace_get_source_mac(pkt));
  	uint8_t ether_dhost [6] ;  
@@ -42,7 +42,7 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
          * 	 * further */
 	if (rem == 0)
 		return -1;
-          
+        ipSize = rem;  
         
          if (ethertype == TRACE_ETHERTYPE_IP) {
 		ip = (libtrace_ip_t *)ltheader;
@@ -77,12 +77,16 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
              if(ip)
              {
              ppkt.ip4 = *ip;
+             ppkt.ip_ptr = (uint8_t *)ip;
              ppkt.ipv = 4;
              } else if(ip6)
              {
              ppkt.ipv6 = *ip6;
+             ppkt.ip_ptr = (uint8_t *)ip6;
              ppkt.ipv = 6;
              } 
+             //
+             ppkt.ipSize = ipSize;
              //Fill the wirelen of packet
              if(pktlen > 0)
              ppkt.dataLen = pktlen;
@@ -136,7 +140,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
      
  
    // Access to data and Map So we lock
-    pthread_mutex_lock(&disLock);
+    pthread_mutex_lock(&disLock[layer]);
+    {
     if ( curIntEndtime == 0 )
       {
         curIntStarttime = pktTime;
@@ -148,7 +153,7 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
         displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0); // Find a correct location later
         cleardashB(pktTime,pktTime + TIMEINT);
         clearStats();              
-    }
+      }
     char buff[10];
     
    // if(prototype == TRACE_IPPROTO_TCP)
@@ -161,20 +166,20 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL};
     
       if(protoBase == NULL)
       {
-       pthread_mutex_unlock(&disLock);
+       pthread_mutex_unlock(&disLock[layer]);
        return -1;
       }
 
       if(protoBase->addPkt(ptrpkt, pkt) == -1)// addPkt forced function implementation
       {
-       pthread_mutex_unlock(&disLock);
+       pthread_mutex_unlock(&disLock[layer]);
        return -1; 
       }
 
         totaldatalen+=pkt.getDataLen(); // getDataLen forced function imple
         totalpkts+=1; 
-  
-    pthread_mutex_unlock(&disLock);
+    }
+    pthread_mutex_unlock(&disLock[layer]);
 
    return 0; 
   }

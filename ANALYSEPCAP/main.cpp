@@ -22,8 +22,11 @@ const string pcapFileEndStr = "ready.pcap";
 
 std::ofstream logger("pcapanal.log");
 pthread_t threads[MAX_THREAD];
+std::string protcolname[20];
 
 //uint64_t count = 0;
+//Dpi
+extern string _protoFilePath;
 
 static void per_packet(libtrace_packet_t *packet)
 {
@@ -196,7 +199,8 @@ int parse_args(int argc, char **argv)
 int main(int argc , char * argv []) 
 {
     int fileCount = 0, rc = 0, i = 0;
-
+    protcolname[TRACE_IPPROTO_TCP] = "TCP";
+    protcolname[TRACE_IPPROTO_UDP] = "UDP";
     std::list<string> filesList;
     std::list<string>::iterator it;
        for(int c =0 ; c < MAX_THREAD ; c++)
@@ -251,16 +255,19 @@ int main(int argc , char * argv [])
 
         for (int Ti = 0; Ti < MAX_THREAD; Ti++) // Faulty thread timeouts 
         {
-            if(threads[Ti] != 0 )
+            int threadId = threads[Ti];
+            if(threadId != 0 )
             {  
                if (clock_gettime(CLOCK_REALTIME, &curtime) == -1) {
                 logger << "Error while reading the real time from clock_gettime" << endl; 
                }
                curtime.tv_sec += 60;// Give a sec time 
-             threadexit_status = pthread_timedjoin_np(threads[Ti], NULL, &curtime);
+               //threadexit_status = pthread_timedjoin_np(threadId, NULL, &curtime);
+                  //pthread_join(threadId,NULL);
+                 sleep(3);//20 * 3 = 60 secs window size 
               if (threadexit_status != 0) {
-               
-                pthread_cancel(threads[Ti]);
+              //Don't cancel a thread . if it has locked a resource the resource remains locked for ever Dead lock :(( 
+                //pthread_cancel(threadId);
               logger << "Cancel request sent to thread after  60 secs of waiting" << threads[Ti] << endl; 
                   threads[Ti] = 0; 
             }

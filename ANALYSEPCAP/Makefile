@@ -6,11 +6,14 @@ APP_OBJS = tcpProto.o\
 	   udpProto.o\
 	   lteGtp.o\
 	   displayStats.o\
+	   hostDpi.o \
+           sip.o \
            main.o
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
-
+NDPIINC = -I /usr/local/include/libndpi-1.7.1/libndpi/
 CPPFLAGS =  -lpthread -lrt -ltrace -DUSER_TCP_UDP
+NDPILIB =  -lndpi
 
 #INCLUDEPATH  =  -I ./readerwriterqueue/
 
@@ -18,9 +21,7 @@ CPPFLAGS =  -lpthread -lrt -ltrace -DUSER_TCP_UDP
 	 .cpp
 
 %.o:%.cpp
-	$(CXX) $(CPPFLAGS) -g -c $^ 
-%.o:%.cpp
-	$(CXX) $(CPPFLAGS) -g -c $^ 
+	$(CXX) $(CPPFLAGS) $(NDPIINC) -g -c $^ 
 
 
 .PHONY:
@@ -31,7 +32,7 @@ all: $(APPNAME)
 	
  
 $(APPNAME): $(APP_OBJS) 
-	$(CXX) $(CPPFLAGS) $(APP_OBJS) -g  -o $@  
+	$(CXX) $(CPPFLAGS) $(APP_OBJS) $(NDPILIB) -g  -o $@  
 	
 clean:
 	-rm -f *.o *.gch $(APPNAME)

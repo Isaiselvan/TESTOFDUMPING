@@ -56,6 +56,9 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
     // Store the TEID
     gtpHeader.m_teid  = (gtpHrd[4] << 24) | (gtpHrd[5] << 16) |
       				(gtpHrd[6] << 8)  | (gtpHrd[7]);
+  
+  if( gtpHeader.m_length > 8192)
+   return -1;
     
   //Protocol statistics 
    m_totalpkts++;
@@ -65,7 +68,7 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
    gtpHeader.m_extensionHeaderFlag = false; 
    gtpHeader.m_sequenceNumberFlag  = false;
    gtpHeader.m_nPduNumberFlag = false; 
- 
+    
    int gtpHr_len = 8;
      
    if(gtpHrd[0] & 0x07)
@@ -88,6 +91,8 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
     
 
    char *gtp_payload = Gtp_ptr + gtpHr_len; 
+   if(gtpHeader.m_length > 250)
+   gtpHeader.m_length = 200;
    gtpHeader.payLoadLen = gtpHeader.m_length - gtpHr_len;
    memcpy (gtpHeader.payload, (void *)gtp_payload,  gtpHeader.payLoadLen);
 
@@ -101,6 +106,7 @@ int LteProtoBase::parseGtp(libtrace_packet_t * pkt , char * udpPkt)
 int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
 {
  
+#ifdef USER_TCP_UDP
 //  TRACE_TYPE_ETH  
   libtrace_packet_t *nextLprt = trace_create_packet();
   if(nextLprt == NULL)
@@ -111,17 +117,21 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   uint16_t ethertype;  
   //char * chekPlod = (char *) trace_get_packet_buffer(pkt, &lnk, &rem); 
   char * chekPlod = (char *)trace_get_layer2(pkt, &lnk, &rem);
+  if(!chekPlod || !rem)
+   return -1;
   char * GtpPayload = gtpHrd.payload;
   char maclay[gtpHrd.m_length+14];
   memcpy(maclay, chekPlod, 14);
   while( gtpHrd.payLoadLen > 40)
   {
   //char macPgtp[gtpHrd.m_length+14];
+
   memcpy(maclay + 14, GtpPayload, gtpHrd.m_length+14);
+//std::cout << "DEV: gtpHrd.m_lengt " << gtpHrd.m_length << " gtpHeader.payLoadLen"
+  //<< gtpHrd.payLoadLen << std::endl; 
   trace_construct_packet(nextLprt, lnk, (void *)maclay, gtpHrd.m_length+14);  
   //trace_construct_packet(nextLprt, trace_get_link_type(pkt), chekPlod, rem); 
 
-#ifdef USER_TCP_UDP
     
            libtrace_ip_t * IPcheck =   trace_get_ip (nextLprt) ;
   
@@ -138,9 +148,9 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
 
       GtpPayload += 4;
       gtpHrd.payLoadLen -= 4;
-#endif 
   }
    trace_destroy_packet(nextLprt); 
+#endif 
 return 1; 
 }
 

@@ -9,11 +9,14 @@
 //#include "libtrace.h"
 #include "libtrace_parallel.h"
 //
+#define TIMEINT 10 //Sec 
 
 typedef struct Packet{ // Used as template refer other members to change name
   libtrace_ether_t ethernetlayer;
   libtrace_ip_t  ip4;
-  libtrace_ip6_t ipv6;
+  uint8_t * ip_ptr;//For internal purpose. Should be null after flow
+  int ipSize; // Added for DPI
+  libtrace_ip6_t ipv6; 
   libtrace_udp_t udp;
   libtrace_tcp_t tcp;
   libtrace_ipproto_t type;
