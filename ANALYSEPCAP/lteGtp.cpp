@@ -126,8 +126,8 @@ int LteProtoBase::addPkt(libtrace_packet_t * pkt, GTPhrd gtpHrd)
   //char macPgtp[gtpHrd.m_length+14];
 
   memcpy(maclay + 14, GtpPayload, gtpHrd.m_length+14);
-std::cout << "DEV: gtpHrd.m_lengt " << gtpHrd.m_length << " gtpHeader.payLoadLen"
-  << gtpHrd.payLoadLen << std::endl; 
+//std::cout << "DEV: gtpHrd.m_lengt " << gtpHrd.m_length << " gtpHeader.payLoadLen"
+  //<< gtpHrd.payLoadLen << std::endl; 
   trace_construct_packet(nextLprt, lnk, (void *)maclay, gtpHrd.m_length+14);  
   //trace_construct_packet(nextLprt, trace_get_link_type(pkt), chekPlod, rem); 
 
