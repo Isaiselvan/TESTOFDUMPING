@@ -98,7 +98,12 @@ int appLayer::processPkt(libtrace_packet_t * pkt, m_Packet& cmPkt)//ndpi_detecti
       
       if(dummyFlow.detected_protocol.protocol == NDPI_PROTOCOL_UNKNOWN)
          dummyFlow.detected_protocol = ndpi_guess_undetected_protocol(ndpi_struct,dummyFlow.protocol, ntohl(dummyFlow.lower_ip), ntohs(dummyFlow.lower_port),                                    ntohl(dummyFlow.upper_ip), ntohs(dummyFlow.upper_port));
-
+      
+     if(dummyFlow.detected_protocol.protocol < 24 || dummyFlow.detected_protocol.protocol == 91 ||
+        dummyFlow.detected_protocol.protocol == 92 || dummyFlow.detected_protocol.protocol == 130 ||
+        dummyFlow.detected_protocol.protocol == 131)
+        dummyFlow.detected_protocol.protocol = NDPI_PROTOCOL_UNKNOWN;
+    
       protocol_counter[dummyFlow.detected_protocol.protocol]++;  
       protocol_counter_bytes[dummyFlow.detected_protocol.protocol] += cmPkt.getDataLen(); 
  
