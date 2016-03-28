@@ -19,7 +19,7 @@
 #define IFSZ 16
 #define FLTRSZ 120
 #define MAXHOSTSZ 256
-#define SNAP_LEN 256 // Full packet reading
+#define SNAP_LEN 512 // Full packet reading to get host info on Sandbox min is 512
 #define PCAPDBUF_LEN 819200 // 10 * 8192
 
 
