@@ -87,11 +87,6 @@ int appLayer::processPkt(libtrace_packet_t * pkt, m_Packet& cmPkt)//ndpi_detecti
 
       dummyFlow.detected_protocol = ndpi_detection_process_packet(ndpi_struct, dummyFlow.ndpi_flow, cmPkt.ip_ptr, cmPkt.ipSize, time, dummyFlow.src, dummyFlow.dst);
 
-       // Do the processing for SIP packets
-       if(dummyFlow.detected_protocol.protocol == NDPI_PROTOCOL_SIP)
-       {
-           sip::processPkt(pkt, (char*) cmPkt.pay_load);
-       }
 
       //if(dummyFlow.detected_protocol.protocol == NDPI_PROTOCOL_UNKNOWN)
       //dummyFlow.detected_protocol = ndpi_detection_giveup(ndpi_struct, dummyFlow.ndpi_flow);
@@ -103,6 +98,12 @@ int appLayer::processPkt(libtrace_packet_t * pkt, m_Packet& cmPkt)//ndpi_detecti
         dummyFlow.detected_protocol.protocol == 92 || dummyFlow.detected_protocol.protocol == 130 ||
         dummyFlow.detected_protocol.protocol == 131)
         dummyFlow.detected_protocol.protocol = NDPI_PROTOCOL_UNKNOWN;
+       
+       // Do the processing for SIP packets
+       if(dummyFlow.detected_protocol.protocol == NDPI_PROTOCOL_SIP)
+       {
+           sip::processPkt(pkt, (char*) cmPkt.pay_load);
+       }
     
       protocol_counter[dummyFlow.detected_protocol.protocol]++;  
       protocol_counter_bytes[dummyFlow.detected_protocol.protocol] += cmPkt.getDataLen(); 

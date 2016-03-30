@@ -43,6 +43,7 @@ class sip
         static int processPkt(libtrace_packet_t *pkt, char *sipBuf);
         static void printStats(string &splunk);
         static void cleanStats();
+        static int isInteger(char num[]);
 };
 
 #endif //SIP_H
