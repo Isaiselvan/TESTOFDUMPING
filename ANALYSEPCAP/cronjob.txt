@@ -1,0 +1,1 @@
+*/1 * * * * find /apps/opt/LIBTRACE/test/ -type f -mmin +3 -exec rm -f {} \;
