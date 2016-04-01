@@ -155,13 +155,29 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
         clearStats();              
       }
     char buff[10];
-    
-   // if(prototype == TRACE_IPPROTO_TCP)
+    char addrstr_src[INET_ADDRSTRLEN];
+    if(pkt.ipv == 4)
+    {
+      inet_ntop(AF_INET, &(pkt.ip4.ip_src), addrstr_src, INET_ADDRSTRLEN);
+    }
+    else
+    {
+      inet_ntop(AF_INET, &(pkt.ipv6.ip_src), addrstr_src, INET_ADDRSTRLEN);
+    }
+
+
       trace_ether_ntoa (pkt.ethernetlayer.ether_shost, (char *)buff); //else if 
      
-    std::string node(buff);
+     std::string node(buff);
+
+     node = node + " IP=" + addrstr_src;
+
     if(layer != CORE_LAYER)
-       node = "UserTraffic";
+    {
+       node = "";  
+       node = node + "UserTraffic NODEIP=" + addrstr_src;
+    }
+
     protocolBase * protoBase = getProtoBase(node, prototype);
     
       if(protoBase == NULL)
