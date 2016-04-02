@@ -167,13 +167,18 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
       }
     char buff[10];
     char addrstr_src[INET_ADDRSTRLEN];
+    std::string ip ;
     if(pkt.ipv == 4)
     {
-      inet_ntop(AF_INET, &(pkt.ip4.ip_src), addrstr_src, INET_ADDRSTRLEN);
+      //inet_ntop(AF_INET, &(pkt.ip4.ip_src), (char *)&addrstr_src, INET_ADDRSTRLEN);
+       ip = inet_ntoa((pkt.ip4.ip_src));
+       //std::cout << "DEV: IP=" << ip << std::endl;
     }
     else
     {
-      inet_ntop(AF_INET, &(pkt.ipv6.ip_src), addrstr_src, INET_ADDRSTRLEN);
+      inet_ntop(AF_INET, &(pkt.ipv6.ip_src), (char *)&addrstr_src, INET_ADDRSTRLEN);
+       //ip = inet_ntoa((pkt.ipv6.ip_src));
+       ip = addrstr_src;
     }
 
 
@@ -181,12 +186,12 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
      
      std::string node(buff);
 
-     node = node + " IP=" + addrstr_src;
+     node = node + " IP=" + ip;
 
     if(layer != CORE_LAYER)
     {
        node = "";  
-       node = node + "UserTraffic NODEIP=" + addrstr_src;
+       node = node + "UserTraffic NODEIP=" + ip;
     }
 
     protocolBase * protoBase = getProtoBase(node, prototype);
