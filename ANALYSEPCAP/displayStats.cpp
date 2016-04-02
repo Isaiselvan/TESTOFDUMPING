@@ -101,6 +101,17 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
         {
              //Fill Layer4/5 details
              ppkt.tcp = *((libtrace_tcp_t *)ltheader);
+             char *tcp_payload;
+             void *transport  ;
+             //rem = 0;
+             libtrace_udp_t *tcp;
+             tcp = (libtrace_udp_t *)ltheader;
+             //transport = trace_get_transport(
+
+             tcp_payload = (char *)trace_get_payload_from_udp(tcp,&rem);
+
+             if(tcp_payload && rem != 0)
+             memcpy (ppkt.pay_load, tcp_payload, sizeof(ppkt.pay_load));
 
   
         }else if (proto == TRACE_IPPROTO_UDP)
