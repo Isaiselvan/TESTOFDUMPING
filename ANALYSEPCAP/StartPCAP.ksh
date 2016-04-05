@@ -17,14 +17,30 @@ killall -9 PCAP_ANALY tail grep
 while true
 do
 mon=`pgrep PCAP_ANALY`
-echo "$mon START..."
-  if [ -z $mon ]
+restart=``
+smov=`ls splunk.log`
+if [ -z $smov ]
+then
+echo "File does not exists"
+restart="TRUE"
+fi
+
+smov=`find . -name "splunk.log" -mmin +1`
+
+if [ ! -z $smov ]
+then
+restart="TRUE"
+fi
+
+
+#echo "$mon START..."
+  if [ -z $mon ] || [ ! -z $restart ]
   then
   echo "Starting Analyser"
   stopanal
   startanal
   fi
-echo "$mon START..."
+#echo "$mon START..."
 sleep 5
 done
 
