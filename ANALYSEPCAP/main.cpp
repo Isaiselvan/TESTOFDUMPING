@@ -290,26 +290,26 @@ int main(int argc , char * argv [])
         strcpy(pcapFile, it->c_str());
            
         logger << "Starting Thread for file:" << pcapFile << std::endl;
-        while (i < MAX_THREAD)
-        {
-            if(threads[i] == 0)
-            { 
+        //while (i < MAX_THREAD)
+        //{
+            //if(threads[i] == 0)
+            //{ 
             rc = pthread_create(&threads[i], NULL, 
                           readPcapFile, pcapFile);
                           
             if(rc)
             logger << "Error:: Failed to read pcap file:" << pcapFile << std::endl;
-            i++;
-            break;
-            }else if(i == MAX_THREAD)
-              {
-                i = 0;
-                sleep(10);
-              } 
+           // i++;
+           // break;
+           // }else if(i == MAX_THREAD)
+             // {
+               // i = 0;
+               // sleep(10);
+             // } 
 
            i++;
          //readPcapFile(pcapFile);
-        }
+       // }
     }
     i = 0;
 
