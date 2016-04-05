@@ -57,7 +57,7 @@ class displayStats{
       return displayBoard[lay];  
    }
   ~displayStats(){}
-
+  int getTimeStat(){return curIntStarttime;};
   int ParsePkt(libtrace_packet_t *pkt);
   int addPkt(m_Packet ,libtrace_packet_t *, libtrace_ipproto_t, int);
 //  int getDataLen(m_Packet t){return t.getDataLen(); }
