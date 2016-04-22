@@ -1,5 +1,6 @@
 
-APPNAME = PCAP_ANALY 
+APPNAME = PCAP_ANALY
+APPTCPTRACE = PCAP_ANALY_TCPTRACE 
 
 
 APP_OBJS = tcpProto.o\
@@ -7,13 +8,20 @@ APP_OBJS = tcpProto.o\
 	   lteGtp.o\
 	   displayStats.o\
 	   hostDpi.o \
-           sip.o \
-           main.o
+	   sip.o 
+           
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
+
+#LIBPATH = /usr/local/lib/
+
+#CPPFLAGS 
+#LIBPATH  = -L /usr/local/lib/
 NDPIINC = -I /usr/local/include/libndpi-1.7.1/libndpi/
-CPPFLAGS =  -lpthread -lrt -ltrace -DUSER_TCP_UDP
-NDPILIB =  -lndpi
+LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
+#LIBFLAGS =  -lpthread  -lrt -ltrace
+NDPILIB = -lndpi
+#LIBFLAGS = -DUSER_TCP_UDP
 
 #INCLUDEPATH  =  -I ./readerwriterqueue/
 
@@ -21,21 +29,24 @@ NDPILIB =  -lndpi
 	 .cpp
 
 %.o:%.cpp
-	$(CXX) $(CPPFLAGS) $(NDPIINC) -g -c $^ 
+	$(CXX) $(CPPFLAGS) $(NDPIINC)  $(LIBFLAGS) -g -c $^  
 
 
 .PHONY:
 	all clean
 
 
-all: $(APPNAME)
+all: $(APPNAME) $(APPTCPTRACE)
 	
  
 $(APPNAME): $(APP_OBJS) 
-	$(CXX) $(CPPFLAGS) $(APP_OBJS) $(NDPILIB) -g  -o $@  
+	$(CXX) -g main.cpp  -o $@ $(CPPFLAGS) $(NDPIINC) $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB)
+
+$(APPTCPTRACE): $(APP_OBJS)
+	$(CXX) -g main_trace.cpp -o $@ $(CPPFLAGS) $(NDPIINC) $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB) 
 	
 clean:
-	-rm -f *.o *.gch $(APPNAME)
+	-rm -f *.o  $(APPNAME) $(APPTCPTRACE)
 
 #	g++ -ltrace -lpthread -o analyse.exe main.cpp	
 #	g++ -ltrace  -c tcpProto.cpp

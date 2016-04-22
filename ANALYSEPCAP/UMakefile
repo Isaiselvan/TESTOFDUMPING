@@ -7,20 +7,13 @@ APP_OBJS = tcpProto.o\
 	   lteGtp.o\
 	   displayStats.o\
 	   hostDpi.o \
-	   sip.o 
-           
+           sip.o \
+           main.o
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/
-
-#LIBPATH = /usr/local/lib/
-
-#CPPFLAGS 
-#LIBPATH  = -L /usr/local/lib/
 NDPIINC = -I /usr/local/include/libndpi-1.7.1/libndpi/
-LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
-#LIBFLAGS =  -lpthread  -lrt -ltrace
-NDPILIB = -lndpi
-#LIBFLAGS = -DUSER_TCP_UDP
+CPPFLAGS =  -lpthread -lrt -ltrace -DUSER_TCP_UDP
+NDPILIB =  -lndpi
 
 #INCLUDEPATH  =  -I ./readerwriterqueue/
 
@@ -28,7 +21,7 @@ NDPILIB = -lndpi
 	 .cpp
 
 %.o:%.cpp
-	$(CXX) $(CPPFLAGS) $(NDPIINC)  $(LIBFLAGS) -g -c $^  
+	$(CXX) $(CPPFLAGS) $(NDPIINC) -g -c $^ 
 
 
 .PHONY:
@@ -39,10 +32,10 @@ all: $(APPNAME)
 	
  
 $(APPNAME): $(APP_OBJS) 
-	$(CXX) -g main.cpp  -o $@ $(CPPFLAGS) $(NDPIINC) $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB) 
+	$(CXX) $(CPPFLAGS) $(APP_OBJS) $(NDPILIB) -g  -o $@  
 	
 clean:
-	-rm -f *.o  $(APPNAME)
+	-rm -f *.o *.gch $(APPNAME)
 
 #	g++ -ltrace -lpthread -o analyse.exe main.cpp	
 #	g++ -ltrace  -c tcpProto.cpp
