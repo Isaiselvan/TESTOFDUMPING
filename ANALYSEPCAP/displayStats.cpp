@@ -167,18 +167,29 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
       }
     char buff[10];
     char addrstr_src[INET_ADDRSTRLEN];
-    std::string ip ;
+    std::string ip , dstip;
     if(pkt.ipv == 4)
     {
       //inet_ntop(AF_INET, &(pkt.ip4.ip_src), (char *)&addrstr_src, INET_ADDRSTRLEN);
        ip = inet_ntoa((pkt.ip4.ip_src));
+       dstip = inet_ntoa((pkt.ip4.ip_dst));
        //std::cout << "DEV: IP=" << ip << std::endl;
+       if(pkt.ip4.ip_src.s_addr  > pkt.ip4.ip_dst.s_addr )
+           dstip = ip +"-"+ dstip;
+       else
+           dstip = dstip +"-"+ip;
     }
     else
     {
       inet_ntop(AF_INET, &(pkt.ipv6.ip_src), (char *)&addrstr_src, INET_ADDRSTRLEN);
-       //ip = inet_ntoa((pkt.ipv6.ip_src));
        ip = addrstr_src;
+      inet_ntop(AF_INET, &(pkt.ipv6.ip_dst), (char *)&addrstr_src, INET_ADDRSTRLEN);
+       //ip = inet_ntoa((pkt.ipv6.ip_src));
+       dstip = addrstr_src;
+       if(pkt.ip4.ip_src.s_addr  > pkt.ip4.ip_dst.s_addr )
+           dstip = ip +"-"+ dstip;
+       else
+           dstip = dstip +"-"+ip;
     }
 
 
@@ -186,12 +197,12 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
      
      std::string node(buff);
 
-     node = node + " IP=" + ip;
+     node = node + " IP=" + ip + " DSTIP=" + dstip;
 
     if(layer != CORE_LAYER)
     {
        node = "";  
-       node = node + "UserTraffic NODEIP=" + ip;
+       node = node + "UserTraffic NODEIP=" + ip + " DSTIP=" + dstip;
     }
 
     protocolBase * protoBase = getProtoBase(node, prototype);
@@ -209,7 +220,9 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
       }
 
         totaldatalen+=pkt.getDataLen(); // getDataLen forced function imple
-        totalpkts+=1; 
+        totalpkts+=1;
+        fillPktDist(pkt.getDataLen());
+                  
     }
     pthread_mutex_unlock(&disLock[layer]);
 
@@ -293,6 +306,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
         curIntEndtime = newendtime;
         totalpkts = 0;
         totaldatalen = 0; 
+        for (int count = 0; count <= maxPktdistri; count++)
+         pktdist[count] = 0;
 
   }
   void displayStats::printstats(){
@@ -347,4 +362,33 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
    std::cout << "User plane traffic \n" << std::endl;
    displayStats::getdashB(USER_LAYER_LTE)->printstats();
    }
+  sprintf(TimeBuf, "Splunk %s",curTime.c_str());
+  std::cout << TimeBuf << " DistPkt=0to60 DistCount=" <<pktdist[p0to60] << std::endl;
+  std::cout << TimeBuf << " DistPkt=61to127 DistCount=" <<pktdist[p61to127]<< std::endl;
+  std::cout << TimeBuf << " DistPkt=128to255 DistCount=" <<pktdist[p128to255]<< std::endl;
+  std::cout << TimeBuf << " DistPkt=256to511 DistCount=" <<pktdist[p256to511]<< std::endl; 
+  std::cout << TimeBuf << " DistPkt=512to1023 DistCount=" <<pktdist[p512to1023]<< std::endl; 
+  std::cout << TimeBuf << " DistPkt=1024to1513 DistCount=" <<pktdist[p1024to1513]<< std::endl; 
+  std::cout << TimeBuf << " DistPkt=1514to1523 DistCount=" <<pktdist[p1514to1523]<< std::endl; 
+  std::cout << TimeBuf << " DistPkt=gt1523 DistCount=" <<pktdist[pgt1523]<< std::endl; 
 } 
+
+int displayStats::fillPktDist(unsigned long int size)
+{
+   if(size < 61)
+   {pktdist[p0to60]++; return p0to60;} 
+   else if(size < 128)
+   {pktdist[p61to127]++; return p61to127;}
+   else if(size < 256)
+   {pktdist[p128to255]++; return p128to255;}
+   else if(size < 512)
+   {pktdist[p256to511]++; return p256to511;}
+   else if(size < 1024)
+   {pktdist[p512to1023]++; return p512to1023;}
+   else if(size < 1514)
+   {pktdist[p1024to1513]++; return p1024to1513;}
+   else if(size < 1523)
+   {pktdist[p1514to1523]++; return p1514to1523;}
+   else 
+   {pktdist[pgt1523]; return pgt1523;}
+}

@@ -280,7 +280,10 @@ PrintTrace(
        
        fprintf(stdout,"   %s->%s:			      %s->%s:\n",
 	       host1,host2,host2,host1);
+
     }
+
+
     char  tmpstr[500];
     sprintf(tmpstr, "%s total_packets=",TimeBuf);
     StatLineI("total packets","", pab->packets, pba->packets);
@@ -295,27 +298,47 @@ PrintTrace(
 	      pab->unique_bytes, pba->unique_bytes);
     StatLineI("actual data pkts","", pab->data_pkts, pba->data_pkts);
     StatLineI("actual data bytes","", pab->data_bytes, pba->data_bytes);
+//Flow Based changes
+       if((pab->rttCount[p0to100])+ (pba->rttCount[p0to100]) > 0) 
+       printf("%s RTTms=%s RTTCount=%d RTTBytes=%d\n",TimeBuf,"0to100", (pab->rttCount[p0to100])+ (pba->rttCount[p0to100]), (pab->rttBytes[p0to100])+ (pba->rttBytes[p0to100]));
+       if((pab->rttCount[p101to250])+ (pba->rttCount[p101to250]) > 0)
+       printf("%s RTTms=%s RTTCount=%d RTTBytes=%d\n",TimeBuf,"101to250", (pab->rttCount[p101to250])+ (pba->rttCount[p101to250]), (pab->rttBytes[p101to250])+ (pba->rttBytes[p101to250]));
+       if((pab->rttCount[p251to500])+ (pba->rttCount[p251to500]) > 0)
+       printf("%s RTTms=%s RTTCount=%d RTTBytes=%d\n",TimeBuf,"251to500", (pab->rttCount[p251to500])+ (pba->rttCount[p251to500]), (pab->rttBytes[p251to500])+ (pba->rttBytes[p251to500]));
+       if((pab->rttCount[p501to750])+ (pba->rttCount[p501to750]) > 0)
+       printf("%s RTTms=%s RTTCount=%d RTTBytes=%d\n",TimeBuf,"501to750", (pab->rttCount[p501to750])+ (pba->rttCount[p501to750]), (pab->rttBytes[p501to750])+ (pba->rttBytes[p501to750]));
+       if((pab->rttCount[p751to1000])+ (pba->rttCount[p751to1000]) > 0)
+       printf("%s RTTms=%s RTTCount=%d RTTBytes=%d\n",TimeBuf,"751to1000", (pab->rttCount[p751to1000])+ (pba->rttCount[p751to1000]), (pab->rttBytes[p751to1000])+ (pba->rttBytes[p751to1000]));
+       if((pab->rttCount[gt1000])+ (pba->rttCount[gt1000]) > 0)
+       printf("%s RTTms=%s RTTCount=%d RTTBytes=%d\n",TimeBuf,"gt1000", (pab->rttCount[gt1000])+ (pba->rttCount[gt1000]), (pab->rttBytes[gt1000])+ (pba->rttBytes[gt1000]));
+       //printf("%s RTTBYTESTATS %dSeconds=%d\n",TimeBuf,ms, (pab->rttBytes[i])+ (pba->rttBytes[i]));
 
     sprintf(tmpstr, "%s AppLayer=Retransmitted rexmt_data_pkts=",TimeBuf);
-    StatLineI("rexmt_data_pkts=","", pab->rexmit_pkts, pba->rexmit_pkts);
-    
+//    StatLineI("rexmt_data_pkts=","", pab->rexmit_pkts + pba->rexmit_pkts, pba->rexmit_pkts);
+     if((pab->rexmit_pkts + pba->rexmit_pkts) > 0)
+     {
+     int Reper = ((pab->rexmit_bytes + pba->rexmit_bytes)/(pab->data_bytes + pba->data_bytes) ) * 100;
+     printf("%s RetransmittedPkt=%d RetransBytes=%d RetransPerc=%d\n",
+       TimeBuf,(pab->rexmit_pkts + pba->rexmit_pkts),
+                 (pab->rexmit_bytes + pba->rexmit_bytes),Reper);  
+     }
     sprintf(tmpstr, "%s AppLayer=Retransmitted BandWidth=",TimeBuf);
-    StatLineI((char *)tmpstr,"",
-	      (pab->rexmit_bytes *  8)/30, (pba->rexmit_bytes * 8)/30);
-    StatLineI("zwnd probe pkts","", 
-		  pab->num_zwnd_probes, pba->num_zwnd_probes);
-    StatLineI("zwnd probe bytes","",
-	      pab->zwnd_probe_bytes, pba->zwnd_probe_bytes);
+   //StatLineI((char *)tmpstr,"",
+//	      (pab->rexmit_bytes *  8)/30, (pba->rexmit_bytes * 8)/30);
+//  StatLineI("zwnd probe pkts","", 
+//	  pab->num_zwnd_probes, pba->num_zwnd_probes);
+//  StatLineI("zwnd probe bytes","",
+//     pab->zwnd_probe_bytes, pba->zwnd_probe_bytes);
     
-    sprintf(tmpstr, "%s outoforder_pkts=", TimeBuf);
-    StatLineI("outoforder_pkts","",
-	      pab->out_order_pkts, pba->out_order_pkts);
-    StatLineI("pushed data pkts","", pab->data_pkts_push, pba->data_pkts_push);
-    StatLineP("SYN/FIN pkts sent","","%s",
-	      (snprintf(bufl,sizeof(bufl),"%d/%d",
-		       pab->syn_count, pab->fin_count),bufl),
-	      (snprintf(bufr,sizeof(bufr),"%d/%d",
-		       pba->syn_count, pba->fin_count),bufr));
+//    sprintf(tmpstr, "%s outoforder_pkts=", TimeBuf);
+//    StatLineI("outoforder_pkts","",
+//	      pab->out_order_pkts, pba->out_order_pkts);
+//    StatLineI("pushed data pkts","", pab->data_pkts_push, pba->data_pkts_push);
+//    StatLineP("SYN/FIN pkts sent","","%s",
+//	      (snprintf(bufl,sizeof(bufl),"%d/%d",
+//		       pab->syn_count, pab->fin_count),bufl),
+//	      (snprintf(bufr,sizeof(bufr),"%d/%d",
+//		       pba->syn_count, pba->fin_count),bufr));
     if (pab->f1323_ws || pba->f1323_ws || pab->f1323_ts || pba->f1323_ts || csv || tsv || (sv != NULL)) {
 	StatLineP("req 1323 ws/ts","","%s",
 		  (snprintf(bufl,sizeof(bufl),"%c/%c",

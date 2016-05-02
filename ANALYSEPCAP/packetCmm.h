@@ -38,5 +38,16 @@ enum Displaylayer { CORE_LAYER =0 ,
        MAX_LAYER
       };
 
+enum pktDistr { 
+       p0to60 =0,
+       p61to127,
+       p128to255,
+       p256to511,
+       p512to1023,
+       p1024to1513,
+       p1514to1523,
+       pgt1523,
+       maxPktdistri  
+      };
 
 #endif // END PACKET_COMMON_H

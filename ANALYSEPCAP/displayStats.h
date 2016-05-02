@@ -25,6 +25,7 @@ class displayStats{
   int curIntEndtime;
   unsigned long int totalpkts;
   unsigned long int totaldatalen;
+  unsigned long int pktdist[maxPktdistri];
   libtrace_stat_t pcapStats; 
   static displayStats * displayBoard[MAX_LAYER];  
   static pthread_mutex_t disLock[MAX_LAYER];  
@@ -41,6 +42,8 @@ class displayStats{
    totalpkts = 0;
    totaldatalen = 0;
    StatsAvailable = false;
+    for (int count = 0; count <= maxPktdistri; count++)
+         pktdist[count] = 0;
    //protcolname[TRACE_IPPROTO_TCP] = "TCP";
    //protcolname[TRACE_IPPROTO_UDP] = "UDP"; 
 //   std::cout << "protcolname[TRACE_IPPROTO_TCP] = " << protcolname[TRACE_IPPROTO_TCP] << std::endl; 
@@ -85,7 +88,11 @@ class displayStats{
     pcapStats.captured = 0; 
     pcapStats.errors = 0;
     StatsAvailable = false; 
-   } 
+   }
+ 
+  int fillPktDist(unsigned long int size);
+ 
+  
 };
 
 
