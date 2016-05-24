@@ -162,7 +162,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
       {
         printstats();
         displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0); // Find a correct location later
-        cleardashB(pktTime,pktTime + TIMEINT);
+        int starttime = pktTime - (pktTime % TIMEINT);
+        cleardashB(starttime, starttime + TIMEINT);
         clearStats();              
       }
     char buff[10];
