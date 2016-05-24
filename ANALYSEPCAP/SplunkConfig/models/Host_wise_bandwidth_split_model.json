@@ -1,0 +1,66 @@
+{
+    "modelName": "Host_wise_bandwidth_split_model",
+    "displayName": "Host wise bandwidth split model",
+    "description": "",
+    "objectSummary": {
+        "Event-Based": 1,
+        "Transaction-Based": 0,
+        "Search-Based": 0
+    },
+    "objects": [
+        {
+            "objectName": "EventObject",
+            "displayName": "Event Object",
+            "parentName": "BaseEvent",
+            "fields": [
+                {
+                    "fieldName": "AppLayer",
+                    "owner": "EventObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "AppLayer",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "BandWidth",
+                    "owner": "EventObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "BandWidth",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "EventObject",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "sourcetype=\"PCAP Analyser\"",
+                    "owner": "EventObject"
+                }
+            ],
+            "lineage": "EventObject"
+        }
+    ],
+    "objectNameList": [
+        "EventObject"
+    ]
+}

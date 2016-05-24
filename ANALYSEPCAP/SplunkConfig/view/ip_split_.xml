@@ -1,0 +1,143 @@
+<dashboard>
+  <label>IView</label>
+  <row>
+    <panel>
+      <title>Packet Size Distribution</title>
+      <chart>
+        <search>
+          <query>| pivot Packet_Distribution EventObject sum(DistCount) AS "Packet count" SPLITROW DistPkt AS DistPkt SORT 100 DistPkt ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>rt-5m</earliest>
+          <latest>rt</latest>
+        </search>
+        <option name="charting.legend.placement">none</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisTitleX.text">Size Distribution in Bytes</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Round Trip Time distribution</title>
+      <chart>
+        <search>
+          <query>| pivot Rttview EventObject sum(RTTBytes) AS "Bytes" SPLITROW RTTms AS RTTms SORT 100 RTTms ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>rt-5m</earliest>
+          <latest>rt</latest>
+        </search>
+        <option name="charting.legend.placement">none</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisTitleX.text">RTT in ms</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Hosts</title>
+      <chart>
+        <search>
+          <query>| pivot TopHosts EventObject sum(Total_Datalen) AS "DataLength in Bytes" SPLITROW IP AS IP TOP 10 sum(Total_Datalen) ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>rt-5m</earliest>
+          <latest>rt</latest>
+        </search>
+        <option name="charting.legend.placement">none</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">1</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Conversations</title>
+      <chart>
+        <search>
+          <query>| pivot Top_Conversations_ EventObject sum(Total_Datalen) AS "DataLength in bytes" SPLITROW DSTIP AS "Top conversations" TOP 10 sum(Total_Datalen) ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>rt-5m</earliest>
+          <latest>rt</latest>
+        </search>
+        <option name="charting.legend.placement">none</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">1</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>

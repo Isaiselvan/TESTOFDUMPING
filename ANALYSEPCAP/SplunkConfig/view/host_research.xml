@@ -1,0 +1,120 @@
+<dashboard>
+  <label>SuperChart</label>
+  <row>
+    <panel>
+      <title>SuperChart</title>
+      <chart>
+        <search>
+          <query>| pivot trial SearchObject avg(perc) AS "Percentage" SPLITROW _time AS _time PERIOD auto SPLITCOL AppLayer  SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1|appendcols [ pivot trial SearchObject sum(BandWidth) AS "BandWidth" SPLITROW _time AS _time PERIOD auto SPLITCOL AppLayer  SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1]</query>
+          <earliest>rt-30m</earliest>
+          <latest>rt</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <!--<option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,sdfsdf]</option>
+        <option name="charting.chart.data">@data1</option>-->
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <!--<option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[sdf,sdfsdf]</option>
+        <option name="charting.chart2.data">@data2</option>-->
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <!--create the 1st chart -->
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Percentage</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <!--create the 2nd chart -->
+        <option name="charting.chart2">line</option>
+        <option name="charting.chart2.nullValueMode">zero</option>
+        <option name="charting.chart2.axisY">@axisY2</option>
+        <!-- the Yaxis of chart 2 is a link to charting.axisY2 -->
+        <option name="charting.axisTitleY2">axisTitle</option>
+        <option name="charting.axisTitleY2.text">BandWidth</option>
+        <option name="charting.axisLabelsY2.placement">right</option>
+        <!-- throw the structure to layout -->
+        <option name="charting.layout.charts">[@chart,@chart2]</option>
+        <option name="charting.layout.axisLabels">[@axisLabelsX,@axisLabelsY,@axisLabelsY2]</option>
+        <option name="charting.layout.axisTitles">[@axisTitleX,@axisTitleY,@axisTitleY2]</option>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <!--<option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,sdfsdf]</option>
+        <option name="charting.chart.data">@data1</option> -->
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <!-- <option name="charting.data2.columns">[sdf,sdfsdf]</option>
+        <option name="charting.chart2.data">@data2</option> -->
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <!--create the 1st chart -->
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Percentage</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <!--create the 2nd chart -->
+        <option name="charting.chart2">line</option>
+        <option name="charting.chart2.nullValueMode">zero</option>
+        <option name="charting.chart2.axisY">@axisY2</option>
+        <!-- the Yaxis of chart 2 is a link to charting.axisY2 -->
+        <option name="charting.axisTitleY2">axisTitle</option>
+        <option name="charting.axisTitleY2.text">Memory</option>
+        <option name="charting.axisLabelsY2.placement">right</option>
+        <!-- throw the structure to layout -->
+        <option name="charting.layout.charts">[@chart,@chart2]</option>
+        <option name="charting.layout.axisLabels">[@axisLabelsX,@axisLabelsY,@axisLabelsY2]</option>
+        <option name="charting.layout.axisTitles">[@axisTitleX,@axisTitleY,@axisTitleY2]</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>

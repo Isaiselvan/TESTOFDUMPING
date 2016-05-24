@@ -1,0 +1,150 @@
+{
+    "modelName": "Top_Conversations_",
+    "displayName": "Top Conversations",
+    "description": "",
+    "objectSummary": {
+        "Event-Based": 1,
+        "Transaction-Based": 0,
+        "Search-Based": 0
+    },
+    "objects": [
+        {
+            "objectName": "EventObject",
+            "displayName": "Event Object",
+            "parentName": "BaseEvent",
+            "fields": [
+                {
+                    "fieldName": "DSTIP",
+                    "owner": "EventObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "DSTIP",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Total_Datalen",
+                    "owner": "EventObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Total_Datalen",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "date_hour",
+                    "owner": "EventObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "date_hour",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "date_mday",
+                    "owner": "EventObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "date_mday",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "date_minute",
+                    "owner": "EventObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "date_minute",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "date_month",
+                    "owner": "EventObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "date_month",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "date_second",
+                    "owner": "EventObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "date_second",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "date_year",
+                    "owner": "EventObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "date_year",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "date_zone",
+                    "owner": "EventObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "date_zone",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "EventObject",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [
+                {
+                    "search": "NOT \"AppLayer\" Splunk DSTIP Total_Datalen!=0",
+                    "owner": "EventObject"
+                }
+            ],
+            "lineage": "EventObject"
+        }
+    ],
+    "objectNameList": [
+        "EventObject"
+    ]
+}
