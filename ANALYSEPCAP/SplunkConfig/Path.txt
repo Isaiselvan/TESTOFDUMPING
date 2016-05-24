@@ -1,0 +1,3 @@
+splunk//etc/users/admin/search/local/data/ui/views/*.xml
+splunk//etc/users/admin/search/local/data/models/*.json
+
