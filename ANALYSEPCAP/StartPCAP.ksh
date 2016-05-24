@@ -1,23 +1,24 @@
 #! /bin/bash
 
+APPNAME=PCAP_ANALY_TCPT
 
 startanal() {
-./PCAP_ANALY > result.log &
+./$APPNAME > result.log &
 tail -f result.log | grep --line-buffered "Splunk" > splunk.log &
 #tail -f splunk.log
 }
 
 
 stopanal(){
-killall PCAP_ANALY tail grep
+killall $APPNAME tail grep
 sleep 2
-killall -9 PCAP_ANALY tail grep
+killall -9 $APPNAME tail grep
 }
 restart=`cat /dev/null`
 mon=`cat /dev/null`
 while true
 do
-mon=`pgrep PCAP_ANALY`
+mon=`pgrep APPNAME`
 restart=`cat /dev/null`
 smov=`ls splunk.log`
 if [ -z $smov ]
