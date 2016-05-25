@@ -12,3 +12,10 @@ Sipp configuration:
 
 ./sipp -sn uas (-sn load default scenario, uas is default server scenario)
 ./sipp -sn uac 127.0.0.1 (-sn load default scenario, uac is default client scenario)
+
+
+sudo /usr/local/bin/sipp -sf sipp_uas_pcap_g711a.xml -p 77677
+sudo /usr/local/bin/sipp -sf sipp_uac_pcap_g711a.xml 127.0.0.1:77677
+
+
+https://github.com/saghul/sipp-scenarios.git
