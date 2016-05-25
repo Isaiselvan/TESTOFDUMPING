@@ -9,7 +9,7 @@
 //#include "libtrace.h"
 #include "libtrace_parallel.h"
 //
-#define TIMEINT 30 //Sec 
+#define TIMEINT 10 //Sec 
 
 typedef struct Packet{ // Used as template refer other members to change name
   libtrace_ether_t ethernetlayer;

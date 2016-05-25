@@ -138,7 +138,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
         struct rte_mbuf * m;
         PRINT_INFO("Lcore id of producer %d\n", rte_lcore_id());
         /* Start stats */
-        alarm(1);
+        //alarm(1);
         PcapStartUp();
 
        struct pcap_pkthdr *PcapHdr;
@@ -345,7 +345,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                 FATAL_ERROR("Error in opening pcap file\n");
         PRINT_INFO("Opened file %s\n", file_name_rotated);
          /* Start stats */
-        //alarm(1);
+        alarm(1);
 
 
         /* Infinite loop for consumer thread */
