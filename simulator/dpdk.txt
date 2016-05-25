@@ -1,0 +1,133 @@
+
+
+/home/dosomeT/ICIS_PCAP/TESTOFDUMPING/src_lat
+
+huge page --> 2048 
+
+sudo ./build/icis-dump -l0,1 -n 4 -- -w /apps/opt/LIBTRACE/test/ICISPCAP  -S 128 -G 10
+
+iperf3 -s -i 2
+ --> iperf -c 113.128.162.169 -u -b 5G -l 128 -t 900
+
+ --> iperf -s -i 5  
+
+
+tcpreplay --intf1=eth0 /apps/opt/new.pcap
+
+tcpreplay --loop=5 --intf1=eth0 /apps/opt/new.pcap
+
+
+iperf -c 113.128.162.169 -u -b 1M -t 1800
+
+
+iperf -c 113.128.162.169 -b 1M -t 1800
+
+
+
+Windows 113.128.165.34
+
+
+
+
+
+
+Acquire::ftp::proxy "http://v676267:15@proxy.ebiz.verizon.com:80/";
+Acquire::https::proxy "http://v676267:0915@proxy.ebiz.verizon.com:80/";
+Acquire::http::proxy "http://v676267:0915@proxy.ebiz.verizon.com:80/";
+Acquire::ftp::proxy "ftp://<username>:<password>@<proxy>:<port>/"; 
+Acquire::https::proxy "https://<username>:<password>@<proxy>:<port>/"; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NEW CONFIG
+
+Modify the make to include the pcap_pmd 
+make config T=x86_64-native-linuxapp-gcc
+sed -ri 's,(PMD_PCAP=).*,\1y,' build/.config
+
+Build libraries and test application (Linux headers may be needed with default config).
+
+make 
+make T=$RTE_SDK
+make T=x86_64-native-linuxapp-gcc
+make install T=x86_64-native-linuxapp-gcc
+cd example
+make
+
+
+make install T=x86_64-native-linuxapp-gcc EXTRA_CFLAGS='-g -ggdb' 
+
+
+sudo ./build/ICIS_PCAP -l0,1 -n 4 --vdev=eth_pcap1,iface=lo -- -p 3 -w test.pcap -S 128
+
+
+
+iperf version 2.0.8b (17 Sept 2015)
+
+iperf -s -i 1 -t 10 -w 1.5M
+iperf -c 113.128.162.169 -i 1 -w 1.5M
+
+iperf -c 113.128.162.169 -i 1 -w 10K  -t  30
+
+iperf -c 113.128.162.169 -i 1 -w 5K  -t  60 -> ~.08MPP 30S ~ 6.95Gbps 
+iperf -c 113.128.162.169 -i 1 -w 1K  -t  60 -> ~.08MPP 30S ~ 5.95Gbps
+
+
+
+TEST SETUP:
+```` `````
+
+http://redhatstackblog.redhat.com/2015/08/19/scaling-nfv-to-213-million-packets-per-second-with-red-hat-enterprise-linux-openstack-and-dpdk/
+
+ iperf -c 113.128.162.169 -B 113.129.162.169 -t 900 -b 1G
+ iperf -c 113.128.162.169 -B 172.17.42.2 -t 900 -b 1G
+
+
+Increase the swap size by 10GB
+dd if=/dev/zero of=/apps/opt/swapisai bs=1024 count=1024*1024*1 = 1 GB
+mkswap /apps/opt/swapisai
+swapon /apps/opt/swapisai
+
+Allocated 10 GB of swap file .. 
+
+reduced the loop back mtu 200
+
+sudo ./build/icis-dump -l5,4 -n 2  -- -w /apps/opt/LIBTRACE/test/ICISPCAP -S 96 -G 60
+
+sudo umount /dev/mqueue/
+sudo umount /mnt/huge
+sudo umount /dev/hugepages
+setup huge memory using setup.sh
+
+
+
+
+
+
+
+
+
+
+
+

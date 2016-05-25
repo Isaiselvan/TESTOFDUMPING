@@ -1,0 +1,5 @@
+1. http://tcpreplay.synfin.net/ --> Link to download Tcpreplay
+2. tcprewrite --infile=<old Pcap file> --outfile=<new pcap file> --dstipmap=0.0.0.0/0:<Ip of target server>/<Ip subnet mask of target server> --enet-dmac=<Mac of target server>
+   Ex.tcprewrite --infile=gtp-u.pcap --outfile=new1.pcap --dstipmap=0.0.0.0/0:113.128.162.27/21 --enet-dmac=00:50:56:bc:08:37
+3. tcpreplay --loop=0 --intf1=eth0 new1.pcap   --> To run tcpreplay in infinite loop. Eth0 should be connected to remote server
+

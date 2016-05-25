@@ -1,0 +1,14 @@
+BuildRequires:
+gcc-c++ 
+gsl-devel 
+libopenssl-devel  
+libpcap-devel 
+ncurses-devel
+
+
+Sipp configuration:
+ ./configure --with-sctp --with-pcap --with-openssl 
+
+
+./sipp -sn uas (-sn load default scenario, uas is default server scenario)
+./sipp -sn uac 127.0.0.1 (-sn load default scenario, uac is default client scenario)
