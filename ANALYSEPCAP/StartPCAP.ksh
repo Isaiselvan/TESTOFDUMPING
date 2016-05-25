@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/ksh
 
 APPNAME=PCAP_ANALY_TCPT
 
@@ -18,7 +18,7 @@ restart=`cat /dev/null`
 mon=`cat /dev/null`
 while true
 do
-mon=`pgrep APPNAME`
+mon=`pgrep $APPNAME `
 restart=`cat /dev/null`
 smov=`ls splunk.log`
 if [ -z $smov ]
@@ -34,8 +34,10 @@ then
 restart="true"
 fi
 
-
+#echo "$smov smov" 
 #echo "$mon START..."
+#echo "$restart reSta.."
+
 if [ -z $mon ] || [ ! -z $restart ] 
   then
   echo "Starting Analyser"
