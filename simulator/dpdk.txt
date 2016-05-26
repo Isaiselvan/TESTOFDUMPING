@@ -125,7 +125,80 @@ setup huge memory using setup.sh
 
 
 
+Setup DPDK environment
 
+The kernel modules built are available in the build/kmod directory.
+
+Loading the kernel module
+
+    $ sudo modprobe uio
+    $ sudo insmod ./src/dpdk/build/kmod/igb_uio.ko
+    $ sudo insmod ./src/dpdk/build/kmod/rte_kni.ko
+
+Make hugepages available to DPDK. You can setup hugepage with two ways:
+
+    Manual confguration (Hugepage size: 2MB)
+
+    $ sudo sh -c "echo 256 >  /sys/devices/system/node/node0/hugepages/hugepages-2048kB/nr_hugepages"
+    $ sudo mkdir -p /mnt/huge
+    $ sudo mount -t hugetlbfs nodev /mnt/huge
+
+    Script configuration
+
+Add hugepages option of the linux kernel to reserve 1024 pages of 2 MB.
+
+    hugepages=1024
+
+Add the following line to /etc/fstab so that mount point can be made permanent across reboots
+
+    nodev /mnt/huge hugetlbfs defaults 0 0
+
+Check PCI ID to enable DPDK on 2nd, 3rd, and 4th NIC.
+
+If NIC used for management (ex: ssh) was selected, you will lose connection.
+
+    $ sudo ./src/dpdk/tools/dpdk_nic_bind.py --status
+
+    Network devices using IGB_UIO driver
+    ====================================
+
+    <none>
+
+    Network devices using kernel driver
+    ===================================
+    0000:02:01.0 '82545EM Gigabit Ethernet Controller (Copper)' if=eth0 drv=e1000 unused=igb_uio *Active*
+    0000:02:02.0 '82545EM Gigabit Ethernet Controller (Copper)' if=eth1 drv=e1000 unused=igb_uio
+    0000:02:03.0 '82545EM Gigabit Ethernet Controller (Copper)' if=eth2 drv=e1000 unused=igb_uio
+    0000:02:04.0 '82545EM Gigabit Ethernet Controller (Copper)' if=eth3 drv=e1000 unused=igb_uio
+
+    Other network devices
+    =====================
+    <none>
+
+Unbound NICs from ixgbe driver.
+
+    $ sudo ./src/dpdk/tools/dpdk_nic_bind.py --bind=igb_uio 0000:02:02.0 0000:02:03.0 0000:02:04.0
+
+Check the current status of NICs whehter the 2nd, 3rd and 4th interface is registerd with igb_uio driver
+
+    $ sudo ./src/dpdk/tools/dpdk_nic_bind.py --status
+
+    Network devices using IGB_UIO driver
+    ====================================
+    0000:02:02.0 '82545EM Gigabit Ethernet Controller (Copper)' drv=igb_uio unused=e1000
+    0000:02:03.0 '82545EM Gigabit Ethernet Controller (Copper)' drv=igb_uio unused=e1000
+    0000:02:04.0 '82545EM Gigabit Ethernet Controller (Copper)' drv=igb_uio unused=e1000
+
+    Network devices using kernel driver
+    ===================================
+    0000:02:01.0 '82545EM Gigabit Ethernet Controller (Copper)' if=eth0 drv=e1000 unused=igb_uio *Active*
+
+    Other network devices
+    =====================
+    <none>
+
+
+ref:https://github.com/lagopus/lagopus/blob/master/QUICKSTART.md
 
 
 
