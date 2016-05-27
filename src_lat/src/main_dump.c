@@ -451,6 +451,7 @@ void print_stats (void){
     char TimeBuf[300];
     curTimeInfo = localtime(&curT);
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
+    static long long int prvrecevied = 0 , prvdrop = 0, prvprocessed = 0;  
 
         /* Print the statistics out */
         PRINT_INFO("Packet Capture Statistics:\n");
@@ -465,17 +466,27 @@ void print_stats (void){
 		printf("Error opening file!\n");
 		exit(1);
 	}
-        fprintf(f, "Time %s\n", TimeBuf);            
+
+        
+        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  prvprocss=%lld \n ", TimeBuf, 
+                m_pcapstatus.ps_recv - prvrecevied, m_pcapstatus.ps_drop - prvdrop, m_numberofpackets - prvprocessed);            
 	/* print some text */
-	fprintf(f, "%d packets received by filter\n", m_pcapstatus.ps_recv);
+//	fprintf(f, "%d packets received by filter\n", m_pcapstatus.ps_recv);
 
 	/* print integers and floats */
-	fprintf(f, "%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
+//	fprintf(f, "%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
 
-	fprintf(f, "%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
-        fprintf(f, "%d Packets queued for write opt\n", m_numberofpackets);
+//	fprintf(f, "%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
+       // fprintf(f, "%d Packets queued for write opt\n", m_numberofpackets);
 
 	fclose(f);
+        int cor =1 ;
+        if(strcmp(m_interfacename,"lo") == 0)
+          cor = 2;
+ 
+        prvrecevied = m_pcapstatus.ps_recv/cor;
+        prvdrop = m_pcapstatus.ps_drop/cor;
+        prvprocessed = m_numberofpackets;
 
 }
 
