@@ -3,3 +3,11 @@
    Ex.tcprewrite --infile=gtp-u.pcap --outfile=new1.pcap --dstipmap=0.0.0.0/0:113.128.162.27/21 --enet-dmac=00:50:56:bc:08:37
 3. tcpreplay --loop=0 --intf1=eth0 new1.pcap   --> To run tcpreplay in infinite loop. Eth0 should be connected to remote server
 
+
+tcprewrite --infile=gtp-u.pcap --outfile=new1.pcap --dstipmap=0.0.0.0/0:10.76.190.86/26 --enet-dmac=34:17:eb:af:06:A7
+
+
+tcprewrite --infile=gtp_complete_activation.pcap --outfile=ngtp_complete_activation.pcap1.pcap  --enet-dmac=34:17:eb:af:06:A7
+sudo tcpreplay --loop=0 --intf1=eth0 ngtp_complete_activation.pcap1.pcap > /dev/null 2>&1 &
+
+

@@ -1,0 +1,4 @@
+iperf -s -u -i 2
+iperf -u -c 113.128.163.198 -l 64 -b 10G -t 300 -P 7
+
+./build/icis-dump -l 0,1,2 -n 4 -- -w /apps/opt/LIBTRACE/test/ICISPCAP -S 96 -G 30 -B 4194304

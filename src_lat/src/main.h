@@ -68,8 +68,7 @@ static void sig_handler(int signo);
 static int parse_args(int argc, char **argv);
 void print_stats (void);
 void alarm_routine (__attribute__((unused)) int unused);
-#if 1 
 static int packet_consumer(__attribute__((unused)) void * arg);
-#endif
+static int Statistics_lcore(__attribute__((unused)) void * arg);
 int isPowerOfTwo (unsigned int x);
 void PcapStartUp (void );

@@ -23,8 +23,8 @@
 #define PCAPDBUF_LEN 819200 // 10 * 8192
 
 
-#define RTE_LOGTYPE_ICIS RTE_LOGTYPE_USER1
-#define PRINT_INFO(fmt, args...)        RTE_LOG(INFO, ICIS, fmt "\n", ##args)
+#define RTE_LOGTYPE_FBM RTE_LOGTYPE_USER1
+#define PRINT_INFO(fmt, args...)        RTE_LOG(INFO, FBM, fmt "\n", ##args)
 
 char m_interfacename[IFSZ] = "lo" ;
 pcap_t *m_pcapHandle;       /* packet capture descriptor */
@@ -82,9 +82,6 @@ int main(int argc, char **argv)
         int ret;
         //int i;
 
-        /* Create handler for SIGINT for CTRL + C closing and SIGALRM to print stats*/
-        signal(SIGINT, sig_handler);
-        signal(SIGALRM, alarm_routine);
 
         /* Initialize DPDK enviroment with args, then shift argc and argv to get application parameters */
         ret = rte_eal_init(argc, argv);
@@ -92,9 +89,9 @@ int main(int argc, char **argv)
         argc -= ret;
         argv += ret;
 
-        /* Check if this application can use two cores*/
+        /* Check if this application can use three cores*/
         ret = rte_lcore_count ();
-        if (ret != 2) FATAL_ERROR("This application needs exactly two (2) cores.");
+        if (ret != 3) FATAL_ERROR("This application needs exactly three (3) cores.");
 
         /* Parse arguments */
         parse_args(argc, argv);
@@ -108,7 +105,7 @@ int main(int argc, char **argv)
 #endif 
 
   
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1,/* MEMPOOL_ELEM_SZ*/ snaplen + 128 + RTE_PKTMBUF_HEADROOM, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1,/* MEMPOOL_ELEM_SZ*/ (snaplen + 128 + RTE_PKTMBUF_HEADROOM), MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
         //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
@@ -119,13 +116,29 @@ int main(int argc, char **argv)
 
 
         /* Start consumer and producer routine on 2 different cores: consumer launched first... */
-        ret =  rte_eal_mp_remote_launch (packet_consumer, NULL, SKIP_MASTER);
-        if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
-
-        /* ... and then loop in consumer */
+        //ret =  rte_eal_mp_remote_launch (packet_consumer, NULL, SKIP_MASTER);
+        //if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
+          
+//Statistics_lcore        
+        unsigned lcore_id;
+        int coreVcount = 0;
+        RTE_LCORE_FOREACH_SLAVE(lcore_id) {
+              if(coreVcount++ == 0) 
+              {
+               ret = rte_eal_remote_launch(packet_consumer, NULL,lcore_id);
+               if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
+              }
+              else
+              {
+               ret = rte_eal_remote_launch(Statistics_lcore, NULL,lcore_id);
+               if (ret != 0) FATAL_ERROR("Cannot start Statistics thread\n");
+              } 
+        } 
+          
+        /* Master as producer */
         packet_producer ( NULL );
-        //packet_consumer(NULL);
-
+       
+        rte_eal_mp_wait_lcore();
         return 0;
 }
 
@@ -345,7 +358,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                 FATAL_ERROR("Error in opening pcap file\n");
         PRINT_INFO("Opened file %s\n", file_name_rotated);
          /* Start stats */
-        alarm(1);
+        //alarm(1);
 
 
         /* Infinite loop for consumer thread */
@@ -432,14 +445,58 @@ void print_stats (void){
                 exit(10);
         }
 
+        
+    time_t curT = last_rotation;
+    struct tm * curTimeInfo;
+    char TimeBuf[300];
+    curTimeInfo = localtime(&curT);
+    strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
+    static long long int prvrecevied = 0 , prvdrop = 0, prvprocessed = 0;  
+
         /* Print the statistics out */
         PRINT_INFO("Packet Capture Statistics:\n");
         PRINT_INFO("%d packets received by filter\n", m_pcapstatus.ps_recv);
         PRINT_INFO("%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
+        PRINT_INFO("%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
         PRINT_INFO("%d Packets queued for write opt\n", m_numberofpackets); 
 
+	FILE *f = fopen("DumperStat.log", "a+");
+	if (f == NULL)
+	{
+		printf("Error opening file!\n");
+		exit(1);
+	}
 
+        
+        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  prvprocss=%lld \n ", TimeBuf, 
+                m_pcapstatus.ps_recv - prvrecevied, m_pcapstatus.ps_drop - prvdrop, m_numberofpackets - prvprocessed);            
+	/* print some text */
+//	fprintf(f, "%d packets received by filter\n", m_pcapstatus.ps_recv);
 
+	/* print integers and floats */
+//	fprintf(f, "%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
+
+//	fprintf(f, "%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
+       // fprintf(f, "%d Packets queued for write opt\n", m_numberofpackets);
+
+	fclose(f);
+        int cor =1 ;
+        if(strcmp(m_interfacename,"lo") == 0)
+          cor = 2;
+ 
+        prvrecevied = m_pcapstatus.ps_recv/cor;
+        prvdrop = m_pcapstatus.ps_drop/cor;
+        prvprocessed = m_numberofpackets;
+
+}
+
+static  int Statistics_lcore(__attribute__((unused)) void * arg){
+        /* Create handler for SIGINT for CTRL + C closing and SIGALRM to print stats*/
+        signal(SIGINT, sig_handler);
+        signal(SIGALRM, alarm_routine);
+
+        alarm(1);
+        return 0; 
 }
 
 void alarm_routine (__attribute__((unused)) int unused){
@@ -451,7 +508,7 @@ void alarm_routine (__attribute__((unused)) int unused){
         print_stats();
 
         /* Schedule an other print */
-        alarm(300);
+        alarm(5);
         //signal(SIGALRM, alarm_routine);
 
 }
