@@ -468,7 +468,7 @@ void print_stats (void){
 	}
 
         
-        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  prvprocss=%lld \n ", TimeBuf, 
+        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
                 m_pcapstatus.ps_recv - prvrecevied, m_pcapstatus.ps_drop - prvdrop, m_numberofpackets - prvprocessed);            
 	/* print some text */
 //	fprintf(f, "%d packets received by filter\n", m_pcapstatus.ps_recv);
