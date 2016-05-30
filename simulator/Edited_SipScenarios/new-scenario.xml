@@ -1,0 +1,187 @@
+<--- SIP read from UDP:192.168.254.5:5060 --->
+INVITE sip:3616246@192.168.254.254 SIP/2.0
+Via: SIP/2.0/UDP 192.168.254.5:5060;branch=z9hG4bK-89e3a4df
+From: Home <sip:995@192.168.254.254>;tag=18185e19f7db1ecfo0
+To: <sip:3616246@192.168.254.254>
+Call-ID: 8d88ff61-73fdae27@192.168.254.5
+CSeq: 101 INVITE
+Max-Forwards: 70
+Contact: Home <sip:995@192.168.254.5:5060>
+Expires: 240
+User-Agent: Linksys/SPA3102-5.1.10(GW)
+Content-Length: 304
+Allow: ACK, BYE, CANCEL, INFO, INVITE, NOTIFY, OPTIONS, REFER
+Supported: x-sipura, replaces
+Content-Type: application/sdp
+v=0
+o=- 56213 56213 IN IP4 192.168.254.5
+s=-
+c=IN IP4 192.168.254.5
+t=0 0
+m=audio 16416 RTP/AVP 18 0 8 100 101
+a=rtpmap:18 G729a/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:100 NSE/8000
+a=fmtp:100 192-193
+a=rtpmap:101 telephone-event/8000
+a=fmtp:101 0-15
+a=ptime:30
+a=sendrecv
+<------------->
+--- (14 headers 15 lines) ---
+  == Using UDPTL TOS bits 184
+  == Using UDPTL CoS mark 5
+Sending to 192.168.254.5:5060 (no NAT)
+Using INVITE request as basis request - 8d88ff61-73fdae27@192.168.254.5
+Found peer '995' for '995' from 192.168.254.5:5060
+<--- Reliably Transmitting (no NAT) to 192.168.254.5:5060 --->
+SIP/2.0 401 Unauthorized
+Via: SIP/2.0/UDP 192.168.254.5:5060;branch=z9hG4bK-89e3a4df;received=192.168.254.5
+From: Home <sip:995@192.168.254.254>;tag=18185e19f7db1ecfo0
+To: <sip:3616246@192.168.254.254>;tag=as205d6115
+Call-ID: 8d88ff61-73fdae27@192.168.254.5
+CSeq: 101 INVITE
+Server: FPBX-2.9.0(1.8.4.4)
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH
+Supported: replaces, timer
+WWW-Authenticate: Digest algorithm=MD5, realm="asterisk", nonce="20387cf5"
+Content-Length: 0
+<------------>
+Scheduling destruction of SIP dialog '8d88ff61-73fdae27@192.168.254.5' in 6400 ms (Method: INVITE)
+<--- SIP read from UDP:192.168.254.5:5060 --->
+ACK sip:3616246@192.168.254.254 SIP/2.0
+Via: SIP/2.0/UDP 192.168.254.5:5060;branch=z9hG4bK-89e3a4df
+From: Home <sip:995@192.168.254.254>;tag=18185e19f7db1ecfo0
+To: <sip:3616246@192.168.254.254>;tag=as205d6115
+Call-ID: 8d88ff61-73fdae27@192.168.254.5
+CSeq: 101 ACK
+Max-Forwards: 70
+Contact: Home <sip:995@192.168.254.5:5060>
+User-Agent: Linksys/SPA3102-5.1.10(GW)
+Content-Length: 0
+<------------->
+--- (10 headers 0 lines) ---
+<--- SIP read from UDP:192.168.254.5:5060 --->
+INVITE sip:3616246@192.168.254.254 SIP/2.0
+Via: SIP/2.0/UDP 192.168.254.5:5060;branch=z9hG4bK-61b9ae2f
+From: Home <sip:995@192.168.254.254>;tag=18185e19f7db1ecfo0
+To: <sip:3616246@192.168.254.254>
+Call-ID: 8d88ff61-73fdae27@192.168.254.5
+CSeq: 102 INVITE
+Max-Forwards: 70
+Authorization: Digest username="995",realm="asterisk",nonce="20387cf5",uri="sip:3616246@192.168.254.254",algorithm=MD5,response="a57f766d866d5072a2b63e994a6dbf35"
+Contact: Home <sip:995@192.168.254.5:5060>
+Expires: 240
+User-Agent: Linksys/SPA3102-5.1.10(GW)
+Content-Length: 304
+Allow: ACK, BYE, CANCEL, INFO, INVITE, NOTIFY, OPTIONS, REFER
+Supported: x-sipura, replaces
+Content-Type: application/sdp
+v=0
+o=- 56213 56213 IN IP4 192.168.254.5
+s=-
+c=IN IP4 192.168.254.5
+t=0 0
+m=audio 16416 RTP/AVP 18 0 8 100 101
+a=rtpmap:18 G729a/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:100 NSE/8000
+a=fmtp:100 192-193
+a=rtpmap:101 telephone-event/8000
+a=fmtp:101 0-15
+a=ptime:30
+a=sendrecv
+<------------->
+--- (15 headers 15 lines) ---
+Sending to 192.168.254.5:5060 (no NAT)
+Using INVITE request as basis request - 8d88ff61-73fdae27@192.168.254.5
+Found peer '995' for '995' from 192.168.254.5:5060
+  == Using SIP RTP TOS bits 184
+  == Using SIP RTP CoS mark 5
+Found RTP audio format 18
+Found RTP audio format 0
+Found RTP audio format 8
+Found RTP audio format 100
+Found RTP audio format 101
+Found audio description format G729a for ID 18
+Found audio description format PCMU for ID 0
+Found audio description format PCMA for ID 8
+Found audio description format NSE for ID 100
+Found audio description format telephone-event for ID 101
+Capabilities: us - 0x8 (alaw), peer - audio=0x10c (ulaw|alaw|g729)/video=0x0 (nothing)/text=0x0 (nothing), combined - 0x8 (alaw)
+Non-codec capabilities (dtmf): us - 0x1 (telephone-event|), peer - 0x1 (telephone-event|), combined - 0x1 (telephone-event|)
+Peer audio RTP is at port 192.168.254.5:16416
+Looking for 3616246 in from-internal (domain 192.168.254.254)
+list_route: hop: <sip:995@192.168.254.5:5060>
+<--- Transmitting (no NAT) to 192.168.254.5:5060 --->
+SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.254.5:5060;branch=z9hG4bK-61b9ae2f;received=192.168.254.5
+From: Home <sip:995@192.168.254.254>;tag=18185e19f7db1ecfo0
+To: <sip:3616246@192.168.254.254>
+Call-ID: 8d88ff61-73fdae27@192.168.254.5
+CSeq: 102 INVITE
+Server: FPBX-2.9.0(1.8.4.4)
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH
+Supported: replaces, timer
+Contact: <sip:3616246@192.168.254.254:5060>
+Content-Length: 0
+<------------>
+    -- Executing [3616246@from-internal:1] Macro("SIP/995-0000000e", "user-callerid,LIMIT,") in new stack
+    -- Executing [s@macro-user-callerid:1] Set("SIP/995-0000000e", "AMPUSER=995") in new stack
+    -- Executing [s@macro-user-callerid:2] GotoIf("SIP/995-0000000e", "0?report") in new stack
+    -- Executing [s@macro-user-callerid:3] ExecIf("SIP/995-0000000e", "1?Set(REALCALLERIDNUM=995)") in new stack
+    -- Executing [s@macro-user-callerid:4] Set("SIP/995-0000000e", "AMPUSER=995") in new stack
+    -- Executing [s@macro-user-callerid:5] Set("SIP/995-0000000e", "AMPUSERCIDNAME=Ev Giris") in new stack
+    -- Executing [s@macro-user-callerid:6] GotoIf("SIP/995-0000000e", "0?report") in new stack
+    -- Executing [s@macro-user-callerid:7] Set("SIP/995-0000000e", "AMPUSERCID=995") in new stack
+    -- Executing [s@macro-user-callerid:8] Set("SIP/995-0000000e", "CALLERID(all)="Ev Giris" <995>") in new stack
+    -- Executing [s@macro-user-callerid:9] GotoIf("SIP/995-0000000e", "0?limit") in new stack
+    -- Executing [s@macro-user-callerid:10] ExecIf("SIP/995-0000000e", "1?Set(GROUP(concurrency_limit)=995)") in new stack
+    -- Executing [s@macro-user-callerid:11] GotoIf("SIP/995-0000000e", "1?continue") in new stack
+    -- Goto (macro-user-callerid,s,24)
+    -- Executing [s@macro-user-callerid:24] Set("SIP/995-0000000e", "CALLERID(number)=995") in new stack
+    -- Executing [s@macro-user-callerid:25] Set("SIP/995-0000000e", "CALLERID(name)=Ev Giris") in new stack
+    -- Executing [s@macro-user-callerid:26] Set("SIP/995-0000000e", "CHANNEL(language)=en") in new stack
+    -- Executing [3616246@from-internal:2] Set("SIP/995-0000000e", "MOHCLASS=default") in new stack
+    -- Executing [3616246@from-internal:3] Set("SIP/995-0000000e", "_NODEST=") in new stack
+    -- Executing [3616246@from-internal:4] Macro("SIP/995-0000000e", "record-enable,995,OUT,") in new stack
+    -- Executing [s@macro-record-enable:1] GotoIf("SIP/995-0000000e", "1?check") in new stack
+    -- Goto (macro-record-enable,s,4)
+    -- Executing [s@macro-record-enable:4] ExecIf("SIP/995-0000000e", "0?MacroExit()") in new stack
+    -- Executing [s@macro-record-enable:5] GotoIf("SIP/995-0000000e", "0?Group:OUT") in new stack
+    -- Goto (macro-record-enable,s,14)
+    -- Executing [s@macro-record-enable:14] GotoIf("SIP/995-0000000e", "0?IN") in new stack
+    -- Executing [s@macro-record-enable:15] ExecIf("SIP/995-0000000e", "1?MacroExit()") in new stack
+    -- Executing [3616246@from-internal:5] Macro("SIP/995-0000000e", "dialout-trunk,2,3616246,") in new stack
+    -- Executing [s@macro-dialout-trunk:1] Set("SIP/995-0000000e", "DIAL_TRUNK=2") in new stack
+ == Spawn extension (macro-dialout-trunk, s, 2) exited non-zero on 'SIP/995-0000000e' in macro 'dialout-trunk'
+  == Spawn extension (from-internal, 3616246, 5) exited non-zero on 'SIP/995-0000000e'
+    -- Executing [h@from-internal:1] Hangup("SIP/995-0000000e", "") in new stack
+  == Spawn extension (from-internal, h, 1) exited non-zero on 'SIP/995-0000000e'
+Scheduling destruction of SIP dialog '8d88ff61-73fdae27@192.168.254.5' in 6400 ms (Method: INVITE)
+<--- Reliably Transmitting (no NAT) to 192.168.254.5:5060 --->
+SIP/2.0 603 Declined
+Via: SIP/2.0/UDP 192.168.254.5:5060;branch=z9hG4bK-61b9ae2f;received=192.168.254.5
+From: Home <sip:995@192.168.254.254>;tag=18185e19f7db1ecfo0
+To: <sip:3616246@192.168.254.254>;tag=as2aaa4f08
+Call-ID: 8d88ff61-73fdae27@192.168.254.5
+CSeq: 102 INVITE
+Server: FPBX-2.9.0(1.8.4.4)
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH
+Supported: replaces, timer
+Content-Length: 0
+<------------>
+<--- SIP read from UDP:192.168.254.5:5060 --->
+ACK sip:3616246@192.168.254.254 SIP/2.0
+Via: SIP/2.0/UDP 192.168.254.5:5060;branch=z9hG4bK-61b9ae2f
+From: Home <sip:995@192.168.254.254>;tag=18185e19f7db1ecfo0
+To: <sip:3616246@192.168.254.254>;tag=as2aaa4f08
+Call-ID: 8d88ff61-73fdae27@192.168.254.5
+CSeq: 102 ACK
+Max-Forwards: 70
+Authorization: Digest username="995",realm="asterisk",nonce="20387cf5",uri="sip:3616246@192.168.254.254",algorithm=MD5,response="a57f766d866d5092a2b63e994a6dbf35"
+Contact: Home <sip:995@192.168.254.5:5060>
+User-Agent: Linksys/SPA3102-5.1.10(GW)
+Content-Length: 0
