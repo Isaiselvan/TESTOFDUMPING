@@ -8,7 +8,7 @@
 /* Constants of the system */
 #define MEMPOOL_NAME "cluster_mem_pool"                         // Name of the NICs' mem_pool
 #define MEMPOOL_ELEM_SZ  512                                    // Power of two greater than 1500
-#define MEMPOOL_CACHE_SZ 512                                    // Max is 512
+#define MEMPOOL_CACHE_SZ 0                                    // Max is 512
 
 #define INTERMEDIATERING_NAME "intermedate_ring"
 
@@ -74,8 +74,8 @@ int do_shutdown = 0;
 pcap_t *pd;
 int nb_sys_ports;
 static struct rte_mempool * pktmbuf_pool;
-static struct rte_ring    * intermediate_ring;
-
+static struct rte_ring    * intermediate_ring, * store_ring;
+static int test1=0, test2=0, test3=0, test4 =0;
 /* Main function */
 int main(int argc, char **argv)
 {
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 #endif 
 
   
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1,/* MEMPOOL_ELEM_SZ*/ (snaplen + 128 + RTE_PKTMBUF_HEADROOM), MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1,/* MEMPOOL_ELEM_SZ*/ (snaplen + 128 + RTE_PKTMBUF_HEADROOM), MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), MEMPOOL_F_NO_SPREAD);
         //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
@@ -113,8 +113,9 @@ int main(int argc, char **argv)
         intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
         if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
 
-
-
+        store_ring = rte_ring_create ("Store_ring",  buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
+          if (store_ring == NULL ) FATAL_ERROR("Cannot create store ring ");
+        
         /* Start consumer and producer routine on 2 different cores: consumer launched first... */
         //ret =  rte_eal_mp_remote_launch (packet_consumer, NULL, SKIP_MASTER);
         //if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
@@ -161,19 +162,22 @@ static int packet_producer(__attribute__((unused)) void * arg){
         /* Infinite loop */
         for (;;) {
 
-		if(unlikely(rte_ring_full(intermediate_ring)))
+		//debug = 0 ; 
+	//	m = rte_pktmbuf_alloc(pktmbuf_pool);
+/*		if( unlikely(m == NULL))
+		{
+//			PRINT_INFO("Memory full, free%d, %d\n", rte_mempool_free_count(pktmbuf_pool), rte_mempool_count(pktmbuf_pool));
+                test2++; 
+		continue;       
+		}*/
+                while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL );   
+/*		if(unlikely(rte_ring_full(intermediate_ring)))
 		{
 			//debug++;
 		//	printf("Ring Buffer full %d\n", debug);
+	        test1++;
   		continue;
-		}     
-		//debug = 0 ; 
-		m = rte_pktmbuf_alloc(pktmbuf_pool);
-		if( unlikely(m == NULL))
-		{
-//			PRINT_INFO("Memory full, free%d, %d\n", rte_mempool_free_count(pktmbuf_pool), rte_mempool_count(pktmbuf_pool)); 
-		continue;       
-		}
+		}     */
 
 		status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
              
@@ -188,14 +192,23 @@ static int packet_producer(__attribute__((unused)) void * arg){
                     m->data_len = (uint16_t)PcapHdr->caplen;
                     m->pkt_len = (uint16_t) PcapHdr->len;
                       /*Enqueieing buffer */
-                    if(EDQUOT == rte_ring_enqueue (intermediate_ring, m) )
+                    //while(ENOBUFS == rte_ring_enqueue (intermediate_ring, m) );
+                    if(ENOBUFS == rte_ring_enqueue (intermediate_ring, m))
                     {
-                      printf("Reached Water mark\n");
+                      if(m)
+                        rte_pktmbuf_free( (struct rte_mbuf *)m); 
+                      m = NULL;   
                     }
-
+                   /* {
+                      //printf("Reached Water mark\n");
+                      test3++;
+                    };*/
+                    if(m)
+                    { 
                     m_numberofpackets++;
                     rte_prefetch0(rte_pktmbuf_mtod(m, void *));
                     m = NULL;
+                    }
            }
            else if (status == -1)
            {
@@ -343,7 +356,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
         char file_name_move[1000];
         int ret;
         struct pcap_pkthdr pcap_hdr;
-
+        PRINT_INFO("Lcore id of consumer %d\n", rte_lcore_id());
         /* Init first rotation */
         ret = gettimeofday(&t_pack, NULL);
         if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
@@ -468,8 +481,16 @@ void print_stats (void){
 	}
 
         
+        int cor =1 ;
+        if(strcmp(m_interfacename,"lo") == 0)
+          cor = 2;
+ 
+
         fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
-                (m_pcapstatus.ps_recv - prvrecevied)/INTERVAL_STATS, (m_pcapstatus.ps_drop - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);            
+                (m_pcapstatus.ps_recv/cor - prvrecevied)/INTERVAL_STATS, (m_pcapstatus.ps_drop/cor - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);            
+        prvrecevied = m_pcapstatus.ps_recv/cor;
+        prvdrop = m_pcapstatus.ps_drop/cor;
+        prvprocessed = m_numberofpackets;
 	/* print some text */
 //	fprintf(f, "%d packets received by filter\n", m_pcapstatus.ps_recv);
 
@@ -480,13 +501,6 @@ void print_stats (void){
        // fprintf(f, "%d Packets queued for write opt\n", m_numberofpackets);
 
 	fclose(f);
-        int cor =1 ;
-        if(strcmp(m_interfacename,"lo") == 0)
-          cor = 2;
- 
-        prvrecevied = m_pcapstatus.ps_recv/cor;
-        prvdrop = m_pcapstatus.ps_drop/cor;
-        prvprocessed = m_numberofpackets;
 
 }
 
