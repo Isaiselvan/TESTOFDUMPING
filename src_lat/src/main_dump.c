@@ -75,7 +75,7 @@ pcap_t *pd;
 int nb_sys_ports;
 static struct rte_mempool * pktmbuf_pool;
 static struct rte_ring    * intermediate_ring, * store_ring;
-static int test1=0, test2=0, test3=0, test4 =0;
+//static int test1=0, test2=0, test3=0, test4 =0;
 /* Main function */
 int main(int argc, char **argv)
 {
@@ -192,23 +192,20 @@ static int packet_producer(__attribute__((unused)) void * arg){
                     m->data_len = (uint16_t)PcapHdr->caplen;
                     m->pkt_len = (uint16_t) PcapHdr->len;
                       /*Enqueieing buffer */
-                    //while(ENOBUFS == rte_ring_enqueue (intermediate_ring, m) );
-                    if(ENOBUFS == rte_ring_enqueue (intermediate_ring, m))
+                    while(ENOBUFS == rte_ring_enqueue (intermediate_ring, m) );
+                    /*if(ENOBUFS == rte_ring_enqueue (intermediate_ring, m))
                     {
                       if(m)
                         rte_pktmbuf_free( (struct rte_mbuf *)m); 
                       m = NULL;   
-                    }
+                    }*/
                    /* {
                       //printf("Reached Water mark\n");
                       test3++;
                     };*/
-                    if(m)
-                    { 
                     m_numberofpackets++;
-                    rte_prefetch0(rte_pktmbuf_mtod(m, void *));
+                    //rte_prefetch0(rte_pktmbuf_mtod(m, void *));
                     m = NULL;
-                    }
            }
            else if (status == -1)
            {
@@ -386,7 +383,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                 usleep(5);
                 continue;
                 }
-
+                rte_prefetch0(rte_pktmbuf_mtod(m, struct rte_mbuf *));
                 /* Read timestamp of the packet */
                 t_pack.tv_usec = m->udata64;
                 t_pack.tv_sec = m->tx_offload;
