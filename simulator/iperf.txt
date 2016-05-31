@@ -2,3 +2,12 @@ iperf -s -u -i 2
 iperf -u -c 113.128.163.198 -l 64 -b 10G -t 300 -P 7
 
 ./build/icis-dump -l 0,1,2 -n 4 -- -w /apps/opt/LIBTRACE/test/ICISPCAP -S 96 -G 30 -B 4194304
+
+
+
+sudo numactl -C +7,6,5,4 /usr/local/bin/iperf -s -u -i 2
+sudo numactl -C +7,6,5,4 /usr/local/bin/iperf -c 113.128.163.198 -u -l 64 -b 10G -t 1500 -P 3
+
+
+sudo ./build/icis-dump -l 0,1,2 -- -w /apps/opt/LIBTRACE/test/ICISPCAP -B 2097152 -G 30 -S 128 > /dev/null 2>&1
+
