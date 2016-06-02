@@ -64,8 +64,9 @@ static void debug_printf(u_int32_t protocol, void *id_struct,
 public :
 
   appLayer(){
-      ndpi_struct = ndpi_init_detection_module(detection_tick_resolution,
-   malloc_wrapper, free_wrapper, debug_printf);
+//      ndpi_struct = ndpi_init_detection_module(detection_tick_resolution,
+//   malloc_wrapper, free_wrapper, debug_printf);
+   ndpi_struct = ndpi_init_detection_module();
 
   if(ndpi_struct == NULL) {
     printf("ERROR: global structure initialization failed\n");
@@ -87,7 +88,8 @@ public :
   } 
 
   ~appLayer(){
-    ndpi_exit_detection_module(ndpi_struct, free_wrapper);    
+    //ndpi_exit_detection_module(ndpi_struct, free_wrapper);    
+     ndpi_exit_detection_module(ndpi_struct);
    }
 
   int processPkt(libtrace_packet_t *, m_Packet&);//ndpi_detection_process_packet

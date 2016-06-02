@@ -5,20 +5,35 @@ cd /apps/opt/LIBTRACE/test/
 
 StartWeblink(){
         COUNTER=0
-         while [  $COUNTER -lt 15 ]; do
+         while [  $COUNTER -lt 20 ]; do
             # echo The counter is $COUNTER
             /usr/bin/wget www.google.com > /dev/null 2>&1 &
-            /usr/bin/wget www.youtube.com > /dev/null 2>&1 &
+           # /usr/bin/wget www.youtube.com > /dev/null 2>&1 &
+            /usr/bin/wget www.amazon.com > /dev/null 2>&1 &
+            /usr/bin/wget www.facebook.com > /dev/null 2>&1 &
             /usr/bin/wget www.netflix.com > /dev/null  2>&1 &
             /usr/bin/wget www.yahoo.com > /dev/null 2>&1 &
+            /usr/bin/wget www.verizon.com  > /dev/null 2>&1 &
+            /usr/bin/wget www.amazon.com > /dev/null 2>&1 &
+            /usr/bin/wget www.facebook.com > /dev/null 2>&1 &
+            /usr/bin/wget www.netflix.com > /dev/null  2>&1 &
+            /usr/bin/wget www.yahoo.com > /dev/null 2>&1 &
+            /usr/bin/wget www.verizon.com  > /dev/null 2>&1 &
+            /usr/bin/wget www.amazon.com > /dev/null 2>&1 &
+            /usr/bin/wget www.facebook.com > /dev/null 2>&1 &
+            /usr/bin/wget www.netflix.com > /dev/null  2>&1 &
+            /usr/bin/wget www.yahoo.com > /dev/null 2>&1 &
+            /usr/bin/wget www.verizon.com  > /dev/null 2>&1 &
             let COUNTER=COUNTER+1 
+            sleep 2
+            killall -9 wget
          done
 }
 
 Times=0
 while [ $Times -lt 1200 ]; do
 StartWeblink
-sleep 3
+sleep 5
 let Times=Times+1
 done
 
