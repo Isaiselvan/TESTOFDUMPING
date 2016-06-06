@@ -5,7 +5,7 @@
 
 
 tcprewrite --infile=gtp-u.pcap --outfile=new1.pcap --dstipmap=0.0.0.0/0:10.76.190.86/26 --enet-dmac=34:17:eb:af:06:A7
-
+sudo tcpreplay --loop=0 --intf1=eth0 new1.pcap
 
 tcprewrite --infile=gtp_complete_activation.pcap --outfile=ngtp_complete_activation.pcap1.pcap  --enet-dmac=34:17:eb:af:06:A7
 sudo tcpreplay --loop=0 --intf1=eth0 ngtp_complete_activation.pcap1.pcap > /dev/null 2>&1 &

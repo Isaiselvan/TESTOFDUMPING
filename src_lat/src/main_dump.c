@@ -54,7 +54,7 @@ int pcount = 0;          /* number of packets actually read */
 bool m_threadStop = false;
 //static int countPkt;
 
-unsigned long int m_buflen =  1048576 * 6;//4194304 * 2 ; // 2 * 1024 * 1024 Pcap lib ring size
+unsigned long int m_buflen =  1073741824;//4194304 * 2 ; // 2 * 1024 * 1024 Pcap lib ring size
 /* Global vars */
 char * file_name = NULL;
 char file_name_rotated [1000];
