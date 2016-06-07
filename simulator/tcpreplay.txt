@@ -10,4 +10,6 @@ sudo tcpreplay --loop=0 --intf1=eth0 new1.pcap
 tcprewrite --infile=gtp_complete_activation.pcap --outfile=ngtp_complete_activation.pcap1.pcap  --enet-dmac=34:17:eb:af:06:A7
 sudo tcpreplay --loop=0 --intf1=eth0 ngtp_complete_activation.pcap1.pcap > /dev/null 2>&1 &
 
+####Note on libtrace 
 
+http://www.wand.net.nz/trac/libtrace/browser/examples/parallel/timedemo.c?rev=ccb89e483d248898ffbedc8db9b29ebb34c3a007
