@@ -60,7 +60,7 @@
 
 /* Useful macro for error handling */
 #define FATAL_ERROR(fmt, args...)       rte_exit(EXIT_FAILURE, fmt "\n", ##args)
-#define INTERVAL_STATS 5 
+#define INTERVAL_STATS 1 
 /* Function prototypes */
 static int packet_producer(__attribute__((unused)) void * arg);
 static void sig_handler(int signo);

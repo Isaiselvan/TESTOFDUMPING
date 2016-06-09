@@ -27,8 +27,6 @@
 #define PRINT_INFO(fmt, args...)        RTE_LOG(INFO, FBM, fmt "\n", ##args)
 
 char m_interfacename[IFSZ] = "lo" ;
-pcap_t *m_pcapHandle;       /* packet capture descriptor */
-struct pcap_stat m_pcapstatus;     /* packet statistics */
 
 char errbuf[PCAP_ERRBUF_SIZE];  /* buffer to hold error text */
 char lohost[MAXHOSTSZ];   /* local host name */
@@ -83,6 +81,8 @@ int main(int argc, char **argv)
         uint8_t nb_ports;
         uint8_t nb_ports_available;
         uint8_t portid ;
+	struct lcore_queue_conf *qconf;
+	unsigned lcore_id, rx_lcore_id;
         //int i;
 
 
@@ -118,6 +118,31 @@ int main(int argc, char **argv)
         /* Start consumer and producer routine on 2 different cores: consumer launched first... */
         //ret =  rte_eal_mp_remote_launch (packet_consumer, NULL, SKIP_MASTER);
         //if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
+        rx_lcore_id = 0;
+        qconf = NULL;
+        /* Initialize the port/queue configuration of each logical core */
+        for (portid = 0; portid < nb_ports; portid++) {
+                /* skip ports that are not enabled */
+                if ((l2fwd_enabled_port_mask & (1 << portid)) == 0)
+                        continue;
+
+                /* get the lcore_id for this port */
+                while (rte_lcore_is_enabled(rx_lcore_id) == 0 ||
+                       lcore_queue_conf[rx_lcore_id].n_rx_port ==
+                       l2fwd_rx_queue_per_lcore) {
+                        rx_lcore_id++;
+                        if (rx_lcore_id >= RTE_MAX_LCORE)
+                                rte_exit(EXIT_FAILURE, "Not enough cores\n");
+                }
+
+                if (qconf != &lcore_queue_conf[rx_lcore_id])
+                        /* Assigned a new logical core in the loop above. */
+                        qconf = &lcore_queue_conf[rx_lcore_id];
+
+                qconf->rx_port_list[qconf->n_rx_port] = portid;
+                qconf->n_rx_port++;
+                printf("Lcore %u: RX port %u\n", rx_lcore_id, (unsigned) portid);
+        }
        nb_ports_available = nb_ports;
 
 /* Initialise each port */
@@ -186,7 +211,7 @@ int main(int argc, char **argv)
 
    
 //Statistics_lcore        
-        unsigned lcore_id;
+        lcore_id =0 ;
         int coreVcount = 0;
         RTE_LCORE_FOREACH_SLAVE(lcore_id) {
               if(coreVcount++ == 0) 
@@ -354,22 +379,6 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 }
 
 void print_stats (void){
-       if (!(linktype = pcap_datalink(m_pcapHandle))) {
-                fprintf(stderr,
-                        "Error getting link layer type for interface %s",
-                        m_interfacename);
-                exit(9);
-        }
-        PRINT_INFO("The link layer type for packet capture device %s is: %d.\n",
-                m_interfacename, linktype);
-
-
-      if (pcap_stats(m_pcapHandle, &m_pcapstatus) != 0) {
-                fprintf(stderr, "Error getting Packet Capture stats: %s\n",
-                        pcap_geterr(m_pcapHandle));
-                exit(10);
-        }
-
         
     time_t curT = last_rotation;
     struct tm * curTimeInfo;
@@ -380,10 +389,10 @@ void print_stats (void){
 
         /* Print the statistics out */
         PRINT_INFO("Packet Capture Statistics:\n");
-        PRINT_INFO("%d packets received by filter\n", m_pcapstatus.ps_recv);
-        PRINT_INFO("%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
-        PRINT_INFO("%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
-        PRINT_INFO("%d Packets queued for write opt\n", m_numberofpackets); 
+        //PRINT_INFO("%d packets received by filter\n", m_pcapstatus.ps_recv);
+        //PRINT_INFO("%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
+        //PRINT_INFO("%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
+        PRINT_INFO("%d Packets queued for write opt\n", (m_numberofpackets - prvprocessed)/INTERVAL_STATS); 
 
 	FILE *f = fopen("DumperStat.log", "a+");
 	if (f == NULL)
@@ -398,10 +407,10 @@ void print_stats (void){
           cor = 2;
  
 
-        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
-                (m_pcapstatus.ps_recv/cor - prvrecevied)/INTERVAL_STATS, (m_pcapstatus.ps_drop/cor - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);            
-        prvrecevied = m_pcapstatus.ps_recv/cor;
-        prvdrop = m_pcapstatus.ps_drop/cor;
+        //fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
+          //      (m_pcapstatus.ps_recv/cor - prvrecevied)/INTERVAL_STATS, (m_pcapstatus.ps_drop/cor - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);            
+        //prvrecevied = m_pcapstatus.ps_recv/cor;
+        //prvdrop = m_pcapstatus.ps_drop/cor;
         prvprocessed = m_numberofpackets;
 	/* print some text */
 //	fprintf(f, "%d packets received by filter\n", m_pcapstatus.ps_recv);
@@ -479,7 +488,7 @@ static int parse_args(int argc, char **argv)
 
 
         /* Retrive arguments */
-        while ((option = getopt(argc, argv,"w:c:B:G:W:C:S:i:f:b:")) != -1) {
+        while ((option = getopt(argc, argv,"w:c:B:G:W:C:S:i:f:b:q:p:")) != -1) {
                 switch (option) {
                         case 'w' : file_name = strdup(optarg); /* File name, mandatory */
                                 break;
