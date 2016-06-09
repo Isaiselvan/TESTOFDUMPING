@@ -81,11 +81,8 @@ int main(int argc, char **argv)
 {
         int ret;
         uint8_t nb_ports;
-        int ret;
-        uint8_t nb_ports;
         uint8_t nb_ports_available;
-        uint8_t portid, last_port;
-        unsigned nb_ports_in_mask = 0;
+        uint8_t portid ;
         //int i;
 
 
@@ -147,7 +144,7 @@ int main(int argc, char **argv)
                 ret = rte_eth_rx_queue_setup(portid, 0, nb_rxd,
                                              rte_eth_dev_socket_id(portid),
                                              NULL,
-                                             l2fwd_pktmbuf_pool);
+                                             pktmbuf_pool);
                 if (ret < 0)
                         rte_exit(EXIT_FAILURE, "rte_eth_rx_queue_setup:err=%d, port=%u\n",
                                   ret, (unsigned) portid);
@@ -217,26 +214,24 @@ int main(int argc, char **argv)
 static int packet_producer(__attribute__((unused)) void * arg){
         struct rte_mbuf *pkts_burst[MAX_PKT_BURST];
         struct rte_mbuf * m;
-        PRINT_INFO("Lcore id of producer %d\n", rte_lcore_id());
+        unsigned lcore_id = rte_lcore_id();
+        PRINT_INFO("Lcore id of producer %d\n", lcore_id);
         unsigned i, j, portid, nb_rx;
         struct lcore_queue_conf *qconf;
-        unsigned lcore_id;
         qconf = &lcore_queue_conf[lcore_id];
 
         if (qconf->n_rx_port == 0) {
-                RTE_LOG(INFO, L2FWD, "lcore %u has nothing to do\n", lcore_id);
-                return;
+                PRINT_INFO("lcore %u has nothing to do\n", lcore_id);
+                return -1;
         }
-        RTE_LOG(INFO, L2FWD, "entering main loop on lcore %u\n", lcore_id);
+        PRINT_INFO( "entering main loop on lcore %u\n", lcore_id);
         for (i = 0; i < qconf->n_rx_port; i++) {
 
                 portid = qconf->rx_port_list[i];
-                RTE_LOG(INFO, L2FWD, " -- lcoreid=%u portid=%u\n", lcore_id,
+                PRINT_INFO(" -- lcoreid=%u portid=%u\n", lcore_id,
                         portid);
 
         }
-       const u_char * data;
-       int status;
       // int debug =0 ;
         /* Infinite loop */
         for (;;) {
@@ -592,12 +587,10 @@ check_all_ports_link_status(uint8_t port_num, uint32_t port_mask)
         printf("\nChecking link status");
         fflush(stdout);
         for (count = 0; count <= MAX_CHECK_TIME; count++) {
-                if (force_quit)
-                        return;
                 all_ports_up = 1;
                 for (portid = 0; portid < port_num; portid++) {
-                        if (force_quit)
-                                return;
+                        
+                                
                         if ((port_mask & (1 << portid)) == 0)
                                 continue;
                         memset(&link, 0, sizeof(link));

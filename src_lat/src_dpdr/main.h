@@ -86,8 +86,34 @@ int isPowerOfTwo (unsigned int x);
 #define RTE_TEST_TX_DESC_DEFAULT 512
 static uint16_t nb_rxd = RTE_TEST_RX_DESC_DEFAULT;
 static uint16_t nb_txd = RTE_TEST_TX_DESC_DEFAULT;
-
+/* mask of enabled ports */
+static uint32_t l2fwd_enabled_port_mask = 0;
+/* ethernet addresses of ports */
+static struct ether_addr l2fwd_ports_eth_addr[RTE_MAX_ETHPORTS];
+static unsigned int l2fwd_rx_queue_per_lcore = 1;
 
 static int l2fwd_parse_portmask(const char *portmask);
 static unsigned int l2fwd_parse_nqueue(const char *q_args);
 static void check_all_ports_link_status(uint8_t port_num, uint32_t port_mask);
+
+static const struct rte_eth_conf port_conf = {
+        .rxmode = {
+                .split_hdr_size = 0,
+                .header_split   = 0, /**< Header Split disabled */
+                .hw_ip_checksum = 0, /**< IP checksum offload disabled */
+                .hw_vlan_filter = 0, /**< VLAN filtering disabled */
+                .jumbo_frame    = 0, /**< Jumbo Frame Support disabled */
+                .hw_strip_crc   = 0, /**< CRC stripped by hardware */
+        },
+        .txmode = {
+                .mq_mode = ETH_MQ_TX_NONE,
+        },
+};
+
+#define MAX_RX_QUEUE_PER_LCORE 16
+#define MAX_TX_QUEUE_PER_PORT 16
+struct lcore_queue_conf {
+        unsigned n_rx_port;
+        unsigned rx_port_list[MAX_RX_QUEUE_PER_LCORE];
+} __rte_cache_aligned;
+struct lcore_queue_conf lcore_queue_conf[RTE_MAX_LCORE];
