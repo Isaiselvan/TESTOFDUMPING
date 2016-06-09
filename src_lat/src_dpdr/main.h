@@ -60,7 +60,7 @@
 
 /* Useful macro for error handling */
 #define FATAL_ERROR(fmt, args...)       rte_exit(EXIT_FAILURE, fmt "\n", ##args)
-#define INTERVAL_STATS 1 
+#define INTERVAL_STATS 10 
 /* Function prototypes */
 static int packet_producer(__attribute__((unused)) void * arg);
 static void sig_handler(int signo);
@@ -74,7 +74,6 @@ int isPowerOfTwo (unsigned int x);
 
 
 // Dpdk driver init code
-#define NB_MBUF   8192
 
 #define MAX_PKT_BURST 32
 #define BURST_TX_DRAIN_US 100 /* TX drain every ~100us */

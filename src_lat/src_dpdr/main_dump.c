@@ -241,8 +241,10 @@ static int packet_producer(__attribute__((unused)) void * arg){
         struct rte_mbuf * m;
         unsigned lcore_id = rte_lcore_id();
         PRINT_INFO("Lcore id of producer %d\n", lcore_id);
-        unsigned i, j, portid, nb_rx;
+        unsigned int i, j, portid, nb_rx, ret;
         struct lcore_queue_conf *qconf;
+        struct timeval t_pack;
+
         qconf = &lcore_queue_conf[lcore_id];
 
         if (qconf->n_rx_port == 0) {
@@ -260,7 +262,9 @@ static int packet_producer(__attribute__((unused)) void * arg){
       // int debug =0 ;
         /* Infinite loop */
         for (;;) {
-
+			/* Timestamp the packet */
+			ret = gettimeofday(&t_pack, NULL);
+			if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
                 //while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL );   
 
 		//status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
@@ -275,6 +279,11 @@ static int packet_producer(__attribute__((unused)) void * arg){
                         for (j = 0; j < nb_rx; j++) {
                                 m = pkts_burst[j];
                                 //rte_prefetch0(rte_pktmbuf_mtod(m, void *));
+                                m->tx_offload = t_pack.tv_sec;
+                        	m->udata64 =  t_pack.tv_usec;
+                                //m->data_len = (uint16_t)PcapHdr->caplen;
+                                //m->pkt_len = (uint16_t) PcapHdr->len;
+
                             while(ENOBUFS == rte_ring_enqueue (intermediate_ring, m) );
                          m_numberofpackets++;
                         }
