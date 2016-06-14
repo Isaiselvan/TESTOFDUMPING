@@ -112,6 +112,7 @@ int main(int argc, char **argv)
           if (store_ring == NULL ) FATAL_ERROR("Cannot create store ring ");
  
         nb_ports = rte_eth_dev_count();
+        nb_sys_ports = nb_ports;
         if (nb_ports == 0)
           rte_exit(EXIT_FAILURE, "No Ethernet ports - bye\n");          
        
@@ -416,20 +417,26 @@ void print_stats (void){
           cor = 2;
  
 
-        //fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
-          //      (m_pcapstatus.ps_recv/cor - prvrecevied)/INTERVAL_STATS, (m_pcapstatus.ps_drop/cor - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);            
-        //prvrecevied = m_pcapstatus.ps_recv/cor;
-        //prvdrop = m_pcapstatus.ps_drop/cor;
+	struct rte_eth_stats stat; 
+	int i; 
+	uint64_t good_pkt = 0, miss_pkt = 0; 
+
+
+	/* Print per port stats */ 
+	for (i = 0; i < nb_sys_ports; i++){	 
+		rte_eth_stats_get(i, &stat); 
+		good_pkt += stat.ipackets; 
+		miss_pkt += stat.imissed; 
+		printf("\nPORT: %2d Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", i, stat.ipackets, stat.imissed, stat.ipackets+stat.imissed, (float)stat.imissed/(stat.ipackets+stat.imissed)*100 ); 
+	} 
+	printf("\n-------------------------------------------------"); 
+	printf("\nTOT:     Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 ); 
+	printf("\n"); 
+        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
+                (good_pkt - prvrecevied)/INTERVAL_STATS, (miss_pkt - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);            
+        prvrecevied = good_pkt;
+        prvdrop = miss_pkt;
         prvprocessed = m_numberofpackets;
-	/* print some text */
-//	fprintf(f, "%d packets received by filter\n", m_pcapstatus.ps_recv);
-
-	/* print integers and floats */
-//	fprintf(f, "%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
-
-//	fprintf(f, "%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
-       // fprintf(f, "%d Packets queued for write opt\n", m_numberofpackets);
-
 	fclose(f);
 
 }
