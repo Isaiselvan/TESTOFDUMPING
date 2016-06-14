@@ -16,7 +16,7 @@ LDLIBS = -lpcap -lpthread -lm
 APP = icis-dump
 
 # all source are stored in SRCS-y
-SRCS-y := rte_eth_pcap.c 
+#SRCS-y := rte_eth_pcap.c 
 SRCS-y += src/main_dump.c
 #SRCS-y := src/main_copy.c
 
