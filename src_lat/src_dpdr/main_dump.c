@@ -7,14 +7,9 @@
 
 /* Constants of the system */
 #define MEMPOOL_NAME "cluster_mem_pool"                         // Name of the NICs' mem_pool
-#define MEMPOOL_ELEM_SZ  512                                    // Power of two greater than 1500
-#define MEMPOOL_CACHE_SZ 0                                    // Max is 512
-
+#define MEMPOOL_ELEM_SZ  2048                                    // Power of two greater than 1500
+#define MEMPOOL_CACHE_SZ 512
 #define INTERMEDIATERING_NAME "intermedate_ring"
-
-#define RX_QUEUE_SZ 4096                        // The size of rx queue. Max is 4096 and is the one you'll have best performances with. Use lower if you want to use Burst Bulk Alloc.
-#define TX_QUEUE_SZ 256                 // Unused, you don't tx packets
-#define PKT_BURST_SZ 4096               // The max size of batch of packets retreived when invoking the receive function. Use the RX_QUEUE_SZ for high speed
 
 #define IFSZ 16
 #define FLTRSZ 120
@@ -58,7 +53,7 @@ char * file_name = NULL;
 char file_name_rotated [1000];
 pcap_dumper_t * pcap_file_p;
 uint64_t max_packets = 0 ;
-uint64_t buffer_size = 1048576 * 4; //Ring size
+uint64_t buffer_size = 1048576 ; //Ring size
 uint64_t seconds_rotation = 0;
 uint64_t last_rotation = 0;
 int64_t  nb_rotations=0;
@@ -66,13 +61,13 @@ int64_t  max_rotations = -1 ;
 uint64_t max_size = 0 ;
 uint64_t nb_captured_packets = 0;
 uint64_t nb_dumped_packets = 0;
-uint64_t sz_dumped_file = 0;
+//uint64_t sz_dumped_file = 0;
 uint64_t start_secs;
 int do_shutdown = 0;
 pcap_t *pd;
 int nb_sys_ports;
 static struct rte_mempool * pktmbuf_pool;
-static struct rte_ring    * intermediate_ring, * store_ring;
+static struct rte_ring    * intermediate_ring;
 //static int test1=0, test2=0, test3=0, test4 =0;
 /* Main function */
 int main(int argc, char **argv)
@@ -100,7 +95,7 @@ int main(int argc, char **argv)
         parse_args(argc, argv);
         if (ret < 0) FATAL_ERROR("Wrong arguments\n");
   
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1,/* MEMPOOL_ELEM_SZ*/ (snaplen + 128 + RTE_PKTMBUF_HEADROOM), MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), MEMPOOL_F_NO_SPREAD);
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, MEMPOOL_ELEM_SZ/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), MEMPOOL_F_NO_SPREAD);
         //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
         if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
@@ -108,8 +103,8 @@ int main(int argc, char **argv)
         intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
         if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
 
-        store_ring = rte_ring_create ("Store_ring",  buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
-          if (store_ring == NULL ) FATAL_ERROR("Cannot create store ring ");
+        //store_ring = rte_ring_create ("Store_ring",  buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
+          //if (store_ring == NULL ) FATAL_ERROR("Cannot create store ring ");
  
         nb_ports = rte_eth_dev_count();
         nb_sys_ports = nb_ports;
@@ -236,7 +231,6 @@ int main(int argc, char **argv)
 
 
 
-/* Loop function, batch timing implemented */
 static int packet_producer(__attribute__((unused)) void * arg){
         struct rte_mbuf *pkts_burst[MAX_PKT_BURST];
         struct rte_mbuf * m;
@@ -372,15 +366,6 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                 /* Write on pcap */
                 pcap_dump ((u_char *)pcap_file_p, & pcap_hdr,  packet);
                 nb_dumped_packets++;
-                sz_dumped_file += rte_pktmbuf_data_len(m) + sizeof (pcap_hdr) ;
-
-                /* Quit if reached the size threshold */
-                if (max_size != 0 && sz_dumped_file >= max_size*1024)
-                        sig_handler(SIGINT);
-
-                /* Quit if reached the packet threshold */
-                if (max_packets != 0 && nb_dumped_packets >= max_packets)
-                        sig_handler(SIGINT);
 
                 /* Free the buffer */
                 rte_pktmbuf_free( (struct rte_mbuf *)m);
