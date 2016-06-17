@@ -271,7 +271,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
 
                         nb_captured_packets += nb_rx;
 
-                        for (j = 0; j < nb_rx; j++) {
+                       /* for (j = 0; j < nb_rx; j++) {
                                 m = pkts_burst[j];
                                 //rte_prefetch0(rte_pktmbuf_mtod(m, void *));
                                 m->tx_offload = t_pack.tv_sec;
@@ -281,7 +281,18 @@ static int packet_producer(__attribute__((unused)) void * arg){
 
                             while(ENOBUFS == rte_ring_enqueue (intermediate_ring, m) );
                          m_numberofpackets++;
-                        }
+                        }*/
+                      ret =1 ;
+                      while(( ret = rte_ring_sp_enqueue_burst(
+                                                intermediate_ring,
+                                                (void **) &pkts_burst[ret -1],
+                                                nb_rx) ) != nb_rx){
+                           nb_rx = nb_rx - ret;
+                           //pkts_burst = pkts_burst[ret -1];
+                           m_numberofpackets += ret;     
+                      }
+                           m_numberofpackets += ret;     
+
                 }
 
            
