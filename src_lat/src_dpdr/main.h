@@ -75,7 +75,7 @@ int isPowerOfTwo (unsigned int x);
 
 // Dpdk driver init code
 
-#define MAX_PKT_BURST 32
+#define MAX_PKT_BURST 4096 
 #define BURST_TX_DRAIN_US 100 /* TX drain every ~100us */
 
 /*

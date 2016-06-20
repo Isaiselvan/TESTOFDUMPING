@@ -282,16 +282,19 @@ static int packet_producer(__attribute__((unused)) void * arg){
                             while(ENOBUFS == rte_ring_enqueue (intermediate_ring, m) );
                          m_numberofpackets++;
                         }*/
-                      ret =1 ;
+                      ret =0 ;
+                        int startidx = 0;
                       while(( ret = rte_ring_sp_enqueue_burst(
                                                 intermediate_ring,
-                                                (void **) &pkts_burst[ret -1],
+                                                (void **) &pkts_burst[startidx],
                                                 nb_rx) ) != nb_rx){
+                           startidx = startidx + ret -1 ;
                            nb_rx = nb_rx - ret;
                            //pkts_burst = pkts_burst[ret -1];
                            m_numberofpackets += ret;     
                       }
                            m_numberofpackets += ret;     
+                    
 
                 }
 
