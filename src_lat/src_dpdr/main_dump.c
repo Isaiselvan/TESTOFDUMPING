@@ -282,19 +282,26 @@ static int packet_producer(__attribute__((unused)) void * arg){
                             while(ENOBUFS == rte_ring_enqueue (intermediate_ring, m) );
                          m_numberofpackets++;
                         }*/
+                   //Burst
+                    /*
                       ret =0 ;
                         int startidx = 0;
                       while(( ret = rte_ring_sp_enqueue_burst(
                                                 intermediate_ring,
                                                 (void **) &pkts_burst[startidx],
                                                 nb_rx) ) != nb_rx){
-                           startidx = startidx + ret -1 ;
+                           startidx = startidx + ret ;
                            nb_rx = nb_rx - ret;
                            //pkts_burst = pkts_burst[ret -1];
                            m_numberofpackets += ret;     
                       }
                            m_numberofpackets += ret;     
-                    
+                    */
+                   //rte_ring_sp_enqueue_bulk 	
+                     
+                   while(-ENOBUFS == rte_ring_sp_enqueue_bulk(intermediate_ring,(void**)pkts_burst,nb_rx));
+
+                           m_numberofpackets += nb_rx;     
 
                 }
 
@@ -306,10 +313,10 @@ static int packet_producer(__attribute__((unused)) void * arg){
 static  int packet_consumer(__attribute__((unused)) void * arg){
 
         struct timeval t_pack;
-        struct rte_mbuf * m;
+        struct rte_mbuf * m[MAX_PKT_BURST];
         u_char * packet;
         char file_name_move[1000];
-        int ret;
+        int ret, idx;
         struct pcap_pkthdr pcap_hdr;
         PRINT_INFO("Lcore id of consumer %d\n", rte_lcore_id());
         /* Init first rotation */
@@ -334,17 +341,21 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
 
                 /* Dequeue packet */
-                ret = rte_ring_dequeue(intermediate_ring, (void**)&m);
+                //ret = rte_ring_dequeue(intermediate_ring, (void**)&m);
+                  ret = rte_ring_sc_dequeue_burst(intermediate_ring, (void **)m,
+                                MAX_PKT_BURST);
                 //ring_full = false;
                 /* Continue polling if no packet available */
                 if( unlikely(ret < 0)) {
                 usleep(5);
                 continue;
                 }
-                rte_prefetch0(rte_pktmbuf_mtod(m, struct rte_mbuf *));
+                for(idx = 0; idx < ret ; idx++)
+                {
+                rte_prefetch0(rte_pktmbuf_mtod(m[idx], struct rte_mbuf *));
                 /* Read timestamp of the packet */
-                t_pack.tv_usec = m->udata64;
-                t_pack.tv_sec = m->tx_offload;
+                t_pack.tv_usec = m[idx]->udata64;
+                t_pack.tv_sec = m[idx]->tx_offload;
 
                 /* Rotate if needed */
                 if ( seconds_rotation > 0 && t_pack.tv_sec - last_rotation > seconds_rotation ){
@@ -373,17 +384,18 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
                 /* Compile pcap header */
                 pcap_hdr.ts = t_pack;
-                pcap_hdr.caplen = rte_pktmbuf_data_len(m);
-                pcap_hdr.len = m->pkt_len;
-                packet = rte_pktmbuf_mtod(m, u_char *);
+                pcap_hdr.caplen = rte_pktmbuf_data_len(m[idx]);
+                pcap_hdr.len = m[idx]->pkt_len;
+                packet = rte_pktmbuf_mtod(m[idx], u_char *);
 
                 /* Write on pcap */
                 pcap_dump ((u_char *)pcap_file_p, & pcap_hdr,  packet);
                 nb_dumped_packets++;
 
                 /* Free the buffer */
-                rte_pktmbuf_free( (struct rte_mbuf *)m);
-                m = NULL;
+                rte_pktmbuf_free( (struct rte_mbuf *)m[idx]);
+                m[idx] = NULL;
+              }
         }
 }
 
