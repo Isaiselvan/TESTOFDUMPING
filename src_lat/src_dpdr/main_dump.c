@@ -21,33 +21,13 @@
 #define RTE_LOGTYPE_FBM RTE_LOGTYPE_USER1
 #define PRINT_INFO(fmt, args...)        RTE_LOG(INFO, FBM, fmt "\n", ##args)
 
-char m_interfacename[IFSZ] = "lo" ;
 
-char errbuf[PCAP_ERRBUF_SIZE];  /* buffer to hold error text */
-char lohost[MAXHOSTSZ];   /* local host name */
-char fliterstr[FLTRSZ];     /* bpf filter string */
 
-char prestr[80]; /* prefix string for errors from pcap_perror */
-struct bpf_program prog; /* compiled bpf filter program */
-// C++11 supports initialising the members
-int optimize = 1;/* passed to pcap_compile to do optimization */
 int snaplen =  SNAP_LEN;/* amount of data per packet */
-int promisc = 0; /* 1 do not change mode; if in promiscuous */
-/* mode, stay in it, otherwise, do not */
-int to_ms = 1;/* timeout, in milliseconds */
-int m_numberofpackets  = 0;  /*for continous number of packets to capture */
-u_int32_t net = 0; /* network IP address */
-u_int32_t mask = 0;/* network address mask */
-char maskstr[INET_ADDRSTRLEN];  /* dotted decimal form of net mask */
-char netstr[INET_ADDRSTRLEN];   /* dotted decimal form of address */
-int linktype = 0;        /* data link type */
-int pcount = 0;          /* number of packets actually read */
+long long int m_numberofpackets  = 0;  /*for continous number of packets to capture */
+long long int missedouts = 0;
 
-// Control thread stop
-bool m_threadStop = false;
-//static int countPkt;
 
-unsigned long int m_buflen =  1073741824;//4194304 * 2 ; // 2 * 1024 * 1024 Pcap lib ring size
 /* Global vars */
 char * file_name = NULL;
 char file_name_rotated [1000];
@@ -164,7 +144,7 @@ int main(int argc, char **argv)
                 fflush(stdout);
                 ret = rte_eth_rx_queue_setup(portid, 0, nb_rxd,
                                              rte_eth_dev_socket_id(portid),
-                                             NULL,
+                                             &rx_conf,
                                              pktmbuf_pool);
                 if (ret < 0)
                         rte_exit(EXIT_FAILURE, "rte_eth_rx_queue_setup:err=%d, port=%u\n",
@@ -233,10 +213,10 @@ int main(int argc, char **argv)
 
 static int packet_producer(__attribute__((unused)) void * arg){
         struct rte_mbuf *pkts_burst[MAX_PKT_BURST];
-        struct rte_mbuf * m;
+        //struct rte_mbuf * m;
         unsigned lcore_id = rte_lcore_id();
         PRINT_INFO("Lcore id of producer %d\n", lcore_id);
-        unsigned int i, j, portid, nb_rx, ret;
+        unsigned int i,  portid, nb_rx, ret;
         struct lcore_queue_conf *qconf;
         struct timeval t_pack;
 
@@ -268,9 +248,17 @@ static int packet_producer(__attribute__((unused)) void * arg){
                         portid = qconf->rx_port_list[i];
                         nb_rx = rte_eth_rx_burst((uint8_t) portid, 0,
                                                  pkts_burst, MAX_PKT_BURST);
-
-                        nb_captured_packets += nb_rx;
-
+                        if(likely (nb_rx > 0))
+                        {
+                           nb_captured_packets += nb_rx;
+                           ret = rte_ring_enqueue_burst(intermediate_ring, (void*)pkts_burst,nb_rx);
+                                             
+                            m_numberofpackets += ret;
+                            missedouts += nb_rx -ret;
+                         }
+    
+                         for(;ret<nb_rx;ret++) 
+                            rte_pktmbuf_free(pkts_burst[ret]);
                        /* for (j = 0; j < nb_rx; j++) {
                                 m = pkts_burst[j];
                                 //rte_prefetch0(rte_pktmbuf_mtod(m, void *));
@@ -298,10 +286,12 @@ static int packet_producer(__attribute__((unused)) void * arg){
                            m_numberofpackets += ret;     
                     */
                    //rte_ring_sp_enqueue_bulk 	
-                     
-                   while(-ENOBUFS == rte_ring_sp_enqueue_bulk(intermediate_ring,(void**)pkts_burst,nb_rx));
-
-                           m_numberofpackets += nb_rx;     
+                   /*if(likely (nb_rx > 0))
+                   { 
+                    while(-ENOBUFS == rte_ring_sp_enqueue_bulk(intermediate_ring,(void*)pkts_burst,nb_rx));
+                    m_numberofpackets += nb_rx;
+                   }*/
+                                
 
                 }
 
@@ -413,7 +403,7 @@ void print_stats (void){
         //PRINT_INFO("%d packets received by filter\n", m_pcapstatus.ps_recv);
         //PRINT_INFO("%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
         //PRINT_INFO("%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
-        PRINT_INFO("%d Packets queued for write opt\n", (m_numberofpackets - prvprocessed)/INTERVAL_STATS); 
+        PRINT_INFO("%lld Packets queued for write opt\n", (m_numberofpackets - prvprocessed)/INTERVAL_STATS); 
 
 	FILE *f = fopen("DumperStat.log", "a+");
 	if (f == NULL)
@@ -423,14 +413,11 @@ void print_stats (void){
 	}
 
         
-        int cor =1 ;
-        if(strcmp(m_interfacename,"lo") == 0)
-          cor = 2;
  
 
 	struct rte_eth_stats stat; 
 	int i; 
-	uint64_t good_pkt = 0, miss_pkt = 0; 
+	long long int  good_pkt = 0, miss_pkt = 0; 
 
 
 	/* Print per port stats */ 
@@ -438,16 +425,22 @@ void print_stats (void){
 		rte_eth_stats_get(i, &stat); 
 		good_pkt += stat.ipackets; 
 		miss_pkt += stat.imissed; 
-		printf("\nPORT: %2d Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", i, stat.ipackets, stat.imissed, stat.ipackets+stat.imissed, (float)stat.imissed/(stat.ipackets+stat.imissed)*100 ); 
-	} 
+		//printf("\nPORT: %2d Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", i, stat.ipackets, stat.imissed, stat.ipackets+stat.imissed, (float)stat.imissed/(stat.ipackets+stat.imissed)*100 ); 
+                rte_eth_stats_reset ( i ); 
+	}
 	printf("\n-------------------------------------------------"); 
-	printf("\nTOT:     Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 ); 
+	printf("\nTOT:     Rx: %lld Drp: %lld Tot: %lld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 ); 
 	printf("\n"); 
-        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
-                (good_pkt - prvrecevied)/INTERVAL_STATS, (miss_pkt - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);            
+        //fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
+          //      (good_pkt - prvrecevied)/INTERVAL_STATS, (miss_pkt - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);           
+        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf,
+                good_pkt, miss_pkt, m_numberofpackets);
+        fprintf(f,"Missedby enqueue%lld\n",missedouts); 
         prvrecevied = good_pkt;
         prvdrop = miss_pkt;
         prvprocessed = m_numberofpackets;
+        m_numberofpackets = 0;
+        missedouts = 0;
 	fclose(f);
 
 }
@@ -530,12 +523,6 @@ static int parse_args(int argc, char **argv)
                         case 'C': max_size = atoi (optarg); /* Max file size in KB. When reached, the program quits */
                                 break;
                         case 'S': snaplen = atoi (optarg); /* Snap lenght default 96  */
-                                break;
-                        case 'i': strcpy(m_interfacename, optarg); /* Interface name */
-                                break;  
-                        case 'f': strcpy(fliterstr, optarg); /* BFS filter */ 
-                                break;
-                        case 'b': m_buflen = atoi(optarg);
                                 break;
                                         /* portmask */
 			case 'p':

@@ -7,7 +7,7 @@ RTE_TARGET ?= x86_64-native-linuxapp-gcc
 
 include $(RTE_SDK)/mk/rte.vars.mk
 
-LDLIBS = -lpcap -lpthread -lm 
+LDLIBS = -lpcap -lpthread -lm -lrte_pmd_enic 
 #-lrte_pmd_e1000
 #LDLIBS = /home/fbmpoc/Downloads/PF_RING/userland/libpcap/libpcap.a /home/fbmpoc/Downloads/PF_RING/userland/lib/libpfring.a -lpthread -lm 
 #LDFLAGS = -Wl,--rpath -Wl,/usr/local/lib
