@@ -57,6 +57,7 @@
 #include <rte_atomic.h>
 #include <rte_version.h>
 #include <rte_eth_ring.h>
+#include <rte_alarm.h>
 
 /* Useful macro for error handling */
 #define FATAL_ERROR(fmt, args...)       rte_exit(EXIT_FAILURE, fmt "\n", ##args)
@@ -67,7 +68,8 @@ static void sig_handler(int signo);
 //static void init_port(int i);
 static int parse_args(int argc, char **argv);
 void print_stats (void);
-void alarm_routine (__attribute__((unused)) int unused);
+//void alarm_routine (__attribute__((unused)) int unused);
+static void alarm_routine (__rte_unused void *param);
 static int packet_consumer(__attribute__((unused)) void * arg);
 static int Statistics_lcore(__attribute__((unused)) void * arg);
 int isPowerOfTwo (unsigned int x);
@@ -81,7 +83,7 @@ int isPowerOfTwo (unsigned int x);
 /*
  *  * Configurable number of RX/TX ring descriptors
  *   */
-#define RTE_TEST_RX_DESC_DEFAULT 4096
+#define RTE_TEST_RX_DESC_DEFAULT 4096 
 #define RTE_TEST_TX_DESC_DEFAULT 32
 static uint16_t nb_rxd = RTE_TEST_RX_DESC_DEFAULT;
 static uint16_t nb_txd = RTE_TEST_TX_DESC_DEFAULT;
@@ -136,7 +138,9 @@ static const struct rte_eth_conf port_conf = {
         },
         .rx_adv_conf = {
                 .rss_conf = {
-                        .rss_key = rss_seed_dst_ip,//rss_seed,                            /* Set the seed,                                        */
+                        
+                        //.rss_key = rss_seed,//rss_seed,                            /* Set the seed,                                        */
+                        .rss_key = NULL,
                         .rss_key_len = 40,                              /* and the seed length.                                 */
                         .rss_hf = (ETH_RSS_TCP | ETH_RSS_UDP) , /* Set the mask of protocols RSS will be applied to     */
                 }

@@ -216,7 +216,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
         //struct rte_mbuf * m;
         unsigned lcore_id = rte_lcore_id();
         PRINT_INFO("Lcore id of producer %d\n", lcore_id);
-        unsigned int i,  portid, nb_rx, ret;
+        unsigned int i, idx, portid, nb_rx, ret;
         struct lcore_queue_conf *qconf;
         struct timeval t_pack;
 
@@ -250,6 +250,12 @@ static int packet_producer(__attribute__((unused)) void * arg){
                                                  pkts_burst, MAX_PKT_BURST);
                         if(likely (nb_rx > 0))
                         {
+
+                           for (idx= 0;idx<nb_rx;idx++)
+                           {
+                             pkts_burst[idx]->tx_offload = t_pack.tv_sec;
+                             pkts_burst[idx]->udata64 =  t_pack.tv_usec;
+                           }
                            nb_captured_packets += nb_rx;
                            ret = rte_ring_enqueue_burst(intermediate_ring, (void*)pkts_burst,nb_rx);
                                              
@@ -312,6 +318,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
         /* Init first rotation */
         ret = gettimeofday(&t_pack, NULL);
         if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
+
         last_rotation = t_pack.tv_sec;
         start_secs = t_pack.tv_sec;
 
@@ -332,14 +339,22 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
                 /* Dequeue packet */
                 //ret = rte_ring_dequeue(intermediate_ring, (void**)&m);
-                  ret = rte_ring_sc_dequeue_burst(intermediate_ring, (void **)m,
-                                MAX_PKT_BURST);
+                 while(( ret = rte_ring_sc_dequeue_burst(intermediate_ring, (void **)m,
+                                MAX_PKT_BURST)) <= 0);
                 //ring_full = false;
                 /* Continue polling if no packet available */
-                if( unlikely(ret < 0)) {
-                usleep(5);
+               /* if( ret < 0) {
+                //usleep(5);
                 continue;
+                }*/
+//TESTING 
+                /*for(idx = 0; idx < ret ; idx++)
+                {
+                rte_pktmbuf_free( (struct rte_mbuf *)m[idx]);
+                m[idx] = NULL;
                 }
+                continue;*/
+///END
                 for(idx = 0; idx < ret ; idx++)
                 {
                 rte_prefetch0(rte_pktmbuf_mtod(m[idx], struct rte_mbuf *));
@@ -391,19 +406,23 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
 void print_stats (void){
         
-    time_t curT = last_rotation;
+    static time_t curT ;//= last_rotation;
+    struct timeval t_pack; 
+    int ret;
+    ret = gettimeofday(&t_pack, NULL); 
+    if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n"); 
+    curT = t_pack.tv_sec;
     struct tm * curTimeInfo;
     char TimeBuf[300];
     curTimeInfo = localtime(&curT);
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
-    static long long int prvrecevied = 0 , prvdrop = 0, prvprocessed = 0;  
+    //static long long int prvrecevied = 0 , prvdrop = 0, prvprocessed = 0;  
 
         /* Print the statistics out */
-        PRINT_INFO("Packet Capture Statistics:\n");
         //PRINT_INFO("%d packets received by filter\n", m_pcapstatus.ps_recv);
         //PRINT_INFO("%d packets dropped by kernel\n", m_pcapstatus.ps_drop);
         //PRINT_INFO("%d packets dropped by network/driver\n", m_pcapstatus.ps_ifdrop);
-        PRINT_INFO("%lld Packets queued for write opt\n", (m_numberofpackets - prvprocessed)/INTERVAL_STATS); 
+       // PRINT_INFO("%lld Packets queued for write opt\n", (m_numberofpackets - prvprocessed)/INTERVAL_STATS); 
 
 	FILE *f = fopen("DumperStat.log", "a+");
 	if (f == NULL)
@@ -417,8 +436,9 @@ void print_stats (void){
 
 	struct rte_eth_stats stat; 
 	int i; 
-	long long int  good_pkt = 0, miss_pkt = 0; 
-
+	long int  good_pkt = 0, miss_pkt = 0, st_pktproc =0, st_missout =0; 
+        st_pktproc = m_numberofpackets;
+        st_missout = missedouts;
 
 	/* Print per port stats */ 
 	for (i = 0; i < nb_sys_ports; i++){	 
@@ -428,19 +448,21 @@ void print_stats (void){
 		//printf("\nPORT: %2d Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", i, stat.ipackets, stat.imissed, stat.ipackets+stat.imissed, (float)stat.imissed/(stat.ipackets+stat.imissed)*100 ); 
                 rte_eth_stats_reset ( i ); 
 	}
+        // Clean before intrrupt 
+        m_numberofpackets = 0;
+        missedouts = 0;
+        PRINT_INFO("Packet Capture Statistics:\n");
 	printf("\n-------------------------------------------------"); 
-	printf("\nTOT:     Rx: %lld Drp: %lld Tot: %lld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 ); 
+	printf("\nTOT:     Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 ); 
 	printf("\n"); 
         //fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
           //      (good_pkt - prvrecevied)/INTERVAL_STATS, (miss_pkt - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);           
-        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf,
-                good_pkt, miss_pkt, m_numberofpackets);
-        fprintf(f,"Missedby enqueue%lld\n",missedouts); 
-        prvrecevied = good_pkt;
-        prvdrop = miss_pkt;
-        prvprocessed = m_numberofpackets;
-        m_numberofpackets = 0;
-        missedouts = 0;
+        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%ld pktdrop=%ld  pktprocss=%ld \n ", TimeBuf,
+                good_pkt/INTERVAL_STATS, miss_pkt/INTERVAL_STATS, st_pktproc/INTERVAL_STATS);
+        fprintf(f,"Missedby enqueue%ld\n",st_missout); 
+        //prvrecevied = good_pkt;
+        //prvdrop = miss_pkt;
+        //prvprocessed = m_numberofpackets;
 	fclose(f);
 
 }
@@ -448,13 +470,18 @@ void print_stats (void){
 static  int Statistics_lcore(__attribute__((unused)) void * arg){
         /* Create handler for SIGINT for CTRL + C closing and SIGALRM to print stats*/
         signal(SIGINT, sig_handler);
-        signal(SIGALRM, alarm_routine);
+        //signal(SIGALRM, alarm_routine);
 
-        alarm(1);
+        //alarm(1);
+         rte_eal_alarm_set(1 * MS_PER_S, alarm_routine, NULL);
+        while(1)
+        {
+         usleep(10);
+        }
         return 0; 
 }
 
-void alarm_routine (__attribute__((unused)) int unused){
+static void alarm_routine (__rte_unused void *param){
 
         /* If the program is quitting don't print anymore */
         if(do_shutdown) return;
@@ -463,9 +490,10 @@ void alarm_routine (__attribute__((unused)) int unused){
         print_stats();
 
         /* Schedule an other print */
-        alarm(INTERVAL_STATS);
+        //alarm(INTERVAL_STATS);
         //signal(SIGALRM, alarm_routine);
-
+        rte_eal_alarm_set(INTERVAL_STATS * US_PER_S, alarm_routine, NULL);
+        
 }
 
 /* Signal handling function */
