@@ -45,9 +45,10 @@ uint64_t nb_dumped_packets = 0;
 uint64_t start_secs;
 int do_shutdown = 0;
 pcap_t *pd;
-int nb_sys_ports;
+int nb_sys_ports , en_sys_ports;
 static struct rte_mempool * pktmbuf_pool;
 static struct rte_ring    * intermediate_ring;
+static int readportid[MAX_PORT];
 //static int test1=0, test2=0, test3=0, test4 =0;
 /* Main function */
 int main(int argc, char **argv)
@@ -98,18 +99,20 @@ int main(int argc, char **argv)
         qconf = NULL;
         /* Initialize the port/queue configuration of each logical core */
         for (portid = 0; portid < nb_ports; portid++) {
+                
                 /* skip ports that are not enabled */
                 if ((l2fwd_enabled_port_mask & (1 << portid)) == 0)
                         continue;
 
                 /* get the lcore_id for this port */
-                while (rte_lcore_is_enabled(rx_lcore_id) == 0 ||
+               /* while (rte_lcore_is_enabled(rx_lcore_id) == 0 ||
                        lcore_queue_conf[rx_lcore_id].n_rx_port ==
                        l2fwd_rx_queue_per_lcore) {
                         rx_lcore_id++;
+                        //printf("core test  port\n");
                         if (rx_lcore_id >= RTE_MAX_LCORE)
                                 rte_exit(EXIT_FAILURE, "Not enough cores\n");
-                }
+                }*/
 
                 if (qconf != &lcore_queue_conf[rx_lcore_id])
                         /* Assigned a new logical core in the loop above. */
@@ -118,6 +121,7 @@ int main(int argc, char **argv)
                 qconf->rx_port_list[qconf->n_rx_port] = portid;
                 qconf->n_rx_port++;
                 printf("Lcore %u: RX port %u\n", rx_lcore_id, (unsigned) portid);
+                
         }
        nb_ports_available = nb_ports;
 
@@ -192,7 +196,7 @@ int main(int argc, char **argv)
         RTE_LCORE_FOREACH_SLAVE(lcore_id) {
               if(coreVcount++ == 0) 
               {
-               ret = rte_eal_remote_launch(packet_consumer, NULL,lcore_id);
+               ret = rte_eal_remote_launch(packet_producer, NULL,lcore_id);
                if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
               }
               else
@@ -203,7 +207,8 @@ int main(int argc, char **argv)
         } 
           
         /* Master as producer */
-        packet_producer ( NULL );
+        //packet_producer ( NULL );
+        packet_consumer(NULL);
        
         rte_eal_mp_wait_lcore();
         return 0;
@@ -216,16 +221,17 @@ static int packet_producer(__attribute__((unused)) void * arg){
         //struct rte_mbuf * m;
         unsigned lcore_id = rte_lcore_id();
         PRINT_INFO("Lcore id of producer %d\n", lcore_id);
-        unsigned int i, idx, portid, nb_rx, ret;
+        unsigned int i;
+        int idx, portid, nb_rx, ret, pidx =0;
         struct lcore_queue_conf *qconf;
         struct timeval t_pack;
 
         qconf = &lcore_queue_conf[lcore_id];
 
-        if (qconf->n_rx_port == 0) {
-                PRINT_INFO("lcore %u has nothing to do\n", lcore_id);
-                return -1;
-        }
+        //if (qconf->n_rx_port == 0) {
+         //       PRINT_INFO("lcore %u has nothing to do\n", lcore_id);
+           //     return -1;
+       // }
         PRINT_INFO( "entering main loop on lcore %u\n", lcore_id);
         for (i = 0; i < qconf->n_rx_port; i++) {
 
@@ -236,17 +242,20 @@ static int packet_producer(__attribute__((unused)) void * arg){
         }
       // int debug =0 ;
         /* Infinite loop */
+           
+
         for (;;) {
+                          //PRINT_INFO( "portid%d \n", readportid);
 			/* Timestamp the packet */
 			ret = gettimeofday(&t_pack, NULL);
 			if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
                 //while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL );   
 
 		//status = pcap_next_ex (m_pcapHandle, &PcapHdr, &data);
-             for (i = 0; i < qconf->n_rx_port; i++) {
+            // for (i = 0; i < qconf->n_rx_port; i++) {
 
-                        portid = qconf->rx_port_list[i];
-                        nb_rx = rte_eth_rx_burst((uint8_t) portid, 0,
+                        //portid = qconf->rx_port_list[i];
+                        nb_rx = rte_eth_rx_burst((uint8_t) readportid[pidx++], 0,
                                                  pkts_burst, MAX_PKT_BURST);
                         if(likely (nb_rx > 0))
                         {
@@ -265,6 +274,14 @@ static int packet_producer(__attribute__((unused)) void * arg){
     
                          for(;ret<nb_rx;ret++) 
                             rte_pktmbuf_free(pkts_burst[ret]);
+
+
+                  //Multi port read
+                          if(pidx == en_sys_ports || pidx == MAX_PORT)  
+                              pidx = 0;
+                          
+                          //readportid = (readportid + 1) % nb_sys_ports - 1;
+                          //PRINT_INFO( "portidx %d portno%d numofports%d numofen%d\n", pidx,readportid[pidx], nb_sys_ports, en_sys_ports);
                        /* for (j = 0; j < nb_rx; j++) {
                                 m = pkts_burst[j];
                                 //rte_prefetch0(rte_pktmbuf_mtod(m, void *));
@@ -299,7 +316,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
                    }*/
                                 
 
-                }
+                //}
 
            
         }
@@ -406,7 +423,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
 void print_stats (void){
         
-    static time_t curT ;//= last_rotation;
+    static time_t curT, prevT ;//= last_rotation;
     struct timeval t_pack; 
     int ret;
     ret = gettimeofday(&t_pack, NULL); 
@@ -416,7 +433,7 @@ void print_stats (void){
     char TimeBuf[300];
     curTimeInfo = localtime(&curT);
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
-    //static long long int prvrecevied = 0 , prvdrop = 0, prvprocessed = 0;  
+    static long long int prvrecevied = 0 , prvdrop = 0, prvprocessed = 0;  
 
         /* Print the statistics out */
         //PRINT_INFO("%d packets received by filter\n", m_pcapstatus.ps_recv);
@@ -436,7 +453,7 @@ void print_stats (void){
 
 	struct rte_eth_stats stat; 
 	int i; 
-	long int  good_pkt = 0, miss_pkt = 0, st_pktproc =0, st_missout =0; 
+	long int  good_pkt = 0, miss_pkt = 0, st_pktproc =0, st_missout =0, timeInt = 0; 
         st_pktproc = m_numberofpackets;
         st_missout = missedouts;
 
@@ -446,25 +463,27 @@ void print_stats (void){
 		good_pkt += stat.ipackets; 
 		miss_pkt += stat.imissed; 
 		//printf("\nPORT: %2d Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", i, stat.ipackets, stat.imissed, stat.ipackets+stat.imissed, (float)stat.imissed/(stat.ipackets+stat.imissed)*100 ); 
-                rte_eth_stats_reset ( i ); 
+                //rte_eth_stats_reset ( i ); 
 	}
         // Clean before intrrupt 
-        m_numberofpackets = 0;
-        missedouts = 0;
+        //m_numberofpackets = 0;
+        //missedouts = 0;
+         timeInt = curT - prevT;
         PRINT_INFO("Packet Capture Statistics:\n");
 	printf("\n-------------------------------------------------"); 
 	printf("\nTOT:     Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 ); 
 	printf("\n"); 
-        //fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
-          //      (good_pkt - prvrecevied)/INTERVAL_STATS, (miss_pkt - prvdrop)/INTERVAL_STATS, (m_numberofpackets - prvprocessed)/INTERVAL_STATS);           
-        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%ld pktdrop=%ld  pktprocss=%ld \n ", TimeBuf,
-                good_pkt/INTERVAL_STATS, miss_pkt/INTERVAL_STATS, st_pktproc/INTERVAL_STATS);
+        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
+                (good_pkt - prvrecevied)/timeInt, (miss_pkt - prvdrop)/timeInt, (st_pktproc - prvprocessed)/timeInt);           
+        //fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%ld pktdrop=%ld  pktprocss=%ld \n ", TimeBuf,
+          //      good_pkt/INTERVAL_STATS, miss_pkt/INTERVAL_STATS, st_pktproc/INTERVAL_STATS);
         fprintf(f,"Missedby enqueue%ld\n",st_missout); 
-        //prvrecevied = good_pkt;
-        //prvdrop = miss_pkt;
-        //prvprocessed = m_numberofpackets;
+        prvrecevied = good_pkt;
+        prvdrop = miss_pkt;
+        prvprocessed = st_pktproc;
+        prevT = curT;
 	fclose(f);
-
+     
 }
 
 static  int Statistics_lcore(__attribute__((unused)) void * arg){
@@ -473,7 +492,7 @@ static  int Statistics_lcore(__attribute__((unused)) void * arg){
         //signal(SIGALRM, alarm_routine);
 
         //alarm(1);
-         rte_eal_alarm_set(1 * MS_PER_S, alarm_routine, NULL);
+         rte_eal_alarm_set(INTERVAL_STATS * MS_PER_S, alarm_routine, NULL);
         while(1)
         {
          usleep(10);
@@ -634,7 +653,7 @@ check_all_ports_link_status(uint8_t port_num, uint32_t port_mask)
 #define MAX_CHECK_TIME 90 /* 9s (90 * 100ms) in total */
         uint8_t portid, count, all_ports_up, print_flag = 0;
         struct rte_eth_link link;
-
+        int i =0;
         printf("\nChecking link status");
         fflush(stdout);
         for (count = 0; count <= MAX_CHECK_TIME; count++) {
@@ -649,11 +668,15 @@ check_all_ports_link_status(uint8_t port_num, uint32_t port_mask)
                         /* print link status if flag set */
                         if (print_flag == 1) {
                                 if (link.link_status)
+                                   {   
                                         printf("Port %d Link Up - speed %u "
                                                 "Mbps - %s\n", (uint8_t)portid,
                                                 (unsigned)link.link_speed,
                                 (link.link_duplex == ETH_LINK_FULL_DUPLEX) ?
                                         ("full-duplex") : ("half-duplex\n"));
+                                         readportid[i++] = portid;
+                                         en_sys_ports = i;
+                                   }
                                 else
                                         printf("Port %d Link Down\n",
                                                 (uint8_t)portid);

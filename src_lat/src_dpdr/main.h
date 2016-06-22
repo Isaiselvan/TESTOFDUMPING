@@ -79,7 +79,7 @@ int isPowerOfTwo (unsigned int x);
 
 #define MAX_PKT_BURST 4096 
 #define BURST_TX_DRAIN_US 100 /* TX drain every ~100us */
-
+#define MAX_PORT 16
 /*
  *  * Configurable number of RX/TX ring descriptors
  *   */
