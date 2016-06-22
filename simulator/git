@@ -1,0 +1,4 @@
+git config --global user.email "mohanisai@gmail.com"
+git config --global user.name "isaiselvan"
+git remote set-url origin https://isaiselvan@github.com/Isaiselvan/TESTOFDUMPING.git
+
