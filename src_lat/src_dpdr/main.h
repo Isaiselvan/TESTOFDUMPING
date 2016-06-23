@@ -77,12 +77,12 @@ int isPowerOfTwo (unsigned int x);
 
 // Dpdk driver init code
 
-#define MAX_PKT_BURST 2048 
+#define MAX_PKT_BURST 256 
 #define MAX_PORT 16
 /*
  *  * Configurable number of RX/TX ring descriptors
  *   */
-#define RTE_TEST_RX_DESC_DEFAULT 2048 
+#define RTE_TEST_RX_DESC_DEFAULT 4096 
 #define RTE_TEST_TX_DESC_DEFAULT 32
 static uint16_t nb_rxd = RTE_TEST_RX_DESC_DEFAULT;
 static uint16_t nb_txd = RTE_TEST_TX_DESC_DEFAULT;
@@ -139,8 +139,8 @@ static const struct rte_eth_conf port_conf = {
                 .rss_conf = {
                         
                         //.rss_key = rss_seed,//rss_seed,                            /* Set the seed,                                        */
-                        .rss_key = NULL,
-                        //.rss_key_len = 40,                              /* and the seed length.                                 */
+                        .rss_key = rss_seed,
+                        .rss_key_len = 40,                              /* and the seed length.                                 */
                         .rss_hf = (ETH_RSS_TCP | ETH_RSS_UDP) , /* Set the mask of protocols RSS will be applied to     */
                 }
         }
