@@ -1,4 +1,4 @@
-git config --global user.email "mohanisai@gmail.com"
-git config --global user.name "isaiselvan"
-git remote set-url origin https://isaiselvan@github.com/Isaiselvan/TESTOFDUMPING.git
+git config --global user.email "xxxxx@xxxx.com"
+git config --global user.name "xxxxxxx"
+git remote set-url origin https://xxxxx@github.com/xxxxx/xxxxx.git
 
