@@ -77,13 +77,12 @@ int isPowerOfTwo (unsigned int x);
 
 // Dpdk driver init code
 
-#define MAX_PKT_BURST 4096 
-#define BURST_TX_DRAIN_US 100 /* TX drain every ~100us */
+#define MAX_PKT_BURST 2048 
 #define MAX_PORT 16
 /*
  *  * Configurable number of RX/TX ring descriptors
  *   */
-#define RTE_TEST_RX_DESC_DEFAULT 4096 
+#define RTE_TEST_RX_DESC_DEFAULT 2048 
 #define RTE_TEST_TX_DESC_DEFAULT 32
 static uint16_t nb_rxd = RTE_TEST_RX_DESC_DEFAULT;
 static uint16_t nb_txd = RTE_TEST_TX_DESC_DEFAULT;
@@ -129,7 +128,7 @@ static const struct rte_eth_conf port_conf = {
                 .split_hdr_size = 0,
                 .header_split   = 0, /*< Header Split disabled */
                .hw_ip_checksum = 0, /**< IP checksum offload disabled */
-              .hw_vlan_filter = 0, /**< VLAN filtering disabled */
+              .hw_vlan_filter = 1, /**< VLAN filtering disabled */
             .jumbo_frame    = 0, /**< Jumbo Frame Support disabled */
           .hw_strip_crc   = 0, /**< CRC stripped by hardware */
         },
@@ -141,11 +140,27 @@ static const struct rte_eth_conf port_conf = {
                         
                         //.rss_key = rss_seed,//rss_seed,                            /* Set the seed,                                        */
                         .rss_key = NULL,
-                        .rss_key_len = 40,                              /* and the seed length.                                 */
+                        //.rss_key_len = 40,                              /* and the seed length.                                 */
                         .rss_hf = (ETH_RSS_TCP | ETH_RSS_UDP) , /* Set the mask of protocols RSS will be applied to     */
                 }
         }
 };
+#if 0 
+static const struct rte_eth_conf port_conf = {
+               .rxmode = {
+                         .mq_mode = ETH_MQ_RX_RSS,
+                         },
+               .rx_adv_conf = {
+                         .rss_conf ={
+                                       .rss_key = NULL,
+                                       .rss_hf = (ETH_RSS_UDP | ETH_RSS_TCP),
+                                    }
+                              }
+ };
+#endif
+ //               port_conf.rxmode.mq_mode = ETH_MQ_RX_RSS;
+   //             port_conf.rx_adv_conf.rss_conf.rss_key = NULL;
+     //           port_conf.rx_adv_conf.rss_conf.rss_hf = ETH_RSS_UDP | ETH_RSS_TCP;
 /*
 static const struct rte_eth_conf port_conf = {
         .rxmode = {

@@ -8,14 +8,10 @@
 /* Constants of the system */
 #define MEMPOOL_NAME "cluster_mem_pool"                         // Name of the NICs' mem_pool
 #define MEMPOOL_ELEM_SZ  256                                    // Power of two greater than 1500
-#define MEMPOOL_CACHE_SZ 128
+#define MEMPOOL_CACHE_SZ 512 
 #define INTERMEDIATERING_NAME "intermedate_ring"
 
-#define IFSZ 16
-#define FLTRSZ 120
-#define MAXHOSTSZ 256
 #define SNAP_LEN 512 // Full packet reading to get host info on Sandbox min is 512
-#define PCAPDBUF_LEN 819200 // 10 * 8192
 
 
 #define RTE_LOGTYPE_FBM RTE_LOGTYPE_USER1
@@ -75,22 +71,37 @@ int main(int argc, char **argv)
         /* Parse arguments */
         parse_args(argc, argv);
         if (ret < 0) FATAL_ERROR("Wrong arguments\n");
-  
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, buffer_size-1, snaplen + RTE_PKTMBUF_HEADROOM/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, (snaplen + RTE_PKTMBUF_HEADROOM)/2 /*MEMPOOL_CACHE_SZ*/, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), MEMPOOL_F_NO_SPREAD);
-        //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
-        if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
 
-        /* Init intermediate queue data structures: the ring. */
-        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
-        if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
-
-        //store_ring = rte_ring_create ("Store_ring",  buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
-          //if (store_ring == NULL ) FATAL_ERROR("Cannot create store ring ");
- 
         nb_ports = rte_eth_dev_count();
         nb_sys_ports = nb_ports;
         if (nb_ports == 0)
           rte_exit(EXIT_FAILURE, "No Ethernet ports - bye\n");          
+ 
+       pktmbuf_pool = NULL;
+       int msize = buffer_size;
+       while (pktmbuf_pool == NULL)
+       { 
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, msize + (nb_ports * 1 * RTE_TEST_RX_DESC_DEFAULT), snaplen + RTE_PKTMBUF_HEADROOM/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), MEMPOOL_F_SP_PUT | MEMPOOL_F_SC_GET);
+        //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
+        //if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
+        //
+          msize = msize - 128;      
+        }
+         PRINT_INFO("MemPool Size allocated %d\n", (msize + 128));  
+        /* Init intermediate queue data structures: the ring. */
+        intermediate_ring = NULL;
+        msize = buffer_size;
+        while (intermediate_ring == NULL)
+        {
+        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, msize ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
+        msize = msize / 2 ;     
+   
+        //if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
+        }
+         PRINT_INFO("RteRing Size allocated%d\n" , (msize * 2));
+        //store_ring = rte_ring_create ("Store_ring",  buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
+          //if (store_ring == NULL ) FATAL_ERROR("Cannot create store ring ");
+ 
        
         /* Start consumer and producer routine on 2 different cores: consumer launched first... */
         //ret =  rte_eal_mp_remote_launch (packet_consumer, NULL, SKIP_MASTER);
@@ -196,19 +207,20 @@ int main(int argc, char **argv)
         RTE_LCORE_FOREACH_SLAVE(lcore_id) {
               if(coreVcount++ == 0) 
               {
-               ret = rte_eal_remote_launch(packet_producer, NULL,lcore_id);
+               ret = rte_eal_remote_launch(Statistics_lcore, NULL,lcore_id);
                if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
               }
               else
               {
-               ret = rte_eal_remote_launch(Statistics_lcore, NULL,lcore_id);
+               ret = rte_eal_remote_launch(packet_consumer, NULL,lcore_id);
                if (ret != 0) FATAL_ERROR("Cannot start Statistics thread\n");
               } 
         } 
           
         /* Master as producer */
-        //packet_producer ( NULL );
-        packet_consumer(NULL);
+        packet_producer ( NULL );
+        //packet_consumer(NULL);
+        //Statistics_lcore(NULL);
        
         rte_eal_mp_wait_lcore();
         return 0;
@@ -273,7 +285,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
                          }
     
                          for(;ret<nb_rx;ret++) 
-                            rte_pktmbuf_free(pkts_burst[ret]);
+                            rte_pktmbuf_free((struct rte_mbuf *)pkts_burst[ret]);
 
 
                   //Multi port read
@@ -327,7 +339,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
         struct timeval t_pack;
         struct rte_mbuf * m[MAX_PKT_BURST];
-        u_char * packet;
+        //u_char * packet;
         char file_name_move[1000];
         int ret, idx;
         struct pcap_pkthdr pcap_hdr;
@@ -406,12 +418,12 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
                 /* Compile pcap header */
                 pcap_hdr.ts = t_pack;
-                pcap_hdr.caplen = rte_pktmbuf_data_len(m[idx]);
+                pcap_hdr.caplen = (rte_pktmbuf_data_len(m[idx]) < snaplen) ? rte_pktmbuf_data_len(m[idx]): snaplen;
                 pcap_hdr.len = m[idx]->pkt_len;
-                packet = rte_pktmbuf_mtod(m[idx], u_char *);
+                //packet = rte_pktmbuf_mtod(m[idx], u_char *);
 
                 /* Write on pcap */
-                pcap_dump ((u_char *)pcap_file_p, & pcap_hdr,  packet);
+                pcap_dump ((u_char *)pcap_file_p, & pcap_hdr,  rte_pktmbuf_mtod(m[idx], u_char *));
                 nb_dumped_packets++;
 
                 /* Free the buffer */
@@ -467,7 +479,7 @@ void print_stats (void){
 	}
         // Clean before intrrupt 
         //m_numberofpackets = 0;
-        //missedouts = 0;
+        missedouts = 0;
          timeInt = curT - prevT;
         PRINT_INFO("Packet Capture Statistics:\n");
 	printf("\n-------------------------------------------------"); 
