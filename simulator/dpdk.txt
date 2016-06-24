@@ -202,5 +202,5 @@ ref:https://github.com/lagopus/lagopus/blob/master/QUICKSTART.md
 
 
 
-
-
+Disk check
+time sh -c "dd if=/dev/zero of=ddfile1 bs=64 count=2500000 && sync"; rm ddfile1
