@@ -756,16 +756,19 @@ check_all_ports_link_status(uint8_t port_num, uint32_t port_mask)
 static inline int FlushToFile(__rte_unused void *param)
 {
 
-  //int blockSize = 64;
-
-  //if(blockSize > bufferidx )
-   // blockSize = bufferidx;
-
+  int blockSize = 256;
+  int seekbefore =0;
+       
+  if(blockSize > bufferidx )
+    blockSize = bufferidx;
+   PRINT_INFO("blockSize = %d\n", blockSize);
    if(FP)
     {
-     int rc = fwrite(filechunk, 1, bufferidx, FP);
+     int rc = fwrite(filechunk, blockSize, bufferidx, FP);
      if (rc < bufferidx)
          FATAL_ERROR("Error while writing to file \n") ;
+     seekbefore = bufferidx % blockSize;
+     fseek(FP, -seekbefore, SEEK_CUR); 
      PRINT_INFO("Writing to file \n");
      bufferidx = 0 ;
      memset(filechunk,0, sizeof(filechunk));
