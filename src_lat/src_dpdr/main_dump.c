@@ -756,7 +756,7 @@ check_all_ports_link_status(uint8_t port_num, uint32_t port_mask)
 static inline int FlushToFile(__rte_unused void *param)
 {
 
-  int blockSize = 256;
+  int blockSize = 64;
   int seekbefore =0;
        
   if(blockSize > bufferidx )
