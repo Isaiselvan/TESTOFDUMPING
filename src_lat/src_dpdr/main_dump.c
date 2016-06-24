@@ -761,7 +761,7 @@ static inline int FlushToFile(__rte_unused void *param)
        
   if(blockSize > bufferidx )
     blockSize = bufferidx;
-   PRINT_INFO("blockSize = %d\n", blockSize);
+   //PRINT_INFO("blockSize = %d\n", blockSize);
    if(FP)
     {
      int rc = fwrite(filechunk, blockSize, bufferidx, FP);
@@ -769,7 +769,7 @@ static inline int FlushToFile(__rte_unused void *param)
          FATAL_ERROR("Error while writing to file \n") ;
      seekbefore = bufferidx % blockSize;
      fseek(FP, -seekbefore, SEEK_CUR); 
-     PRINT_INFO("Writing to file \n");
+   //  PRINT_INFO("Writing to file \n");
      bufferidx = 0 ;
      memset(filechunk,0, sizeof(filechunk));
     }
