@@ -3,7 +3,7 @@
 #include <pcap.h>
 #include <arpa/inet.h>
 #include <stdbool.h>
-
+#include <fcntl.h>
 
 /* Constants of the system */
 #define MEMPOOL_NAME "cluster_mem_pool"                         // Name of the NICs' mem_pool
@@ -341,9 +341,10 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
         struct timeval t_pack;
         struct rte_mbuf * m[MAX_PKT_BURST];
-        //u_char * packet;
+        u_char * packet;
         int ret, idx;
-        struct pcap_pkthdr pcap_hdr;
+        //struct pcap_pkthdr pcap_hdr;
+        static struct pcap_sf_pkthdr sf_hdr;
         PRINT_INFO("Lcore id of consumer %d\n", rte_lcore_id());
         /* Init first rotation */
         ret = gettimeofday(&t_pack, NULL);
@@ -353,12 +354,10 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
         start_secs = t_pack.tv_sec;
 
         /* Open pcap file for writing */
-        pd = pcap_open_dead(DLT_EN10MB, snaplen);
         snprintf(file_name_rotated, sizeof(file_name_rotated),"%s%ld",file_name,last_rotation);
-        pcap_file_p = pcap_dump_open(pd, file_name_rotated);
-        if(pcap_file_p==NULL)
-                FATAL_ERROR("Error in opening pcap file\n");
-        PRINT_INFO("Opened file %s\n", file_name_rotated);
+        createNewFile(file_name_rotated, snaplen);
+          PRINT_INFO("Opened file %s\n", file_name_rotated);
+       
          /* Start stats */
         //alarm(1);
 
@@ -403,33 +402,51 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                         if (max_rotations != -1 && nb_rotations > max_rotations)
                                 sig_handler(SIGINT);
 
+                        
                         /* Close the pcap file */
-                        pcap_close(pd);
-                        pcap_dump_close(pcap_file_p);
+			if(FP)
+			{
+			    FlushToFile(NULL);
+			    fclose(FP);
+			    FP = NULL;
+			}
+				
                         snprintf(file_name_moveG,sizeof(file_name_moveG), "%s%s", file_name_rotated, "ready.pcap");  
                         snprintf(file_name_oldG,sizeof(file_name_oldG) ,"%s", file_name_rotated);
                         /* Open pcap file for writing */
                         snprintf(file_name_rotated,sizeof(file_name_rotated), "%s%ld", file_name, last_rotation);
-                        pd = pcap_open_dead(DLT_EN10MB, snaplen);
-                        pcap_file_p = pcap_dump_open(pd, file_name_rotated);
-                        if(pcap_file_p==NULL)
-                                FATAL_ERROR("Error in opening pcap file\n");
+                         createNewFile(file_name_rotated, snaplen);
+                                 
                      //   PRINT_INFO("Opened file %s\n", file_name_rotated);
                 }
 
                 /* Compile pcap header */
-                pcap_hdr.ts = t_pack;
-                pcap_hdr.caplen = (rte_pktmbuf_data_len(m[idx]) < snaplen) ? rte_pktmbuf_data_len(m[idx]): snaplen;
-                pcap_hdr.len = m[idx]->pkt_len;
-                //packet = rte_pktmbuf_mtod(m[idx], u_char *);
-
+                //pcap_hdr.ts = t_pack;
+                //pcap_hdr.caplen = (rte_pktmbuf_data_len(m[idx]) < snaplen) ? rte_pktmbuf_data_len(m[idx]): snaplen;
+                //pcap_hdr.len = m[idx]->pkt_len;
+                packet = rte_pktmbuf_mtod(m[idx], u_char *);
+                sf_hdr.ts.tv_sec = t_pack.tv_sec;
+                sf_hdr.ts.tv_usec = t_pack.tv_usec;
+                sf_hdr.caplen = (rte_pktmbuf_data_len(m[idx]) < snaplen) ? rte_pktmbuf_data_len(m[idx]): snaplen;
+                sf_hdr.len = m[idx]->pkt_len;
+                
                 /* Write on pcap */
-                pcap_dump ((u_char *)pcap_file_p, & pcap_hdr,  rte_pktmbuf_mtod(m[idx], u_char *));
+                //pcap_dump ((u_char *)pcap_file_p, & pcap_hdr,  rte_pktmbuf_mtod(m[idx], u_char *));
+                 
+                rte_memcpy(&filechunk[bufferidx],( const char *)&sf_hdr,sizeof(sf_hdr));
+                bufferidx += sizeof(sf_hdr);
+                rte_memcpy(&filechunk[bufferidx],( const char *)packet,sf_hdr.caplen); 
+                bufferidx += sf_hdr.caplen;
+                 
                 nb_dumped_packets++;
-
+                //printf("BufferIdx = %d, pcap_hdr.caplen = %d, sizeofpcap_hdr = %d, pcap_hdr.len = %d\n ", bufferidx,pcap_hdr.caplen, sizeof(pcap_hdr),pcap_hdr.len );   
                 /* Free the buffer */
                 rte_pktmbuf_free( (struct rte_mbuf *)m[idx]);
                 m[idx] = NULL;
+                
+               // Flush file
+                 if( (bufferidx + sizeof(sf_hdr) + snaplen) >     FILE_CHUNK_SIZE )
+                  FlushToFile(NULL); 
               }
                 //pcap_dump_flush(pcap_file_p);
         }
@@ -553,6 +570,12 @@ static void sig_handler(int signo)
                 /* Signal the shutdown */
                 do_shutdown=1;
 
+                if(FP)
+                {
+                   FlushToFile(NULL);
+                   fclose(FP);
+                   FP = NULL;
+                }
                 /* Print the per port stats  */
                 printf("\n\nQUITTING...\n");
 
@@ -563,8 +586,8 @@ static void sig_handler(int signo)
                 print_stats();
 
                 /* Close the pcap file */
-                pcap_close(pd);
-                pcap_dump_close(pcap_file_p);
+                //pcap_close(pd);
+                //pcap_dump_close(pcap_file_p);
                 snprintf(file_name_move,sizeof(file_name_move), "%s%s", file_name_rotated, "ready.pcap");
                         if (rename (file_name_rotated, file_name_move))
                 printf("\n failed to rename file %s\n", file_name_rotated);
@@ -730,3 +753,65 @@ check_all_ports_link_status(uint8_t port_num, uint32_t port_mask)
         }
 }
 
+static inline int FlushToFile(__rte_unused void *param)
+{
+
+  //int blockSize = 64;
+
+  //if(blockSize > bufferidx )
+   // blockSize = bufferidx;
+
+   if(FP)
+    {
+     int rc = fwrite(filechunk, 1, bufferidx, FP);
+     if (rc < bufferidx)
+         FATAL_ERROR("Error while writing to file \n") ;
+     PRINT_INFO("Writing to file \n");
+     bufferidx = 0 ;
+     memset(filechunk,0, sizeof(filechunk));
+    }
+   return 0;
+}
+
+static inline void createNewFile(char * filename, int snaplen)
+{
+  static struct pcap_file_header fileheader;
+  if(FP)
+  {
+    FlushToFile(NULL);
+    fclose(FP);
+    FP = NULL;
+  }
+
+  FP = fopen((const char *)filename, "wb");
+  if(!FP)
+    {
+      FATAL_ERROR("Fatal error while creating the new file exiting..%s\n",strerror(errno));
+    }
+       if(fileheader.magic != 0xa1b2c3d4)   
+       {
+         char tmpstr[] = "/tmp/PCAPTMP_hdr.0000";
+         FILE* pFile = fopen (tmpstr , "wb");
+         pcap_t *pt;
+          pt = pcap_open_dead(DLT_EN10MB, snaplen); 
+          pcap_dumper_t *dump = pcap_dump_fopen(pt, pFile);
+            if (dump) pcap_dump_close(dump);
+          pcap_close(pt); 
+        int tmpfd = open(tmpstr, O_RDONLY); /* get pcap to create a header */   
+        if (tmpfd >= 0) read(tmpfd, (char *)&fileheader, sizeof(fileheader));
+        if (tmpfd >= 0) close(tmpfd);
+        //fclose(pFile);
+           fileheader.snaplen = snaplen;
+        //        
+       }
+
+       /* fileheader.magic = 0xa1b2c3d4;
+        fileheader.version_major = 2;
+        fileheader.version_minor = 4;
+        fileheader.thiszone = 0;
+        fileheader.sigfigs = 0;
+        fileheader.snaplen = snaplen;
+        fileheader.linktype = 1;*/
+     fwrite((void *)&fileheader, 1, sizeof(fileheader), FP);
+     bufferidx = 0;
+}

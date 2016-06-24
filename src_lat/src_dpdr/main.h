@@ -193,3 +193,20 @@ struct lcore_queue_conf {
         unsigned rx_port_list[MAX_RX_QUEUE_PER_LCORE];
 } __rte_cache_aligned;
 struct lcore_queue_conf lcore_queue_conf[RTE_MAX_LCORE];
+
+#define FILE_CHUNK_SIZE (RTE_TEST_RX_DESC_DEFAULT * 1500) 
+static int bufferidx = 0;
+static char filechunk[FILE_CHUNK_SIZE];
+static FILE *FP;
+static inline int FlushToFile(__rte_unused void *param);
+static inline void createNewFile(char * filename, int snaplen);
+struct pcap_timeval {
+    bpf_int32 tv_sec;           /* seconds */
+    bpf_int32 tv_usec;          /* microseconds */
+};
+
+struct pcap_sf_pkthdr {
+    struct pcap_timeval ts;     /* time stamp */
+    bpf_u_int32 caplen;         /* length of portion present */
+    bpf_u_int32 len;            /* length this packet (off wire) */
+};

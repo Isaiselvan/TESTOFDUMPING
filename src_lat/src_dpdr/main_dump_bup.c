@@ -27,6 +27,8 @@ long long int missedouts = 0;
 /* Global vars */
 char * file_name = NULL;
 char file_name_rotated [1000];
+static char file_name_moveG[1000];
+static char file_name_oldG[1000];
 pcap_dumper_t * pcap_file_p;
 uint64_t max_packets = 0 ;
 uint64_t buffer_size = 1048576 ; //Ring size
@@ -81,7 +83,7 @@ int main(int argc, char **argv)
        int msize = buffer_size;
        while (pktmbuf_pool == NULL)
        { 
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, msize + (nb_ports * 1 * RTE_TEST_RX_DESC_DEFAULT), snaplen + RTE_PKTMBUF_HEADROOM/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), MEMPOOL_F_SP_PUT | MEMPOOL_F_SC_GET);
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, msize + (nb_ports * 1 * RTE_TEST_RX_DESC_DEFAULT), snaplen + RTE_PKTMBUF_HEADROOM/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);//MEMPOOL_F_SP_PUT | MEMPOOL_F_SC_GET);
         //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
         //if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
         //
@@ -93,7 +95,7 @@ int main(int argc, char **argv)
         msize = buffer_size;
         while (intermediate_ring == NULL)
         {
-        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, msize ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
+        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, msize ,rte_socket_id(),  RING_F_SP_ENQ | RING_F_SC_DEQ);
         msize = msize / 2 ;     
    
         //if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
@@ -256,7 +258,7 @@ static int packet_producer(__attribute__((unused)) void * arg){
         /* Infinite loop */
            
 
-        for (;;) {
+        while(1) {
                           //PRINT_INFO( "portid%d \n", readportid);
 			/* Timestamp the packet */
 			ret = gettimeofday(&t_pack, NULL);
@@ -269,8 +271,9 @@ static int packet_producer(__attribute__((unused)) void * arg){
                         //portid = qconf->rx_port_list[i];
                         nb_rx = rte_eth_rx_burst((uint8_t) readportid[pidx++], 0,
                                                  pkts_burst, MAX_PKT_BURST);
-                        if(likely (nb_rx > 0))
-                        {
+
+                        if(unlikely(nb_rx <0))
+                              continue ;
 
                            for (idx= 0;idx<nb_rx;idx++)
                            {
@@ -282,7 +285,6 @@ static int packet_producer(__attribute__((unused)) void * arg){
                                              
                             m_numberofpackets += ret;
                             missedouts += nb_rx -ret;
-                         }
     
                          for(;ret<nb_rx;ret++) 
                             rte_pktmbuf_free((struct rte_mbuf *)pkts_burst[ret]);
@@ -340,7 +342,6 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
         struct timeval t_pack;
         struct rte_mbuf * m[MAX_PKT_BURST];
         //u_char * packet;
-        char file_name_move[1000];
         int ret, idx;
         struct pcap_pkthdr pcap_hdr;
         PRINT_INFO("Lcore id of consumer %d\n", rte_lcore_id());
@@ -353,7 +354,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
         /* Open pcap file for writing */
         pd = pcap_open_dead(DLT_EN10MB, snaplen);
-        sprintf(file_name_rotated, "%s%ld",file_name,last_rotation);
+        snprintf(file_name_rotated, sizeof(file_name_rotated),"%s%ld",file_name,last_rotation);
         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
         if(pcap_file_p==NULL)
                 FATAL_ERROR("Error in opening pcap file\n");
@@ -363,13 +364,14 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
 
 
         /* Infinite loop for consumer thread */
-        for(;;){
+        while(1){
 
 
                 /* Dequeue packet */
                 //ret = rte_ring_dequeue(intermediate_ring, (void**)&m);
-                 while(( ret = rte_ring_sc_dequeue_burst(intermediate_ring, (void **)m,
-                                MAX_PKT_BURST)) <= 0);
+                 if( unlikely(ret = rte_ring_sc_dequeue_burst(intermediate_ring, (void **)m,
+                                MAX_PKT_BURST)) <= 0)
+                  continue;
                 //ring_full = false;
                 /* Continue polling if no packet available */
                /* if( ret < 0) {
@@ -392,7 +394,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                 t_pack.tv_sec = m[idx]->tx_offload;
 
                 /* Rotate if needed */
-                if ( seconds_rotation > 0 && t_pack.tv_sec - last_rotation > seconds_rotation ){
+                if (unlikely(seconds_rotation > 0 && t_pack.tv_sec - last_rotation > seconds_rotation )){
 
                         last_rotation = t_pack.tv_sec;
                         nb_rotations ++;
@@ -404,11 +406,10 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                         /* Close the pcap file */
                         pcap_close(pd);
                         pcap_dump_close(pcap_file_p);
-                        sprintf(file_name_move, "%s%s", file_name_rotated, "ready.pcap");  
-                        if (rename (file_name_rotated, file_name_move))
-                        PRINT_INFO("\n failed to rename file %s\n", file_name_rotated); 
+                        snprintf(file_name_moveG,sizeof(file_name_moveG), "%s%s", file_name_rotated, "ready.pcap");  
+                        snprintf(file_name_oldG,sizeof(file_name_oldG) ,"%s", file_name_rotated);
                         /* Open pcap file for writing */
-                        sprintf(file_name_rotated, "%s%ld", file_name, last_rotation);
+                        snprintf(file_name_rotated,sizeof(file_name_rotated), "%s%ld", file_name, last_rotation);
                         pd = pcap_open_dead(DLT_EN10MB, snaplen);
                         pcap_file_p = pcap_dump_open(pd, file_name_rotated);
                         if(pcap_file_p==NULL)
@@ -430,6 +431,7 @@ static  int packet_consumer(__attribute__((unused)) void * arg){
                 rte_pktmbuf_free( (struct rte_mbuf *)m[idx]);
                 m[idx] = NULL;
               }
+                //pcap_dump_flush(pcap_file_p);
         }
 }
 
@@ -489,11 +491,15 @@ void print_stats (void){
                 (good_pkt - prvrecevied)/timeInt, (miss_pkt - prvdrop)/timeInt, (st_pktproc - prvprocessed)/timeInt);           
         //fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%ld pktdrop=%ld  pktprocss=%ld \n ", TimeBuf,
           //      good_pkt/INTERVAL_STATS, miss_pkt/INTERVAL_STATS, st_pktproc/INTERVAL_STATS);
-        fprintf(f,"Missedby enqueue%ld\n",st_missout); 
+        fprintf(f,"Missedby enqueue%ld\n",st_missout/timeInt); 
         prvrecevied = good_pkt;
         prvdrop = miss_pkt;
         prvprocessed = st_pktproc;
         prevT = curT;
+        fprintf(f,"Ring free %d, Ring used %d\n", rte_ring_free_count(intermediate_ring), rte_ring_count(intermediate_ring)); 
+        fprintf(f,"Mempool free %d, Mempool used %d\n", rte_mempool_count(pktmbuf_pool), rte_mempool_free_count(pktmbuf_pool));  
+        //rte_ring_dump(f, intermediate_ring);
+        //rte_mempool_dump(f,pktmbuf_pool);
 	fclose(f);
      
 }
@@ -507,6 +513,12 @@ static  int Statistics_lcore(__attribute__((unused)) void * arg){
          rte_eal_alarm_set(INTERVAL_STATS * MS_PER_S, alarm_routine, NULL);
         while(1)
         {
+                      if(file_name_moveG[0] != '\0')
+                        {
+                        if (rename (file_name_oldG, file_name_moveG))
+                        PRINT_INFO("\n failed to rename file %s\n", file_name_rotated); 
+                           file_name_moveG[0] = '\0';
+                        }
          usleep(10);
         }
         return 0; 
@@ -553,7 +565,7 @@ static void sig_handler(int signo)
                 /* Close the pcap file */
                 pcap_close(pd);
                 pcap_dump_close(pcap_file_p);
-                sprintf(file_name_move, "%s%s", file_name_rotated, "ready.pcap");
+                snprintf(file_name_move,sizeof(file_name_move), "%s%s", file_name_rotated, "ready.pcap");
                         if (rename (file_name_rotated, file_name_move))
                 printf("\n failed to rename file %s\n", file_name_rotated);
                 exit(0);
