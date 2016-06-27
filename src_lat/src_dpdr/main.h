@@ -77,7 +77,7 @@ int isPowerOfTwo (unsigned int x);
 
 // Dpdk driver init code
 
-#define MAX_PKT_BURST 256 
+#define MAX_PKT_BURST 4096 
 #define MAX_PORT 16
 /*
  *  * Configurable number of RX/TX ring descriptors
@@ -139,8 +139,8 @@ static const struct rte_eth_conf port_conf = {
                 .rss_conf = {
                         
                         //.rss_key = rss_seed,//rss_seed,                            /* Set the seed,                                        */
-                        .rss_key = rss_seed,
-                        .rss_key_len = 40,                              /* and the seed length.                                 */
+                        .rss_key = NULL,
+                        //.rss_key_len = 40,                              /* and the seed length.                                 */
                         .rss_hf = (ETH_RSS_TCP | ETH_RSS_UDP) , /* Set the mask of protocols RSS will be applied to     */
                 }
         }
@@ -183,7 +183,7 @@ static const struct rte_eth_rxconf rx_conf = {
                 .hthresh = 8,   /* Ring host threshold */
                 .wthresh = 4,   /* Ring writeback threshold */
         },
-        .rx_free_thresh = 32,    /* Immediately free RX descriptors */
+        .rx_free_thresh = 3072,    /* Immediately free RX descriptors */
 };
 
 #define MAX_RX_QUEUE_PER_LCORE 16
@@ -194,7 +194,7 @@ struct lcore_queue_conf {
 } __rte_cache_aligned;
 struct lcore_queue_conf lcore_queue_conf[RTE_MAX_LCORE];
 
-#define FILE_CHUNK_SIZE (RTE_TEST_RX_DESC_DEFAULT * 1500) 
+#define FILE_CHUNK_SIZE (RTE_TEST_RX_DESC_DEFAULT * 1500 ) 
 static int bufferidx = 0;
 static char filechunk[FILE_CHUNK_SIZE];
 static FILE *FP;
