@@ -13,11 +13,18 @@ LDLIBS = -lpcap -lpthread -lm
 #LDFLAGS = -Wl,--rpath -Wl,/usr/local/lib
 
 # binary name
-APP = icis-dump
+APP = Vzprobe-dump
 
 ifdef dpdr
-#SRCS-y := rte_eth_pcap.c 
-SRCS-y += src_dpdr/main_dump.c
+SRCS-y := rte_eth_pcap.c 
+SRCS-y += src_dpdr/main.c 
+#SRCS-y  += src_dpdr/BUP_Codes/main_dump.c
+#SRCS-y +=  src_dpdr/deviceint.c
+SRCS-y += src_dpdr/fbmread.c   \
+          src_dpdr/fbmwrite.c  \
+          src_dpdr/parseargs.c \
+          src_dpdr/printstat.c \
+          src_dpdr/deviceint.c
 else
 # all source are stored in SRCS-y
 SRCS-y += src/main_dump.c
@@ -25,8 +32,11 @@ SRCS-y += src/main_dump.c
 endif 
 
 CFLAGS += -O3
-#CFLAGS += -g -ggdb
+#CFLAGS += -Wno-unused-variable  -Wno-unused-function
+CFLAGS += -g -ggdb
+#WERROR_FLAGS:=$(filter-out -Wunused-variable,$(WERROR_FLAGS))
+#WERROR_FLAGS:=$(filter-out -Wunused-function,$(WERROR_FLAGS))
 CFLAGS += $(WERROR_FLAGS)
-
 EXPORT_MAP := rte_pmd_pcap_version.map
+
 include $(RTE_SDK)/mk/rte.extapp.mk

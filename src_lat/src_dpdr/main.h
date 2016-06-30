@@ -1,19 +1,6 @@
-/*
-*
-* Copyright (c) 2015
-*      Politecnico di Torino.  All rights reserved.
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* For bug report and other information please write to:
-* martino.trevisan@studenti.polito.it
-*
-*
-*/
 
+#ifndef _MAIN_H
+#define _MAIN_H
 
 /* Includes */
 #define _GNU_SOURCE
@@ -58,155 +45,45 @@
 #include <rte_version.h>
 #include <rte_eth_ring.h>
 #include <rte_alarm.h>
+#include <fcntl.h>
 
 /* Useful macro for error handling */
+#define RTE_LOGTYPE_FBM RTE_LOGTYPE_USER1
+#define PRINT_INFO(fmt, args...)        RTE_LOG(INFO, FBM, fmt "\n", ##args)
 #define FATAL_ERROR(fmt, args...)       rte_exit(EXIT_FAILURE, fmt "\n", ##args)
-#define INTERVAL_STATS 1 
-/* Function prototypes */
-static int packet_producer(__attribute__((unused)) void * arg);
-static void sig_handler(int signo);
-//static void init_port(int i);
-static int parse_args(int argc, char **argv);
-void print_stats (void);
-//void alarm_routine (__attribute__((unused)) int unused);
-static void alarm_routine (__rte_unused void *param);
-static int packet_consumer(__attribute__((unused)) void * arg);
-static int Statistics_lcore(__attribute__((unused)) void * arg);
-int isPowerOfTwo (unsigned int x);
-
-
-// Dpdk driver init code
-
 #define MAX_PKT_BURST 4096 
 #define MAX_PORT 16
-/*
- *  * Configurable number of RX/TX ring descriptors
- *   */
-#define RTE_TEST_RX_DESC_DEFAULT 4096 
-#define RTE_TEST_TX_DESC_DEFAULT 32
-static uint16_t nb_rxd = RTE_TEST_RX_DESC_DEFAULT;
-static uint16_t nb_txd = RTE_TEST_TX_DESC_DEFAULT;
-/* mask of enabled ports */
-static uint32_t l2fwd_enabled_port_mask = 0;
-/* ethernet addresses of ports */
-static struct ether_addr l2fwd_ports_eth_addr[RTE_MAX_ETHPORTS];
-static unsigned int l2fwd_rx_queue_per_lcore = 1;
-
-static int l2fwd_parse_portmask(const char *portmask);
-static unsigned int l2fwd_parse_nqueue(const char *q_args);
-static void check_all_ports_link_status(uint8_t port_num, uint32_t port_mask);
-/* RSS symmetrical 40 Byte seed, according to "Scalable TCP Session Monitoring with Symmetric Receive-side Scaling" (Shinae Woo, KyoungSoo Park from KAIST)  */
-uint8_t rss_seed [] = { 0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a,
-                        0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a,
-                        0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a,
-                        0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a,
-                        0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a, 0x6d, 0x5a
-};
-
-/* This seed is to load balance only respect source IP, according to me (Martino Trevisan, from nowhere particular) */
-uint8_t rss_seed_src_ip [] = {
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-};
-/* This seed is to load balance only destination source IP, according to me (Martino Trevisan, from nowhere particular) */
-uint8_t rss_seed_dst_ip [] = {
-                        0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-};
-
-
-/* Struct for devices configuration for const defines see rte_ethdev.h */
-static const struct rte_eth_conf port_conf = {
-        .rxmode = {
-                .mq_mode = ETH_MQ_RX_RSS,       /* Enable RSS */
-                .split_hdr_size = 0,
-                .header_split   = 0, /*< Header Split disabled */
-               .hw_ip_checksum = 0, /**< IP checksum offload disabled */
-              .hw_vlan_filter = 1, /**< VLAN filtering disabled */
-            .jumbo_frame    = 0, /**< Jumbo Frame Support disabled */
-          .hw_strip_crc   = 0, /**< CRC stripped by hardware */
-        },
-        .txmode = {
-                .mq_mode = ETH_MQ_TX_NONE,
-        },
-        .rx_adv_conf = {
-                .rss_conf = {
-                        
-                        //.rss_key = rss_seed,//rss_seed,                            /* Set the seed,                                        */
-                        .rss_key = NULL,
-                        //.rss_key_len = 40,                              /* and the seed length.                                 */
-                        .rss_hf = (ETH_RSS_TCP | ETH_RSS_UDP) , /* Set the mask of protocols RSS will be applied to     */
-                }
-        }
-};
-#if 0 
-static const struct rte_eth_conf port_conf = {
-               .rxmode = {
-                         .mq_mode = ETH_MQ_RX_RSS,
-                         },
-               .rx_adv_conf = {
-                         .rss_conf ={
-                                       .rss_key = NULL,
-                                       .rss_hf = (ETH_RSS_UDP | ETH_RSS_TCP),
-                                    }
-                              }
- };
-#endif
- //               port_conf.rxmode.mq_mode = ETH_MQ_RX_RSS;
-   //             port_conf.rx_adv_conf.rss_conf.rss_key = NULL;
-     //           port_conf.rx_adv_conf.rss_conf.rss_hf = ETH_RSS_UDP | ETH_RSS_TCP;
-/*
-static const struct rte_eth_conf port_conf = {
-        .rxmode = {
-                .split_hdr_size = 0,
-                .header_split   = 0, *< Header Split disabled */
- //               .hw_ip_checksum = 0, /**< IP checksum offload disabled */
-   //             .hw_vlan_filter = 0, /**< VLAN filtering disabled */
-     //           .jumbo_frame    = 0, /**< Jumbo Frame Support disabled */
-       //         .hw_strip_crc   = 0, /**< CRC stripped by hardware */
-       // },
-        //.txmode = {
-          //      .mq_mode = ETH_MQ_TX_NONE,
-        //},
-//};*/
-
-/* Struct for configuring each rx queue. These are default values */
-static const struct rte_eth_rxconf rx_conf = {
-        .rx_thresh = {
-                .pthresh = 8,   /* Ring prefetch threshold */
-                .hthresh = 8,   /* Ring host threshold */
-                .wthresh = 4,   /* Ring writeback threshold */
-        },
-        .rx_free_thresh = 3072,    /* Immediately free RX descriptors */
-};
-
 #define MAX_RX_QUEUE_PER_LCORE 16
 #define MAX_TX_QUEUE_PER_PORT 16
+#define RTE_TEST_RX_DESC_DEFAULT 4096
+#define RTE_TEST_TX_DESC_DEFAULT 32
 struct lcore_queue_conf {
         unsigned n_rx_port;
         unsigned rx_port_list[MAX_RX_QUEUE_PER_LCORE];
 } __rte_cache_aligned;
 struct lcore_queue_conf lcore_queue_conf[RTE_MAX_LCORE];
+//#endif //_COMMON_H
 
-#define FILE_CHUNK_SIZE (RTE_TEST_RX_DESC_DEFAULT * 1500 ) 
-static int bufferidx = 0;
-static char filechunk[FILE_CHUNK_SIZE];
-static FILE *FP;
-static inline int FlushToFile(__rte_unused void *param);
-static inline void createNewFile(char * filename, int snaplen);
-struct pcap_timeval {
-    bpf_int32 tv_sec;           /* seconds */
-    bpf_int32 tv_usec;          /* microseconds */
-};
+#define INTERVAL_STATS 1 
 
-struct pcap_sf_pkthdr {
-    struct pcap_timeval ts;     /* time stamp */
-    bpf_u_int32 caplen;         /* length of portion present */
-    bpf_u_int32 len;            /* length this packet (off wire) */
-};
+
+//All funtions have to be declared here 
+int packet_producer(__attribute__((unused)) void * arg);
+inline int FlushToFile(__rte_unused void *param);
+inline void createNewFile(char * filename, int snaplen);
+int portinit(int portid);
+void check_all_ports_link_status(uint8_t port_num, uint32_t port_mask);
+int parse_args(int argc, char **argv);
+
+int l2fwd_parse_portmask(const char *portmask);
+unsigned int l2fwd_parse_nqueue(const char *q_args);
+int isPowerOfTwo (unsigned int x);
+void sig_handler(int signo);
+//static void init_port(int i);
+void print_stats (void);
+//void alarm_routine (__attribute__((unused)) int unused);
+int packet_consumer(__attribute__((unused)) void * arg);
+int Statistics_lcore(__attribute__((unused)) void * arg);
+
+
+#endif
