@@ -16,14 +16,99 @@ extern int64_t  max_rotations ;
 extern uint64_t max_packets ;
 extern uint64_t buffer_size ; //Ring size
 
+struct lcore_conf lcore_conf[RTE_MAX_LCORE];
+
+
+
+struct lcore_params lcore_params_array[MAX_LCORE_PARAMS];
+struct lcore_params lcore_params_array_default[] = {
+        {0, 0, 2},
+        {0, 1, 2},
+        {0, 2, 2},
+        {1, 0, 2},
+        {1, 1, 2},
+        {1, 2, 2},
+        {2, 0, 2},
+        {3, 0, 3},
+        {3, 1, 3}
+};
+
+struct lcore_params * lcore_params = lcore_params_array_default;
+uint16_t nb_lcore_params = sizeof(lcore_params_array_default) /
+                                sizeof(lcore_params_array_default[0]);
+
+int
+parse_config(const char *q_arg)
+{
+        char s[256];
+        const char *p, *p0 = q_arg;
+        char *end;
+        enum fieldnames {
+                FLD_PORT = 0,
+                FLD_QUEUE,
+                FLD_LCORE,
+                _NUM_FLD
+        };
+        unsigned long int_fld[_NUM_FLD];
+        char *str_fld[_NUM_FLD];
+        int i;
+        unsigned size;
+
+        nb_lcore_params = 0;
+
+        while ((p = strchr(p0,'(')) != NULL) {
+                ++p;
+                if((p0 = strchr(p,')')) == NULL)
+                        return -1;
+
+                size = p0 - p;
+                if(size >= sizeof(s))
+                        return -1;
+
+                snprintf(s, sizeof(s), "%.*s", size, p);
+                if (rte_strsplit(s, sizeof(s), str_fld, _NUM_FLD, ',') != _NUM_FLD)
+                        return -1;
+                for (i = 0; i < _NUM_FLD; i++){
+                        errno = 0;
+                        int_fld[i] = strtoul(str_fld[i], &end, 0);
+                        if (errno != 0 || end == str_fld[i] || int_fld[i] > 255)
+                                return -1;
+                }
+                if (nb_lcore_params >= MAX_LCORE_PARAMS) {
+                        printf("exceeded max number of lcore params: %hu\n",
+                                nb_lcore_params);
+                        return -1;
+                                  
+        }
+                lcore_params_array[nb_lcore_params].port_id =
+                        (uint8_t)int_fld[FLD_PORT];
+                lcore_params_array[nb_lcore_params].queue_id =
+                        (uint8_t)int_fld[FLD_QUEUE];
+                lcore_params_array[nb_lcore_params].lcore_id =
+                        (uint8_t)int_fld[FLD_LCORE];
+                ++nb_lcore_params;
+        }
+        lcore_params = lcore_params_array;
+        return 0;
+}
+
 
 int parse_args(int argc, char **argv)
 {
-        int option;
+        int option, ret;
+        const char *str5 = "L3FWD: Invalid config";
+        char **argvopt;
+        int option_index;
+        //char *prgname = argv[0];
+        static struct option lgopts[] = {
+                {CMD_LINE_OPT_CONFIG, 1, 0, 0},
+                {NULL, 0, 0, 0}
+               };
 
-
-        /* Retrive arguments */
-        while ((option = getopt(argc, argv,"w:c:B:G:W:C:S:i:f:b:q:p:")) != -1) {
+        argvopt = argv;
+ 
+         /* Retrive arguments */
+        while ((option = getopt_long(argc, argvopt,"w:c:B:G:W:C:S:i:f:b:q:p:",lgopts,&option_index)) != EOF) {
                 switch (option) {
                         case 'w' : file_name = strdup(optarg); /* File name, mandatory */
                                 break;
@@ -58,7 +143,19 @@ int parse_args(int argc, char **argv)
 				  break;
 				  /* long options */
 			case 0:
-				  return -1;
+				   if (!strncmp(lgopts[option_index].name,
+                                        CMD_LINE_OPT_CONFIG,
+                                        sizeof(CMD_LINE_OPT_CONFIG))) {
+
+                                ret = parse_config(optarg);
+                                if (ret) {
+                                        printf("%s\n", str5);
+                                        //print_usage(prgname);
+                                        return -1;
+                                     }
+                                }else 
+                                    return -1;
+                                 break;   
 
 			default: return -1;
                 }
@@ -112,6 +209,5 @@ l2fwd_parse_nqueue(const char *q_arg)
 
         return n;
 }
-
 
 

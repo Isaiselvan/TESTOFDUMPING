@@ -1,8 +1,8 @@
 
-#include "main.h"
 #include <pcap.h>
 #include <arpa/inet.h>
 #include <stdbool.h>
+#include "main.h"
 
 /* Constants of the system */
 #define MEMPOOL_NAME "cluster_mem_pool"                         // Name of the NICs' mem_pool
@@ -44,10 +44,10 @@ uint8_t nb_ports_available;
 int main(int argc, char **argv)
 {
         int ret;
-        uint8_t nb_ports;
+        uint8_t nb_ports, lcore_count;
         uint8_t portid ;
-	struct lcore_queue_conf *qconf;
-	unsigned lcore_id, rx_lcore_id;
+	//struct lcore_queue_conf *qconf;
+	unsigned lcore_id;// rx_lcore_id;
         //int i;
 
 
@@ -58,8 +58,8 @@ int main(int argc, char **argv)
         argv += ret;
 
         /* Check if this application can use three cores*/
-        ret = rte_lcore_count ();
-        if (ret != 3) FATAL_ERROR("This application needs exactly three (3) cores.");
+        lcore_count = rte_lcore_count ();
+        if (lcore_count < 3 ) FATAL_ERROR("This application needs minimum (3) cores.");
 
         /* Parse arguments */
         ret = parse_args(argc, argv);
@@ -99,9 +99,10 @@ int main(int argc, char **argv)
         /* Start consumer and producer routine on 2 different cores: consumer launched first... */
         //ret =  rte_eal_mp_remote_launch (packet_consumer, NULL, SKIP_MASTER);
         //if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
-        rx_lcore_id = 0;
-        qconf = NULL;
+        //rx_lcore_id = 0;
+        //qconf = NULL;
         /* Initialize the port/queue configuration of each logical core */
+#if 0
         for (portid = 0; portid < nb_ports; portid++) {
                 
                 /* skip ports that are not enabled */
@@ -127,7 +128,18 @@ int main(int argc, char **argv)
                 printf("Lcore %u: RX port %u\n", rx_lcore_id, (unsigned) portid);
                 
         }
+#endif 
        nb_ports_available = nb_ports;
+
+        if (check_lcore_params() < 0)
+                rte_exit(EXIT_FAILURE, "check_lcore_params failed\n");
+
+        ret = init_lcore_rx_queues();
+        if (ret < 0)
+                rte_exit(EXIT_FAILURE, "init_lcore_rx_queues failed\n");
+
+        if (check_port_config(nb_ports) < 0)
+                rte_exit(EXIT_FAILURE, "check_port_config failed\n"); 
 
 /* Initialise each port */
         for (portid = 0; portid < nb_ports; portid++){
@@ -142,23 +154,39 @@ int main(int argc, char **argv)
 
         check_all_ports_link_status(nb_ports, l2fwd_enabled_port_mask);
         signal(SIGINT, sig_handler);
+        signal(SIGTERM, sig_handler);
+     
 
-   
+        int rxlcorelt[lcore_count] , rxlcore_count;
+        rxlcore_count = get_nb_rx_lcores(&rxlcorelt);
+            if((lcore_count - rxlcore_count )  < 2)
+                   FATAL_ERROR("FBM: Need more core allocation\n");   
 //Statistics_lcore        
-        lcore_id =0 ;
-        int coreVcount = 0;
-        RTE_LCORE_FOREACH_SLAVE(lcore_id) {
-              if(coreVcount++ == 0) 
+        lcore_id = 0;
+        int masterid = rte_lcore_id();
+        for (lcore_id = 0; lcore_id < rxlcore_count; lcore_id++ )
+            {
+                ret = rte_eal_remote_launch(
+            }   
+        int coreVcount = 0 , statsstarted = 0, producerstarted = -1, consumerstarted = -1;
+        RTE_LCORE_FOREACH(lcore_id) {
+              if(masterid != lcore_id )
               {
-               ret = rte_eal_remote_launch(Statistics_lcore, NULL,lcore_id);
-               if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
-              }
-              else
-              {
-               ret = rte_eal_remote_launch(packet_consumer, NULL,lcore_id);
-               if (ret != 0) FATAL_ERROR("Cannot start Statistics thread\n");
-              } 
-        } 
+		      if(statsstarted == 0) 
+		      {
+			      ret = rte_eal_remote_launch(Statistics_lcore, NULL,lcore_id);
+			      if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
+                              statsstarted = 1;    
+		      }
+		      else
+		      {
+			      ret = rte_eal_remote_launch(packet_consumer, NULL,lcore_id);
+			      if (ret != 0) FATAL_ERROR("Cannot start Statistics thread\n");
+                              consumerstarted = 1;
+		      } 
+              }else
+                  
+       }
           
         /* Master as producer */
         packet_producer ( NULL );

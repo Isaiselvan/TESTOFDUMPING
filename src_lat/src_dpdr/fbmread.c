@@ -3,11 +3,15 @@
 
 extern struct rte_ring    * intermediate_ring;
 extern struct rte_mempool * pktmbuf_pool;
+extern struct lcore_conf lcore_conf[RTE_MAX_LCORE];
+
 int en_sys_ports;
 int readportid[MAX_PORT];
-uint64_t nb_captured_packets = 0;
-long long int m_numberofpackets  = 0;  /*for continous number of packets to capture */
-long long int missedouts = 0;
+uint64_t nb_captured_packets[RTE_MAX_LCORE] = {0};
+long long int m_numberofpackets[RTE_MAX_LCORE]  = {0};  /*for continous number of packets to capture */
+long long int missedouts[RTE_MAX_LCORE] = {0};
+
+
 
 int packet_producer(__attribute__((unused)) void * arg){
         struct rte_mbuf *pkts_burst[MAX_PKT_BURST * MAX_PORT];
@@ -15,22 +19,23 @@ int packet_producer(__attribute__((unused)) void * arg){
         unsigned lcore_id = rte_lcore_id();
         PRINT_INFO("Lcore id of producer %d\n", lcore_id);
         unsigned int i;
-        int idx, portid, nb_rx1, nb_rx, ret, pidx =0;
-        struct lcore_queue_conf *qconf;
+        int idx, portid, nb_rx1, nb_rx, ret, pidx =0, queueid;
+        struct lcore_conf *pconf;
         struct timeval t_pack;
 
-        qconf = &lcore_queue_conf[lcore_id];
+        pconf = &lcore_conf[lcore_id];
 
         //if (qconf->n_rx_port == 0) {
          //       PRINT_INFO("lcore %u has nothing to do\n", lcore_id);
            //     return -1;
        // }
         PRINT_INFO( "entering main loop on lcore %u\n", lcore_id);
-        for (i = 0; i < qconf->n_rx_port; i++) {
+        for (i = 0; i < pconf->n_rx_pqp; i++) {
 
-                portid = qconf->rx_port_list[i];
-                PRINT_INFO(" -- lcoreid=%u portid=%u\n", lcore_id,
-                        portid);
+                portid = pconf->rx_queue_list[i].port_id;
+                queueid =  pconf->rx_queue_list[i].queue_id; 
+                PRINT_INFO(" -- lcoreid=%u portid=%u queueid=%d\n", lcore_id,
+                        portid, queueid);
 
         }
       // int debug =0 ;
@@ -50,17 +55,17 @@ int packet_producer(__attribute__((unused)) void * arg){
             // for (i = 0; i < qconf->n_rx_port; i++) {
 
                         //portid = qconf->rx_port_list[i];
-                      while(pidx <= en_sys_ports)
+                      while(pidx <= pconf->n_rx_pqp) 
                       {
-                        nb_rx1 = rte_eth_rx_burst((uint8_t) readportid[pidx++], 0,
-                                                 &pkts_burst[nb_rx], MAX_PKT_BURST);
+                        nb_rx1 = rte_eth_rx_burst((uint8_t)pconf->rx_queue_list[pidx].port_id,(uint8_t)pconf->rx_queue_list[pidx].queue_id, &pkts_burst[nb_rx], MAX_PKT_BURST);
                           nb_rx += nb_rx1;    
                   //Multi port read
-                          if(pidx == en_sys_ports || pidx == MAX_PORT)  
+                          if(pidx ==  pconf->n_rx_pqp || pidx == MAX_PORT)  
                             {
                               pidx = 0;
                               break;
                             }
+                         ++pidx;
                       }
                         if(unlikely(nb_rx <0))
                               continue ;
@@ -70,11 +75,11 @@ int packet_producer(__attribute__((unused)) void * arg){
                              pkts_burst[idx]->tx_offload = t_pack.tv_sec;
                              pkts_burst[idx]->udata64 =  t_pack.tv_usec;
                            }
-                           nb_captured_packets += nb_rx;
+                           nb_captured_packets[lcore_id] += nb_rx;
                            ret = rte_ring_enqueue_burst(intermediate_ring, (void*)pkts_burst,nb_rx);
                                              
-                            m_numberofpackets += ret;
-                            missedouts += nb_rx -ret;
+                            m_numberofpackets[lcore_id] += ret;
+                            missedouts[lcore_id] += nb_rx -ret;
     
                          for(;ret<nb_rx;ret++) 
                             rte_pktmbuf_free((struct rte_mbuf *)pkts_burst[ret]);
@@ -118,8 +123,6 @@ int packet_producer(__attribute__((unused)) void * arg){
                                 
 
                 //}
-
-           
         }
         return 0;
 }

@@ -44,7 +44,7 @@ int packet_consumer(__attribute__((unused)) void * arg){
         u_char * packet;
         int ret, idx;
         //struct pcap_pkthdr pcap_hdr;
-        static struct pcap_sf_pkthdr sf_hdr;
+        struct pcap_sf_pkthdr sf_hdr;
         PRINT_INFO("Lcore id of consumer %d\n", rte_lcore_id());
         /* Init first rotation */
         ret = gettimeofday(&t_pack, NULL);

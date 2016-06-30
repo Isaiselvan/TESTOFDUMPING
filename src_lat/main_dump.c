@@ -1,5 +1,4 @@
-
-#include "main.h"
+#include "common.h"
 #include <pcap.h>
 #include <arpa/inet.h>
 #include <stdbool.h>
