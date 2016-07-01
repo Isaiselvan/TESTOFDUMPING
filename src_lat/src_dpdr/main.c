@@ -32,11 +32,8 @@ struct rte_mempool * pktmbuf_pool;
 extern uint32_t l2fwd_enabled_port_mask ;// = 0;
 /* ethernet addresses of ports */
 extern unsigned int l2fwd_rx_queue_per_lcore;// = 1;
-
-
-
-
-
+extern int nb_Wlcore;
+extern int Wlcore_list[RTE_MAX_LCORE]; 
 
 
 uint8_t nb_ports_available;
@@ -47,7 +44,7 @@ int main(int argc, char **argv)
         uint8_t nb_ports, lcore_count;
         uint8_t portid ;
 	//struct lcore_queue_conf *qconf;
-	unsigned lcore_id;// rx_lcore_id;
+	int lcore_id;// rx_lcore_id;
         //int i;
 
 
@@ -156,43 +153,80 @@ int main(int argc, char **argv)
         signal(SIGINT, sig_handler);
         signal(SIGTERM, sig_handler);
      
-
-        int rxlcorelt[lcore_count] , rxlcore_count;
-        rxlcore_count = get_nb_rx_lcores(&rxlcorelt);
-            if((lcore_count - rxlcore_count )  < 2)
+//Get the receiver lcore config
+        int rxlcorelt[lcore_count], rxlcore_count;
+        rxlcore_count = get_nb_rx_lcores(&rxlcorelt[0]);
+            if((lcore_count - (rxlcore_count + nb_Wlcore))  > 1)
                    FATAL_ERROR("FBM: Need more core allocation\n");   
-//Statistics_lcore        
+// Start All lcores according to the configuration        
         lcore_id = 0;
         int masterid = rte_lcore_id();
+        int masterlcore = 0, lid; // 1 - pro, 2- con, 0 - stat  
+        
+        int Statcore1 = 0, Statcore2 = 0;
+        RTE_LCORE_FOREACH(lid) {
+  
+         Statcore1 = 0;
+         Statcore2 = 0;
         for (lcore_id = 0; lcore_id < rxlcore_count; lcore_id++ )
             {
-                ret = rte_eal_remote_launch(
-            }   
-        int coreVcount = 0 , statsstarted = 0, producerstarted = -1, consumerstarted = -1;
-        RTE_LCORE_FOREACH(lcore_id) {
-              if(masterid != lcore_id )
-              {
-		      if(statsstarted == 0) 
+                 printf("T1 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
+ 
+                if(masterid != lid && rxlcorelt[lcore_id] == lid)
+                {
+                       ret = rte_eal_remote_launch(packet_producer, NULL,lid);
+                       if (ret != 0) FATAL_ERROR("Cannot start Producer thread on %d\n", lid);
+                }
+                else if(masterid == lid && rxlcorelt[lcore_id] == lid)
+                {
+                   
+                 masterlcore = 1;
+                }
+                else
+                {
+                 printf("TEST1 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
+                 Statcore1 = 1;
+                }
+                 
+            }
+        for (lcore_id = 0; lcore_id < nb_Wlcore; lcore_id++ )
+            {
+                 printf("T2 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
+                if(masterid != lid && Wlcore_list[lcore_id] == lid)
+                {
+                       ret = rte_eal_remote_launch(packet_consumer, NULL,lid);
+                       if (ret != 0) FATAL_ERROR("Cannot start consumer thread on %d\n", lid);
+                }
+                else if(masterid == lid && Wlcore_list[lcore_id] == lid)
+                 masterlcore = 2;
+                else
+                 {
+                 printf("TEST2 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
+                 Statcore2 = 1;
+                 }
+            }
+           
+                 if(Statcore1 !=0 && Statcore2 != 0)
+                 {
+                 printf("TEST3 %d  %d\n", masterid,lid);
+                      ret = rte_eal_remote_launch(Statistics_lcore, NULL,lid);
+                       if (ret != 0) FATAL_ERROR("Cannot start Statistics_lcore thread on %d\n", lid);
+                 }
+        }         
+
+		      if(masterlcore == 0) 
 		      {
-			      ret = rte_eal_remote_launch(Statistics_lcore, NULL,lcore_id);
-			      if (ret != 0) FATAL_ERROR("Cannot start consumer thread\n");
-                              statsstarted = 1;    
+			      Statistics_lcore(NULL);
 		      }
-		      else
+		      else if(masterlcore == 2)
 		      {
-			      ret = rte_eal_remote_launch(packet_consumer, NULL,lcore_id);
-			      if (ret != 0) FATAL_ERROR("Cannot start Statistics thread\n");
-                              consumerstarted = 1;
-		      } 
-              }else
-                  
-       }
-          
-        /* Master as producer */
-        packet_producer ( NULL );
-        //packet_consumer(NULL);
-        //Statistics_lcore(NULL);
-       
+			      packet_consumer(NULL);
+		      }else 
+                      {
+                             printf(" rxlcorei\n");
+                             packet_producer( NULL);
+                      }
+        //Wait for all lcore to finish  
         rte_eal_mp_wait_lcore();
         return 0;
 }

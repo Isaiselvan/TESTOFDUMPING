@@ -88,7 +88,7 @@ void print_stats (void){
 int Statistics_lcore(__attribute__((unused)) void * arg){
         /* Create handler for SIGINT for CTRL + C closing and SIGALRM to print stats*/
         //signal(SIGALRM, alarm_routine);
-
+ PRINT_INFO("Lcore id of Statistics_lcore %d\n", rte_lcore_id());
         //alarm(1);
          rte_eal_alarm_set(INTERVAL_STATS * MS_PER_S, alarm_routine, NULL);
         while(1)

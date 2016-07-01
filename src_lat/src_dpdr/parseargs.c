@@ -17,6 +17,8 @@ extern uint64_t max_packets ;
 extern uint64_t buffer_size ; //Ring size
 
 struct lcore_conf lcore_conf[RTE_MAX_LCORE];
+int Wlcore_list[RTE_MAX_LCORE] = {-1};
+int nb_Wlcore = 0;
 
 
 
@@ -96,12 +98,13 @@ parse_config(const char *q_arg)
 int parse_args(int argc, char **argv)
 {
         int option, ret;
-        const char *str5 = "L3FWD: Invalid config";
+        const char *str5 = "FBM: Invalid config";
         char **argvopt;
         int option_index;
         //char *prgname = argv[0];
         static struct option lgopts[] = {
                 {CMD_LINE_OPT_CONFIG, 1, 0, 0},
+                {CMD_LINE_OPT_WCORE, 1,0,0},
                 {NULL, 0, 0, 0}
                };
 
@@ -153,8 +156,20 @@ int parse_args(int argc, char **argv)
                                         //print_usage(prgname);
                                         return -1;
                                      }
-                                }else 
+                                }else if(!strncmp(lgopts[option_index].name,
+                                        CMD_LINE_OPT_WCORE,
+                                        sizeof(CMD_LINE_OPT_WCORE)))
+                                 {
+                                   ret = parse_Wcore(optarg);
+                                     if (ret < 0) {
+                                        printf("%s\n", str5);
+                                        //print_usage(prgname);
+                                        return -1;
+                                       } 
+                                 }
+                                else 
                                     return -1;
+
                                  break;   
 
 			default: return -1;
@@ -210,4 +225,28 @@ l2fwd_parse_nqueue(const char *q_arg)
         return n;
 }
 
-
+int parse_Wcore(const char *optargs)
+{
+   char s[256];
+   char *str_fld[RTE_MAX_LCORE];
+   char *end;
+   int i;
+// Wlcore_list
+   if(optargs == NULL)
+       return -1;
+   //p0 = strchr(p,'\0') 
+   snprintf(s, sizeof(s), "%s",optargs);
+   nb_Wlcore = rte_strsplit(s, sizeof(s), str_fld, RTE_MAX_LCORE, ',');
+   if(nb_Wlcore < 1)
+         return -1;     
+     for (i = 0; i < nb_Wlcore; i++)
+       {
+          errno = 0;
+          Wlcore_list[i] = strtoul(str_fld[i], &end, 0);
+             printf("Test1%d size%d\n",Wlcore_list[i], nb_Wlcore);
+          if (errno != 0 || end == str_fld[i] || Wlcore_list[i] > 255)
+             return -1;
+       }    
+    
+  return nb_Wlcore;   
+}

@@ -69,6 +69,7 @@
 
 #define INTERVAL_STATS 1 
 #define CMD_LINE_OPT_CONFIG "config"
+#define CMD_LINE_OPT_WCORE "wcore"
 #define MAX_LCORE_PARAMS 1024
 
 //All funtions have to be declared here 
@@ -79,7 +80,6 @@ inline void createNewFile(char * filename, int snaplen);
 //Device initialization
 int portinit(int portid);
 void check_all_ports_link_status(uint8_t port_num, uint32_t port_mask);
-int parse_args(int argc, char **argv);
 int check_port_config(const unsigned nb_ports);
 int check_lcore_params(void);
 int init_lcore_rx_queues(void);
@@ -92,10 +92,12 @@ int packet_consumer(__attribute__((unused)) void * arg);
 int Statistics_lcore(__attribute__((unused)) void * arg);
 
 //Parsing the Arguments and Prints stats
+int parse_args(int argc, char **argv);
 int parse_config(const char *q_arg);
 int l2fwd_parse_portmask(const char *portmask);
 unsigned int l2fwd_parse_nqueue(const char *q_args);
 int isPowerOfTwo (unsigned int x);
+int parse_Wcore(const char *optargs);
 void sig_handler(int signo);
 void print_stats (void);
 //void alarm_routine (__attribute__((unused)) int unused);
