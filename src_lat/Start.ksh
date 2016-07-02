@@ -5,9 +5,16 @@
 nohup sudo ./build/icis-dump -l 5,6,7 -n 4 -- -w /apps/opt/LIBTRACE/test/ICISPCAP -G 10 -B 1048576 -i eth0 > result.log 2>&1  & 
 #nohup sudo ./build/icis-dump -l 5,6,7 -n 4 --vdev "eth_pcap0,iface=eth0" -- -w /apps/opt/LIBTRACE/test/ICISPCAP -G 30 -B 1048576 -q 8 -p 0x01 
 #nohup sudo ./build/icis-dump -l 0,6,7 -n 4 -- -w /apps/opt/LIBTRACE/test/ICISPCAP -G 10 -B 2097152 -p 0x01 > /dev/null 2>&1 
-sudo ./build/Vzprobe-dump -l 0,2,1 -n 4 --vdev 'eth_pcap0,iface=eth0' -- -w /apps/opt/LIBTRACE/test/FBMPOC -p 0x0f -G 5 -B 1048576
-sudo ./build/Vzprobe-dump -l 0,2,1 -n 4 --vdev 'eth_pcap0,iface=eth0'  --vdev 'eth_pcap1,iface=eth0' -- -w /apps/opt/LIBTRACE/test/FBMPOC -p 0x0f --config='(0,0,0),(1,0,0)' -G 5 -B 1048576
+#sudo ./build/Vzprobe-dump -l 0,2,1 -n 4 --vdev 'eth_pcap0,iface=eth0' -- -w /apps/opt/LIBTRACE/test/FBMPOC -p 0x0f -G 5 -B 1048576
+#sudo ./build/Vzprobe-dump -l 0,2,1 -n 4 --vdev 'eth_pcap0,iface=eth0'  --vdev 'eth_pcap1,iface=eth0' -- -w /apps/opt/LIBTRACE/test/FBMPOC -p 0x0f --config='(0,0,0),(1,0,0)' -G 5 -B 1048576
 sleep 5 
+
+#sudo ./build/Vzprobe-dump -l 0,1,2,3,4,5 -n 4 --vdev 'eth_pcap0,iface=lo'  --vdev 'eth_pcap1,iface=lo' --vdev 'eth_pcap2,iface=lo'  --vdev 'eth_pcap3,iface=lo' -- -w /apps/opt/LIBTRACE/test/FBMPOC -p 0x0f --config='(0,0,0),(1,0,1),(2,0,2),(3,0,3)' -G 5 -B 1048576 --wcore 4
+
+##MULTI (PORT, QUEUE, CORE)
+#sudo ./build/Vzprobe-dump -l 0,1,2,3,4,5 -n 4 --vdev 'eth_pcap0,iface=lo'  --vdev 'eth_pcap1,iface=lo' --vdev 'eth_pcap2,iface=eno16777736'  --vdev 'eth_pcap3,iface=eno33554984' -- -w /apps/opt/LIBTRACE/test/FBMPOC -p 0x0f --config='(0,0,0),(1,0,1),(2,0,2),(3,0,3)' -G 5 -B 1048576 --wcore 4
+
+sudo ./build/Vzprobe-dump -l 0,1,2,3,4,5 -n 4  -- -w /apps/opt/LIBTRACE/test/FBMPOC -p 0x0f --config='(0,0,0),(1,0,1),(2,0,2),(3,0,3)' -G 5 -B 1048576 --wcore 4
 
 Healthcheck=`find . -name "DumperStat.log" -mmin +1`
 

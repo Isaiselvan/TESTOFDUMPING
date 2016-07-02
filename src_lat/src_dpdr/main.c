@@ -67,28 +67,6 @@ int main(int argc, char **argv)
         if (nb_ports == 0)
           rte_exit(EXIT_FAILURE, "No Ethernet ports - bye\n");          
  
-       pktmbuf_pool = NULL;
-       int msize = buffer_size;
-       while (pktmbuf_pool == NULL)
-       { 
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, msize + (nb_ports * 1 * RTE_TEST_RX_DESC_DEFAULT), snaplen + RTE_PKTMBUF_HEADROOM/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), 0);//MEMPOOL_F_SP_PUT | MEMPOOL_F_SC_GET);
-        //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
-        //if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
-        //
-          msize = msize - 128;      
-        }
-         PRINT_INFO("MemPool Size allocated %d\n", (msize + 128));  
-        /* Init intermediate queue data structures: the ring. */
-        intermediate_ring = NULL;
-        msize = buffer_size;
-        while (intermediate_ring == NULL)
-        {
-        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, msize ,rte_socket_id(),  RING_F_SP_ENQ | RING_F_SC_DEQ);
-        msize = msize / 2 ;     
-   
-        //if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
-        }
-         PRINT_INFO("RteRing Size allocated%d\n" , (msize * 2));
         //store_ring = rte_ring_create ("Store_ring",  buffer_size ,rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ );
           //if (store_ring == NULL ) FATAL_ERROR("Cannot create store ring ");
  
@@ -131,6 +109,48 @@ int main(int argc, char **argv)
         if (check_lcore_params() < 0)
                 rte_exit(EXIT_FAILURE, "check_lcore_params failed\n");
 
+       pktmbuf_pool = NULL;
+       int msize = buffer_size;
+       int Prooption = MEMPOOL_F_SP_PUT, Conoption = MEMPOOL_F_SC_GET;
+       int rxlcorelt[lcore_count], rxlcore_count;
+       rxlcore_count = get_nb_rx_lcores(&rxlcorelt[0]);
+       if(rxlcore_count > 1)
+             Prooption = 0;
+         
+       if( nb_Wlcore > 1)
+             Conoption = 0;  
+ 
+       while (pktmbuf_pool == NULL)
+       { 
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, msize + (nb_ports * 1 * RTE_TEST_RX_DESC_DEFAULT), snaplen + RTE_PKTMBUF_HEADROOM/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), Prooption + Conoption);//MEMPOOL_F_SP_PUT | MEMPOOL_F_SC_GET);
+        //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
+        //if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
+        //
+          msize = msize - 128;      
+        }
+         PRINT_INFO("MemPool Size allocated %d\n", (msize + 128));  
+         PRINT_INFO("Test %d %d  %d\n", MEMPOOL_F_SP_PUT, MEMPOOL_F_SC_GET, (MEMPOOL_F_SP_PUT | MEMPOOL_F_SC_GET)); 
+        Prooption = RING_F_SP_ENQ;
+        Conoption = RING_F_SC_DEQ;
+
+        if(rxlcore_count > 1)
+             Prooption = 0;
+
+        if( nb_Wlcore > 1)
+             Conoption = 0;
+
+        /* Init intermediate queue data structures: the ring. */
+        intermediate_ring = NULL;
+        msize = buffer_size;
+        while (intermediate_ring == NULL)
+        {
+        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, msize ,rte_socket_id(),  Prooption + Conoption);
+        msize = msize / 2 ;     
+          //if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
+        }
+         PRINT_INFO("RteRing Size allocated%d\n" , (msize * 2));
+
+
         ret = init_lcore_rx_queues();
         if (ret < 0)
                 rte_exit(EXIT_FAILURE, "init_lcore_rx_queues failed\n");
@@ -154,76 +174,86 @@ int main(int argc, char **argv)
         signal(SIGTERM, sig_handler);
      
 //Get the receiver lcore config
-        int rxlcorelt[lcore_count], rxlcore_count;
-        rxlcore_count = get_nb_rx_lcores(&rxlcorelt[0]);
-            if((lcore_count - (rxlcore_count + nb_Wlcore))  > 1)
+             printf("lcore_count = %d, rxlcore_count = %d, nb_Wlcore = %d \n", lcore_count,rxlcore_count,nb_Wlcore);  
+            if((lcore_count - (rxlcore_count + nb_Wlcore))  < 1)
                    FATAL_ERROR("FBM: Need more core allocation\n");   
 // Start All lcores according to the configuration        
         lcore_id = 0;
         int masterid = rte_lcore_id();
         int masterlcore = 0, lid; // 1 - pro, 2- con, 0 - stat  
-        
+        bool statsStarted = false;      
         int Statcore1 = 0, Statcore2 = 0;
-        RTE_LCORE_FOREACH(lid) {
+        RTE_LCORE_FOREACH_SLAVE(lid) {
   
-         Statcore1 = 0;
-         Statcore2 = 0;
+         Statcore1 = -2;
+         Statcore2 = -3;
         for (lcore_id = 0; lcore_id < rxlcore_count; lcore_id++ )
             {
-                 printf("T1 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
- 
-                if(masterid != lid && rxlcorelt[lcore_id] == lid)
-                {
-                       ret = rte_eal_remote_launch(packet_producer, NULL,lid);
-                       if (ret != 0) FATAL_ERROR("Cannot start Producer thread on %d\n", lid);
-                }
-                else if(masterid == lid && rxlcorelt[lcore_id] == lid)
-                {
-                   
-                 masterlcore = 1;
-                }
-                else
+                if(rxlcorelt[lcore_id] == lid)
                 {
                  printf("TEST1 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
                  Statcore1 = 1;
                 }
+
+                if(masterid == rxlcorelt[lcore_id])
+                {
+                 masterlcore = 1;
+                }
                  
             }
+                 //printf("T1 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
+ 
+                
         for (lcore_id = 0; lcore_id < nb_Wlcore; lcore_id++ )
             {
-                 printf("T2 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
-                if(masterid != lid && Wlcore_list[lcore_id] == lid)
-                {
-                       ret = rte_eal_remote_launch(packet_consumer, NULL,lid);
-                       if (ret != 0) FATAL_ERROR("Cannot start consumer thread on %d\n", lid);
-                }
-                else if(masterid == lid && Wlcore_list[lcore_id] == lid)
-                 masterlcore = 2;
-                else
+                if(Wlcore_list[lcore_id] == lid)
                  {
                  printf("TEST2 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
                  Statcore2 = 1;
                  }
-            }
-           
-                 if(Statcore1 !=0 && Statcore2 != 0)
+
+                 if(masterid == Wlcore_list[lcore_id])
                  {
-                 printf("TEST3 %d  %d\n", masterid,lid);
+                  masterlcore = 2;
+                 }
+
+            }
+                if(Statcore1 == 1)
+                {      
+                        PRINT_INFO("Starting Producer on LcoreId --> %d\n" , lid);
+                       ret = rte_eal_remote_launch(packet_producer, NULL,lid);
+                       if (ret != 0) FATAL_ERROR("Cannot start Producer thread on %d\n", lid);
+                }
+                 //printf("T2 %d %d %d\n", masterid,Wlcore_list[lcore_id],lid);
+                else if(Statcore2 == 1)
+                {
+                       PRINT_INFO("Starting Consumer on LcoreId --> %d\n" , lid);
+                       ret = rte_eal_remote_launch(packet_consumer, NULL,lid);
+                       if (ret != 0) FATAL_ERROR("Cannot start consumer thread on %d\n", lid);
+                }
+                else if(!statsStarted && (masterid != lid))
+                 {
+                    printf("TEST3 masterid = %d lid = %d\n", masterid,lid);
+                     printf("TEST4 Statcore1 = %d Statcore2 = %d \n", Statcore1, Statcore2); 
+                        PRINT_INFO("Starting Statistics_lcore on LcoreId --> %d\n" , lid);
                       ret = rte_eal_remote_launch(Statistics_lcore, NULL,lid);
                        if (ret != 0) FATAL_ERROR("Cannot start Statistics_lcore thread on %d\n", lid);
+                   statsStarted = true;
                  }
         }         
 
-		      if(masterlcore == 0) 
+		      if(masterlcore == 0 && !statsStarted) 
 		      {
+                              PRINT_INFO("Starting Statistics_lcore on LcoreId masterid--> %d\n" , masterid);
 			      Statistics_lcore(NULL);
 		      }
 		      else if(masterlcore == 2)
 		      {
+                              PRINT_INFO("Starting Consumer on LcoreId masterid--> %d\n" , masterid);
 			      packet_consumer(NULL);
 		      }else 
                       {
-                             printf(" rxlcorei\n");
+                              PRINT_INFO("Starting producer on LcoreId masterid--> %d\n" , masterid);
                              packet_producer( NULL);
                       }
         //Wait for all lcore to finish  

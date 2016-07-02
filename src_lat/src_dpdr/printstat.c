@@ -2,8 +2,8 @@
 #include "main.h"
 
 int do_shutdown = 0;
-extern long long int m_numberofpackets;  /*for continous number of packets to capture */
-extern long long int missedouts;
+extern long long int m_numberofpackets[RTE_MAX_LCORE];  /*for continous number of packets to capture */
+extern long long int missedouts[RTE_MAX_LCORE];
 extern char file_name_moveG[1000];
 extern char file_name_oldG[1000];
 extern char file_name_rotated [1000];
@@ -21,6 +21,7 @@ void print_stats (void){
     static time_t curT = 0, prevT = 0 ;//= last_rotation;
     struct timeval t_pack; 
     int ret;
+    int lcore_id ;
     ret = gettimeofday(&t_pack, NULL); 
     if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n"); 
     curT = t_pack.tv_sec;
@@ -42,16 +43,21 @@ void print_stats (void){
 		printf("Error opening file!\n");
 		exit(1);
 	}
-
-        
+        int lcore_count = rte_lcore_count ();
+        int rxlcorelt[lcore_count], rxlcore_count;
+        rxlcore_count = get_nb_rx_lcores(&rxlcorelt[0]); 
  
 
 	struct rte_eth_stats stat; 
 	int i; 
-	long int  good_pkt = 0, miss_pkt = 0, st_pktproc =0, st_missout =0, timeInt = 0; 
-        st_pktproc = m_numberofpackets;
-        st_missout = missedouts;
-
+	long int  good_pkt = 0, miss_pkt = 0, st_pktproc =0, st_missout =0, timeInt = 0;
+        for (lcore_id = 0; lcore_id < rxlcore_count; lcore_id++ )
+        {
+                //rxlcorelt[lcore_id] 
+        st_pktproc += m_numberofpackets[rxlcorelt[lcore_id]];
+        st_missout += missedouts[rxlcorelt[lcore_id]];
+        missedouts[rxlcorelt[lcore_id]] = 0;
+        }
 	/* Print per port stats */ 
 	for (i = 0; i < nb_sys_ports; i++){	 
 		rte_eth_stats_get(i, &stat); 
@@ -62,8 +68,7 @@ void print_stats (void){
 	}
         // Clean before intrrupt 
         //m_numberofpackets = 0;
-        missedouts = 0;
-         timeInt = curT - prevT;
+        timeInt = curT - prevT;
         PRINT_INFO("Packet Capture Statistics:\n");
 	printf("\n-------------------------------------------------"); 
 	printf("\nTOT:     Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 ); 

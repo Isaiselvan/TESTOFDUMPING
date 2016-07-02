@@ -68,7 +68,7 @@ int packet_consumer(__attribute__((unused)) void * arg){
 
                 /* Dequeue packet */
                 //ret = rte_ring_dequeue(intermediate_ring, (void**)&m);
-                 if( unlikely(ret = rte_ring_sc_dequeue_burst(intermediate_ring, (void **)m,
+                 if( unlikely(ret = rte_ring_dequeue_burst(intermediate_ring, (void **)m,
                                 MAX_PKT_BURST)) <= 0)
                   continue;
                 //ring_full = false;
