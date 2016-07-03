@@ -169,7 +169,7 @@ int portinit(int portid)
                         fflush(stdout);
 
                         ret = rte_eth_rx_queue_setup(p1, queueid, nb_rxd,
-                                        rte_eth_dev_socket_id(portid),
+                                        /*rte_lcore_to_socket_id(lcore_id)*/rte_eth_dev_socket_id(portid),
                                         &rx_conf,
                                         pktmbuf_pool);
                         if (ret < 0)

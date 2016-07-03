@@ -20,20 +20,20 @@ int packet_producer(__attribute__((unused)) void * arg){
         PRINT_INFO("Lcore id of producer %d\n", lcore_id);
         unsigned int i;
         int idx, portid, nb_rx1, nb_rx, ret, pidx =0, queueid;
-        struct lcore_conf *pconf;
+        struct lcore_conf pconf;
         struct timeval t_pack;
 
-        pconf = &lcore_conf[lcore_id];
+        pconf = lcore_conf[lcore_id];
 
         //if (qconf->n_rx_port == 0) {
          //       PRINT_INFO("lcore %u has nothing to do\n", lcore_id);
            //     return -1;
        // }
         PRINT_INFO( "entering main loop on lcore %u\n", lcore_id);
-        for (i = 0; i < pconf->n_rx_pqp; i++) {
+        for (i = 0; i < pconf.n_rx_pqp; i++) {
 
-                portid = pconf->rx_queue_list[i].port_id;
-                queueid =  pconf->rx_queue_list[i].queue_id; 
+                portid = pconf.rx_queue_list[i].port_id;
+                queueid =  pconf.rx_queue_list[i].queue_id; 
                 PRINT_INFO(" -- lcoreid=%u portid=%u queueid=%d\n", lcore_id,
                         portid, queueid);
 
@@ -55,17 +55,17 @@ int packet_producer(__attribute__((unused)) void * arg){
             // for (i = 0; i < qconf->n_rx_port; i++) {
 
                         //portid = qconf->rx_port_list[i];
-                      while(pidx <= pconf->n_rx_pqp) 
+                      while(pidx < pconf.n_rx_pqp) 
                       {
-                        nb_rx1 = rte_eth_rx_burst((uint8_t)pconf->rx_queue_list[pidx].port_id,(uint8_t)pconf->rx_queue_list[pidx].queue_id, &pkts_burst[nb_rx], MAX_PKT_BURST);
+                        nb_rx1 = rte_eth_rx_burst((uint8_t)pconf.rx_queue_list[pidx].port_id,(uint8_t)pconf.rx_queue_list[pidx].queue_id, &pkts_burst[nb_rx], MAX_PKT_BURST);
                           nb_rx += nb_rx1;    
+                          ++pidx;
                   //Multi port read
-                          if(pidx ==  pconf->n_rx_pqp || pidx == MAX_PORT)  
+                          if(pidx ==  pconf.n_rx_pqp || pidx == MAX_PORT)  
                             {
                               pidx = 0;
                               break;
                             }
-                         ++pidx;
                       }
                         if(unlikely(nb_rx <0))
                               continue ;

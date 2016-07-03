@@ -144,7 +144,7 @@ int main(int argc, char **argv)
         msize = buffer_size;
         while (intermediate_ring == NULL)
         {
-        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, msize ,rte_socket_id(),  Prooption + Conoption);
+        intermediate_ring = rte_ring_create (INTERMEDIATERING_NAME, msize ,rte_socket_id(), Prooption + Conoption );
         msize = msize / 2 ;     
           //if (intermediate_ring == NULL ) FATAL_ERROR("Cannot create ring");
         }
@@ -251,7 +251,7 @@ int main(int argc, char **argv)
 		      {
                               PRINT_INFO("Starting Consumer on LcoreId masterid--> %d\n" , masterid);
 			      packet_consumer(NULL);
-		      }else 
+		      }else if(masterlcore == 1) 
                       {
                               PRINT_INFO("Starting producer on LcoreId masterid--> %d\n" , masterid);
                              packet_producer( NULL);

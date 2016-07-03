@@ -28,7 +28,9 @@ SRCS-y += \
           src_dpdr/fbmwrite.c  
 else
 # all source are stored in SRCS-y
-SRCS-y += src/main_dump.c
+#SRCS-y += src/main_dump.c
+SRCS-y := rte_eth_pcap.c 
+SRCS-y += src_dpdr/BUP_Codes/main_dump.c
 #SRCS-y := src/main_copy.c
 endif 
 
