@@ -16,6 +16,11 @@
 nohup sudo ./build/Vzprobe-dump -l 0,1,2,3,4,5 -n 4  -- -w /apps/opt/LIBTRACE/test/FBMPOC -p 0x0f --config='(0,0,0),(1,0,1),(2,0,2),(3,0,3)' -G 5 -B 1048576 --wcore 4 > result.log 2>&1  &
 nohup sudo ./build/Vzprobe-dump -l 0,1,2,3,4,5,6,7,8,9,10 -n 32 -- -w /apps/opt/LIBTRACE/test/FBMPCAP -G 10 -p 0x01 -B 33554432 --wcore 7 --config "(0,0,0),(0,1,1),(0,2,2),(0,3,4),(0,4,6)"
 
+#10Mpps without loss 
+sudo ./build/Vzprobe-dump -l 0,1,2,3,4,5,6 -n 32 -- -w /apps/opt/LIBTRACE/test/FBMPCAP -G 10 -p 0x01 -B 33554432 --wcore 3 --config "(0,0,0),(0,1,1),(0,2,2),(0,3,3),(0,4,4)" > result.log 2>&1 &
+Dpdk 21 
+RAM node0: 15360
+
 sleep 5 
 Healthcheck=`find . -name "DumperStat.log" -mmin +1`
 
