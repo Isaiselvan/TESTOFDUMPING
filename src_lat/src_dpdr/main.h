@@ -58,8 +58,8 @@
 #define MAX_RX_QUEUE_PER_LCORE 16
 #define MAX_RX_QUEUE_PER_PORT 16
 #define MAX_TX_QUEUE_PER_PORT 16
-#define RTE_TEST_RX_DESC_DEFAULT 4096
-#define RTE_TEST_TX_DESC_DEFAULT 32
+#define RTE_TEST_RX_DESC_DEFAULT 4096 
+#define RTE_TEST_TX_DESC_DEFAULT 64 
 //struct lcore_queue_conf {
 //        unsigned n_rx_port;
 //        unsigned rx_port_list[MAX_RX_QUEUE_PER_LCORE];

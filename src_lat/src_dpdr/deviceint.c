@@ -62,9 +62,9 @@ static const struct rte_eth_conf port_conf = {
         .rx_adv_conf = {
                 .rss_conf = {
 
-                        //.rss_key = rss_seed,//rss_seed,                            /* Set the seed,                                        */
-                        .rss_key = NULL,
-                        //.rss_key_len = 40,                              /* and the seed length.                                 */
+                        .rss_key = rss_seed,//rss_seed,                            /* Set the seed,                                        */
+                        //.rss_key = NULL,
+                        .rss_key_len = 40,                              /* and the seed length.                                 */
                         .rss_hf = (ETH_RSS_TCP | ETH_RSS_UDP) , /* Set the mask of protocols RSS will be applied to     */
                 }
         }
@@ -106,9 +106,9 @@ static const struct rte_eth_rxconf rx_conf = {
         .rx_thresh = {
                 .pthresh = 8,   /* Ring prefetch threshold */
                 .hthresh = 8,   /* Ring host threshold */
-                .wthresh = 4,   /* Ring writeback threshold */
+                .wthresh = 0,   /* Ring writeback threshold */
         },
-        .rx_free_thresh = 3072,    /* Immediately free RX descriptors */
+        //.rx_free_thresh = 3072,    /* Immediately free RX descriptors */
 };
 
 

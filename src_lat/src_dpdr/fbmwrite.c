@@ -196,13 +196,15 @@ inline void createNewFile(char * filename, int snaplen)
        {
          char tmpstr[] = "/tmp/PCAPTMP_hdr.0000";
          FILE* pFile = fopen (tmpstr , "wb");
+         int ret;
          pcap_t *pt;
           pt = pcap_open_dead(DLT_EN10MB, snaplen); 
           pcap_dumper_t *dump = pcap_dump_fopen(pt, pFile);
             if (dump) pcap_dump_close(dump);
           pcap_close(pt); 
         int tmpfd = open(tmpstr, O_RDONLY); /* get pcap to create a header */   
-        if (tmpfd >= 0) read(tmpfd, (char *)&fileheader, sizeof(fileheader));
+        if (tmpfd >= 0) 
+             ret = read(tmpfd, (char *)&fileheader, sizeof(fileheader));
         if (tmpfd >= 0) close(tmpfd);
         //fclose(pFile);
            fileheader.snaplen = snaplen;

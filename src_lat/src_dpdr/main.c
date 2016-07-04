@@ -122,7 +122,7 @@ int main(int argc, char **argv)
  
        while (pktmbuf_pool == NULL)
        { 
-        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, msize + (nb_ports * 1 * RTE_TEST_RX_DESC_DEFAULT), snaplen + RTE_PKTMBUF_HEADROOM/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), Prooption + Conoption);//MEMPOOL_F_SP_PUT | MEMPOOL_F_SC_GET);
+        pktmbuf_pool = rte_mempool_create(MEMPOOL_NAME, msize + RTE_MBUF_DEFAULT_BUF_SIZE /*(nb_ports * 1 * RTE_TEST_RX_DESC_DEFAULT)*/, /*snaplen*/RTE_MBUF_DEFAULT_BUF_SIZE + RTE_PKTMBUF_HEADROOM/* (snaplen + 128 + RTE_PKTMBUF_HEADROOM)*/, MEMPOOL_CACHE_SZ, sizeof(struct rte_pktmbuf_pool_private), rte_pktmbuf_pool_init, NULL, rte_pktmbuf_init, NULL,rte_socket_id(), Prooption + Conoption);//MEMPOOL_F_SP_PUT | MEMPOOL_F_SC_GET);
         //pktmbuf_pool = rte_pktmbuf_pool_create(MEMPOOL_NAME,70000, 64, 0, snaplen + RTE_PKTMBUF_HEADROOM /* RTE_PKTMBUF_HEADROOM MEMPOOL_ELEM_SZ*/, SOCKET_ID_ANY);
         //if (pktmbuf_pool == NULL) FATAL_ERROR("Cannot create cluster_mem_pool. Errno: %d [ENOMEM: %d, ENOSPC: %d, E_RTE_NO_TAILQ: %d, E_RTE_NO_CONFIG: %d, E_RTE_SECONDARY: %d, EINVAL: %d, EEXIST: %d]\n", rte_errno, ENOMEM, ENOSPC, RTE_MAX_TAILQ/*E_RTE_NO_TAILQ*/, E_RTE_NO_CONFIG, E_RTE_SECONDARY, EINVAL, EEXIST  );
         //
