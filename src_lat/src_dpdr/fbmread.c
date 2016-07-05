@@ -58,6 +58,7 @@ int packet_producer(__attribute__((unused)) void * arg){
                       while(pidx < pconf.n_rx_pqp) 
                       {
                         nb_rx1 = rte_eth_rx_burst((uint8_t)pconf.rx_queue_list[pidx].port_id,(uint8_t)pconf.rx_queue_list[pidx].queue_id, &pkts_burst[nb_rx], MAX_PKT_BURST);
+                       // PRINT_INFO(" -- lcoreid=%u portid=%u queueid=%d rx_nb=%d\n", lcore_id, pconf.rx_queue_list[pidx].port_id, pconf.rx_queue_list[pidx].queue_id,nb_rx1);
                           nb_rx += nb_rx1;    
                           ++pidx;
                   //Multi port read
