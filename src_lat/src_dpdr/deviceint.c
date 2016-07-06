@@ -106,9 +106,9 @@ static const struct rte_eth_rxconf rx_conf = {
         .rx_thresh = {
                 .pthresh = 8,   /* Ring prefetch threshold */
                 .hthresh = 8,   /* Ring host threshold */
-                .wthresh = 4,   /* Ring writeback threshold */
+                .wthresh = 0,   /* Ring writeback threshold */
         },
-        .rx_free_thresh = 3072,    /* Immediately free RX descriptors */
+        .rx_free_thresh = 1024,    /* Immediately free RX descriptors */
 };
 
 

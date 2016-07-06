@@ -53,12 +53,12 @@
 #define RTE_LOGTYPE_FBM RTE_LOGTYPE_USER1
 #define PRINT_INFO(fmt, args...)        RTE_LOG(INFO, FBM, fmt "\n", ##args)
 #define FATAL_ERROR(fmt, args...)       rte_exit(EXIT_FAILURE, fmt "\n", ##args)
-#define MAX_PKT_BURST 4096 
+#define MAX_PKT_BURST 512 
 #define MAX_PORT 16
 #define MAX_RX_QUEUE_PER_LCORE 16
 #define MAX_RX_QUEUE_PER_PORT 16
 #define MAX_TX_QUEUE_PER_PORT 16
-#define RTE_TEST_RX_DESC_DEFAULT 4096 
+#define RTE_TEST_RX_DESC_DEFAULT 3072 
 #define RTE_TEST_TX_DESC_DEFAULT 64 
 //struct lcore_queue_conf {
 //        unsigned n_rx_port;
