@@ -82,7 +82,7 @@ int packet_producer(__attribute__((unused)) void * arg){
                             m_numberofpackets[lcore_id] += ret;
                             missedouts[lcore_id] += nb_rx -ret;
     
-                         for(;ret<nb_rx;ret++) 
+                         for(;ret<=nb_rx;ret++) 
                             rte_pktmbuf_free((struct rte_mbuf *)pkts_burst[ret]);
 
 
