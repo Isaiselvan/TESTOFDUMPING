@@ -3,6 +3,7 @@
 #include "displayStats.h"
 #include "tcpProto.h"
 #include "udpProto.h"
+#include <time.h>
 
 const char clr[] = { 27, '[', '2', 'J', '\0' };
 const char topLeft[] = { 27, '[', '1', ';', '1', 'H','\0' ,'\n', '\n'};
@@ -13,23 +14,27 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
 
 //std::fill_n(displayStats * displayStats::displayBoard, NULL, MAX_LAYER);
 
+m_Packet *ppkt;
+
+/* Created by ABHINAY for fine tuning */
+static protocolUDP *udpStats = NULL;
+static protocolTCP *tcpStats = NULL;
 
  
   int displayStats::ParsePkt(libtrace_packet_t *pkt)//Going forward change this function to template and move the code to TcpPacket
-
-    {
+  {
       	uint8_t proto;
 	uint16_t ethertype;
 	uint32_t rem;
 	void *ltheader = NULL;
-        uint8_t ether_shost [6] ;
+        uint8_t ether_shost[6];
+        uint8_t ether_dhost[6];
         int starttime = 0;
-        int pktlen =  trace_get_wire_length(pkt);
+        int pktlen = trace_get_wire_length(pkt);
+        int caplen = trace_get_capture_length(pkt);
         int ipSize =0; 
-        memcpy(ether_shost, trace_get_source_mac(pkt),6);
-        //ether_dhost = *(trace_get_source_mac(pkt));
- 	uint8_t ether_dhost [6] ;  
-        memcpy(ether_dhost,trace_get_destination_mac(pkt), 6);
+        //memcpy(ether_shost, trace_get_source_mac(pkt),6);
+        //memcpy(ether_dhost,trace_get_destination_mac(pkt), 6);
 
        	libtrace_ip_t *ip = NULL;
 	libtrace_ip6_t *ip6 = NULL;
@@ -43,20 +48,18 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
 	if (rem == 0)
 		return -1;
         ipSize = rem;  
-        
-         if (ethertype == TRACE_ETHERTYPE_IP) {
+        caplen -= ipSize; 
+        switch(ethertype)
+        {
+            case TRACE_ETHERTYPE_IP:
 		ip = (libtrace_ip_t *)ltheader;
-
-		//ltheader = trace_get_payload_from_ip(ip, &proto, &rem);
-                //  ltheader = trace_get_transport(pkt, &proto, &rem);
-	} else if (ethertype == TRACE_ETHERTYPE_IPV6) {
+            break;
+            case TRACE_ETHERTYPE_IPV6:
 		ip6 = (libtrace_ip6_t *)ltheader;
-
-		//ltheader = trace_get_payload_from_ip6(ip6, &proto, &rem);
-                //  ltheader = trace_get_transport(pkt, &proto, &rem);
-	} else {
+            break;
+            default:
 		return -1;
-	}
+        }
         
         rem = 0;
         ltheader = trace_get_transport(pkt, &proto, &rem);
@@ -64,85 +67,105 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
 	return -1;
         //Time of packet trace_get_seconds
         starttime = trace_get_seconds(pkt);
-        
+        //std::cout << "ABHINAY:: seconds is :" << seconds << std::endl;
+        caplen -= rem;
+        if(ppkt == NULL)
+        {
+            ppkt = new m_Packet;
+        }
+ 
+        //Fill Ethernet details
+        //memcpy(ppkt->ethernetlayer.ether_dhost,ether_dhost,6);
+        //memcpy(ppkt->ethernetlayer.ether_shost , ether_shost,6);
+        ppkt->ethernetlayer.ether_type = ethertype; 
 		
-             m_Packet ppkt;
-             
-             //Fill Ethernet details
-             memcpy(ppkt.ethernetlayer.ether_dhost,ether_dhost,6);
-             memcpy(ppkt.ethernetlayer.ether_shost , ether_shost,6);
-             ppkt.ethernetlayer.ether_type = ethertype; 
              
              //Fill Ip Layer 
              if(ip)
              {
-             ppkt.ip4 = *ip;
-             ppkt.ip_ptr = (uint8_t *)ip;
-             ppkt.ipv = 4;
+             ppkt->ip4 = *ip;
+             ppkt->ip_ptr = (uint8_t *)ip;
+             ppkt->ipv = 4;
              } else if(ip6)
              {
-             ppkt.ipv6 = *ip6;
-             ppkt.ip_ptr = (uint8_t *)ip6;
-             ppkt.ipv = 6;
+             ppkt->ipv6 = *ip6;
+             ppkt->ip_ptr = (uint8_t *)ip6;
+             ppkt->ipv = 6;
              } 
              //
-             ppkt.ipSize = ipSize;
+             ppkt->ipSize = ipSize;
              //Fill the wirelen of packet
              if(pktlen > 0)
-             ppkt.dataLen = pktlen;
+             ppkt->dataLen = pktlen;
              else 
-             ppkt.dataLen = 0;
+             ppkt->dataLen = 0;
+
+             ppkt->timeStamp = starttime;
              
-             ppkt.timeStamp = starttime;
-             
-             ppkt.type = (libtrace_ipproto_t)proto;
-        
-        if (proto == TRACE_IPPROTO_TCP)
+             ppkt->type = (libtrace_ipproto_t)proto;
+
+             ppkt->srcPort = trace_get_source_port(pkt);
+             ppkt->dstPort = trace_get_destination_port(pkt);
+      
+        switch(proto)
         {
-             //Fill Layer4/5 details
-             ppkt.tcp = *((libtrace_tcp_t *)ltheader);
-             char *tcp_payload;
-             void *transport  ;
-             //rem = 0;
-             libtrace_udp_t *tcp;
-             tcp = (libtrace_udp_t *)ltheader;
-             //transport = trace_get_transport(
+            void *transport  ;
+            char *payload;
+            char *tcp_payload;
+            char *sctp_payload;
+            char *udp_payload;
+            case TRACE_IPPROTO_TCP:
+               //Fill Layer4/5 details
+               ppkt->tcp = *((libtrace_tcp_t *)ltheader);
+               //rem = 0;
+               libtrace_tcp_t *tcp;
+               tcp = (libtrace_tcp_t *)ltheader;
+               //transport = trace_get_transport(
 
-             tcp_payload = (char *)trace_get_payload_from_udp(tcp,&rem);
+               payload = (char *)trace_get_payload_from_tcp(tcp,&rem);
 
-             if(tcp_payload && rem != 0)
-             memcpy (ppkt.pay_load, tcp_payload, sizeof(ppkt.pay_load));
+               if(payload && rem != 0)
+                   ppkt->pay_load = payload;
 
-  
-        }else if (proto == TRACE_IPPROTO_UDP)
-        {
+
+               break;
+            case TRACE_IPPROTO_UDP:
+                //Fill Layer4/5 details
+                ppkt->udp = *((libtrace_udp_t *)ltheader);
+                //rem = 0; 
+                libtrace_udp_t *udp;
+                udp = (libtrace_udp_t *)ltheader;
+                //transport = trace_get_transport(
+ 
+                udp_payload = (char *)trace_get_payload_from_udp(udp,&rem);
+
+                if(udp_payload && rem != 0) 
+                    ppkt->pay_load = payload;
+            break;
+            case TRACE_IPPROTO_SCTP:
+                break; 
+
+            default:
+	        return -1; // Support for other protocols can be extended..
+            break;
+        }
+             caplen -= rem;
+
+             if(caplen > 0)
+             ppkt->capLen = caplen;
+             else
+             ppkt->capLen = 0; 
              
-             //Fill Layer4/5 details
-             ppkt.udp = *((libtrace_udp_t *)ltheader);
-             char *udp_payload;
-             void *transport  ;
-             //rem = 0; 
-             libtrace_udp_t *udp;
-             udp = (libtrace_udp_t *)ltheader;
-             //transport = trace_get_transport(
-
-             udp_payload = (char *)trace_get_payload_from_udp(udp,&rem);
-
-             if(udp_payload && rem != 0) 
-             memcpy (ppkt.pay_load, udp_payload, sizeof(ppkt.pay_load));
-
-        }else 
-         return -1; // Support for other protocols can be extended..
-        
+ 
          //Add pkt to protocolbase 
-         if( addPkt(ppkt, pkt,(libtrace_ipproto_t)proto, starttime) == -1)
-          return -1;
+         if( addPkt(pkt,(libtrace_ipproto_t)proto, starttime) == -1)
+           return -1;
+        
          
      return 0;    
   }
 
-   
-  int displayStats::addPkt(m_Packet pkt,libtrace_packet_t * ptrpkt, libtrace_ipproto_t prototype, int pktTime) {
+  int displayStats::addPkt(libtrace_packet_t * ptrpkt, libtrace_ipproto_t prototype, int pktTime) {
         
      if ( curIntStarttime > pktTime)
      {
@@ -151,8 +174,8 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
      
  
    // Access to data and Map So we lock
-    pthread_mutex_lock(&disLock[layer]);
-    {
+    //pthread_mutex_lock(&disLock[layer]);
+    //{
     if ( curIntEndtime == 0 )
       {
         curIntStarttime = pktTime;
@@ -160,44 +183,24 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
       }
     else if (curIntEndtime < pktTime)
       {
-        printstats();
-        displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0); // Find a correct location later
+        //printstats();
+        //displayStats::getdashB(USER_LAYER_LTE)->cleardashB(0, 0); // Find a correct location later ABHINAY
         int starttime = pktTime - (pktTime % TIMEINT);
-        cleardashB(starttime, starttime + TIMEINT);
-        clearStats();              
+        //cleardashB(starttime, starttime + TIMEINT);
+        //clearStats();              
       }
     char buff[10];
-    char addrstr_src[INET_ADDRSTRLEN];
     std::string ip , dstip;
-    if(pkt.ipv == 4)
-    {
-      //inet_ntop(AF_INET, &(pkt.ip4.ip_src), (char *)&addrstr_src, INET_ADDRSTRLEN);
-       ip = inet_ntoa((pkt.ip4.ip_src));
-       dstip = inet_ntoa((pkt.ip4.ip_dst));
-       //std::cout << "DEV: IP=" << ip << std::endl;
-       if(pkt.ip4.ip_src.s_addr  > pkt.ip4.ip_dst.s_addr )
-           dstip = ip +"-"+ dstip;
-       else
-           dstip = dstip +"-"+ip;
-    }
-    else
-    {
-      inet_ntop(AF_INET, &(pkt.ipv6.ip_src), (char *)&addrstr_src, INET_ADDRSTRLEN);
-       ip = addrstr_src;
-      inet_ntop(AF_INET, &(pkt.ipv6.ip_dst), (char *)&addrstr_src, INET_ADDRSTRLEN);
-       //ip = inet_ntoa((pkt.ipv6.ip_src));
-       dstip = addrstr_src;
-       if(pkt.ip4.ip_src.s_addr  > pkt.ip4.ip_dst.s_addr )
-           dstip = ip +"-"+ dstip;
-       else
-           dstip = dstip +"-"+ip;
-    }
 
+      /*
+      char abhiBuffer[200];
+      dstip = trace_get_destination_address_string(ptrpkt, abhiBuffer, 200);
+      ip = trace_get_source_address_string(ptrpkt, abhiBuffer, 200);
+      */
+     // trace_ether_ntoa (ppkt->ethernetlayer.ether_shost, (char *)buff); //else if 
+      //std::string node(buff);
 
-      trace_ether_ntoa (pkt.ethernetlayer.ether_shost, (char *)buff); //else if 
-     
-     std::string node(buff);
-
+     /*
      node = node + " IP=" + ip + " DSTIP=" + dstip;
 
     if(layer != CORE_LAYER)
@@ -205,84 +208,109 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
        node = "";  
        node = node + "UserTraffic NODEIP=" + ip + " DSTIP=" + dstip;
     }
-
-    protocolBase * protoBase = getProtoBase(node, prototype);
-    
+    */
+    protocolBase * protoBase = getProtoBase(ppkt->ip4.ip_src.s_addr, ppkt->ip4.ip_dst.s_addr, prototype);
+   
+      /* 
       if(protoBase == NULL)
       {
        pthread_mutex_unlock(&disLock[layer]);
        return -1;
+      }*/
+
+      if(protoBase == NULL)
+      {
+          return -1;
       }
 
-      if(protoBase->addPkt(ptrpkt, pkt) == -1)// addPkt forced function implementation
+      if(protoBase->addPkt(ptrpkt, ppkt) == -1)// addPkt forced function implementation
       {
-       pthread_mutex_unlock(&disLock[layer]);
+       //pthread_mutex_unlock(&disLock[layer]);
        return -1; 
       }
 
-        totaldatalen+=pkt.getDataLen(); // getDataLen forced function imple
+        totaldatalen+=ppkt->getDataLen(); // getDataLen forced function imple
         totalpkts+=1;
-        fillPktDist(pkt.getDataLen());
+        //fillPktDist(ppkt->getDataLen());
                   
-    }
-    pthread_mutex_unlock(&disLock[layer]);
+    //}
+    //pthread_mutex_unlock(&disLock[layer]);
 
    return 0; 
   }
 
-  protocolBase *  displayStats::getProtoBase(std::string node, libtrace_ipproto_t type)
+  protocolBase *  displayStats::getProtoBase(uint32_t srcIp, uint32_t dstIp, libtrace_ipproto_t type)
  {
-   protocolBase* ret = NULL ;
-   std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > >::iterator it;
-   std::map<libtrace_ipproto_t, protocolBase* >::iterator protIt; 
-   //std::map<libtrace_ipproto_t, protocolBase* > protocol;
-   if(dashboard.size() > 0)
-   {
-     
-        it = dashboard.find(node);
-          if(it != dashboard.end())
-            {
-                  
-                  if (it->second.size() > 0)
-                       protIt = it->second.find(type); 
+     protocolBase* ret = NULL ;
+     switch(type)
+     {
+         case TRACE_IPPROTO_TCP:
+             tmp = &tcpDashboard;
+             break;
+         case TRACE_IPPROTO_UDP:
+             tmp = &udpDashboard;
+             break;
+         default:
+             return NULL;
+     }
 
-                    if(protIt != it->second.end())
-                       ret = protIt->second; // Only return this 
-            }
-      
+         it1 = tmp->find(srcIp);
+         if(it1 != tmp->end())
+         {
+             if(it1->second.size() > 0)
+             {
+                 it2 = it1->second.find(dstIp);
+                 if(it2 != it1->second.end())
+                 {
+                     ret = it2->second;
+                 }
+             }
+         } 
 
-   }
+     if(!ret)
+     {
+         protocolBase *tmpProtoBase;
+         std::map<uint32_t, protocolBase *> tmpMap;
 
-  if (!ret )
-  {
-      //printf("\n Creating protocolbase st=%d end=%d\n", curIntStarttime,
-       //   curIntEndtime);
-      std::map<libtrace_ipproto_t, protocolBase* > protocoltmp; 
+         switch(type)
+         {
+             case TRACE_IPPROTO_TCP:
+                 tmpProtoBase = new protocolTCP(curIntStarttime,curIntEndtime);
+                 break;
+             case TRACE_IPPROTO_UDP:
+                 tmpProtoBase = new protocolUDP(curIntStarttime,curIntEndtime);
+                 break;
+             default:
+                 return NULL;
+         }
 
-      if(type == TRACE_IPPROTO_TCP) 
-      protocoltmp[type] = new protocolTCP(curIntStarttime,curIntEndtime);
-      else if (type == TRACE_IPPROTO_UDP)
-      protocoltmp[type] = new protocolUDP(curIntStarttime,curIntEndtime);  
-     // protocolTCP a(curIntStarttime,curIntEndtime);
-     // protocoltmp[type] = &a;
-      if(it != dashboard.end())
-      {
-//       std::map<libtrace_ipproto_t, protocolBase* > *prtProto = &dashboard[node];
-         dashboard[node].insert(std::pair<libtrace_ipproto_t, protocolBase*>(type,protocoltmp[type])); 
-//       prtProto = protocoltmp[type]; 
-      }else
-      {
-       std::cout << "\nCreating new Node \n"  << std::endl;
-       dashboard[node] = protocoltmp;
-      }
- 
-        
-      ret = getProtoBase(node, type);
-  }
+         if(it1 != tmp->end())
+         {
+             if(it2 != it1->second.end())
+             {
+                 if(it2->second == NULL)
+                 {
+                     it2->second = tmpProtoBase;
+                 }
+             }
+             else
+             {
+                it1->second.insert(std::pair<uint32_t, protocolBase *>(dstIp,tmpProtoBase));
+                ret = tmpProtoBase; 
+             }
+         }
+         else
+         {
+             tmpMap.insert(std::pair<uint32_t, protocolBase *>(dstIp,tmpProtoBase));
+             tmp->insert(std::pair<uint32_t, std::map<uint32_t, protocolBase *> >(srcIp,tmpMap));
+             ret = tmpProtoBase; 
+         }
+     }
 
-  return ret; 
-  }
-  
+     return ret;
+ }
+
+  /* 
   int displayStats::cleardashB(int newtsrtime, int newendtime){
    //clear map and protocol base
      std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > ::iterator it;
@@ -311,6 +339,9 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
          pktdist[count] = 0;
 
   }
+  */
+
+  /*
   void displayStats::printstats(){
     int node  = 0;
 
@@ -340,7 +371,7 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
       
    //Total number of nodes
     std::cout << "Total number of nodes =" << dashboard.size() << std::endl;  
-   
+  
    //Total number of protocols in that node
    std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > ::const_iterator it;    
    for (it = dashboard.begin(); it != dashboard.end(); it++)
@@ -358,11 +389,16 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
           itr->second->displaymetrics((std::string)TimeBuf);
          }
    }
+
+*/
+
+/* ABHINAY
    if(layer == CORE_LAYER)
    {
    std::cout << "User plane traffic \n" << std::endl;
    displayStats::getdashB(USER_LAYER_LTE)->printstats();
    }
+
   sprintf(TimeBuf, "Splunk %s",curTime.c_str());
   std::cout << TimeBuf << " DistPkt=0to60 DistCount=" <<pktdist[p0to60] << std::endl;
   std::cout << TimeBuf << " DistPkt=61to127 DistCount=" <<pktdist[p61to127]<< std::endl;
@@ -373,6 +409,7 @@ displayStats * displayStats::displayBoard[MAX_LAYER] = {NULL, NULL};
   std::cout << TimeBuf << " DistPkt=1514to1523 DistCount=" <<pktdist[p1514to1523]<< std::endl; 
   std::cout << TimeBuf << " DistPkt=gt1523 DistCount=" <<pktdist[pgt1523]<< std::endl; 
 } 
+*/
 
 int displayStats::fillPktDist(unsigned long int size)
 {
@@ -393,3 +430,4 @@ int displayStats::fillPktDist(unsigned long int size)
    else 
    {pktdist[pgt1523]; return pgt1523;}
 }
+

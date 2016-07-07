@@ -1,31 +1,81 @@
 #include "tcpProto.h"
+#include "Interface.h"
+#include "GxInterface.h"
+#include <time.h>
 
-
-int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet tcppkt)
+int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
 {
+ char timeBuf  [256]; 
+ struct timeval tv;
+ struct timezone tz;
+ struct tm *tm;
  //DownLink flag can be set here to tcppkt
      m_totalpkts++;
-     m_totaldata+=tcppkt.getDataLen();  
-     if( tcppkt.ethernetlayer.ether_type == TRACE_ETHERTYPE_IP)
+     m_totaldata+=tcppkt->getDataLen(); //includes Ip layer size complete packet size
+
+     switch(tcppkt->ethernetlayer.ether_type)
+     {
+         case TRACE_ETHERTYPE_IP:
+             m_totalipv4++;
+         break;
+         case TRACE_ETHERTYPE_IPV6:
+             m_totalip6++;
+         break;
+         default:
+         break;
+     }
+
+     /*
+     if( tcppkt->ethernetlayer.ether_type == TRACE_ETHERTYPE_IP)
      m_totalipv4++;
-     else if ( tcppkt.ethernetlayer.ether_type == TRACE_ETHERTYPE_IPV6 )
+     else if ( tcppkt->ethernetlayer.ether_type == TRACE_ETHERTYPE_IPV6 )
      m_totalip6++;
-   
+     */
+
      if(!trace_get_direction (pkt))
      {
-       m_totaldownlink+=tcppkt.getDataLen();
-       tcppkt.Downlink = true; 
+       m_totaldownlink+=tcppkt->getDataLen();
+       tcppkt->Downlink = true; 
      }else 
      {
-      m_totaluplink+=tcppkt.getDataLen();
-      tcppkt.Downlink = false;
+      m_totaluplink+=tcppkt->getDataLen();
+      tcppkt->Downlink = false;
      }
      
       
-     layerSeven.processPkt(pkt, tcppkt);
+     //layerSeven.processPkt(pkt, *tcppkt);  //ABHINAY
      //m_pkt.push_back(tcppkt);
      
- // Add session logic
+     // Add session logic
+     if(tcppkt->srcPort == 3868 || tcppkt->dstPort == 3868)
+     {
+         //if(tcppkt->getDataLen() > 1800)
+           // return 0;
+
+         Diameter dPkt(tcppkt);
+         dPkt.setTimeStamp(tcppkt->timeStamp);
+         //dPkt.printPkt();
+         static Interface *interface;
+         if(interface == NULL)
+         {
+             interface = new GxInterface;
+         }
+
+         switch(interface->checkTime(dPkt.getTimestamp()))
+         {
+             case 0:
+                 break;
+             case 1:
+                 interface->addPkt(dPkt);
+                 break;
+             case 2:
+                 interface->printStats();
+                 interface->clearStats();
+                 interface->addPkt(dPkt);
+                 break;
+         }
+
+     }
 }
 
 int protocolTCP::addSession(libtrace_packet_t *pkt,m_Packet tcppkt)
@@ -91,7 +141,7 @@ void protocolTCP::displaymetrics(std::string splunkkey) {
                 << (m_totaluplink ) << " Total_DoLink=" << (m_totaldownlink) << 
                  " Ipv4=" << m_totalipv4 << " Ipv6=" << m_totalip6 << std::endl;
 
-  layerSeven.printStat(splunkkey);
+  //layerSeven.printStat(splunkkey);
 }
 
 int protocolTCP::getPercUplink(){}

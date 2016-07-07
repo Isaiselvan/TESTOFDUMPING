@@ -1,34 +1,49 @@
 #include "udpProto.h"
 
 
-int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet udppkt)
+int protocolUDP::addPkt(libtrace_packet_t *pkt, m_Packet *udppkt)
 {
  //DownLink flag can be set here to tcppkt
      m_totalpkts++;
-     m_totaldata+=udppkt.getDataLen();  
-     if( udppkt.ethernetlayer.ether_type == TRACE_ETHERTYPE_IP)
+     m_totaldata+=udppkt->getDataLen(); 
+
+     switch(udppkt->ethernetlayer.ether_type)
+     {
+         case TRACE_ETHERTYPE_IP:
+             m_totalipv4++;
+         break;
+         case TRACE_ETHERTYPE_IPV6:
+             m_totalip6++;
+         break;
+         default:
+         break;
+     }
+
+     /* 
+     if( udppkt->ethernetlayer.ether_type == TRACE_ETHERTYPE_IP)
      m_totalipv4++;
-     else if ( udppkt.ethernetlayer.ether_type == TRACE_ETHERTYPE_IPV6 )
+     else if ( udppkt->ethernetlayer.ether_type == TRACE_ETHERTYPE_IPV6 )
      m_totalip6++;
+     */
    
      if(!trace_get_direction (pkt))
      {
-       m_totaldownlink+=udppkt.getDataLen();
-       udppkt.Downlink = true; 
+       m_totaldownlink+=udppkt->getDataLen();
+       udppkt->Downlink = true; 
      }else 
      {
-      m_totaluplink+=udppkt.getDataLen();
-      udppkt.Downlink = false;
+      m_totaluplink+=udppkt->getDataLen();
+      udppkt->Downlink = false;
      }
      
 
     //m_pkt.push_back(udppkt); //Comment
          
- // Add AppLayer
-    layerSeven.processPkt(pkt, udppkt);
+ // Add AppLayer ABHINAY
+    //layerSeven.processPkt(pkt, *udppkt);
      
  // Adding to lte , Will be added only if it has a Gtp
-    getLteDash()->parseGtp(pkt, (char *)udppkt.pay_load);
+    //getLteDash()->parseGtp(pkt, (char *)udppkt->pay_load);
 
   return 0; 
 }
@@ -98,7 +113,7 @@ void protocolUDP::displaymetrics(std::string splunkkey) {
      getLteDash()->printstats(splunkkey);
 
    // Applayer info
-      layerSeven.printStat(splunkkey);    
+      //layerSeven.printStat(splunkkey);    
 }
 
 

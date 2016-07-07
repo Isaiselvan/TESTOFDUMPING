@@ -30,7 +30,14 @@ class displayStats{
   static displayStats * displayBoard[MAX_LAYER];  
   static pthread_mutex_t disLock[MAX_LAYER];  
      //Source ethernet address // Node
-  std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > dashboard; 
+  //std::map<std::string, std::map<libtrace_ipproto_t, protocolBase* > > dashboard;
+  std::map<uint32_t, std::map<uint32_t, protocolBase *> > tcpDashboard; 
+  std::map<uint32_t, std::map<uint32_t, protocolBase *> > udpDashboard; 
+
+  std::map<uint32_t, std::map<uint32_t, protocolBase* > >::iterator it1;
+  std::map<uint32_t, protocolBase* >::iterator it2;
+  std::map<uint32_t, std::map<uint32_t, protocolBase *> > *tmp ;//= NULL; 
+
   Displaylayer layer;  
   
 
@@ -62,10 +69,11 @@ class displayStats{
   ~displayStats(){}
   int getTimeStat(){return curIntStarttime;};
   int ParsePkt(libtrace_packet_t *pkt);
-  int addPkt(m_Packet ,libtrace_packet_t *, libtrace_ipproto_t, int);
+  int addPkt(libtrace_packet_t *, libtrace_ipproto_t, int);
 //  int getDataLen(m_Packet t){return t.getDataLen(); }
 
-  protocolBase*  getProtoBase(std::string node, libtrace_ipproto_t);  
+  //protocolBase*  getProtoBase(std::string node, libtrace_ipproto_t);  
+  protocolBase *  getProtoBase(uint32_t srcIp, uint32_t dstIp, libtrace_ipproto_t type);
   int cleardashB(int newtsrtime, int newendtime);
   void printstats(); // Future will be sending to some other module or UI
   int setStats(libtrace_stat_t stat){
@@ -92,7 +100,6 @@ class displayStats{
  
   int fillPktDist(unsigned long int size);
  
-  
 };
 
 

@@ -106,6 +106,14 @@ void* readPcapFile(void* fileName)
 	 * as long as the return value is greater than zero
 	 */
         
+ char timeBuf  [256]; 
+ struct timeval tv;
+ struct timezone tz;
+ struct tm *tm;
+ gettimeofday(&tv, &tz);
+ tm=localtime(&tv.tv_sec);
+ sprintf (timeBuf, "%02d:%02d:%02d:%03ld",tm->tm_hour, tm->tm_min, tm->tm_sec, (tv.tv_usec) );
+ //std::cout << "ABHINAY: time at start of analyzing packet:" << timeBuf << std::endl;
 	while (trace_read_packet(trace,packet)>0) {
 		/* Call our per_packet function for every packet */
 		per_packet(packet);
@@ -146,7 +154,7 @@ void* readPcapFile(void* fileName)
         string newFilePath = filePath + ".completed";
         if(rename(filePath.c_str(), newFilePath.c_str()))
             logger << "Error renaming the file:" << filePath << " to:" << newFilePath << std::endl;
-
+/*
 //Pass the Pcap tp tcptrace
         char Inttime[15] ;
         sprintf(Inttime, "%d",displayStats::getdashB()->getTimeStat());  
@@ -155,8 +163,9 @@ void* readPcapFile(void* fileName)
         tcptraceCMD = tcptraceCMD + " -I"+ Inttime +" -lr " + newFilePath; 
         if(system (tcptraceCMD.c_str()))
            logger << "Error executing the tcpbinary cmd:" << tcptraceCMD << std::endl;
+*/
 
-
+/*
         int ret = pthread_self();
         for(int c =0 ; c < MAX_THREAD ; c++)
         {  
@@ -164,6 +173,7 @@ void* readPcapFile(void* fileName)
             threads[c] = 0 ;         
         }
         pthread_exit(&ret);
+*/
 }
 
 bool isPcapfileReady(string fileName)
@@ -242,6 +252,7 @@ int main(int argc , char * argv [])
         }
     }
     
+    /*
     //Count threads 
     DIR *dirp1 = NULL;
     char procPath[50];
@@ -293,8 +304,8 @@ int main(int argc , char * argv [])
       {
         sleep (1);
       }
-    
-
+   
+   */ 
 
     for(it = filesList.begin(); it != filesList.end(); it++)
     {
@@ -302,27 +313,9 @@ int main(int argc , char * argv [])
         strcpy(pcapFile, it->c_str());
            
         logger << "Starting Thread for file:" << pcapFile << std::endl;
-        //while (i < MAX_THREAD)
-        //{
-            //if(threads[i] == 0)
-            //{ 
-            rc = pthread_create(&threads[i], NULL, 
-                          readPcapFile, pcapFile);
-                          
-            if(rc)
-            logger << "Error:: Failed to read pcap file:" << pcapFile << std::endl;
-           // i++;
-           // break;
-           // }else if(i == MAX_THREAD)
-             // {
-               // i = 0;
-               // sleep(10);
-             // } 
-
-           i++;
-         //readPcapFile(pcapFile);
-       // }
+        readPcapFile(pcapFile);
     }
+
     i = 0;
 
     filesList.clear();  

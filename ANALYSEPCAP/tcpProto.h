@@ -8,6 +8,8 @@
 //#include "libtrace.h"
 #include "libtrace_parallel.h"
 #include "packetCmm.h"
+#include "Diameter.h"
+#include "Interface.h"
 
 typedef struct tcpSession{
 
@@ -36,7 +38,7 @@ private:
    std::list<m_tcpSession> m_session;
    std::list<m_Packet>  m_pkt;
 
-   appLayer layerSeven;   
+   //appLayer layerSeven;   
 public:
    protocolTCP(int start,int end):protocolBase(TRACE_IPPROTO_TCP, start, end)
    {
@@ -56,13 +58,14 @@ public:
     m_pkt.clear();
     }; 
      
-   int addPkt(libtrace_packet_t *, m_Packet);///Used in template use the same name in other classes  
+   int addPkt(libtrace_packet_t *, m_Packet *);///Used in template use the same name in other classes  
    unsigned long int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics(std::string splunkkey);
    int addSession(libtrace_packet_t *pkt,m_Packet tcppkt);
    int getPercUplink();
    int getPercDownLink();
+   Interface* getInterface(Diameter dPkt);
 };
 
 #endif //TCP_PROTO_H

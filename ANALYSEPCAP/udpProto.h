@@ -39,7 +39,7 @@ private:
    std::list<m_udpSession> m_session;
    std::list<m_Packet>  m_pkt;
    LteProtoBase *LteDash; 
-   appLayer layerSeven;
+   //appLayer layerSeven;
 public:
    protocolUDP(int start,int end):protocolBase(TRACE_IPPROTO_UDP, start, end)
    {
@@ -63,7 +63,7 @@ public:
      }
     }; 
      
-   int addPkt(libtrace_packet_t *, m_Packet);  
+   int addPkt(libtrace_packet_t *, m_Packet *);  
    unsigned long int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics(std::string splunkkey);

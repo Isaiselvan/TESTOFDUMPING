@@ -20,15 +20,25 @@ typedef struct Packet{ // Used as template refer other members to change name
   libtrace_udp_t udp;
   libtrace_tcp_t tcp;
   libtrace_ipproto_t type;
-  int timeStamp;
+  unsigned int timeStamp;
   int ipv;
-  int dataLen;
+  int dataLen, capLen;
   bool Downlink;// Set this flag in
+
   int getDataLen(){
   if(dataLen < 0)
   std::cout << "Datalen lessthan 0" << dataLen << std::endl;
   return dataLen; }
-  char pay_load[128]; // Max snaplen for analysis
+
+  int getCapLen(){
+  if(capLen < 0)
+  std::cout<< "CapLen lessthen 0" << capLen << std::endl;
+  return capLen;
+  }
+   
+  char *pay_load;
+  uint16_t srcPort;
+  uint16_t dstPort;
 }m_Packet;
 
 
