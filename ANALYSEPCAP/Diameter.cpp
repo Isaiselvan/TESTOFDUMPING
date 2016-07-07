@@ -98,11 +98,22 @@ Diameter::Diameter(char *dMsg)
 
              case 268:
                  resCode = extractDword(dMsg, avpStartWord + 4, 0, (avpLength - 8) * 8);
+                 resCodeAvp = true;
                  break;
 
              case 416:
                  reqType = extractDword(dMsg, avpStartWord + 4, 0, (avpLength - 8) * 8);
+                 CCReqAvp = true;
                  break;
+         }
+
+         if(request == 1 && CCReqAvp)
+         {
+             break;
+         }
+         else if(request == 0 && CCReqAvp && resCodeAvp)
+         {
+             break;
          }
 
          int roundoff =0;
@@ -114,15 +125,6 @@ Diameter::Diameter(char *dMsg)
          avpStartWord += (avpLength+roundoff)/2;
      }
 
-     request = commandFlag & 0x80;
-    if(request)
-    {
-       request = 1;
-    }
-    else
-    {
-       request = 0;
-    }
 }
 
 
