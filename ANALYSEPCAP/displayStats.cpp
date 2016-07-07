@@ -126,8 +126,8 @@ static protocolTCP *tcpStats = NULL;
 
                if(payload && rem != 0)
                    ppkt->pay_load = payload;
-
-
+               else 
+                   return -1;
                break;
             case TRACE_IPPROTO_UDP:
                 //Fill Layer4/5 details
@@ -141,6 +141,8 @@ static protocolTCP *tcpStats = NULL;
 
                 if(udp_payload && rem != 0) 
                     ppkt->pay_load = payload;
+                else
+                    return -1;
             break;
             case TRACE_IPPROTO_SCTP:
                 break; 

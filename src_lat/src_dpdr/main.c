@@ -22,7 +22,7 @@ extern int nb_sys_ports;
 //static int test1=0, test2=0, test3=0, test4 =0;
 /* Main function */
 #define SNAP_LEN 512 // Full packet reading to get host info on Sandbox min is 512
-int snaplen =  SNAP_LEN;/* amount of data per packet */
+int snaplen =  RTE_MBUF_DEFAULT_DATAROOM;/* amount of data per packet */
 uint64_t buffer_size = 1048576 ; //Ring size
 // Dpdk driver init code
 struct rte_ring    * intermediate_ring;

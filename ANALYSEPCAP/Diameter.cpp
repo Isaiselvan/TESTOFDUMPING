@@ -67,9 +67,11 @@ Diameter::Diameter(char *dMsg)
 {
     unsigned int  avpCode;
     unsigned int avpLength;
+    char buf[5015];
     //char *dMsg = pkt->pay_load;
     //int caplen = pkt->getCapLen();
-   bool resCodeAvp=false, CCReqAvp=false; 
+    memcpy(&buf, dMsg, 5015); 
+    dMsg = (char *)&buf;
     msgLength = extractDword(dMsg, 0, 8, 24);
     commandFlag = extractDword(dMsg, 2, 0, 8);
     cc = extractDword(dMsg, 2, 8, 24);
@@ -98,22 +100,11 @@ Diameter::Diameter(char *dMsg)
 
              case 268:
                  resCode = extractDword(dMsg, avpStartWord + 4, 0, (avpLength - 8) * 8);
-                 resCodeAvp = true;
                  break;
 
              case 416:
                  reqType = extractDword(dMsg, avpStartWord + 4, 0, (avpLength - 8) * 8);
-                 CCReqAvp = true;
                  break;
-         }
-
-         if(request == 1 && CCReqAvp)
-         {
-             break;
-         }
-         else if(request == 0 && CCReqAvp && resCodeAvp)
-         {
-             break;
          }
 
          int roundoff =0;
@@ -125,6 +116,15 @@ Diameter::Diameter(char *dMsg)
          avpStartWord += (avpLength+roundoff)/2;
      }
 
+     request = commandFlag & 0x80;
+    if(request)
+    {
+       request = 1;
+    }
+    else
+    {
+       request = 0;
+    }
 }
 
 

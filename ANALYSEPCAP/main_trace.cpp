@@ -55,7 +55,7 @@ static void libtrace_cleanup(libtrace_t *trace, libtrace_packet_t *packet) {
 
 }
 
-void* readPcapFile(void* fileName) 
+void readPcapFile(void* fileName) 
 {
 	libtrace_t *trace = NULL;
 	libtrace_packet_t *packet = NULL;
@@ -80,11 +80,13 @@ void* readPcapFile(void* fileName)
         {
 		trace_perror(trace,"Opening trace file");
 		libtrace_cleanup(trace, packet);
+                 return;
 	}
 
 	if (trace_start(trace) == -1) {
 		trace_perror(trace,"Starting trace");
 		libtrace_cleanup(trace, packet);
+                return; 
 	}
 
 	if (packet == NULL)
@@ -98,6 +100,7 @@ void* readPcapFile(void* fileName)
 		 */
 		perror("Creating libtrace packet");
 		libtrace_cleanup(trace, packet);
+                return;
 	}
 	/* This loop will read packets from the trace until either EOF is
 	 * reached or an error occurs (hopefully the former!)

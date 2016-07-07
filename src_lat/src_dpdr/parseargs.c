@@ -13,7 +13,6 @@ extern int snaplen;
 extern uint64_t seconds_rotation;
 extern uint64_t max_packets ;
 extern int64_t  max_rotations ;
-extern uint64_t max_packets ;
 extern uint64_t buffer_size ; //Ring size
 
 struct lcore_conf lcore_conf[RTE_MAX_LCORE];
