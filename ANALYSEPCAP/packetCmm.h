@@ -22,7 +22,7 @@ typedef struct Packet{ // Used as template refer other members to change name
   libtrace_ipproto_t type;
   unsigned int timeStamp;
   int ipv;
-  int dataLen, capLen;
+  int dataLen;// capLen;
   bool Downlink;// Set this flag in
 
   int getDataLen(){
@@ -30,11 +30,11 @@ typedef struct Packet{ // Used as template refer other members to change name
   std::cout << "Datalen lessthan 0" << dataLen << std::endl;
   return dataLen; }
 
-  int getCapLen(){
+  /*int getCapLen(){
   if(capLen < 0)
   std::cout<< "CapLen lessthen 0" << capLen << std::endl;
   return capLen;
-  }
+  }*/
    
   char *pay_load;
   uint16_t srcPort;

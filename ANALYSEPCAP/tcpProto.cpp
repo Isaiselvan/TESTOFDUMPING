@@ -50,9 +50,9 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
      if(tcppkt->srcPort == 3868 || tcppkt->dstPort == 3868)
      {
          //if(tcppkt->getDataLen() > 1800)
-           // return 0;
+            //return 0;
 
-         Diameter dPkt(tcppkt);
+         Diameter dPkt(tcppkt->pay_load);
          dPkt.setTimeStamp(tcppkt->timeStamp);
          //dPkt.printPkt();
          static Interface *interface;

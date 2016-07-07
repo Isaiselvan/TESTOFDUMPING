@@ -63,12 +63,12 @@ DWORD extractDword(char* buffer, int startWord, int startBit, int len)
    return value;
 }
 
-Diameter::Diameter(m_Packet *pkt)
+Diameter::Diameter(char *dMsg)
 {
     unsigned int  avpCode;
     unsigned int avpLength;
-    char *dMsg = pkt->pay_load;
-    int caplen = pkt->getCapLen();
+    //char *dMsg = pkt->pay_load;
+    //int caplen = pkt->getCapLen();
     
     msgLength = extractDword(dMsg, 0, 8, 24);
     commandFlag = extractDword(dMsg, 2, 0, 8);
@@ -81,12 +81,12 @@ Diameter::Diameter(m_Packet *pkt)
 
      while(msgRemaining > 0)
      { 
-        if(caplen < (avpStartWord + 32))
-             break; 
+        //if(caplen < (avpStartWord + 32))
+             //break; 
          avpCode = extractDword(dMsg, avpStartWord, 0, 32);
          avpLength = extractDword(dMsg, avpStartWord + 2, 8, 24);
 
-         if(avpLength <= 0)
+         if(avpLength <= 0 || avpLength > 5014)
              break;
 
          switch (avpCode)

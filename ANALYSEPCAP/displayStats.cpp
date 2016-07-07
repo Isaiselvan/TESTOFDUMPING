@@ -31,7 +31,7 @@ static protocolTCP *tcpStats = NULL;
         uint8_t ether_dhost[6];
         int starttime = 0;
         int pktlen = trace_get_wire_length(pkt);
-        int caplen = trace_get_capture_length(pkt);
+        //int caplen = trace_get_capture_length(pkt);
         int ipSize =0; 
         //memcpy(ether_shost, trace_get_source_mac(pkt),6);
         //memcpy(ether_dhost,trace_get_destination_mac(pkt), 6);
@@ -48,7 +48,7 @@ static protocolTCP *tcpStats = NULL;
 	if (rem == 0)
 		return -1;
         ipSize = rem;  
-        caplen -= ipSize; 
+        //caplen -= ipSize; 
         switch(ethertype)
         {
             case TRACE_ETHERTYPE_IP:
@@ -68,7 +68,7 @@ static protocolTCP *tcpStats = NULL;
         //Time of packet trace_get_seconds
         starttime = trace_get_seconds(pkt);
         //std::cout << "ABHINAY:: seconds is :" << seconds << std::endl;
-        caplen -= rem;
+        //caplen -= rem;
         if(ppkt == NULL)
         {
             ppkt = new m_Packet;
@@ -149,12 +149,12 @@ static protocolTCP *tcpStats = NULL;
 	        return -1; // Support for other protocols can be extended..
             break;
         }
-             caplen -= rem;
+             //caplen -= rem;
 
-             if(caplen > 0)
+             /*if(caplen > 0)
              ppkt->capLen = caplen;
              else
-             ppkt->capLen = 0; 
+             ppkt->capLen = 0; */
              
  
          //Add pkt to protocolbase 

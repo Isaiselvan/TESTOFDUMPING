@@ -21,8 +21,6 @@ class displayStats{
   
   private : 
   
-  int curIntStarttime;
-  int curIntEndtime;
   unsigned long int totalpkts;
   unsigned long int totaldatalen;
   unsigned long int pktdist[maxPktdistri];
@@ -57,6 +55,8 @@ class displayStats{
   }
   public : 
   bool StatsAvailable ; //1st time call to dashboard 
+  int curIntStarttime;
+  int curIntEndtime;
   static displayStats * getdashB(Displaylayer lay = CORE_LAYER){
     
    if (displayBoard[lay] == NULL)

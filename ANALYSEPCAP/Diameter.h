@@ -56,7 +56,7 @@ class Diameter
         unsigned int timeStamp;
 
    public:
-        Diameter(m_Packet* Msg);
+        Diameter(char* Msg);
         void printPkt();
 
         void setTimeStamp(unsigned int time)
