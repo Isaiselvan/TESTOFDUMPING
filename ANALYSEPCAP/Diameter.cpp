@@ -69,7 +69,7 @@ Diameter::Diameter(char *dMsg)
     unsigned int avpLength;
     //char *dMsg = pkt->pay_load;
     //int caplen = pkt->getCapLen();
-    
+   bool resCodeAvp=false, CCReqAvp=false; 
     msgLength = extractDword(dMsg, 0, 8, 24);
     commandFlag = extractDword(dMsg, 2, 0, 8);
     cc = extractDword(dMsg, 2, 8, 24);
