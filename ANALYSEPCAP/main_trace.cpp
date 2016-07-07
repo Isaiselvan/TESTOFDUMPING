@@ -72,18 +72,6 @@ void* readPcapFile(void* fileName)
 	 * that we're going to read from the trace */
 	packet = trace_create_packet();
 
-	if (packet == NULL)
-        {
-		/* Unfortunately, trace_create_packet doesn't use the libtrace
-		 * error system. This is because libtrace errors are associated
-		 * with the trace structure, not the packet. In our case, we
-		 * haven't even created a trace at this point so we can't 
-		 * really expect libtrace to set an error on it for us, can
-		 * we?
-		 */
-		perror("Creating libtrace packet");
-		libtrace_cleanup(trace, packet);
-	}
 
 	/* Opening and starting the input trace, as per createdemo.c */
 	trace = trace_create(filePath.c_str());
@@ -99,6 +87,18 @@ void* readPcapFile(void* fileName)
 		libtrace_cleanup(trace, packet);
 	}
 
+	if (packet == NULL)
+        {
+		/* Unfortunately, trace_create_packet doesn't use the libtrace
+		 * error system. This is because libtrace errors are associated
+		 * with the trace structure, not the packet. In our case, we
+		 * haven't even created a trace at this point so we can't 
+		 * really expect libtrace to set an error on it for us, can
+		 * we?
+		 */
+		perror("Creating libtrace packet");
+		libtrace_cleanup(trace, packet);
+	}
 	/* This loop will read packets from the trace until either EOF is
 	 * reached or an error occurs (hopefully the former!)
 	 *
@@ -135,8 +135,8 @@ void* readPcapFile(void* fileName)
 	 */
 	if (trace_is_err(trace)) {
 		trace_perror(trace,"Reading packets");
-		libtrace_cleanup(trace, packet);
 	}
+		libtrace_cleanup(trace, packet);
 
 	/* We've reached the end of our trace without an error so we can
 	 * print our final count. Note the use of the PRIu64 format which is
