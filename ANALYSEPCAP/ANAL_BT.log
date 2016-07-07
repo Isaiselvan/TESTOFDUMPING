@@ -1,0 +1,121 @@
+#0  0x000000000040a5f1 in extractDword (buffer=0x54 <Address 0x54 out of bounds>, startWord=0, startBit=8, len=24) at Diameter.cpp:36
+        HIBYTE = 0 '\000'
+        LOBYTE = 0 '\000'
+        lenLeft = 24
+        wordOffset = 0
+        curWord = 27448
+        firstWord = true
+        value = 0
+        value1 = 0
+#1  0x000000000040a722 in Diameter::Diameter (this=0x7fffffffdb40, dMsg=0x54 <Address 0x54 out of bounds>) at Diameter.cpp:73
+        avpLength = 4294958016
+        resCodeAvp = false
+        avpCode = 32767
+        CCReqAvp = false
+        msgRemaining = 6512640
+        avpStartWord = 0
+#2  0x0000000000404b74 in protocolTCP::addPkt (this=0x638090, pkt=0x624e60, tcppkt=0x636000) at tcpProto.cpp:55
+        dPkt = {msgLength = 212, commandFlag = 64 '@', request = 0 '\000', cc = 271, appId = 3, hopIdentifier = 6442592, resCode = 0, originHost = 0x7ffff7dc9b7c "H\203\304\b\211\307\351\331@", reqType = 1, timeStamp = 1467891601}
+        interface = 0x636210
+        timeBuf = "\000\000\000\000\000\000\000\000\070\332\377\377\377\177\000\000\070\332\377\377\377\177", '\000' <repeats 18 times>, "\020ru\000\000\000\000\000\020^b", '\000' <repeats 13 times>, "@kc\000\000\000\000\000(X\376\367\377\177\000\000@^b\000\000\000\000\000\360-\300\"3\000\000\000\020\202c\000\000\000\000\000\000\000\000\000\001\000\000\000\240ru\000\000\000\000\000\365\tN\"3\000\000\000 \341x\"3\000\000\000\320ru\000\000\000\000\000@\020\024\000\000\000\000\000\371\330G\"3\000\000\000`\217c\000\000\000\000\000\063\230G\"3\000\000\000\n\273a+\000\000\000\000\000\020\002\000\000\000\000\000\000\020\002\000\000\000\000\000\000\360\377\377\377\377\377\377\320ru\000\000\000\000\000\001\000\000\000\000\000\000\000\n\267I\251\377\177\000\000\000\000\000\200\000\000\000\000x\341x\"3\000\000\000"...
+        tv = {tv_sec = 6442592, tv_usec = 140737351818108}
+        tz = {tz_minuteswest = 0, tz_dsttime = 51}
+        tm = 0x638090
+#3  0x0000000000408130 in displayStats::addPkt (this=0x625d80, ptrpkt=0x624e60, prototype=TRACE_IPPROTO_TCP, pktTime=1467891601) at displayStats.cpp:226
+        buff = "`Nb\000\000\000\000\000\360", <incomplete sequence \334>
+        ip = ""
+        dstip = ""
+        protoBase = 0x638090
+#4  0x0000000000407fff in displayStats::ParsePkt (this=0x625d80, pkt=0x624e60) at displayStats.cpp:161
+        proto = 6 '\006'
+        ethertype = 34525
+        rem = 0
+        ltheader = 0x626036
+        ether_dhost = "\037`b\000\000"
+        starttime = 1467891601
+        ipSize = 66
+        pktlen = 84
+        ip = 0x0
+        ether_shost = "\000`b\000\000"
+        ip6 = 0x62600e
+#5  0x0000000000402b99 in per_packet (packet=0x624e60) at main_trace.cpp:38
+        __PRETTY_FUNCTION__ = "void per_packet(libtrace_packet_t*)"
+#6  0x0000000000402e49 in readPcapFile (fileName=0x623330) at main_trace.cpp:122
+        packet = 0x624e60
+        startTime = 1467891696
+        tz = {tz_minuteswest = -330, tz_dsttime = 0}
+        seconds = 3.1581150385192487e-317
+        trace = 0x624f00
+        filePath = "/apps/opt/LIBTRACE/test/FBMPOC1467891600ready.pcap.taken"
+        endTime = 4294967295
+        count = 259967
+        newFilePath = Traceback (most recent call last):
+  File "/usr/lib64/../share/gdb/python/libstdcxx/v6/printers.py", line 558, in to_string
+    return self.val['_M_dataplus']['_M_p'].lazy_string (length = len)
+RuntimeError: Cannot access memory at address 0x22
+
+        timeBuf = "17:11:36:758463\000\200\222a\000\000\000\000\000\a\000\000\000\000\000\000\000:\000\000\000\000\000\000\000\325I\001\"3\000\000\000\a", '\000' <repeats 15 times>, ":\000\000\000\000\000\000\000\200\222a\000\000\000\000\000\a\000\000\000\000\000\000\000\350\351\352\353\354\355\356\357\360\361\362\363\364\365\366\367\000\060\266\367\377\177\000\000O\002\000\000\000\000\000\000\066\245\213)3\000\000\000\016\000\000\000\000\000\000\000(\211a\000\000\000\000\000\260\336\377\377\377\177\000\000\001*@\000\000\000\000\000:\000\000\000\000\000\000\000\257\275\206)3\000\000\000\370\363\256)3\000\000\000P\214\200)3", '\000' <repeats 11 times>, "(\211a\000\000\000\000\000\377\377\377\377\000\000\000\000\001*@\000\000\000\000\000\320\340\377\377\377\177\000\000\325I\001\"3\000\000\000\220\245\256)3\000\000\000\316\362\375\354\062~\337\032"
+        tv = {tv_sec = 1467891696, tv_usec = 758463}
+        tm = 0x3322793440
+#7  0x00000000004036c8 in main (argc=1, argv=0x7fffffffe0d8) at main_trace.cpp:319
+        pcapFile = 0x623330 "\260bc"
+        dirp = 0x61b2f0
+        dr = 0x0
+        fileCount = 0
+        i = 0
+        filesList = std::list = {
+          [0] = "FBMPOC1467891600ready.pcap.taken",
+          [1] = "FBMPOC1467891599ready.pcap.taken",
+          [2] = "FBMPOC1467891598ready.pcap.taken",
+          [3] = "FBMPOC1467891597ready.pcap.taken",
+          [4] = "FBMPOC1467891596ready.pcap.taken",
+          [5] = "FBMPOC1467891594ready.pcap.taken",
+          [6] = "FBMPOC1467891593ready.pcap.taken",
+          [7] = "FBMPOC1467891592ready.pcap.taken",
+          [8] = "FBMPOC1467891591ready.pcap.taken",
+          [9] = "FBMPOC1467891590ready.pcap.taken",
+          [10] = "FBMPOC1467891589ready.pcap.taken",
+          [11] = "FBMPOC1467891587ready.pcap.taken",
+          [12] = "FBMPOC1467891586ready.pcap.taken",
+          [13] = "FBMPOC1467891585ready.pcap.taken",
+          [14] = "FBMPOC1467891584ready.pcap.taken",
+          [15] = "FBMPOC1467891583ready.pcap.taken",
+          [16] = "FBMPOC1467891582ready.pcap.taken",
+          [17] = "FBMPOC1467891581ready.pcap.taken",
+          [18] = "FBMPOC1467891580ready.pcap.taken",
+          [19] = "FBMPOC1467891578ready.pcap.taken",
+          [20] = "FBMPOC1467891577ready.pcap.taken",
+          [21] = "FBMPOC1467891576ready.pcap.taken",
+          [22] = "FBMPOC1467891575ready.pcap.taken",
+          [23] = "FBMPOC1467891574ready.pcap.taken",
+          [24] = "FBMPOC1467891573ready.pcap.taken",
+          [25] = "FBMPOC1467891572ready.pcap.taken",
+          [26] = "FBMPOC1467891571ready.pcap.taken",
+          [27] = "FBMPOC1467891569ready.pcap.taken",
+          [28] = "FBMPOC1467891568ready.pcap.taken",
+          [29] = "FBMPOC1467891567ready.pcap.taken",
+          [30] = "FBMPOC1467891566ready.pcap.taken",
+          [31] = "FBMPOC1467891565ready.pcap.taken",
+          [32] = "FBMPOC1467891564ready.pcap.taken",
+          [33] = "FBMPOC1467891563ready.pcap.taken",
+          [34] = "FBMPOC1467891562ready.pcap.taken",
+          [35] = "FBMPOC1467891560ready.pcap.taken",
+          [36] = "FBMPOC1467891559ready.pcap.taken",
+          [37] = "FBMPOC1467891558ready.pcap.taken",
+          [38] = "FBMPOC1467891557ready.pcap.taken",
+          [39] = "FBMPOC1467891556ready.pcap.taken",
+          [40] = "FBMPOC1467891554ready.pcap.taken",
+          [41] = "FBMPOC1467891553ready.pcap.taken",
+          [42] = "FBMPOC1467891552ready.pcap.taken",
+          [43] = "FBMPOC1467891551ready.pcap.taken",
+          [44] = "FBMPOC1467891550ready.pcap.taken",
+          [45] = "FBMPOC1467891549ready.pcap.taken",
+          [46] = "FBMPOC1467891548ready.pcap.taken",
+          [47] = "FBMPOC1467891547ready.pcap.taken",
+          [48] = "FBMPOC1467891546ready.pcap.taken",
+          [49] = "FBMPOC1467891544ready.pcap.taken",
+          [50] = "FBMPOC1467891543ready.pcap.taken",
+          [51] = "FBMPOC1467891542ready.pcap.taken"
+        }
+        rc = 0
+        it = "FBMPOC1467891600ready.pcap.taken"
