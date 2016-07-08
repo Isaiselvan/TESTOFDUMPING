@@ -73,17 +73,17 @@ void print_stats (void){
 	printf("\n-------------------------------------------------"); 
 	printf("\nTOT:     Rx: %ld Drp: %ld Tot: %ld Perc: %.3f%%", good_pkt, miss_pkt, good_pkt+miss_pkt, (float)miss_pkt/(good_pkt+miss_pkt)*100 ); 
 	printf("\n"); 
-        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld \n ", TimeBuf, 
+        fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%lld pktdrop=%lld  pktprocss=%lld  ", TimeBuf, 
                 (good_pkt - prvrecevied)/timeInt, (miss_pkt - prvdrop)/timeInt, (st_pktproc - prvprocessed)/timeInt);           
         //fprintf(f, "Splunk %s Appname=FBMDump pktrecv=%ld pktdrop=%ld  pktprocss=%ld \n ", TimeBuf,
           //      good_pkt/INTERVAL_STATS, miss_pkt/INTERVAL_STATS, st_pktproc/INTERVAL_STATS);
-        fprintf(f,"Missedby enqueue%ld\n",st_missout/timeInt); 
+        fprintf(f," Missedby enqueue=%ld\n",st_missout/timeInt); 
         prvrecevied = good_pkt;
         prvdrop = miss_pkt;
         prvprocessed = st_pktproc;
         prevT = curT;
-        fprintf(f,"Ring free %d, Ring used %d\n", rte_ring_free_count(intermediate_ring), rte_ring_count(intermediate_ring)); 
-        fprintf(f,"Mempool free %d, Mempool used %d\n", rte_mempool_count(pktmbuf_pool), rte_mempool_free_count(pktmbuf_pool));  
+        fprintf(f,"Ring free = %d, Ring used = %d\n", rte_ring_free_count(intermediate_ring), rte_ring_count(intermediate_ring)); 
+        fprintf(f,"Mempool free %d, Mempool used = %d\n", rte_mempool_count(pktmbuf_pool), rte_mempool_free_count(pktmbuf_pool));  
         //rte_ring_dump(f, intermediate_ring);
         //rte_mempool_dump(f,pktmbuf_pool);
 	fclose(f);
@@ -98,13 +98,13 @@ int Statistics_lcore(__attribute__((unused)) void * arg){
          rte_eal_alarm_set(INTERVAL_STATS * MS_PER_S, alarm_routine, NULL);
         while(1)
         {
-                      if(file_name_moveG[0] != '\0')
+                      /*if(file_name_moveG[0] != '\0')
                         {
                         if (rename (file_name_oldG, file_name_moveG))
-                        PRINT_INFO("\n failed to rename file %s\n", file_name_rotated); 
+                         PRINT_INFO("\n failed to rename file %s\n", file_name_rotated); 
                            file_name_moveG[0] = '\0';
-                        }
-         usleep(10);
+                        }*/
+         usleep(1);
         }
         return 0; 
 }

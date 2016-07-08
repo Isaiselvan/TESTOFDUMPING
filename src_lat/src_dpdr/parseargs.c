@@ -11,6 +11,7 @@ extern char file_name_oldG[1000];
 extern char file_name_rotated [1000];
 extern int snaplen;
 extern uint64_t seconds_rotation;
+extern int8_t file_id;
 extern uint64_t max_packets ;
 extern int64_t  max_rotations ;
 extern uint64_t buffer_size ; //Ring size
@@ -110,8 +111,10 @@ int parse_args(int argc, char **argv)
         argvopt = argv;
  
          /* Retrive arguments */
-        while ((option = getopt_long(argc, argvopt,"w:c:B:G:W:C:S:i:f:b:q:p:",lgopts,&option_index)) != EOF) {
+        while ((option = getopt_long(argc, argvopt,"A:w:c:B:G:W:C:S:i:f:b:q:p:",lgopts,&option_index)) != EOF) {
                 switch (option) {
+                        case 'A' : file_id = atoi (optarg); /* Number of analyzers, for rotating */
+                                break;
                         case 'w' : file_name = strdup(optarg); /* File name, mandatory */
                                 break;
                         case 'c': max_packets = atol (optarg); /* Max number of packets to save; default is infinite */

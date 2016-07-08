@@ -7,8 +7,8 @@ extern int snaplen;
 extern struct rte_ring    * intermediate_ring;
 extern struct rte_mempool * pktmbuf_pool;
 
-uint64_t seconds_rotation;
-uint64_t max_packets ;
+uint64_t seconds_rotation = -1;
+uint64_t max_packets  = -1;
 int64_t  max_rotations = -1 ;
 
 uint64_t nb_dumped_packets = 0;
@@ -23,7 +23,7 @@ int64_t  nb_rotations=0;
 static int bufferidx = 0;
 static char filechunk[FILE_CHUNK_SIZE];
 FILE *FP;
-
+int8_t file_id = 0;
 
 struct pcap_timeval {
     bpf_int32 tv_sec;           /* seconds */
@@ -93,7 +93,7 @@ int packet_consumer(__attribute__((unused)) void * arg){
                 t_pack.tv_sec = m[idx]->tx_offload;
 
                 /* Rotate if needed */
-                if (unlikely((seconds_rotation > 0 && t_pack.tv_sec - last_rotation > seconds_rotation) || (max_packets != 0  && nb_dumped_packets >= max_packets))){
+                if (unlikely((seconds_rotation > 0 && (t_pack.tv_sec - last_rotation > seconds_rotation)) || (max_packets > 0  && nb_dumped_packets >= max_packets))){
 
                         last_rotation = t_pack.tv_sec;
                         nb_rotations ++;
@@ -113,6 +113,8 @@ int packet_consumer(__attribute__((unused)) void * arg){
 				
                         snprintf(file_name_moveG,sizeof(file_name_moveG), "%s%s", file_name_rotated, "ready.pcap");  
                         snprintf(file_name_oldG,sizeof(file_name_oldG) ,"%s", file_name_rotated);
+                           if (rename (file_name_oldG, file_name_moveG))
+                           PRINT_INFO("\n failed to rename file %s\n", file_name_rotated);
                         /* Open pcap file for writing */
                         snprintf(file_name_rotated,sizeof(file_name_rotated), "%s%ld", file_name, last_rotation);
                          createNewFile(file_name_rotated, snaplen);
@@ -177,17 +179,28 @@ inline int FlushToFile(__rte_unused void *param)
    return 0;
 }
 
-inline void createNewFile(char * filename, int snaplen)
+inline void createNewFile(char  *filename, int snaplen)
 {
   static struct pcap_file_header fileheader;
+  static char newFile[1000];
   if(FP)
   {
     FlushToFile(NULL);
     fclose(FP);
     FP = NULL;
   }
+  static int rotateanalyzer = 0;
+  if(file_id > 0)
+  {
+    snprintf(newFile,sizeof(newFile), "%s%c%d",filename,'_',++rotateanalyzer);
+    snprintf(filename,sizeof(newFile),"%s",newFile); 
+    //FP = fopen((const char *)newFile, "wb");
+    if(rotateanalyzer > file_id)
+        rotateanalyzer = 0;
+  }
 
-  FP = fopen((const char *)filename, "wb");
+    FP = fopen((const char *)filename, "wb");
+
   if(!FP)
     {
       FATAL_ERROR("Fatal error while creating the new file exiting..%s\n",strerror(errno));
