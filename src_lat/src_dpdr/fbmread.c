@@ -4,6 +4,7 @@
 extern struct rte_ring    * intermediate_ring;
 extern struct rte_mempool * pktmbuf_pool;
 extern struct lcore_conf lcore_conf[RTE_MAX_LCORE];
+extern int do_shutdown;
 
 int en_sys_ports;
 int readportid[MAX_PORT];

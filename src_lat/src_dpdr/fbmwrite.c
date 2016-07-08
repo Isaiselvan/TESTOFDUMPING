@@ -6,6 +6,7 @@ extern void sig_handler(int signo);
 extern int snaplen;
 extern struct rte_ring    * intermediate_ring;
 extern struct rte_mempool * pktmbuf_pool;
+extern int do_shutdown;
 
 uint64_t seconds_rotation = -1;
 uint64_t max_packets  = -1;
@@ -169,7 +170,7 @@ inline int FlushToFile(__rte_unused void *param)
     {
      int rc = fwrite(filechunk, blockSize, bufferidx, FP);
      if (rc < bufferidx)
-         FATAL_ERROR("Error while writing to file \n") ;
+         PRINT_INFO("FATAL: Error while writing to file \n") ;
      //seekbefore = bufferidx % blockSize;
      //fseek(FP, -seekbefore, SEEK_CUR); 
    //  PRINT_INFO("Writing to file \n");

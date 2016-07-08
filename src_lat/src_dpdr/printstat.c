@@ -104,7 +104,10 @@ int Statistics_lcore(__attribute__((unused)) void * arg){
                          PRINT_INFO("\n failed to rename file %s\n", file_name_rotated); 
                            file_name_moveG[0] = '\0';
                         }*/
-         usleep(1);
+         
+                     if (unlikely(do_shutdown))
+			break;
+         usleep(100);
         }
         return 0; 
 }
@@ -133,7 +136,7 @@ void sig_handler(int signo)
         char file_name_move[1000];
 
         /* Catch just SIGINT */
-        if (signo == SIGINT){
+        //if (signo == SIGINT){
 
                 /* Signal the shutdown */
                 do_shutdown=1;
@@ -150,6 +153,7 @@ void sig_handler(int signo)
                 ret = gettimeofday(&t_end, NULL);
                 if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
                 diff = t_end.tv_sec - start_secs;
+                PRINT_INFO("Received signal %d \n", signo);
                 printf("The capture lasted %ld seconds.\n", diff);
                 print_stats();
 
@@ -160,7 +164,7 @@ void sig_handler(int signo)
                         if (rename (file_name_rotated, file_name_move))
                 printf("\n failed to rename file %s\n", file_name_rotated);
                 exit(0);
-        }
+        //}
 }
 
 

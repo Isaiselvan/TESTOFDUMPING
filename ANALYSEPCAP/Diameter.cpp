@@ -156,15 +156,22 @@ Diameter::Diameter(char *dMsg)
          msgRemaining -= avpLength + roundoff;
          avpStartWord += (avpLength+roundoff)/2;
      }
+//TESTING 
+//HOPID
+     static uint64_t testHopid= 0;
+     if(testHopid == 1000000)
+         testHopid = 0;
 
      request = commandFlag & 0x80;
     if(request)
     {
        request = 1;
+       hopIdentifier = ++testHopid; 
     }
     else
     {
        request = 0;
+       hopIdentifier = 1000000 - testHopid;
     }
 }
 

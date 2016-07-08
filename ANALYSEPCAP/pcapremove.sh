@@ -4,7 +4,7 @@
 cd /apps/opt/LIBTRACE/test/
 
 StartWeblink(){
-              #find /apps/opt/LIBTRACE/test/*.taken -type f -mmin +1 | xargs rm -f > /dev/null 
+              find /apps/opt/LIBTRACE/test/ -type f -mmin +1 | xargs rm -f > /dev/null 
               #find /apps/opt/LIBTRACE/test/*ready.pcap -type f | xargs rm -f > /dev/null 
               find /apps/opt/LIBTRACE/test/*.completed -type f | xargs rm -f > /dev/null
 }
