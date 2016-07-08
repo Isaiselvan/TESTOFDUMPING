@@ -21,6 +21,8 @@ class displayStats{
   
   private : 
   
+  int curIntStarttime;
+  int curIntEndtime;
   unsigned long int totalpkts;
   unsigned long int totaldatalen;
   unsigned long int pktdist[maxPktdistri];
@@ -34,7 +36,7 @@ class displayStats{
 
   std::map<uint32_t, std::map<uint32_t, protocolBase* > >::iterator it1;
   std::map<uint32_t, protocolBase* >::iterator it2;
-  std::map<uint32_t, std::map<uint32_t, protocolBase *> > *tmp ;//= NULL; 
+  std::map<uint32_t, std::map<uint32_t, protocolBase *> > *tmp; 
 
   Displaylayer layer;  
   
@@ -55,8 +57,6 @@ class displayStats{
   }
   public : 
   bool StatsAvailable ; //1st time call to dashboard 
-  int curIntStarttime;
-  int curIntEndtime;
   static displayStats * getdashB(Displaylayer lay = CORE_LAYER){
     
    if (displayBoard[lay] == NULL)

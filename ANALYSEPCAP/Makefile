@@ -9,6 +9,8 @@ APP_OBJS = tcpProto.o\
 	   displayStats.o\
 	   Diameter.o \
            GxInterface.o \
+           GyInterface.o \
+           S6bInterface.o \
 	   sip.o 
            
 

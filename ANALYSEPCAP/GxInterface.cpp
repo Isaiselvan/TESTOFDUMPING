@@ -11,16 +11,18 @@ GxInterface::GxInterface()
 
 int GxInterface::addPkt(Diameter &pkt)
 {
+    //std::cout << "ABHINAY:: Got a new packet. Printing Gx stats before adding packet." << std::endl;
+    //printStats();
     std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
     std::map<uint32_t, unsigned int>::iterator it1;
     std::map<uint32_t, unsigned int> tmp;
 
-    if(pkt.getCC() != CCRorA)
+    if(pkt.cc != CCRorA)
     {
         return 1;
     }
 
-    unsigned int reqtype = pkt.getReqType();
+    unsigned int reqtype = pkt.reqType;
     switch(reqtype)
     {
        case INITIAL:
@@ -33,7 +35,7 @@ int GxInterface::addPkt(Diameter &pkt)
            return 1;
     }
 
-    switch(pkt.getRequest())
+    switch(pkt.request)
     {
         case 1:
             /* Handle Request */
@@ -44,7 +46,7 @@ int GxInterface::addPkt(Diameter &pkt)
                 tmp =it->second;
             }
 
-            tmp[pkt.getHopIdentifier()] = pkt.getTimestamp();
+            tmp[pkt.hopIdentifier] = pkt.timeStamp;
             req[reqtype] = tmp;
             break;
 
@@ -56,14 +58,14 @@ int GxInterface::addPkt(Diameter &pkt)
                 tmp =it->second;
             }
             
-            it1 = tmp.find(pkt.getHopIdentifier());
+            it1 = tmp.find(pkt.hopIdentifier);
             if(it1 == tmp.end())
             {
                 GxStats.unKnwRes[reqtype-1]++;
             }
             else
             {
-                if(pkt.getResCode() < 3000 || pkt.getResCode() == 70001)
+                if(pkt.resCode < 3000 || pkt.resCode == 70001)
                 {
                     GxStats.succCount[reqtype-1]++;
                 }
@@ -72,17 +74,19 @@ int GxInterface::addPkt(Diameter &pkt)
                     GxStats.failCount[reqtype-1]++;
                 }
 
-                GxStats.latency[reqtype-1] = ((GxStats.latency[reqtype-1])*(GxStats.latencySize[reqtype-1]) + (pkt.getTimestamp()-(it1->second)) / (++GxStats.latencySize[reqtype-1]));
+                GxStats.latency[reqtype-1] = ((GxStats.latency[reqtype-1])*(GxStats.latencySize[reqtype-1]) + (pkt.timeStamp-(it1->second)) / (++GxStats.latencySize[reqtype-1]));
             }
 
             /* Delete the request from map */
-            tmp.erase(pkt.getHopIdentifier()); 
+            tmp.erase(pkt.hopIdentifier); 
             req[reqtype] = tmp;
             break;
 
         default:
             return 1;
     }
+    //std::cout << "ABHINAY:: Got a new packet. Printing Gx stats after adding packet." << std::endl;
+    //printStats();
     return 0;
 }
 
@@ -120,7 +124,6 @@ void GxInterface::printStats()
                                                           << "Latency="   << GxStats.latency[i]      << std::endl;
     }
 
-    /*
     std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
     std::map<uint32_t, unsigned int>::iterator it1;
     std::map<uint32_t, unsigned int> tmp;
@@ -145,7 +148,6 @@ void GxInterface::printStats()
             std::cout << "ABHINAY::hopId:" << it1->first << " Time:" << it1->second << std::endl; 
         }
     }
-    */
 }
 
 void GxInterface::clearStats()

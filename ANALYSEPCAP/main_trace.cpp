@@ -15,11 +15,18 @@
 #include "displayStats.h"
 #include "libtrace_parallel.h"
 #include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <syscall.h>
+#include <sstream>
 using namespace std;
 
 #define DIRPATH "/apps/opt/LIBTRACE/test/"
 #define MAX_THREAD 20
-const string pcapFileEndStr = "ready.pcap";
+string pcapFileEndStr = "ready.pcap";
+string fileNo;
+string logFileName="";
+
 
 std::ofstream logger("pcapanal.log");
 pthread_t threads[MAX_THREAD];
@@ -28,6 +35,24 @@ std::string protcolname[20];
 //uint64_t count = 0;
 //Dpi
 extern string _protoFilePath;
+
+bool SetThreadAttributes(int m_readeraffinity)
+{
+    if ( -1 == m_readeraffinity)
+       return false; // Default thread behaviour
+
+    int readtid = syscall(__NR_gettid);//syscall.h to get the pid associated with thread
+    pthread_t thread = pthread_self();
+    cpu_set_t csmask;
+    CPU_ZERO(&csmask);
+    CPU_SET(m_readeraffinity, &csmask);
+    
+    if ( pthread_setaffinity_np(thread, sizeof(cpu_set_t), &csmask) != 0 )
+    {
+        std::cerr << "Reader error on thread set cpu \n";
+        return false;
+    }
+}
 
 static void per_packet(libtrace_packet_t *packet)
 {
@@ -193,20 +218,23 @@ bool isPcapfileReady(string fileName)
 
 void usage()
 {
-  cerr << "PCAP_ANALY \n" 
-       << "	-l: log name\n" ; 
+  cerr << "PCAP_ANALY_TCPT \n" 
+       << "	-l: log name\n" 
+       << "	-c: core number\n" ; 
 }
 int parse_args(int argc, char **argv)
 {
 
     int option;
-     while ((option = getopt(argc, argv,"l:")) != -1)
+    int core = -1;
+     while ((option = getopt(argc, argv,"l:c:i:")) != -1)
     {
       switch (option) {
               case 'l' : 
                    if(logger)
                     logger.close(); 
 
+                   logFileName = optarg;
                    logger.open(optarg, std::ofstream::out | std::ofstream::app);
                    if (logger.fail()) {
                    cerr << "open failure as expected: " << strerror(errno) << '\n';
@@ -214,10 +242,43 @@ int parse_args(int argc, char **argv)
                    }
 
               break;
-              default : 
-              usage(); 
-              return -1; 
+
+              case 'c' :
+                 core = atoi(optarg);
+                 break;
+ 
+              case 'i':
+                 fileNo = optarg;
+                 pcapFileEndStr = "_" + fileNo  + "ready" + ".pcap";
+                 if(logFileName.size() == 0)
+                 {
+                     if(logger)
+                         logger.close();
+
+                     logFileName = "pcapanal_" + fileNo + ".log";
+                     logger.open(logFileName.c_str(), std::ofstream::out | std::ofstream::app);
+                     if (logger.fail())
+                     {
+                         cerr << "open failure as expected: " << strerror(errno) << '\n';
+                         return -1;
+                     }
+                 }
+                 break;
+ 
+              default: 
+                  usage(); 
+                  return -1; 
              }    
+    }
+
+    if(core == -1)
+    {
+        std::cout << "ABHINAY: core is not set" << std::endl;
+        usage();
+    }
+    else
+    {
+        SetThreadAttributes(core);
     }
 }
 

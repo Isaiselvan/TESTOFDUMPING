@@ -16,12 +16,12 @@ int GyInterface::addPkt(Diameter &pkt)
     std::map<uint32_t, unsigned int>::iterator it1;
     std::map<uint32_t, unsigned int> tmp;
 
-    if(pkt.getCC() != CCRorA)
+    if(pkt.cc != CCRorA)
     {
         return 1;
     }
 
-    unsigned int reqtype = pkt.getReqType();
+    unsigned int reqtype = pkt.reqType;
     switch(reqtype)
     {
        case INITIAL:
@@ -34,7 +34,7 @@ int GyInterface::addPkt(Diameter &pkt)
            return 1;
     }
 
-    switch(pkt.getRequest())
+    switch(pkt.request)
     {
         case 1:
             /* Handle Request */
@@ -45,7 +45,7 @@ int GyInterface::addPkt(Diameter &pkt)
                 tmp =it->second;
             }
 
-            tmp[pkt.getHopIdentifier()] = pkt.getTimestamp();
+            tmp[pkt.hopIdentifier] = pkt.timeStamp;
             req[reqtype] = tmp;
             break;
 
@@ -57,14 +57,14 @@ int GyInterface::addPkt(Diameter &pkt)
                 tmp =it->second;
             }
             
-            it1 = tmp.find(pkt.getHopIdentifier());
+            it1 = tmp.find(pkt.hopIdentifier);
             if(it1 == tmp.end())
             {
                 GyStats.unKnwRes[reqtype-1]++;
             }
             else
             {
-                if(pkt.getResCode() < 3000 || pkt.getResCode() == 70001)
+                if(pkt.resCode < 3000 || pkt.resCode == 70001)
                 {
                     GyStats.succCount[reqtype-1]++;
                 }
@@ -73,11 +73,11 @@ int GyInterface::addPkt(Diameter &pkt)
                     GyStats.failCount[reqtype-1]++;
                 }
 
-                GyStats.latency[reqtype-1] = ((GyStats.latency[reqtype-1])*(GyStats.latencySize[reqtype-1]) + (pkt.getTimestamp()-(it1->second)) / (++GyStats.latencySize[reqtype-1]));
+                GyStats.latency[reqtype-1] = ((GyStats.latency[reqtype-1])*(GyStats.latencySize[reqtype-1]) + (pkt.timeStamp-(it1->second)) / (++GyStats.latencySize[reqtype-1]));
             }
 
             /* Delete the request from map */
-            tmp.erase(pkt.getHopIdentifier()); 
+            tmp.erase(pkt.hopIdentifier); 
             req[reqtype] = tmp;
             break;
 

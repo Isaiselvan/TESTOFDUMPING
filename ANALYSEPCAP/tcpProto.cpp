@@ -1,17 +1,18 @@
 #include "tcpProto.h"
 #include "Interface.h"
 #include "GxInterface.h"
+#include "GyInterface.h"
+#include "S6bInterface.h"
 #include <time.h>
 
+static  GxInterface  *gxInterface  = NULL;
+static  GyInterface  *gyInterface  = NULL;
+static  S6BInterface *s6bInterface = NULL;
 int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
 {
- char timeBuf  [256]; 
- struct timeval tv;
- struct timezone tz;
- struct tm *tm;
  //DownLink flag can be set here to tcppkt
      m_totalpkts++;
-     m_totaldata+=tcppkt->getDataLen(); //includes Ip layer size complete packet size
+     m_totaldata+=tcppkt->getDataLen();
 
      switch(tcppkt->ethernetlayer.ether_type)
      {
@@ -45,23 +46,18 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
       
      //layerSeven.processPkt(pkt, *tcppkt);  //ABHINAY
      //m_pkt.push_back(tcppkt);
-     
+    
      // Add session logic
      if(tcppkt->srcPort == 3868 || tcppkt->dstPort == 3868)
      {
-         if(tcppkt->getDataLen() > 1800)
-            return 0;
-
          Diameter dPkt(tcppkt->pay_load);
-         dPkt.setTimeStamp(tcppkt->timeStamp);
+         dPkt.timeStamp = tcppkt->timeStamp;
          //dPkt.printPkt();
-         static Interface *interface;
+         Interface *interface = getInterface(dPkt);
          if(interface == NULL)
-         {
-             interface = new GxInterface;
-         }
+             return -1;
 
-         switch(interface->checkTime(dPkt.getTimestamp()))
+         switch(interface->checkTime(dPkt.timeStamp))
          {
              case 0:
                  break;
@@ -74,8 +70,43 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
                  interface->addPkt(dPkt);
                  break;
          }
-
      }
+     
+}
+
+Interface* protocolTCP::getInterface(Diameter dPkt)
+{
+    switch(dPkt.appId)
+    {
+        case GX:
+            if(gxInterface == NULL)
+            {
+                gxInterface = new GxInterface;
+                std::cout << "ABHINAY:: GxInterface is created." << std::endl;
+            }
+            return gxInterface;
+            break; 
+
+        case GY:
+            if(gyInterface == NULL)
+            {
+                std::cout << "ABHINAY:: GyInterface is created." << std::endl;
+                gyInterface = new GyInterface;
+            }
+            return gyInterface;
+            break; 
+        case S6B:
+            if(s6bInterface == NULL)
+            {
+                std::cout << "ABHINAY:: S6bInterface is created." << std::endl;
+                s6bInterface = new S6BInterface;
+            }
+            return s6bInterface;
+            break;
+
+        default:
+            return NULL; 
+    }
 }
 
 int protocolTCP::addSession(libtrace_packet_t *pkt,m_Packet tcppkt)

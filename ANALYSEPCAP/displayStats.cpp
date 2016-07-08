@@ -30,8 +30,7 @@ static protocolTCP *tcpStats = NULL;
         uint8_t ether_shost[6];
         uint8_t ether_dhost[6];
         int starttime = 0;
-        int pktlen = trace_get_wire_length(pkt);
-        //int caplen = trace_get_capture_length(pkt);
+        int pktlen =  trace_get_wire_length(pkt);
         int ipSize =0; 
         //memcpy(ether_shost, trace_get_source_mac(pkt),6);
         //memcpy(ether_dhost,trace_get_destination_mac(pkt), 6);
@@ -48,7 +47,7 @@ static protocolTCP *tcpStats = NULL;
 	if (rem == 0)
 		return -1;
         ipSize = rem;  
-        //caplen -= ipSize; 
+       
         switch(ethertype)
         {
             case TRACE_ETHERTYPE_IP:
@@ -68,7 +67,7 @@ static protocolTCP *tcpStats = NULL;
         //Time of packet trace_get_seconds
         starttime = trace_get_seconds(pkt);
         //std::cout << "ABHINAY:: seconds is :" << seconds << std::endl;
-        //caplen -= rem;
+
         if(ppkt == NULL)
         {
             ppkt = new m_Packet;
@@ -79,6 +78,10 @@ static protocolTCP *tcpStats = NULL;
         //memcpy(ppkt->ethernetlayer.ether_shost , ether_shost,6);
         ppkt->ethernetlayer.ether_type = ethertype; 
 		
+             if(ppkt == NULL)
+             {
+                 ppkt = new m_Packet;
+             }
              
              //Fill Ip Layer 
              if(ip)
@@ -99,7 +102,7 @@ static protocolTCP *tcpStats = NULL;
              ppkt->dataLen = pktlen;
              else 
              ppkt->dataLen = 0;
-
+             
              ppkt->timeStamp = starttime;
              
              ppkt->type = (libtrace_ipproto_t)proto;
@@ -126,8 +129,9 @@ static protocolTCP *tcpStats = NULL;
 
                if(payload && rem != 0)
                    ppkt->pay_load = payload;
-               else 
+               else
                    return -1;
+
                break;
             case TRACE_IPPROTO_UDP:
                 //Fill Layer4/5 details
@@ -141,8 +145,9 @@ static protocolTCP *tcpStats = NULL;
 
                 if(udp_payload && rem != 0) 
                     ppkt->pay_load = payload;
-                else
+                 else 
                     return -1;
+                    
             break;
             case TRACE_IPPROTO_SCTP:
                 break; 
@@ -151,13 +156,6 @@ static protocolTCP *tcpStats = NULL;
 	        return -1; // Support for other protocols can be extended..
             break;
         }
-             //caplen -= rem;
-
-             /*if(caplen > 0)
-             ppkt->capLen = caplen;
-             else
-             ppkt->capLen = 0; */
-             
  
          //Add pkt to protocolbase 
          if( addPkt(pkt,(libtrace_ipproto_t)proto, starttime) == -1)
@@ -199,8 +197,8 @@ static protocolTCP *tcpStats = NULL;
       dstip = trace_get_destination_address_string(ptrpkt, abhiBuffer, 200);
       ip = trace_get_source_address_string(ptrpkt, abhiBuffer, 200);
       */
-     // trace_ether_ntoa (ppkt->ethernetlayer.ether_shost, (char *)buff); //else if 
-      //std::string node(buff);
+      trace_ether_ntoa (ppkt->ethernetlayer.ether_shost, (char *)buff); //else if 
+      std::string node(buff);
 
      /*
      node = node + " IP=" + ip + " DSTIP=" + dstip;

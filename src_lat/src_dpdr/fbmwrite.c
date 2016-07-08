@@ -195,7 +195,7 @@ inline void createNewFile(char  *filename, int snaplen)
     snprintf(newFile,sizeof(newFile), "%s%c%d",filename,'_',++rotateanalyzer);
     snprintf(filename,sizeof(newFile),"%s",newFile); 
     //FP = fopen((const char *)newFile, "wb");
-    if(rotateanalyzer > file_id)
+    if(rotateanalyzer == file_id)
         rotateanalyzer = 0;
   }
 

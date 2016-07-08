@@ -17,7 +17,7 @@ int S6BInterface::addPkt(Diameter &pkt)
     std::map<uint32_t, unsigned int> tmp;
     MSGType msgType = DEFAULT;  
 
-    switch(pkt.getCC())
+    switch(pkt.cc)
     {
         case S6BAA:
             msgType = AA;
@@ -29,7 +29,7 @@ int S6BInterface::addPkt(Diameter &pkt)
             return 1;
     }
 
-    switch(pkt.getRequest())
+    switch(pkt.request)
     {
         case 1:
             /* Handle Request */
@@ -40,7 +40,7 @@ int S6BInterface::addPkt(Diameter &pkt)
                 tmp =it->second;
             }
 
-            tmp[pkt.getHopIdentifier()] = pkt.getTimestamp();
+            tmp[pkt.hopIdentifier] = pkt.timeStamp;
             req[msgType] = tmp;
             break;
 
@@ -52,14 +52,14 @@ int S6BInterface::addPkt(Diameter &pkt)
                 tmp =it->second;
             }
             
-            it1 = tmp.find(pkt.getHopIdentifier());
+            it1 = tmp.find(pkt.hopIdentifier);
             if(it1 == tmp.end())
             {
                 s6bStats.unKnwRes[msgType]++;
             }
             else
             {
-                if(pkt.getResCode() < 3000 || pkt.getResCode() == 70001)
+                if(pkt.resCode < 3000 || pkt.resCode == 70001)
                 {
                     s6bStats.succCount[msgType]++;
                 }
@@ -68,11 +68,11 @@ int S6BInterface::addPkt(Diameter &pkt)
                     s6bStats.failCount[msgType]++;
                 }
 
-                s6bStats.latency[msgType] = ((s6bStats.latency[msgType])*(s6bStats.latencySize[msgType]) + (pkt.getTimestamp()-(it1->second)) / (++s6bStats.latencySize[msgType]));
+                s6bStats.latency[msgType] = ((s6bStats.latency[msgType])*(s6bStats.latencySize[msgType]) + (pkt.timeStamp-(it1->second)) / (++s6bStats.latencySize[msgType]));
             }
 
             /* Delete the request from map */
-            tmp.erase(pkt.getHopIdentifier()); 
+            tmp.erase(pkt.hopIdentifier); 
             req[msgType] = tmp;
             break;
 

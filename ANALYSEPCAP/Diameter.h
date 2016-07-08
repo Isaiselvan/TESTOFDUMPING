@@ -43,7 +43,7 @@ enum AVPCode
 
 class Diameter
 {
-    private:
+   public:
         unsigned int msgLength;
         uint8_t commandFlag;
         uint8_t request;
@@ -55,48 +55,12 @@ class Diameter
         unsigned int reqType;
         unsigned int timeStamp;
 
-   public:
         Diameter(char* Msg);
         void printPkt();
 
-        void setTimeStamp(unsigned int time)
+        inline void setTimeStamp(unsigned int time)
         {
             timeStamp = time;
-        }
-
-        unsigned int getCC()
-        {
-            return cc;
-        }
-
-        uint8_t getRequest()
-        {
-            return request;
-        }
-
-        uint32_t getHopIdentifier()
-        {
-            return hopIdentifier;
-        }
-
-        unsigned int getReqType()
-        {
-            return reqType;
-        }
-
-        unsigned int getTimestamp()
-        {
-            return timeStamp;
-        }
-
-        unsigned int getResCode()
-        {
-            return resCode;
-        }
-
-        unsigned int getAppid()
-        {
-            return appId;
         }
 };
 #endif 
