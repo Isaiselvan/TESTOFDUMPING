@@ -131,7 +131,7 @@ int packet_consumer(__attribute__((unused)) void * arg){
                 packet = rte_pktmbuf_mtod(m[idx], u_char *);
                 sf_hdr.ts.tv_sec = t_pack.tv_sec;
                 sf_hdr.ts.tv_usec = t_pack.tv_usec;
-                sf_hdr.caplen = (rte_pktmbuf_data_len(m[idx]) < snaplen) ? rte_pktmbuf_data_len(m[idx]): snaplen;
+                sf_hdr.caplen = rte_pktmbuf_data_len(m[idx]) ; //(rte_pktmbuf_data_len(m[idx]) < snaplen) ? rte_pktmbuf_data_len(m[idx]): snaplen; 
                 sf_hdr.len = m[idx]->pkt_len;
                 
                 /* Write on pcap */
