@@ -72,7 +72,7 @@ Diameter::Diameter(char *dMsg)
     //dMsg = (char *)&buf;
 
     bool resCodeAvp=false, CCReqAvp=false;
-
+    reqType = 0;
     cc = extractDword(dMsg, 2, 8, 24);
     appId = extractDword(dMsg, 4, 0, 32);
 
@@ -135,6 +135,8 @@ Diameter::Diameter(char *dMsg)
 
              case 416:
                  reqType = extractDword(dMsg, avpStartWord + 4, 0, (avpLength - 8) * 8);
+                 if(reqType > 4)
+                   reqType = 0;
                  CCReqAvp = true;
                  break;
          }
@@ -158,21 +160,30 @@ Diameter::Diameter(char *dMsg)
      }
 //TESTING 
 //HOPID
-     static uint64_t testHopid= 0;
-     if(testHopid == 1000000)
-         testHopid = 0;
+//
+     static uint64_t reqHopid= 0;
+     static uint64_t resHopid= 1000;
 
+     if(reqHopid == 1000)
+         reqHopid = 0;
+   
+     if(resHopid == 0)
+          resHopid = 1000; 
+    
      request = commandFlag & 0x80;
     if(request)
     {
        request = 1;
-       hopIdentifier = ++testHopid; 
+      if(appId == GX)    
+      hopIdentifier = ++reqHopid; 
     }
     else
     {
        request = 0;
-       hopIdentifier = 1000000 - testHopid;
+       if(appId == GX)
+       hopIdentifier = resHopid--;
     }
+
 }
 
 

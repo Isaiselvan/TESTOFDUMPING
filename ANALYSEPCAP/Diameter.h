@@ -46,7 +46,7 @@ class Diameter
    public:
         unsigned int msgLength;
         uint8_t commandFlag;
-        uint8_t request;
+        int request;
         unsigned int cc;
         unsigned int appId;
         uint32_t hopIdentifier;
