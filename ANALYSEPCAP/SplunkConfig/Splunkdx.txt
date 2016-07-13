@@ -1,0 +1,292 @@
+-Percentage-
+splunk diameter sourcetype="diameter_gx" | eval s_perc = success*100/attempts | eval s_fail = fail*100/attempts | eval s_timeout = timeout*100/attempts 
+
+
+<dashboard>
+  <label>GX:Key Performance Indicators</label>
+  <row>
+    <panel>
+      <chart>
+        <title>Attempts</title>
+        <search>
+          <query>| pivot gx_attempts1 EventObject sum(attempts) AS "attempts" SPLITROW _time AS _time PERIOD second SPLITCOL TYPE SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 1</query>
+          <earliest>1467722460</earliest>
+          <latest>1467722539</latest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.text"></option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    
+    <panel>
+      <chart>
+        <title>Avg Latency(ms)</title>
+        <search>
+          <query>| pivot gx_latency EventObject avg(latency) AS "Average of latency" SPLITROW _time AS _time PERIOD auto SPLITCOL TYPE SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 1</query>
+          <earliest>1467722460</earliest>
+          <latest>1467722539</latest>
+        </search>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY.text"></option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+      </chart>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <chart>
+        <title>Success</title>
+        <search>
+          <query>| pivot gx_failure EventObject avg(success) AS "Success" SPLITROW _time AS _time PERIOD second SPLITCOL TYPE SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 0</query>
+          <earliest>1467722460</earliest>
+          <latest>1467722539</latest>
+        </search>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY.text"></option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Failure</title>
+        <search>
+          <query>| pivot gx_failure EventObject avg(fail) AS "Failure" SPLITROW _time AS _time PERIOD second SPLITCOL TYPE SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 0</query>
+         <earliest>1467722460</earliest>
+          <latest>1467722539</latest>
+        </search>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY.text"></option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>TimeOut</title>
+        <search>
+          <query>| pivot gx_failure EventObject avg(timeout) AS "TimeOut" SPLITROW _time AS _time PERIOD second SPLITCOL TYPE SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 0</query>
+         <earliest>1467722460</earliest>
+          <latest>1467722539</latest>
+        </search>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY.text"></option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+      </chart>
+    </panel>
+  </row>
+   <row>
+    <panel>
+      <chart>
+        <title>Success rate(%)</title>
+        <search>
+          <query>| pivot gx_rate SearchObject avg(s_perc) AS "Percentage" SPLITROW _time AS _time PERIOD auto SPLITCOL TYPE SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 0</query>
+          <earliest>1467722460</earliest>
+          <latest>1467722539</latest>
+        </search>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY.text"></option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart.stackMode">stacked</option>
+      </chart>
+    </panel>
+    
+     <panel>
+      <chart>
+        <title>Failure rate(%)</title>
+        <search>
+          <query>| pivot gx_rate SearchObject avg(s_fail) AS "Percentage" SPLITROW _time AS _time PERIOD auto SPLITCOL TYPE SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 0</query>
+         <earliest>1467722460</earliest>
+          <latest>1467722539</latest>
+        </search>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY.text"></option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart.stackMode">stacked</option>
+      </chart>
+    </panel>
+    
+     <panel>
+      <chart>
+        <title>Timeout rate(%)</title>
+        <search>
+          <query>| pivot gx_rate SearchObject avg(s_timeout) AS "Percentage" SPLITROW _time AS _time PERIOD auto SPLITCOL TYPE SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 0</query>
+          <earliest>1467722460</earliest>
+          <latest>1467722539</latest>
+        </search>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.axisY.scale">log</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY.text"></option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart.stackMode">stacked</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>
