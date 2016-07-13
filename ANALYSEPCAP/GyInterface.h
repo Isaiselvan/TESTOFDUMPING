@@ -30,7 +30,7 @@ class GyInterface:public Interface
        std::map<unsigned int, std::map<uint32_t, unsigned int> > req;
 
        int addPkt(Diameter &pkt);
-       void printStats();
+       void printStats(std::string &node);
        void clearStats();
 
        GyInterface();

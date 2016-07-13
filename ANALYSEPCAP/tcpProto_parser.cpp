@@ -64,11 +64,11 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
 
       //if(dPkt.request > 1)
           //return -1;
-  char addrstr_src[INET6_ADDRSTRLEN];  
-  char addrstr_dst[INET6_ADDRSTRLEN];
-             inet_ntop(AF_INET6, &(tcppkt->ipv6.ip_src), addrstr_src, INET6_ADDRSTRLEN);
-             inet_ntop(AF_INET6, &(tcppkt->ipv6.ip_dst), addrstr_dst, INET6_ADDRSTRLEN);
-        static std::ofstream logger1("MetricsDump.log");
+    char addrstr_src[INET6_ADDRSTRLEN];  
+    char addrstr_dst[INET6_ADDRSTRLEN];
+    inet_ntop(AF_INET6, &(tcppkt->ipv6.ip_src), addrstr_src, INET6_ADDRSTRLEN);
+    inet_ntop(AF_INET6, &(tcppkt->ipv6.ip_dst), addrstr_dst, INET6_ADDRSTRLEN);
+    static std::ofstream logger1("MetricsDump.log");
     time_t curT = dPkt.timeStamp; 
     struct tm * curTimeInfo;
     char TimeBuf[300];

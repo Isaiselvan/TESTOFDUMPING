@@ -82,7 +82,7 @@ int S6BInterface::addPkt(Diameter &pkt)
     return 0;
 }
 
-void S6BInterface::printStats()
+void S6BInterface::printStats(std::string &node)
 {
     char TimeBuf[300];
     time_t curT = startTime;
@@ -91,7 +91,7 @@ void S6BInterface::printStats()
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
 
-    for(int i=0; i<3; i++)
+    for(int i=0; i< DEFAULT; i++)
     {
         std::string msgType;
         switch(i)
@@ -104,13 +104,29 @@ void S6BInterface::printStats()
                 break;
         }
 
-        std::cout << "splunk " << curTime << " DIAMETER " << "Interface=" << "S6B"                   << " "
-                                                          << "Type="      << msgType                 << " "
-                                                          << "Attempts=" << s6bStats.attempts[i]     << " "
-                                                          << "Success="  << s6bStats.succCount[i]    << " " 
-                                                          << "Fail="     << s6bStats.failCount[i]    << " " 
-                                                          << "Timeout="  << s6bStats.timeoutCount[i] << " " 
-                                                          << "Latency="  << s6bStats.latency[i]      << std::endl;
+        std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Att"  
+                                                          << " Kpv=" << s6bStats.attempts[i]     << std::endl;
+
+        std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Suc"
+                                                          << " Kpv="  << s6bStats.succCount[i]     << " " << std::endl;
+
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Fail"
+                                                          << " Kpv="      << s6bStats.failCount[i]    << " " << std::endl;
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Tout"
+                                                          << " Kpv="   << s6bStats.timeoutCount[i] << " " << std::endl;
+
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Laty"
+                                                          << " Kpv=" <<  (float)s6bStats.latency[i] << std::endl; 
     }
 
     /*

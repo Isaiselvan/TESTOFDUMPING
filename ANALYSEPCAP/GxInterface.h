@@ -29,7 +29,7 @@ class GxInterface:public Interface
      public:
        std::map<unsigned int, std::map<uint32_t, unsigned int> > req;
        int addPkt(Diameter &pkt);
-       void printStats();
+       void printStats(std::string &node);
        void clearStats();
 
        GxInterface();

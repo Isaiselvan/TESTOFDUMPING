@@ -87,7 +87,7 @@ int GyInterface::addPkt(Diameter &pkt)
     return 0;
 }
 
-void GyInterface::printStats()
+void GyInterface::printStats(std::string &node)
 {
     char TimeBuf[300];
     time_t curT = startTime;
@@ -96,7 +96,7 @@ void GyInterface::printStats()
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
 
-    for(int i=0; i<3; i++)
+    for(int i=0; i<EVENT; i++)
     {
         std::string msgType;
         switch(i)
@@ -112,13 +112,29 @@ void GyInterface::printStats()
                 break;
         }
 
-        std::cout << "splunk " << curTime << " DIAMETER " << "Interface=" << "Gy"                   << " "
-                                                          << "Type="      << msgType                << " "
-                                                          << "Attempts=" << GyStats.attempts[i]     << " "
-                                                          << "Success="  << GyStats.succCount[i]    << " " 
-                                                          << "Fail="     << GyStats.failCount[i]    << " " 
-                                                          << "Timeout="  << GyStats.timeoutCount[i] << " " 
-                                                          << "Latency="  << GyStats.latency[i]      << std::endl;
+        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Att"  
+                                                          << " Kpv=" << GyStats.attempts[i]     << std::endl;
+
+        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Suc"
+                                                          << " Kpv="  << GyStats.succCount[i]     << " " << std::endl;
+
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Fail"
+                                                          << " Kpv="      << GyStats.failCount[i]    << " " << std::endl;
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Tout"
+                                                          << " Kpv="   << GyStats.timeoutCount[i] << " " << std::endl;
+
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Laty"
+                                                          << " Kpv=" <<  (float)GyStats.latency[i] << std::endl; 
     }
 
     /*

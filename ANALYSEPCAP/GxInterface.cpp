@@ -90,7 +90,7 @@ int GxInterface::addPkt(Diameter &pkt)
     return 0;
 }
 
-void GxInterface::printStats()
+void GxInterface::printStats( std::string &node)
 {
     char TimeBuf[300];
     time_t curT = startTime;
@@ -99,7 +99,7 @@ void GxInterface::printStats()
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
 
-    for(int i=0; i<3; i++)
+    for(int i=0; i< EVENT; i++)
     {
         std::string msgType;
         switch(i)
@@ -114,14 +114,30 @@ void GxInterface::printStats()
                 msgType = "TERMINATE";
                 break;
         }
+        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Att"  
+                                                          << " Kpv=" << GxStats.attempts[i]     << std::endl;
 
-        std::cout << "splunk " << curTime << " DIAMETER " << "Interface=" << "Gx"                    << " "
-                                                          << "Type="      << msgType                 << " "
-                                                          << "Attempts="  << GxStats.attempts[i]     << " "
-                                                          << "Success="   << GxStats.succCount[i]    << " " 
-                                                          << "Fail="      << GxStats.failCount[i]    << " " 
-                                                          << "Timeout="   << GxStats.timeoutCount[i] << " " 
-                                                          << "Latency="   << GxStats.latency[i]      << std::endl;
+        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Suc"
+                                                          << " Kpv="  << GxStats.succCount[i]     << " " << std::endl;
+
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Fail"
+                                                          << " Kpv="      << GxStats.failCount[i]    << " " << std::endl;
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Tout"
+                                                          << " Kpv="      << GxStats.timeoutCount[i]    << " " << std::endl;
+
+
+       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+                                                          << "Ty="      << msgType                 << " "
+                                                          << "Kp=Laty"
+                                                          << " Kpv=" <<  (float)GxStats.latency[i] << std::endl; 
     }
 
     std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
@@ -134,19 +150,19 @@ void GxInterface::printStats()
         switch(reqtype)
         {
             case 1:
-                std::cout << "ABHINAY:: TIME OUT INITIAL REQUESTS" << std::endl;
+                //std::cout << "ABHINAY:: TIME OUT INITIAL REQUESTS" << std::endl;
                 break;
             case 2:
-                std::cout << "ABHINAY:: TIME OUT UPDATE REQUESTS" << std::endl;
+                //std::cout << "ABHINAY:: TIME OUT UPDATE REQUESTS" << std::endl;
                 break;
             case 3:
-                std::cout << "ABHINAY:: TIME OUT TERMINATE REQUESTS" << std::endl;
+                //std::cout << "ABHINAY:: TIME OUT TERMINATE REQUESTS" << std::endl;
                 break;
         }
-        for(it1 = tmp.begin(); it1 != tmp.end(); it1++)
-        {
-            std::cout << "ABHINAY::hopId:" << it1->first << " Time:" << it1->second << std::endl; 
-        }
+       // for(it1 = tmp.begin(); it1 != tmp.end(); it1++)
+       // {
+         //   std::cout << "ABHINAY::hopId:" << it1->first << " Time:" << it1->second << std::endl; 
+       // }
     }
 }
 

@@ -161,27 +161,17 @@ Diameter::Diameter(char *dMsg)
 //TESTING 
 //HOPID
 //
-     static uint64_t reqHopid= 0;
-     static uint64_t resHopid= 1000;
 
-     if(reqHopid == 1000)
-         reqHopid = 0;
    
-     if(resHopid == 0)
-          resHopid = 1000; 
     
      request = commandFlag & 0x80;
     if(request)
     {
        request = 1;
-      if(appId == GX)    
-      hopIdentifier = ++reqHopid; 
     }
     else
     {
        request = 0;
-       if(appId == GX)
-       hopIdentifier = resHopid--;
     }
 
 }

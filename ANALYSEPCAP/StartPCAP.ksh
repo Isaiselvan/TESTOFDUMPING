@@ -9,6 +9,7 @@ startanal() {
 ./PCAP_ANALY_TCPT -l pcapanal3.log -i 3 -c 5 > metrics3.log 2>&1 &
 ./PCAP_ANALY_TCPT -l pcapanal4.log -i 4 -c 4 > metrics4.log 2>&1 &
 ./PCAP_ANALY_TCPT -l pcapanal5.log -i 5 -c 3 > metrics5.log 2>&1 &
+./PCAP_ANALY_TCPT -l pcapanal1.log -i 1 -c 7 > MetricsDump.log 2>&1 &
 tail -f result.log | grep --line-buffered "Splunk" > splunk.log &
 #tail -f splunk.log
 }

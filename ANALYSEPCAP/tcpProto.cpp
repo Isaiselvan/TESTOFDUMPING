@@ -4,10 +4,12 @@
 #include "GyInterface.h"
 #include "S6bInterface.h"
 #include <time.h>
+#include <unordered_map>
 
-static  GxInterface  *gxInterface  = NULL;
-static  GyInterface  *gyInterface  = NULL;
-static  S6BInterface *s6bInterface = NULL;
+std::unordered_map <std::string, GxInterface  * > GxMap;
+std::unordered_map <std::string, GyInterface  * > GyMap;
+std::unordered_map <std::string, S6BInterface * > S6bMap;
+
 int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
 {
  //DownLink flag can be set here to tcppkt
@@ -53,7 +55,38 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
          Diameter dPkt(tcppkt->pay_load);
          dPkt.timeStamp = tcppkt->timeStamp;
          //dPkt.printPkt();
-         Interface *interface = getInterface(dPkt);
+         //
+    std::string ip , dstip, node;
+    switch (tcppkt->ipv) 
+    {
+        case 4:
+          
+         ip = inet_ntoa((tcppkt->ip4.ip_src));
+         dstip = inet_ntoa((tcppkt->ip4.ip_dst));
+         if(dPkt.request == 1) 
+          node = ip +"-"+ dstip;      
+         else
+          node = dstip +"-"+ip;
+        break;
+
+        case 6:
+
+         char addrstr[INET6_ADDRSTRLEN];
+         inet_ntop(AF_INET6, &(tcppkt->ipv6.ip_src), addrstr, INET6_ADDRSTRLEN);
+         ip = addrstr;
+         inet_ntop(AF_INET6, &(tcppkt->ipv6.ip_dst), addrstr, INET6_ADDRSTRLEN);
+         dstip = addrstr; 
+         if(dPkt.request == 1)
+          node = ip +"-"+ dstip;
+         else
+          node = dstip +"-"+ip;
+          break;
+
+         default :
+
+           return -1; 
+    }                                                                                                                                                
+         Interface *interface = getInterface(dPkt, node);
          if(interface == NULL)
              return -1;
 
@@ -65,7 +98,7 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
                  interface->addPkt(dPkt);
                  break;
              case 2:
-                 interface->printStats();
+                 interface->printStats(node);
                  interface->clearStats();
                  interface->addPkt(dPkt);
                  break;
@@ -74,33 +107,108 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
      
 }
 
-Interface* protocolTCP::getInterface(Diameter dPkt)
+Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
 {
+  GxInterface  *gxInterface  = NULL;
+  GyInterface  *gyInterface  = NULL;
+  S6BInterface *s6bInterface = NULL;
     switch(dPkt.appId)
     {
         case GX:
-            if(gxInterface == NULL)
-            {
-                gxInterface = new GxInterface;
-                std::cout << "ABHINAY:: GxInterface is created." << std::endl;
-            }
+           //std::unordered_map<std::string,double>::const_iterator got = GxMap.find (nodeip);
+
+            //if ( got == GxMap.end() )
+              gxInterface = GxMap[nodeip];// =  new GxInterface;
+            //else
+              if(!gxInterface)
+                {
+                gxInterface = new GxInterface; //gxInterface = my_map[nodeip];
+                //std::cout << "Creating new node " << nodeip << std::endl; 
+                GxMap[nodeip] = gxInterface;
+                }
+//Distinct HOH TEST starts here
+	      static uint64_t reqHopid= 0;
+	      static uint64_t resHopid= 10000;
+
+	      if(reqHopid == 10000)
+		      reqHopid = 0;
+
+	      if(resHopid == 0)
+		      resHopid = 10000;
+
+	      if(dPkt.request)
+	      {
+			      dPkt.hopIdentifier = ++reqHopid;
+	      }
+	      else
+	      {
+			      dPkt.hopIdentifier = resHopid--;
+	      }
+
+//Distinct HOH TEST ends here
+
             return gxInterface;
             break; 
 
         case GY:
-            if(gyInterface == NULL)
-            {
-                std::cout << "ABHINAY:: GyInterface is created." << std::endl;
-                gyInterface = new GyInterface;
-            }
+            gyInterface = GyMap[nodeip];
+            if(!gyInterface)
+                {
+                gyInterface = new GyInterface; //gxInterface = my_map[nodeip];
+                GyMap[nodeip] = gyInterface;
+                }
+          
+//Distinct HOH TEST starts here
+	      static uint64_t yreqHopid= 0;
+	      static uint64_t yresHopid= 10000;
+
+	      if(yreqHopid == 10000)
+		      yreqHopid = 0;
+
+	      if(yresHopid == 0)
+		      yresHopid = 10000;
+
+	      if(dPkt.request)
+	      {
+			      dPkt.hopIdentifier = ++yreqHopid;
+	      }
+	      else
+	      {
+			      dPkt.hopIdentifier = yresHopid--;
+	      }
+
+//Distinct HOH TEST ends here
+
             return gyInterface;
             break; 
         case S6B:
-            if(s6bInterface == NULL)
-            {
-                std::cout << "ABHINAY:: S6bInterface is created." << std::endl;
-                s6bInterface = new S6BInterface;
-            }
+            s6bInterface = S6bMap[nodeip]; 
+            if(!s6bInterface)
+                {
+                 s6bInterface = new S6BInterface; //gxInterface = my_map[nodeip];
+                 S6bMap[nodeip] = s6bInterface;
+                }
+//Distinct HOH TEST starts here
+	      static uint64_t sreqHopid= 0;
+	      static uint64_t sresHopid= 10000;
+
+	      if(sreqHopid == 10000)
+		      sreqHopid = 0;
+
+	      if(sresHopid == 0)
+		      sresHopid = 10000;
+
+	      if(dPkt.request)
+	      {
+			      dPkt.hopIdentifier = ++sreqHopid;
+	      }
+	      else
+	      {
+			      dPkt.hopIdentifier = sresHopid--;
+	      }
+
+//Distinct HOH TEST ends here
+ 
             return s6bInterface;
             break;
 

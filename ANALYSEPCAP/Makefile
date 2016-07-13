@@ -18,7 +18,7 @@ APP_OBJS = tcpProto.o\
 
 #LIBPATH = /usr/local/lib/
 
-#CPPFLAGS 
+CPPFLAGS += "-std=c++0x" 
 #LIBPATH  = -L /usr/local/lib/
 #NDPIINC = -I /usr/local/include/libndpi-1.7.1/libndpi/
 LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
