@@ -128,13 +128,13 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
                 }
 //Distinct HOH TEST starts here
 	      static uint64_t reqHopid= 0;
-	      static uint64_t resHopid= 10000;
+	      static uint64_t resHopid= 100000;
 
-	      if(reqHopid == 10000)
+	      if(reqHopid == 100000)
 		      reqHopid = 0;
 
 	      if(resHopid == 0)
-		      resHopid = 10000;
+		      resHopid = 100000;
 
 	      if(dPkt.request)
 	      {

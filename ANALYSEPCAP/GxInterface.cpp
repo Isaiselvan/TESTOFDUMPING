@@ -1,5 +1,5 @@
 #include "GxInterface.h"
-#include <map>
+#include <unordered_map>
 #include <string>
 
 GxInterface::GxInterface()
@@ -11,11 +11,11 @@ GxInterface::GxInterface()
 
 int GxInterface::addPkt(Diameter &pkt)
 {
-    //std::cout << "ABHINAY:: Got a new packet. Printing Gx stats before adding packet." << std::endl;
+    //std::cout << "ABHINAY:: Got a new packet with time stamp:" << pkt.timeStamp << std::endl;
     //printStats();
-    std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
-    std::map<uint32_t, unsigned int>::iterator it1;
-    std::map<uint32_t, unsigned int> tmp;
+    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
+    std::unordered_map<uint32_t, unsigned int>::iterator it1;
+    std::unordered_map<uint32_t, unsigned int> tmp;
 
     if(pkt.cc != CCRorA)
     {
@@ -40,58 +40,73 @@ int GxInterface::addPkt(Diameter &pkt)
         case 1:
             /* Handle Request */
             GxStats.attempts[reqtype-1]++;
-            it = req.find(reqtype);
-            if(it != req.end())
-            {
-                tmp =it->second;
-            }
-
-            tmp[pkt.hopIdentifier] = pkt.timeStamp;
-            req[reqtype] = tmp;
+            req[reqtype][pkt.hopIdentifier] = pkt.timeStamp;
             break;
 
         case 0:
             /* Handle Response */
-            it =  req.find(reqtype);
-            if(it != req.end())
-            {
-                tmp =it->second;
-            }
             
-            it1 = tmp.find(pkt.hopIdentifier);
-            if(it1 == tmp.end())
+            if(pkt.resCode < 3000 || pkt.resCode == 70001)
             {
-                GxStats.unKnwRes[reqtype-1]++;
+                GxStats.succCount[reqtype-1]++;
             }
             else
             {
-                if(pkt.resCode < 3000 || pkt.resCode == 70001)
-                {
-                    GxStats.succCount[reqtype-1]++;
-                }
-                else
-                {
-                    GxStats.failCount[reqtype-1]++;
-                }
-
-                GxStats.latency[reqtype-1] = ((GxStats.latency[reqtype-1])*(GxStats.latencySize[reqtype-1]) + (pkt.timeStamp-(it1->second)) / (++GxStats.latencySize[reqtype-1]));
+                GxStats.failCount[reqtype-1]++;
             }
+            res[reqtype][pkt.hopIdentifier] = pkt.timeStamp;
 
-            /* Delete the request from map */
-            tmp.erase(pkt.hopIdentifier); 
-            req[reqtype] = tmp;
             break;
 
         default:
             return 1;
     }
-    //std::cout << "ABHINAY:: Got a new packet. Printing Gx stats after adding packet." << std::endl;
-    //printStats();
     return 0;
 }
 
-void GxInterface::printStats( std::string &node)
+void GxInterface::printStats(std::string &node)
 {
+    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
+    std::unordered_map<uint32_t, unsigned int>::iterator it1;
+    std::unordered_map<uint32_t, unsigned int> *tmp;
+
+    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator reqIt;
+    std::unordered_map<uint32_t, unsigned int>::iterator reqIt1;
+    std::unordered_map<uint32_t, unsigned int> *reqTmp;
+
+
+    it=res.begin();
+    while(it != res.end())
+    {
+        tmp=&(it->second);
+        it1=tmp->begin();
+        while(it1 != tmp->end())
+        {
+           reqIt = req.find(it->first);
+           //std::cout << "ABHINAY:: After reqIt" << std::endl;
+           if (reqIt != req.end())
+           {
+               reqTmp = &(reqIt->second);
+               reqIt1 = reqTmp->find(it1->first);
+               if(reqIt1 !=  reqTmp->end())
+               {
+                   GxStats.latency[it->first] += (it1->second)-(reqIt1->second);
+                   reqTmp->erase(reqIt1);
+               } 
+           }
+
+           //if(req[it->first][it1->first] !=0)
+           //{
+           //    GxStats.latency[it->first] += (it1->second)-(req[it->first][it1->first]);
+              //std::cout << "Diff:" << (it1->second)-(req[it->first][it1->first]) << std::endl;
+           //}
+           it1++;
+        }
+
+        //std::cout << "ABHINAY LATENCY is :" << GxStats.latency[it->first] << std::endl;
+        it++;
+    }
+
     char TimeBuf[300];
     time_t curT = startTime;
     struct tm * curTimeInfo;
@@ -139,39 +154,17 @@ void GxInterface::printStats( std::string &node)
                                                           << "Kp=Laty"
                                                           << " Kpv=" <<  (float)GxStats.latency[i] << std::endl; 
     }
-
-    std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
-    std::map<uint32_t, unsigned int>::iterator it1;
-    std::map<uint32_t, unsigned int> tmp;
-    for(it = req.begin(); it != req.end(); it++)
-    {
-        int reqtype = it->first;
-        tmp = it->second;
-        switch(reqtype)
-        {
-            case 1:
-                //std::cout << "ABHINAY:: TIME OUT INITIAL REQUESTS" << std::endl;
-                break;
-            case 2:
-                //std::cout << "ABHINAY:: TIME OUT UPDATE REQUESTS" << std::endl;
-                break;
-            case 3:
-                //std::cout << "ABHINAY:: TIME OUT TERMINATE REQUESTS" << std::endl;
-                break;
-        }
-       // for(it1 = tmp.begin(); it1 != tmp.end(); it1++)
-       // {
-         //   std::cout << "ABHINAY::hopId:" << it1->first << " Time:" << it1->second << std::endl; 
-       // }
-    }
 }
 
 void GxInterface::clearStats()
 {
     memset(&GxStats,0,sizeof(CCGxStats));
-    std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
-    std::map<uint32_t, unsigned int>::iterator it1;
-    std::map<uint32_t, unsigned int> tmp;
+    req.clear();
+    res.clear();
+    /*
+    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
+    std::unordered_map<uint32_t, unsigned int>::iterator it1;
+    std::unordered_map<uint32_t, unsigned int> tmp;
     for(it = req.begin(); it != req.end(); it++)
     {
         int reqtype = it->first;
@@ -182,8 +175,10 @@ void GxInterface::clearStats()
             if(it1->second + DIAMETER_TIMEOUT < endTime)
             {
                 GxStats.timeoutCount[reqtype-1]++;
-                tmp.erase(it1->first); 
+                it1=tmp.erase(it1->first); 
             }
         }
+        req[reqtype] = tmp;
     }
+    */
 }

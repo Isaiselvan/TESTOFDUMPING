@@ -1,5 +1,5 @@
 #include "GyInterface.h"
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <time.h>
 
@@ -12,9 +12,9 @@ GyInterface::GyInterface()
 
 int GyInterface::addPkt(Diameter &pkt)
 {
-    std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
-    std::map<uint32_t, unsigned int>::iterator it1;
-    std::map<uint32_t, unsigned int> tmp;
+    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
+    std::unordered_map<uint32_t, unsigned int>::iterator it1;
+    std::unordered_map<uint32_t, unsigned int> tmp;
 
     if(pkt.cc != CCRorA)
     {
@@ -39,47 +39,20 @@ int GyInterface::addPkt(Diameter &pkt)
         case 1:
             /* Handle Request */
             GyStats.attempts[reqtype-1]++;
-            it = req.find(reqtype);
-            if(it != req.end())
-            {
-                tmp =it->second;
-            }
-
-            tmp[pkt.hopIdentifier] = pkt.timeStamp;
-            req[reqtype] = tmp;
+            req[reqtype][pkt.hopIdentifier] = pkt.timeStamp;
             break;
 
         case 0:
-            /* Handle Response */
-            it =  req.find(reqtype);
-            if(it != req.end())
-            {
-                tmp =it->second;
-            }
-            
-            it1 = tmp.find(pkt.hopIdentifier);
-            if(it1 == tmp.end())
-            {
-                GyStats.unKnwRes[reqtype-1]++;
-            }
-            else
-            {
-                if(pkt.resCode < 3000 || pkt.resCode == 70001)
-                {
-                    GyStats.succCount[reqtype-1]++;
-                }
-                else
-                {
-                    GyStats.failCount[reqtype-1]++;
-                }
-
-                GyStats.latency[reqtype-1] = ((GyStats.latency[reqtype-1])*(GyStats.latencySize[reqtype-1]) + (pkt.timeStamp-(it1->second)) / (++GyStats.latencySize[reqtype-1]));
-            }
-
-            /* Delete the request from map */
-            tmp.erase(pkt.hopIdentifier); 
-            req[reqtype] = tmp;
-            break;
+           if(pkt.resCode < 3000 || pkt.resCode == 70001)
+           {
+               GyStats.succCount[reqtype-1]++;
+           }
+           else
+           {
+                GyStats.failCount[reqtype-1]++;
+           }
+           res[reqtype][pkt.hopIdentifier] = pkt.timeStamp;
+           break;
 
         default:
             return 1;
@@ -89,6 +62,47 @@ int GyInterface::addPkt(Diameter &pkt)
 
 void GyInterface::printStats(std::string &node)
 {
+    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
+    std::unordered_map<uint32_t, unsigned int>::iterator it1;
+    std::unordered_map<uint32_t, unsigned int> *tmp;
+
+    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator reqIt;
+    std::unordered_map<uint32_t, unsigned int>::iterator reqIt1;
+    std::unordered_map<uint32_t, unsigned int> *reqTmp;
+
+
+    it=res.begin();
+    while(it != res.end())
+    {
+        tmp=&(it->second);
+        it1=tmp->begin();
+        while(it1 != tmp->end())
+        {
+           reqIt = req.find(it->first);
+           //std::cout << "ABHINAY:: After reqIt" << std::endl;
+           if (reqIt != req.end())
+           {
+               reqTmp = &(reqIt->second);
+               reqIt1 = reqTmp->find(it1->first);
+               if(reqIt1 !=  reqTmp->end())
+               {
+                   GyStats.latency[it->first] += (it1->second)-(reqIt1->second);
+                   reqTmp->erase(reqIt1);
+               } 
+           }
+
+           //if(req[it->first][it1->first] !=0)
+           //{
+           //    GyStats.latency[it->first] += (it1->second)-(req[it->first][it1->first]);
+              //std::cout << "Diff:" << (it1->second)-(req[it->first][it1->first]) << std::endl;
+           //}
+           it1++;
+        }
+
+        //std::cout << "ABHINAY LATENCY is :" << GyStats.latency[it->first] << std::endl;
+        it++;
+    }
+
     char TimeBuf[300];
     time_t curT = startTime;
     struct tm * curTimeInfo;
@@ -96,7 +110,7 @@ void GyInterface::printStats(std::string &node)
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
 
-    for(int i=0; i<EVENT; i++)
+    for(int i=0; i<=EVENT; i++)
     {
         std::string msgType;
         switch(i)
@@ -108,6 +122,9 @@ void GyInterface::printStats(std::string &node)
                 msgType = "UPDATE";
                 break;
             case 2:
+                msgType = "TERMINATE";
+                break;
+            case 4:
                 msgType = "TERMINATE";
                 break;
         }
@@ -137,52 +154,11 @@ void GyInterface::printStats(std::string &node)
                                                           << " Kpv=" <<  (float)GyStats.latency[i] << std::endl; 
     }
 
-    /*
-    std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
-    std::map<uint32_t, unsigned int>::iterator it1;
-    std::map<uint32_t, unsigned int> tmp;
-    for(it = req.begin(); it != req.end(); it++)
-    {
-        int reqtype = it->first;
-        tmp = it->second;
-        switch(reqtype)
-        {
-            case 1:
-                std::cout << "ABHINAY:: TIME OUT INITIAL REQUESTS" << std::endl;
-                break;
-            case 2:
-                std::cout << "ABHINAY:: TIME OUT UPDATE REQUESTS" << std::endl;
-                break;
-            case 3:
-                std::cout << "ABHINAY:: TIME OUT TERMINATE REQUESTS" << std::endl;
-                break;
-        }
-        for(it1 = tmp.begin(); it1 != tmp.end(); it1++)
-        {
-            std::cout << "ABHINAY::hopId:" << it1->first << " Time:" << it1->second << std::endl; 
-        }
-    }
-    */
 }
 
 void GyInterface::clearStats()
 {
     memset(&GyStats,0,sizeof(CCGyStats));
-    std::map<unsigned int, std::map<uint32_t, unsigned int> >::iterator it;
-    std::map<uint32_t, unsigned int>::iterator it1;
-    std::map<uint32_t, unsigned int> tmp;
-    for(it = req.begin(); it != req.end(); it++)
-    {
-        int reqtype = it->first;
-        tmp = it->second;
-
-        for(it1 = tmp.begin(); it1 != tmp.end(); it1++)
-        {
-            if(it1->second + DIAMETER_TIMEOUT < endTime)
-            {
-                GyStats.timeoutCount[reqtype-1]++;
-                tmp.erase(it1->first); 
-            }
-        }
-    }
+    req.clear();
+    res.clear();
 }

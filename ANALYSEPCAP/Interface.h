@@ -18,7 +18,7 @@ class Interface
      public:
 
          virtual int addPkt(Diameter &pkt) =0;
-         virtual void printStats( std::string &node) =0;
+         virtual void printStats(std::string &node) =0;
          virtual void clearStats() =0;
 
          int checkTime(unsigned int newTime)

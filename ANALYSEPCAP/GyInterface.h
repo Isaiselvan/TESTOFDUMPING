@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include <map>
+#include <unordered_map>
 #include <stdio.h>
 #include "libtrace_parallel.h"
 #include "Diameter.h"
@@ -27,9 +27,11 @@ class GyInterface:public Interface
        CCGyStats GyStats;
 
      public:
-       std::map<unsigned int, std::map<uint32_t, unsigned int> > req;
+       std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> > req;
+       std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> > res;
 
        int addPkt(Diameter &pkt);
+       //void printStats();
        void printStats(std::string &node);
        void clearStats();
 

@@ -11,6 +11,8 @@ const WORD word_masks[]   = { 0x0000, 0x0001, 0x0003, 0x0007, 0x000F,
                               0x01FF, 0x03FF, 0x07FF, 0x0FFF,
                               0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF };
 
+#define MAX_COUNT 10000
+
 DWORD extractDword(char* buffer, int startWord, int startBit, int len)
 {
    DWORD value = 0, value1 = 0;
@@ -67,12 +69,8 @@ Diameter::Diameter(char *dMsg)
 {
     unsigned int  avpCode;
     unsigned int avpLength;
-    //char buf[5015];
-    //memcpy(&buf, dMsg, 5015);
-    //dMsg = (char *)&buf;
-
     bool resCodeAvp=false, CCReqAvp=false;
-    reqType = 0;
+
     cc = extractDword(dMsg, 2, 8, 24);
     appId = extractDword(dMsg, 4, 0, 32);
 
@@ -136,7 +134,7 @@ Diameter::Diameter(char *dMsg)
              case 416:
                  reqType = extractDword(dMsg, avpStartWord + 4, 0, (avpLength - 8) * 8);
                  if(reqType > 4)
-                   reqType = 0;
+                     reqType = 0;
                  CCReqAvp = true;
                  break;
          }
@@ -158,22 +156,27 @@ Diameter::Diameter(char *dMsg)
          msgRemaining -= avpLength + roundoff;
          avpStartWord += (avpLength+roundoff)/2;
      }
-//TESTING 
-//HOPID
-//
 
-   
-    
-     request = commandFlag & 0x80;
+    //static int count=0; //ISAI
+    request = commandFlag & 0x80;
     if(request)
     {
+       //hopIdentifier = 700 + count; //ISAI
+       //std::cout << "ABHINAY:: Req hop is:" << hopIdentifier << std::endl;
        request = 1;
     }
     else
     {
+       //hopIdentifier = 700 + (MAX_COUNT - count); //ISAI
+       //std::cout << "ABHINAY:: Res hop is:" << hopIdentifier << std::endl;
        request = 0;
+       //count++; //ISAI
     }
 
+    //if(count == MAX_COUNT) //ISAI
+    //{ //ISAI
+    //   count = 0; //ISAI
+    //}// ISAI
 }
 
 
