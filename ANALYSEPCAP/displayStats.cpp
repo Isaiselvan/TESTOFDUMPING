@@ -29,7 +29,7 @@ static protocolTCP *tcpStats = NULL;
 	void *ltheader = NULL;
         uint8_t ether_shost[6];
         uint8_t ether_dhost[6];
-        int starttime = 0;
+        double starttime = 0;
         int pktlen =  trace_get_wire_length(pkt);
         int ipSize =0; 
         //memcpy(ether_shost, trace_get_source_mac(pkt),6);

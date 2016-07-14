@@ -20,7 +20,7 @@ typedef struct Packet{ // Used as template refer other members to change name
   libtrace_udp_t udp;
   libtrace_tcp_t tcp;
   libtrace_ipproto_t type;
-  unsigned int timeStamp;
+  double timeStamp;
   int ipv;
   int dataLen;
   bool Downlink;// Set this flag in

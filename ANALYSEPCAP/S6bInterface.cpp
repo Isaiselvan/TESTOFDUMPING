@@ -12,10 +12,7 @@ S6BInterface::S6BInterface()
 
 int S6BInterface::addPkt(Diameter &pkt)
 {
-    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
-    std::unordered_map<uint32_t, unsigned int>::iterator it1;
-    std::unordered_map<uint32_t, unsigned int> tmp;
-    MSGType msgType = DEFAULT;  
+    msgType = DEFAULT;  
 
     switch(pkt.cc)
     {
@@ -58,63 +55,76 @@ int S6BInterface::addPkt(Diameter &pkt)
 
 void S6BInterface::printStats(std::string &node)
 {
-    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
-    std::unordered_map<uint32_t, unsigned int>::iterator it1;
-    std::unordered_map<uint32_t, unsigned int> *tmp;
-
-    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator reqIt;
-    std::unordered_map<uint32_t, unsigned int>::iterator reqIt1;
-    std::unordered_map<uint32_t, unsigned int> *reqTmp;
-
-
+    curT = startTime;
+    static int RTTCount;
+    /* Calculate latency */
     it=res.begin();
     while(it != res.end())
     {
+        RTTCount = 0;
         tmp=&(it->second);
         it1=tmp->begin();
         while(it1 != tmp->end())
         {
            reqIt = req.find(it->first);
-           //std::cout << "ABHINAY:: After reqIt" << std::endl;
            if (reqIt != req.end())
            {
                reqTmp = &(reqIt->second);
                reqIt1 = reqTmp->find(it1->first);
                if(reqIt1 !=  reqTmp->end())
                {
-                   s6bStats.latency[it->first] += (it1->second)-(reqIt1->second);
+                   s6bStats.latency[(it->first)] = ((RTTCount * s6bStats.latency[(it->first)]) + (it1->second)-(reqIt1->second))/(++RTTCount);
                    reqTmp->erase(reqIt1);
-               } 
+               }
+               else
+               {
+                   s6bStats.timeoutCount[(it->first)]++;
+               }                
            }
-
-           //if(req[it->first][it1->first] !=0)
-           //{
-           //    GxStats.latency[it->first] += (it1->second)-(req[it->first][it1->first]);
-              //std::cout << "Diff:" << (it1->second)-(req[it->first][it1->first]) << std::endl;
-           //}
+           else
+           {
+               s6bStats.timeoutCount[(it->first)]++;
+           }
            it1++;
         }
-
-        //std::cout << "ABHINAY LATENCY is :" << GxStats.latency[it->first] << std::endl;
         it++;
     }
 
-    char TimeBuf[300];
-    time_t curT = startTime;
-    struct tm * curTimeInfo;
+    /* Calculate Time out requests */
+    reqIt = req.begin();
+    while(reqIt != req.end())
+    {
+        reqTmp =&(reqIt->second);
+        reqIt1 = reqTmp->begin();
+        while(reqIt1 != reqTmp->end())
+        {
+            if(reqIt1->second + DIAMETER_TIMEOUT < endTime)
+            {
+                s6bStats.timeoutCount[(reqIt->first)]++;
+                reqTmp->erase(reqIt1++);
+            }
+            else
+            {
+                reqIt1++;
+            }
+        }
+        reqIt++;
+    }
+
+    /* Print Stats */
     curTimeInfo = localtime(&curT);
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
 
-    for(int i=0; i< 2; i++)
+    for(int i=AA; i<= TERM; i++)
     {
         std::string msgType;
         switch(i)
         {
-            case 0:
+            case AA:
                 msgType = "AA";
                 break;
-            case 1:
+            case TERM:
                 msgType = "TERMINATE";
                 break;
         }
@@ -141,7 +151,7 @@ void S6BInterface::printStats(std::string &node)
        std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
-                                                          << " Kpv=" <<  (float)s6bStats.latency[i] << std::endl; 
+                                                          << " Kpv=" << (int) (s6bStats.latency[i]*1000000) << std::endl; 
     }
 }
 

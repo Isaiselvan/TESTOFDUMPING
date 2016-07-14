@@ -8,20 +8,17 @@ GyInterface::GyInterface()
     memset(&GyStats,0,sizeof(CCGyStats));
     startTime = 0;
     endTime   = 0;
+    reqtype   = 0;
 }
 
 int GyInterface::addPkt(Diameter &pkt)
 {
-    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
-    std::unordered_map<uint32_t, unsigned int>::iterator it1;
-    std::unordered_map<uint32_t, unsigned int> tmp;
-
     if(pkt.cc != CCRorA)
     {
         return 1;
     }
 
-    unsigned int reqtype = pkt.reqType;
+    reqtype = pkt.reqType;
     switch(reqtype)
     {
        case INITIAL:
@@ -29,6 +26,8 @@ int GyInterface::addPkt(Diameter &pkt)
        case UPDATE:
            break;
        case TERMINATE:
+           break;
+       case EVENT:
            break;
        default :
            return 1;
@@ -62,96 +61,109 @@ int GyInterface::addPkt(Diameter &pkt)
 
 void GyInterface::printStats(std::string &node)
 {
-    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator it;
-    std::unordered_map<uint32_t, unsigned int>::iterator it1;
-    std::unordered_map<uint32_t, unsigned int> *tmp;
-
-    std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> >::iterator reqIt;
-    std::unordered_map<uint32_t, unsigned int>::iterator reqIt1;
-    std::unordered_map<uint32_t, unsigned int> *reqTmp;
-
-
+    curT = startTime;
+    static int RTTCount;
+    /* Calculate latency */
     it=res.begin();
     while(it != res.end())
     {
+        RTTCount = 0;
         tmp=&(it->second);
         it1=tmp->begin();
         while(it1 != tmp->end())
         {
            reqIt = req.find(it->first);
-           //std::cout << "ABHINAY:: After reqIt" << std::endl;
            if (reqIt != req.end())
            {
                reqTmp = &(reqIt->second);
                reqIt1 = reqTmp->find(it1->first);
                if(reqIt1 !=  reqTmp->end())
                {
-                   GyStats.latency[it->first] += (it1->second)-(reqIt1->second);
+                   GyStats.latency[(it->first)-1] = ((RTTCount * GyStats.latency[(it->first)-1]) + (it1->second)-(reqIt1->second))/(++RTTCount);
                    reqTmp->erase(reqIt1);
                } 
+               else
+               {
+                   GyStats.timeoutCount[(it->first)-1]++;
+               }
            }
-
-           //if(req[it->first][it1->first] !=0)
-           //{
-           //    GyStats.latency[it->first] += (it1->second)-(req[it->first][it1->first]);
-              //std::cout << "Diff:" << (it1->second)-(req[it->first][it1->first]) << std::endl;
-           //}
+           else
+           {
+               GyStats.timeoutCount[(it->first)-1]++;
+           }
            it1++;
         }
-
-        //std::cout << "ABHINAY LATENCY is :" << GyStats.latency[it->first] << std::endl;
         it++;
     }
 
-    char TimeBuf[300];
-    time_t curT = startTime;
-    struct tm * curTimeInfo;
+    /* Calculate Time out requests */
+    reqIt = req.begin();
+    while(reqIt != req.end())
+    {
+        reqTmp =&(reqIt->second);
+        reqIt1 = reqTmp->begin();
+        while(reqIt1 != reqTmp->end())
+        {
+            if(reqIt1->second + DIAMETER_TIMEOUT < endTime)
+            {
+                GyStats.timeoutCount[(reqIt->first)-1]++;
+                reqTmp->erase(reqIt1++);
+            }
+            else
+            {
+                reqIt1++;
+            }
+        }
+        reqIt++;
+    }
+
+    /* Print Stats */
     curTimeInfo = localtime(&curT);
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
 
-    for(int i=0; i<=EVENT; i++)
+    for(int i=INITIAL; i<=EVENT; i++)
     {
         std::string msgType;
         switch(i)
         {
-            case 0:
+            case INITIAL:
                 msgType = "INITIAL";
                 break;
-            case 1:
+            case UPDATE:
                 msgType = "UPDATE";
                 break;
-            case 2:
+            case TERMINATE:
                 msgType = "TERMINATE";
                 break;
-            case 4:
-                msgType = "TERMINATE";
+            case EVENT:
+                msgType = "EVENT";
                 break;
         }
 
         std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Att"  
-                                                          << " Kpv=" << GyStats.attempts[i]     << std::endl;
+                                                          << " Kpv=" << GyStats.attempts[i-1]     << std::endl;
 
         std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Suc"
-                                                          << " Kpv="  << GyStats.succCount[i]     << " " << std::endl;
+                                                          << " Kpv="  << GyStats.succCount[i-1]     << " " << std::endl;
 
        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Fail"
-                                                          << " Kpv="      << GyStats.failCount[i]    << " " << std::endl;
+                                                          << " Kpv="      << GyStats.failCount[i-1]    << " " << std::endl;
        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Tout"
-                                                          << " Kpv="   << GyStats.timeoutCount[i] << " " << std::endl;
+                                                          << " Kpv="   << GyStats.timeoutCount[i-1] << " " << std::endl;
 
        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
-                                                          << " Kpv=" <<  (float)GyStats.latency[i] << std::endl; 
+                                                          << " Kpv=" << (int) (GyStats.latency[i-1]*1000000) << std::endl; 
     }
 
 }

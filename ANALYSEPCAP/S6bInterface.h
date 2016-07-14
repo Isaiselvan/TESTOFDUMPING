@@ -33,10 +33,25 @@ class S6BInterface:public Interface
      private:
        S6BStats s6bStats;
 
-     public:
-       std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> > req;
-       std::unordered_map<unsigned int, std::unordered_map<uint32_t, unsigned int> > res;
+       /* Local variables */
+       char TimeBuf[300];
+       time_t curT;
+       struct tm * curTimeInfo;
+       MSGType msgType;  
 
+     public:
+       std::unordered_map<unsigned int, std::unordered_map<uint32_t, double> > req;
+       std::unordered_map<unsigned int, std::unordered_map<uint32_t, double> > res;
+
+       /* Iterators to traverse the req and res maps */
+       std::unordered_map<unsigned int, std::unordered_map<uint32_t, double> >::iterator it;
+       std::unordered_map<uint32_t, double>::iterator it1;
+       std::unordered_map<uint32_t, double> *tmp;
+
+       std::unordered_map<unsigned int, std::unordered_map<uint32_t, double> >::iterator reqIt;
+       std::unordered_map<uint32_t, double>::iterator reqIt1;
+       std::unordered_map<uint32_t, double> *reqTmp;
+       
        int addPkt(Diameter &pkt);
        //void printStats();
        void printStats(std::string &node);

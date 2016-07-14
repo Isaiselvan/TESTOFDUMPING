@@ -53,7 +53,7 @@ class Diameter
         int resCode;
         char *originHost;
         unsigned int reqType;
-        unsigned int timeStamp;
+        double timeStamp;
 
         Diameter(char* Msg);
         void printPkt();
