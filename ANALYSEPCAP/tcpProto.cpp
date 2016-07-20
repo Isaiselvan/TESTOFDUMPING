@@ -5,6 +5,7 @@
 #include "S6bInterface.h"
 #include <time.h>
 #include <unordered_map>
+#include <sstream>
 
 std::unordered_map <std::string, GxInterface  * > GxMap;
 std::unordered_map <std::string, GyInterface  * > GyMap;
@@ -98,6 +99,11 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
                  interface->addPkt(dPkt);
                  break;
              case 2:
+                 std::string src, dst;
+                 std::stringstream split(node);
+                 getline(split, src, '-');
+                 getline(split, dst, '-');
+                 node = "sip=" + src + " dip=" + dst;
                  interface->printStats(node);
                  interface->clearStats();
                  interface->addPkt(dPkt);
@@ -122,7 +128,7 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
             //else
               if(!gxInterface)
                 {
-                gxInterface = new GxInterface; //gxInterface = my_map[nodeip];
+                gxInterface = new GxInterface(nodeip); //gxInterface = my_map[nodeip];
                 //std::cout << "Creating new node " << nodeip << std::endl; 
                 GxMap[nodeip] = gxInterface;
                 }

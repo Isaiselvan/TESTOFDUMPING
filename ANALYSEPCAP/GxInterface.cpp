@@ -2,12 +2,13 @@
 #include <unordered_map>
 #include <string>
 
-GxInterface::GxInterface()
+GxInterface::GxInterface(std::string &nodepair)
 {
     memset(&GxStats,0,sizeof(CCGxStats));
     startTime = 0;
     endTime   = 0;
     reqtype   = 0;
+    initialiseShf(nodepair);
 }
 
 int GxInterface::addPkt(Diameter &pkt)
@@ -30,12 +31,22 @@ int GxInterface::addPkt(Diameter &pkt)
            return 1;
     }
 
+            char buf[250];
+            sprintf(buf,"%d",pkt.hopIdentifier);
+            std::string key(buf);
+            sprintf(buf,"%d",pkt.timeStamp);
+            std::string keyV(buf);
+            static int count = 0;
     switch(pkt.request)
     {
         case 1:
             /* Handle Request */
             GxStats.attempts[reqtype-1]++;
-            req[reqtype][pkt.hopIdentifier] = pkt.timeStamp;
+            shfrql->MakeHash(key.c_str(), key.length());
+            std::cout << "Count of items  " << count++ << " key=" << key << " KeyV=" << keyV << std::endl;       
+            req[reqtype][pkt.hopIdentifier] = shfrql->PutKeyVal(keyV.c_str(), keyV.length());
+                      //= pkt.timeStamp;
+             
             break;
 
         case 0:
@@ -137,27 +148,27 @@ void GxInterface::printStats(std::string &node)
                 msgType = "TERMINATE";
                 break;
         }
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Att"  
                                                           << " Kpv=" << GxStats.attempts[i-1]     << std::endl;
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Suc"
                                                           << " Kpv="  << GxStats.succCount[i-1]     << " " << std::endl;
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Fail"
                                                           << " Kpv="      << GxStats.failCount[i-1]    << " " << std::endl;
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Tout"
                                                           << " Kpv="      << GxStats.timeoutCount[i-1]    << " " << std::endl;
 
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
                                                           << " Kpv=" <<  (int)(GxStats.latency[i-1] * 1000000)<< std::endl; 

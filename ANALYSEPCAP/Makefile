@@ -11,6 +11,10 @@ APP_OBJS = tcpProto.o\
            GxInterface.o \
            GyInterface.o \
            S6bInterface.o \
+           murmurhash3.o \
+           SharedHashFile.o \
+           shf.o \
+           Interface.o \
 	   sip.o 
            
 
@@ -19,6 +23,7 @@ APP_OBJS = tcpProto.o\
 #LIBPATH = /usr/local/lib/
 
 CPPFLAGS += "-std=c++0x" 
+CFLAGS   += -Wimplicit -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes -std=gnu99
 #LIBPATH  = -L /usr/local/lib/
 #NDPIINC = -I /usr/local/include/libndpi-1.7.1/libndpi/
 LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
@@ -26,13 +31,17 @@ LIBFLAGS =  -lpthread  -lrt -ltrace -DUSER_TCP_UDP
 NDPILIB = -lndpi
 #LIBFLAGS = -DUSER_TCP_UDP
 
-#INCLUDEPATH  =  -I ./readerwriterqueue/
-
+INCLUDEPATH  =  -I SHF/ -I libshmht_dist_0.1_x86/include/ 
+LIBPATH += -L libshmht_dist_0.1_x86/lib/libshmht_0.1.so
+VPATH=./:SHF/
 .SUFFIXES:
 	 .cpp
 
 %.o:%.cpp
-	$(CXX) $(CPPFLAGS)  $(LIBFLAGS) -g -c $^  
+	$(CXX) $(CPPFLAGS) $(LIBPATH)  $(LIBFLAGS) $(INCLUDEPATH) -g -c $^  
+
+%.o:%.c
+	$(CC) $(CFLAGS) $(LIBPATH)  $(LIBFLAGS) $(INCLUDEPATH) -g -c $^
 
 
 .PHONY:
@@ -43,7 +52,7 @@ all: $(APPNAME) $(APPTCPTRACE)
 	
  
 $(APPNAME): $(APP_OBJS) 
-	$(CXX) -g main.cpp  -o $@ $(CPPFLAGS)  $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB)
+	$(CXX) -g main.cpp  -o $@ $(CPPFLAGS) $(INCLUDEPATH)   $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB)
 
 $(APPTCPTRACE): $(APP_OBJS)
 	$(CXX) -g main_trace.cpp -o $@ $(CPPFLAGS)  $(LIBPATH) $(LIBFLAGS)  $(APP_OBJS) $(NDPILIB) 

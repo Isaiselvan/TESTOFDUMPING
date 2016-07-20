@@ -129,26 +129,26 @@ void S6BInterface::printStats(std::string &node)
                 break;
         }
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Att"  
                                                           << " Kpv=" << s6bStats.attempts[i]     << std::endl;
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Suc"
                                                           << " Kpv="  << s6bStats.succCount[i]     << " " << std::endl;
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Fail"
                                                           << " Kpv="      << s6bStats.failCount[i]    << " " << std::endl;
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Tout"
                                                           << " Kpv="   << s6bStats.timeoutCount[i] << " " << std::endl;
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
                                                           << " Kpv=" << (int) (s6bStats.latency[i]*1000000) << std::endl; 

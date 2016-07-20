@@ -49,7 +49,7 @@ class GxInterface:public Interface
        void printStats(std::string &node);
        void clearStats();
 
-       GxInterface();
+       GxInterface(std::string &nodepair);
 };
 
 #endif

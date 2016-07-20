@@ -141,26 +141,26 @@ void GyInterface::printStats(std::string &node)
                 break;
         }
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Att"  
                                                           << " Kpv=" << GyStats.attempts[i-1]     << std::endl;
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Suc"
                                                           << " Kpv="  << GyStats.succCount[i-1]     << " " << std::endl;
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Fail"
                                                           << " Kpv="      << GyStats.failCount[i-1]    << " " << std::endl;
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Tout"
                                                           << " Kpv="   << GyStats.timeoutCount[i-1] << " " << std::endl;
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
                                                           << " Kpv=" << (int) (GyStats.latency[i-1]*1000000) << std::endl; 
