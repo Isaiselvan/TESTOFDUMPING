@@ -3,11 +3,15 @@
 #include <time.h>
 #include "S6bInterface.h"
 
-S6BInterface::S6BInterface()
+S6BInterface::S6BInterface(std::string &nodepair)
 {
     memset(&s6bStats,0,sizeof(s6bStats));
     startTime = 0;
     endTime   = 0;
+    TS        = 0;
+    uid       = 0;
+    RTT       = 0;
+    initialiseShf(nodepair);
 }
 
 int S6BInterface::addPkt(Diameter &pkt)
@@ -26,16 +30,53 @@ int S6BInterface::addPkt(Diameter &pkt)
             return 1;
     }
 
+    std::string key  = std::to_string(pkt.hopIdentifier);
+    std::string keyV =  std::to_string(pkt.timeStamp);
+
     switch(pkt.request)
     {
         case 1:
             /* Handle Request */
-            s6bStats.attempts[msgType]++;
-            req[msgType][pkt.hopIdentifier] = pkt.timeStamp;
+            shfrql->MakeHash(key.c_str(), key.length());
+            if(!shfrql->GetKeyValCopy())
+            {
+            req[msgType][pkt.hopIdentifier] = shfrql->PutKeyVal(keyV.c_str(), keyV.length());
+            }
             break;
 
         case 0:
             /* Handle Response */
+             uid = 0;
+             TS  = 0;
+             RTT = 0;
+             bzero(shf_val,sizeof(shf_val));
+
+             uid = req[msgType][pkt.hopIdentifier];
+             if(uid == 0)
+             {
+                shfrql->MakeHash(key.c_str(), key.length());
+                if(shfrql->GetKeyValCopy())
+                {
+                    TS=atof(shf_val);
+                    while(shfrql->DelKeyVal());
+                }
+                else
+                {
+                    res[msgType][pkt.hopIdentifier] = pkt.timeStamp;
+                    return 0;
+                }
+             }
+             else
+             {
+                if(shfrql->GetUidValCopy(uid))
+                {
+                    TS=atof(shf_val);
+                    while(shfrql->DelUidVal(uid));
+                    req[msgType].erase(pkt.hopIdentifier);
+                }
+            }
+
+            // Sucess or failure stats 
             if(pkt.resCode < 3000 || pkt.resCode == 70001)
             {
                 s6bStats.succCount[msgType]++;
@@ -44,7 +85,21 @@ int S6BInterface::addPkt(Diameter &pkt)
             {
                 s6bStats.failCount[msgType]++;
             }
-            res[msgType][pkt.hopIdentifier] = pkt.timeStamp;
+
+            // Latency stats
+            RTT = pkt.timeStamp - TS;
+            if(RTT > 40)
+            {
+                s6bStats.timeoutCount[msgType]++;
+                return 0;
+            }
+            else if(RTT < 0)
+            {
+                return 0;
+            }
+
+            s6bStats.latency[msgType] += RTT; 
+            s6bStats.latencySize[msgType]++;
             break;
 
         default:
@@ -56,60 +111,6 @@ int S6BInterface::addPkt(Diameter &pkt)
 void S6BInterface::printStats(std::string &node)
 {
     curT = startTime;
-    static int RTTCount;
-    /* Calculate latency */
-    it=res.begin();
-    while(it != res.end())
-    {
-        RTTCount = 0;
-        tmp=&(it->second);
-        it1=tmp->begin();
-        while(it1 != tmp->end())
-        {
-           reqIt = req.find(it->first);
-           if (reqIt != req.end())
-           {
-               reqTmp = &(reqIt->second);
-               reqIt1 = reqTmp->find(it1->first);
-               if(reqIt1 !=  reqTmp->end())
-               {
-                   s6bStats.latency[(it->first)] = ((RTTCount * s6bStats.latency[(it->first)]) + (it1->second)-(reqIt1->second))/(++RTTCount);
-                   reqTmp->erase(reqIt1);
-               }
-               else
-               {
-                   s6bStats.timeoutCount[(it->first)]++;
-               }                
-           }
-           else
-           {
-               s6bStats.timeoutCount[(it->first)]++;
-           }
-           it1++;
-        }
-        it++;
-    }
-
-    /* Calculate Time out requests */
-    reqIt = req.begin();
-    while(reqIt != req.end())
-    {
-        reqTmp =&(reqIt->second);
-        reqIt1 = reqTmp->begin();
-        while(reqIt1 != reqTmp->end())
-        {
-            if(reqIt1->second + DIAMETER_TIMEOUT < endTime)
-            {
-                s6bStats.timeoutCount[(reqIt->first)]++;
-                reqTmp->erase(reqIt1++);
-            }
-            else
-            {
-                reqIt1++;
-            }
-        }
-        reqIt++;
-    }
 
     /* Print Stats */
     curTimeInfo = localtime(&curT);
@@ -118,6 +119,21 @@ void S6BInterface::printStats(std::string &node)
 
     for(int i=AA; i<= TERM; i++)
     {
+        tmp = req[i];
+        for(it = tmp.begin(); it != tmp.end(); it++)
+        {
+            if(shfrql->GetUidValCopy(it->second))
+            {
+                TS=atof(shf_val);
+                if((endTime-TS) > DIAMETER_TIMEOUT)
+                {
+                    s6bStats.timeoutCount[i-1]++;
+                    shfrql->DelUidVal(it->second);
+                    req[i].erase(it->first);
+                }
+            }
+        }
+
         std::string msgType;
         switch(i)
         {
@@ -148,16 +164,19 @@ void S6BInterface::printStats(std::string &node)
                                                           << "Kp=Tout"
                                                           << " Kpv="   << s6bStats.timeoutCount[i] << " " << std::endl;
 
-       std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
+       if(s6bStats.latencySize[i] > 0)
+       {
+          std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
-                                                          << " Kpv=" << (int) (s6bStats.latency[i]*1000000) << std::endl; 
+                                                          << " Kpv=" << (int) ((s6bStats.latency[i]/s6bStats.latencySize[i])*1000) << std::endl; 
+       }
     }
 }
 
 void S6BInterface::clearStats()
 {
     memset(&s6bStats,0,sizeof(s6bStats));
-    req.clear();
+    //req.clear();
     res.clear();
 }

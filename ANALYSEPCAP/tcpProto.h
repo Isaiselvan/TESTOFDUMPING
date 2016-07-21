@@ -65,7 +65,7 @@ public:
    int addSession(libtrace_packet_t *pkt,m_Packet tcppkt);
    int getPercUplink();
    int getPercDownLink();
-   Interface* getInterface(Diameter dPkt, std::string &nodeip);
+   Interface* getInterface(Diameter &dPkt, std::string &nodeip);
 };
 
 #endif //TCP_PROTO_H

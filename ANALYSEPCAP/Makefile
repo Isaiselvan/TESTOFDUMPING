@@ -15,6 +15,7 @@ APP_OBJS = tcpProto.o\
            SharedHashFile.o \
            shf.o \
            Interface.o \
+           xxhash.o \
 	   sip.o 
            
 

@@ -402,13 +402,13 @@ shf_attach(
 
     if (delete_upon_process_exit) {
         char pid[256];
-        SHF_SNPRINTF(1, pid, "%u", getpid());
+        //SHF_SNPRINTF(1, pid, "%u", getpid());
 
-        const char * shf_monitor_path = shf_backticks("which shf.monitor");
-        SHF_ASSERT_INTERNAL(strlen(shf_monitor_path), "ERROR: 'which shf.monitor' found nothing; ensure shf.monitor can be found in the PATH if calling %s() with delete_upon_process_exit=1; PATH=%s", __FUNCTION__, shf_backticks("echo $PATH"));
-        SHF_DEBUG("- launching: '%s %s %s'\n", shf_monitor_path, pid, path_name);
-        pid_t pid_child = shf_exec_child(shf_monitor_path, "shf.monitor", pid, path_name);
-        SHF_ASSERT(0 == kill(pid_child, 0), "ERROR: INTERNAL: pid %u does not exist as expected: %u: ", pid_child, errno);
+        //const char * shf_monitor_path = shf_backticks("which shf.monitor");
+        //SHF_ASSERT_INTERNAL(strlen(shf_monitor_path), "ERROR: 'which shf.monitor' found nothing; ensure shf.monitor can be found in the PATH if calling %s() with delete_upon_process_exit=1; PATH=%s", __FUNCTION__, shf_backticks("echo $PATH"));
+        //SHF_DEBUG("- launching: '%s %s %s'\n", shf_monitor_path, pid, path_name);
+        //pid_t pid_child = shf_exec_child(shf_monitor_path, "shf.monitor", pid, path_name);
+        //SHF_ASSERT(0 == kill(pid_child, 0), "ERROR: INTERNAL: pid %u does not exist as expected: %u: ", pid_child, errno);
     }
 
     return shf;

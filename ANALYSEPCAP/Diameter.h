@@ -49,11 +49,11 @@ class Diameter
         int request;
         unsigned int cc;
         unsigned int appId;
-        uint32_t hopIdentifier;
+        long long int hopIdentifier;
         int resCode;
         char *originHost;
         unsigned int reqType;
-        double timeStamp;
+        long double timeStamp;
 
         Diameter(char* Msg);
         void printPkt();

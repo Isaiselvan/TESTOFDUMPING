@@ -21,6 +21,9 @@ sudo ./build/Vzprobe-dump -l 0,1,2,3,4,5,6 -n 32 -- -w /apps/opt/LIBTRACE/test/F
 Dpdk 21 
 RAM node0: 15360
 
+sudo ./build/Vzprobe-dump -l 0,1,2 -n 32 -- -w /apps/opt/LIBTRACE/test/FBMPCAP -G 10 -p 0x0f -B 2097152 --wcore 2 --config "(0,0,0),(1,0,0),(2,0,0),(3,0,0)" -A 2 > result.log 2>&1 &
+
+
 sleep 5 
 Healthcheck=`find . -name "DumperStat.log" -mmin +1`
 

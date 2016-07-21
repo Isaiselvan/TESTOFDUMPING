@@ -3,16 +3,21 @@
 #include <string>
 #include <time.h>
 
-GyInterface::GyInterface()
+GyInterface::GyInterface(std::string &nodepair)
 {
     memset(&GyStats,0,sizeof(CCGyStats));
     startTime = 0;
     endTime   = 0;
     reqtype   = 0;
+    TS        = 0;
+    uid       = 0;
+    RTT       = 0;
+    initialiseShf(nodepair);
 }
 
 int GyInterface::addPkt(Diameter &pkt)
 {
+
     if(pkt.cc != CCRorA)
     {
         return 1;
@@ -33,25 +38,78 @@ int GyInterface::addPkt(Diameter &pkt)
            return 1;
     }
 
+    std::string key  = std::to_string(pkt.hopIdentifier);
+    std::string keyV =  std::to_string(pkt.timeStamp);
+
     switch(pkt.request)
     {
         case 1:
             /* Handle Request */
-            GyStats.attempts[reqtype-1]++;
-            req[reqtype][pkt.hopIdentifier] = pkt.timeStamp;
+            shfrql->MakeHash(key.c_str(), key.length());
+            if(!shfrql->GetKeyValCopy())
+            {
+            req[reqtype][pkt.hopIdentifier] = shfrql->PutKeyVal(keyV.c_str(), keyV.length());
+            }
             break;
 
         case 0:
-           if(pkt.resCode < 3000 || pkt.resCode == 70001)
-           {
-               GyStats.succCount[reqtype-1]++;
-           }
-           else
-           {
-                GyStats.failCount[reqtype-1]++;
-           }
-           res[reqtype][pkt.hopIdentifier] = pkt.timeStamp;
-           break;
+            /* Handle Response */
+             uid = 0;
+             TS  = 0;
+             RTT = 0;
+             bzero(shf_val,sizeof(shf_val));
+
+             uid = req[reqtype][pkt.hopIdentifier];
+             if(uid == 0)
+             {
+                shfrql->MakeHash(key.c_str(), key.length());
+                if(shfrql->GetKeyValCopy())
+                {
+                    TS=atof(shf_val);
+                    while(shfrql->DelKeyVal());
+                }
+                else
+                {
+                    res[reqtype][pkt.hopIdentifier] = pkt.timeStamp;
+                    return 0;
+                }
+             }
+             else
+             {
+                if(shfrql->GetUidValCopy(uid))
+                {
+                    TS=atof(shf_val);
+                    while(shfrql->DelUidVal(uid));
+                    req[reqtype].erase(pkt.hopIdentifier);
+                }
+             }
+
+             // Sucess or failure stats 
+             if(pkt.resCode < 3000 || pkt.resCode == 70001)
+             {
+                 GyStats.succCount[reqtype-1]++;
+             }
+             else
+             {
+                 GyStats.failCount[reqtype-1]++;
+             }
+
+             
+             // Latency stats
+             RTT = pkt.timeStamp - TS;
+             if(RTT > 40)
+             {
+                 GyStats.timeoutCount[reqtype-1]++;
+                 return 0;
+             }
+             else if(RTT < 0)
+             {
+                 return 0;
+             }
+
+             GyStats.latency[reqtype-1] += RTT; 
+             GyStats.latencySize[reqtype-1]++;
+             break;
 
         default:
             return 1;
@@ -62,60 +120,6 @@ int GyInterface::addPkt(Diameter &pkt)
 void GyInterface::printStats(std::string &node)
 {
     curT = startTime;
-    static int RTTCount;
-    /* Calculate latency */
-    it=res.begin();
-    while(it != res.end())
-    {
-        RTTCount = 0;
-        tmp=&(it->second);
-        it1=tmp->begin();
-        while(it1 != tmp->end())
-        {
-           reqIt = req.find(it->first);
-           if (reqIt != req.end())
-           {
-               reqTmp = &(reqIt->second);
-               reqIt1 = reqTmp->find(it1->first);
-               if(reqIt1 !=  reqTmp->end())
-               {
-                   GyStats.latency[(it->first)-1] = ((RTTCount * GyStats.latency[(it->first)-1]) + (it1->second)-(reqIt1->second))/(++RTTCount);
-                   reqTmp->erase(reqIt1);
-               } 
-               else
-               {
-                   GyStats.timeoutCount[(it->first)-1]++;
-               }
-           }
-           else
-           {
-               GyStats.timeoutCount[(it->first)-1]++;
-           }
-           it1++;
-        }
-        it++;
-    }
-
-    /* Calculate Time out requests */
-    reqIt = req.begin();
-    while(reqIt != req.end())
-    {
-        reqTmp =&(reqIt->second);
-        reqIt1 = reqTmp->begin();
-        while(reqIt1 != reqTmp->end())
-        {
-            if(reqIt1->second + DIAMETER_TIMEOUT < endTime)
-            {
-                GyStats.timeoutCount[(reqIt->first)-1]++;
-                reqTmp->erase(reqIt1++);
-            }
-            else
-            {
-                reqIt1++;
-            }
-        }
-        reqIt++;
-    }
 
     /* Print Stats */
     curTimeInfo = localtime(&curT);
@@ -124,6 +128,21 @@ void GyInterface::printStats(std::string &node)
 
     for(int i=INITIAL; i<=EVENT; i++)
     {
+        tmp = req[i];
+        for(it = tmp.begin(); it != tmp.end(); it++)
+        {
+            if(shfrql->GetUidValCopy(it->second))
+            {
+                TS=atof(shf_val);
+                if((endTime-TS) > DIAMETER_TIMEOUT)
+                {
+                    GyStats.timeoutCount[i-1]++;
+                    shfrql->DelUidVal(it->second);
+                    req[i].erase(it->first);
+                }
+            }
+        }
+
         std::string msgType;
         switch(i)
         {
@@ -160,10 +179,13 @@ void GyInterface::printStats(std::string &node)
                                                           << "Kp=Tout"
                                                           << " Kpv="   << GyStats.timeoutCount[i-1] << " " << std::endl;
 
-       std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
+       if(GyStats.latencySize[i-1] > 0)
+       {
+          std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
-                                                          << " Kpv=" << (int) (GyStats.latency[i-1]*1000000) << std::endl; 
+                                                          << " Kpv=" << (int) ((GyStats.latency[i-1]/GyStats.latencySize[i-1])*1000) << std::endl; 
+       }
     }
 
 }
@@ -171,6 +193,6 @@ void GyInterface::printStats(std::string &node)
 void GyInterface::clearStats()
 {
     memset(&GyStats,0,sizeof(CCGyStats));
-    req.clear();
+    //req.clear();
     res.clear();
 }

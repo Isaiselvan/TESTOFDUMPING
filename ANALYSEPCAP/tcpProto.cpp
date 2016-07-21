@@ -113,7 +113,7 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
      
 }
 
-Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
+Interface* protocolTCP::getInterface(Diameter &dPkt, std::string &nodeip)
 {
   GxInterface  *gxInterface  = NULL;
   GyInterface  *gyInterface  = NULL;
@@ -152,7 +152,6 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
 	      }
 
 //Distinct HOH TEST ends here
-
             return gxInterface;
             break; 
 
@@ -160,19 +159,18 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
             gyInterface = GyMap[nodeip];
             if(!gyInterface)
                 {
-                gyInterface = new GyInterface; //gxInterface = my_map[nodeip];
+                gyInterface = new GyInterface(nodeip); //gxInterface = my_map[nodeip];
                 GyMap[nodeip] = gyInterface;
                 }
-          
 //Distinct HOH TEST starts here
 	      static uint64_t yreqHopid= 0;
-	      static uint64_t yresHopid= 10000;
+	      static uint64_t yresHopid= 100000;
 
-	      if(yreqHopid == 10000)
+	      if(yreqHopid == 100000)
 		      yreqHopid = 0;
 
 	      if(yresHopid == 0)
-		      yresHopid = 10000;
+		      yresHopid = 100000;
 
 	      if(dPkt.request)
 	      {
@@ -184,25 +182,24 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
 	      }
 
 //Distinct HOH TEST ends here
-
             return gyInterface;
             break; 
         case S6B:
             s6bInterface = S6bMap[nodeip]; 
             if(!s6bInterface)
                 {
-                 s6bInterface = new S6BInterface; //gxInterface = my_map[nodeip];
+                 s6bInterface = new S6BInterface(nodeip); //gxInterface = my_map[nodeip];
                  S6bMap[nodeip] = s6bInterface;
                 }
 //Distinct HOH TEST starts here
 	      static uint64_t sreqHopid= 0;
-	      static uint64_t sresHopid= 10000;
+	      static uint64_t sresHopid= 100000;
 
-	      if(sreqHopid == 10000)
+	      if(sreqHopid == 100000)
 		      sreqHopid = 0;
 
 	      if(sresHopid == 0)
-		      sresHopid = 10000;
+		      sresHopid = 100000;
 
 	      if(dPkt.request)
 	      {
@@ -214,7 +211,6 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
 	      }
 
 //Distinct HOH TEST ends here
- 
             return s6bInterface;
             break;
 

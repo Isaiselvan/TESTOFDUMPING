@@ -1,5 +1,12 @@
 #include "Interface.h" 
 
+
+Interface::Interface()
+{
+ NodeShf = NULL;
+ shfrql = NULL;
+}
+
 SharedHashFile * Interface::initialiseShf(std::string &nodepair)
 {
 
@@ -14,9 +21,9 @@ SharedHashFile * Interface::initialiseShf(std::string &nodepair)
     if(NodeShf && !NodeShf->IsAttached())
       {
         if(!NodeShf->AttachExisting(ShfFolder, Shfnodelist))
-             NodeShf->Attach(ShfFolder, Shfnodelist, 0);
+             NodeShf->Attach(ShfFolder, Shfnodelist, 1);
 
-         //NodeShf->SetIsLockable (1);
+         NodeShf->SetIsLockable (1);
       }
         
 //Retriving/creating the requestlisttablename
@@ -43,7 +50,8 @@ SharedHashFile * Interface::initialiseShf(std::string &nodepair)
               }
         }
       }
-   NodeShf->Del();
+   //NodeShf->Del();
+     NodeShf->Detach();
 //Creating/attaching the requestlisttable 
     if(!shfrql)
           shfrql =  new SharedHashFile;
@@ -51,9 +59,9 @@ SharedHashFile * Interface::initialiseShf(std::string &nodepair)
     if(shfrql && !shfrql->IsAttached())
       {
          if(!shfrql->AttachExisting(ShfFolder, Shfhopreqlst))
-             shfrql->Attach(ShfFolder, Shfhopreqlst, 1);    
-         //shfrql->SetIsLockable (1); 
-          shfrql->SetDataNeedFactor (250); 
+             shfrql->Attach(ShfFolder, Shfhopreqlst, 0);    
+          shfrql->SetIsLockable (1); 
+          //shfrql->SetDataNeedFactor (250); 
       }
 
 }

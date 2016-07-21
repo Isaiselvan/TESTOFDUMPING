@@ -60,6 +60,7 @@ class Interface
 
              return 1;
          }
+     Interface();
 };
 
 #endif
