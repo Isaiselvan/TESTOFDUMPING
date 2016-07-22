@@ -25,14 +25,15 @@ class Interface
     SharedHashFile * NodeShf;
     SharedHashFile * initialiseShf(std::string &nodepair);
   //std::string hashtable_name;
-
+    std::string sharefolder;
+    std::string sharefile ;
      public:
 
          virtual int addPkt(Diameter &pkt) =0;
          virtual void printStats(std::string &node) =0;
          virtual void clearStats() =0;
 
-         int checkTime(unsigned int newTime)
+         inline int checkTime(unsigned int newTime) __attribute__((always_inline))
          {
              if(newTime < startTime)
              {

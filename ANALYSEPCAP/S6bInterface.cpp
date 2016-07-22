@@ -37,11 +37,19 @@ int S6BInterface::addPkt(Diameter &pkt)
     {
         case 1:
             /* Handle Request */
+            #if 0 
+              if(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+               {
+                std::cout << "Error attaching the shared file hash" << std::endl;
+                return -1; 
+               }
+             #endif 
             shfrql->MakeHash(key.c_str(), key.length());
             if(!shfrql->GetKeyValCopy())
             {
             req[msgType][pkt.hopIdentifier] = shfrql->PutKeyVal(keyV.c_str(), keyV.length());
             }
+            //shfrql->Del();
             break;
 
         case 0:
@@ -49,6 +57,13 @@ int S6BInterface::addPkt(Diameter &pkt)
              uid = 0;
              TS  = 0;
              RTT = 0;
+            #if 0 
+              i f(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+               {
+                std::cout << "Error attaching the shared file hash" << std::endl;
+                return -1; 
+               }
+             #endif
              bzero(shf_val,sizeof(shf_val));
 
              uid = req[msgType][pkt.hopIdentifier];
@@ -75,7 +90,7 @@ int S6BInterface::addPkt(Diameter &pkt)
                     req[msgType].erase(pkt.hopIdentifier);
                 }
             }
-
+            //shfrql->Del();
             // Sucess or failure stats 
             if(pkt.resCode < 3000 || pkt.resCode == 70001)
             {
@@ -116,6 +131,13 @@ void S6BInterface::printStats(std::string &node)
     curTimeInfo = localtime(&curT);
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
+            #if 0 
+             if(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+               {
+                std::cout << "Error attaching the shared file hash" << std::endl;
+                return; 
+               }
+              #endif 
 
     for(int i=AA; i<= TERM; i++)
     {
@@ -172,6 +194,7 @@ void S6BInterface::printStats(std::string &node)
                                                           << " Kpv=" << (int) ((s6bStats.latency[i]/s6bStats.latencySize[i])*1000) << std::endl; 
        }
     }
+    //shfrql->Del();
 }
 
 void S6BInterface::clearStats()

@@ -17,6 +17,8 @@ SharedHashFile * Interface::initialiseShf(std::string &nodepair)
     sprintf(Shfnodelist, "NodeList"); 
     if(!NodeShf)
       NodeShf = new SharedHashFile;
+    if(!shfrql)
+          shfrql =  new SharedHashFile;
 //Creating Nodelist Table where <Key,Value> = <Nodepair, requestlisttablename>
     if(NodeShf && !NodeShf->IsAttached())
       {
@@ -30,7 +32,7 @@ SharedHashFile * Interface::initialiseShf(std::string &nodepair)
     NodeShf->MakeHash(nodepair.c_str(), nodepair.length()); 
 
     bzero(shf_val, sizeof(shf_val));
-     if(NodeShf->GetKeyValCopy () )
+     if(NodeShf->GetKeyValCopy ())
       {
              sprintf(Shfhopreqlst,"%s", shf_val);
              std::cout << "Test " << Shfhopreqlst << std::endl;
@@ -40,11 +42,11 @@ SharedHashFile * Interface::initialiseShf(std::string &nodepair)
         {
          bzero(Shfhopreqlst,sizeof(Shfhopreqlst));  
          sprintf(Shfhopreqlst,"node_%d",i++); 
-            if(!NodeShf->AttachExisting(ShfFolder, Shfhopreqlst))
+            if(!shfrql->AttachExisting(ShfFolder, Shfhopreqlst))
               {
                 std::string keyV(Shfhopreqlst);
-                NodeShf->AttachExisting(ShfFolder, Shfnodelist);
-                NodeShf->MakeHash(nodepair.c_str(), nodepair.length()); 
+               // NodeShf->AttachExisting(ShfFolder, Shfnodelist);
+               // NodeShf->MakeHash(nodepair.c_str(), nodepair.length()); 
                 NodeShf->PutKeyVal(keyV.c_str(),keyV.length());
                 break;
               }
@@ -53,15 +55,19 @@ SharedHashFile * Interface::initialiseShf(std::string &nodepair)
    //NodeShf->Del();
      NodeShf->Detach();
 //Creating/attaching the requestlisttable 
-    if(!shfrql)
-          shfrql =  new SharedHashFile;
 
     if(shfrql && !shfrql->IsAttached())
       {
+         std::cout << "SHF: Nodeip= " << nodepair << " File name=" << Shfhopreqlst << std::endl; 
          if(!shfrql->AttachExisting(ShfFolder, Shfhopreqlst))
-             shfrql->Attach(ShfFolder, Shfhopreqlst, 0);    
-          shfrql->SetIsLockable (1); 
+             shfrql->Attach(ShfFolder, Shfhopreqlst, 1);   
+          sharefolder = (std::string) ShfFolder;
+          sharefile = (std::string) Shfhopreqlst;
+            
           //shfrql->SetDataNeedFactor (250); 
+          shfrql->SetIsLockable (1); 
+          //shfrql->Detach();
+          //shfrql->Del();
       }
-
+    
 }

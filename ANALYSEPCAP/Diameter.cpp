@@ -13,7 +13,7 @@ const WORD word_masks[]   = { 0x0000, 0x0001, 0x0003, 0x0007, 0x000F,
 
 #define MAX_COUNT 10000
 
-DWORD extractDword(char* buffer, int startWord, int startBit, int len)
+inline DWORD extractDword(char* buffer, int startWord, int startBit, int len) 
 {
    DWORD value = 0, value1 = 0;
 
@@ -70,7 +70,7 @@ Diameter::Diameter(char *dMsg)
     unsigned int  avpCode;
     unsigned int avpLength;
     bool resCodeAvp=false, CCReqAvp=false;
-
+    valid = true;
     cc = extractDword(dMsg, 2, 8, 24);
     appId = extractDword(dMsg, 4, 0, 32);
 
@@ -86,6 +86,7 @@ Diameter::Diameter(char *dMsg)
             break;
 
         default:
+            valid = false;
             return;
     }
 
@@ -101,6 +102,7 @@ Diameter::Diameter(char *dMsg)
             break;
 
         default:
+            valid = false;
             return;
     }
     
@@ -117,7 +119,10 @@ Diameter::Diameter(char *dMsg)
          avpLength = extractDword(dMsg, avpStartWord + 2, 8, 24);
 
          if(avpLength <= 0 || avpLength > 5014)
+           {
+             
              break;
+           }
 
          switch (avpCode)
          {

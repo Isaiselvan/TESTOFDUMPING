@@ -45,11 +45,19 @@ int GyInterface::addPkt(Diameter &pkt)
     {
         case 1:
             /* Handle Request */
+            #if 0 
+               if(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+               {
+                std::cout << "Error attaching the shared file hash" << std::endl;
+                return -1;
+               }
+            #endif 
             shfrql->MakeHash(key.c_str(), key.length());
             if(!shfrql->GetKeyValCopy())
             {
             req[reqtype][pkt.hopIdentifier] = shfrql->PutKeyVal(keyV.c_str(), keyV.length());
             }
+            //shfrql->Del();
             break;
 
         case 0:
@@ -57,6 +65,14 @@ int GyInterface::addPkt(Diameter &pkt)
              uid = 0;
              TS  = 0;
              RTT = 0;
+             #if 0 
+                if(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+               {
+                std::cout << "Error attaching the shared file hash" << std::endl;
+                return -1;
+               }
+             #endif 
+
              bzero(shf_val,sizeof(shf_val));
 
              uid = req[reqtype][pkt.hopIdentifier];
@@ -83,7 +99,7 @@ int GyInterface::addPkt(Diameter &pkt)
                     req[reqtype].erase(pkt.hopIdentifier);
                 }
              }
-
+             //shfrql->Del();
              // Sucess or failure stats 
              if(pkt.resCode < 3000 || pkt.resCode == 70001)
              {
@@ -125,7 +141,13 @@ void GyInterface::printStats(std::string &node)
     curTimeInfo = localtime(&curT);
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
-
+      #if 0 
+          if(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+        {
+          std::cout << "Error attaching the shared file hash" << std::endl;
+          return ;
+        }
+       #endif 
     for(int i=INITIAL; i<=EVENT; i++)
     {
         tmp = req[i];
@@ -188,6 +210,7 @@ void GyInterface::printStats(std::string &node)
        }
     }
 
+   //shfrql->Del();
 }
 
 void GyInterface::clearStats()

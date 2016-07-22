@@ -66,7 +66,14 @@ int GxInterface::addPkt(Diameter &pkt)
             std::cout <<  std::fixed << "RQ:: Pkt Hop id is :" << pkt.hopIdentifier << std::endl;
             std::cout <<  std::fixed << "RQ:: Pkt time stamp is:" << pkt.timeStamp << std::endl;
             std::cout << "RQ:: Key time stamp is:" << keyV << std::endl;
-#endif 
+#endif
+            #if 0
+                if(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+               {
+                std::cout << "Error attaching the shared file hash" << std::endl;
+                return -1;
+               }
+            #endif  
             shfrql->MakeHash(key.c_str(), key.length());
             static int count = 0;
 #if 0
@@ -78,7 +85,7 @@ int GxInterface::addPkt(Diameter &pkt)
             {
             req[reqtype][pkt.hopIdentifier] = shfrql->PutKeyVal(keyV.c_str(), keyV.length());
             } 
-
+            //shfrql->Del();
 #if 0
             std::cout << "RQ:: Count = " << count++ << std::endl;
             std::cout << "RQ:: Uid inserted is: " << req[reqtype][pkt.hopIdentifier] << std::endl;
@@ -91,10 +98,17 @@ int GxInterface::addPkt(Diameter &pkt)
             uid = 0;
             TS  = 0;
             RTT = 0;
-            bzero(shf_val,sizeof(shf_val));
 #if 0
             std::cout <<  std::fixed << "RES:: Pkt Hop id is :" << pkt.hopIdentifier << std::endl; 
-#endif 
+#endif
+            #if 0
+                if(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+               {
+                std::cout << "Error attaching the shared file hash" << std::endl;
+                return -1; 
+               }
+               #endif 
+            bzero(shf_val,sizeof(shf_val));
             uid = req[reqtype][pkt.hopIdentifier];
             if(uid <= 0)
             {
@@ -105,7 +119,7 @@ int GxInterface::addPkt(Diameter &pkt)
 #if 0
                     std::cout << "RES:: TIme stamp from no UID of request is:" << shf_val << std::endl;
 #endif 
-                    while(shfrql->DelKeyVal());
+                    shfrql->DelKeyVal();
                 }
                 else
                 {
@@ -124,10 +138,10 @@ int GxInterface::addPkt(Diameter &pkt)
 #if 0
                     std::cout << "RES:: TIme stamp from UID of request is:" << shf_val << std::endl;
 #endif
-                    while(shfrql->DelUidVal(uid));
+                    shfrql->DelUidVal(uid);
                 }
             }
-          
+            //shfrql->Del();
             // Sucess or failure stats 
             if(pkt.resCode < 3000 || pkt.resCode == 70001)
             {
@@ -169,6 +183,13 @@ void GxInterface::printStats(std::string &node)
     strftime(TimeBuf, 100, "%F  %T", curTimeInfo);
     std::string curTime(TimeBuf);
 
+               #if 0
+                if(!shfrql->AttachExisting(sharefolder.c_str(), sharefile.c_str()))
+               {
+                std::cout << "Error attaching the shared file hash" << std::endl;
+                return ;
+               }
+               #endif 
     for(int i=INITIAL; i<= TERMINATE; i++)
     {
         tmp = req[i];
@@ -227,6 +248,7 @@ void GxInterface::printStats(std::string &node)
                                                            << " Kpv=" <<  (int)((GxStats.latency[i-1]/GxStats.latencySize[i-1]) * 1000)<< std::endl;
        }
     }
+            //shfrql->Del();
 }
 
 void GxInterface::clearStats()

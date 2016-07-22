@@ -11,7 +11,7 @@ std::unordered_map <std::string, GxInterface  * > GxMap;
 std::unordered_map <std::string, GyInterface  * > GyMap;
 std::unordered_map <std::string, S6BInterface * > S6bMap;
 
-int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
+inline int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt) 
 {
  //DownLink flag can be set here to tcppkt
      m_totalpkts++;
@@ -54,6 +54,9 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
      if(tcppkt->srcPort == 3868 || tcppkt->dstPort == 3868)
      {
          Diameter dPkt(tcppkt->pay_load);
+         if(!dPkt.valid)
+             return -1;
+
          dPkt.timeStamp = tcppkt->timeStamp;
          //dPkt.printPkt();
          //
@@ -113,7 +116,7 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
      
 }
 
-Interface* protocolTCP::getInterface(Diameter &dPkt, std::string &nodeip)
+inline Interface* protocolTCP::getInterface(Diameter &dPkt, std::string &nodeip)
 {
   GxInterface  *gxInterface  = NULL;
   GyInterface  *gyInterface  = NULL;
@@ -134,13 +137,13 @@ Interface* protocolTCP::getInterface(Diameter &dPkt, std::string &nodeip)
                 }
 //Distinct HOH TEST starts here
 	      static uint64_t reqHopid= 0;
-	      static uint64_t resHopid= 100000;
+	      static uint64_t resHopid= 100;
 
-	      if(reqHopid == 100000)
+	      if(reqHopid == 100)
 		      reqHopid = 0;
 
 	      if(resHopid == 0)
-		      resHopid = 100000;
+		      resHopid = 100;
 
 	      if(dPkt.request)
 	      {
@@ -164,13 +167,13 @@ Interface* protocolTCP::getInterface(Diameter &dPkt, std::string &nodeip)
                 }
 //Distinct HOH TEST starts here
 	      static uint64_t yreqHopid= 0;
-	      static uint64_t yresHopid= 100000;
+	      static uint64_t yresHopid= 100;
 
-	      if(yreqHopid == 100000)
+	      if(yreqHopid == 100)
 		      yreqHopid = 0;
 
 	      if(yresHopid == 0)
-		      yresHopid = 100000;
+		      yresHopid = 100;
 
 	      if(dPkt.request)
 	      {
@@ -193,13 +196,13 @@ Interface* protocolTCP::getInterface(Diameter &dPkt, std::string &nodeip)
                 }
 //Distinct HOH TEST starts here
 	      static uint64_t sreqHopid= 0;
-	      static uint64_t sresHopid= 100000;
+	      static uint64_t sresHopid= 100;
 
-	      if(sreqHopid == 100000)
+	      if(sreqHopid == 100)
 		      sreqHopid = 0;
 
 	      if(sresHopid == 0)
-		      sresHopid = 100000;
+		      sresHopid = 100;
 
 	      if(dPkt.request)
 	      {

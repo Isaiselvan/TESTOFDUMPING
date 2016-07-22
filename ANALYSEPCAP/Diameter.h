@@ -54,11 +54,12 @@ class Diameter
         char *originHost;
         unsigned int reqType;
         long double timeStamp;
+         bool valid;
 
         Diameter(char* Msg);
         void printPkt();
 
-        inline void setTimeStamp(unsigned int time)
+        inline void setTimeStamp(unsigned int time) __attribute__((always_inline))
         {
             timeStamp = time;
         }
