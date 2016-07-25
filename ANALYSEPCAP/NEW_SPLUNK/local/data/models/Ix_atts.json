@@ -1,0 +1,134 @@
+{
+    "modelName": "Ix_atts",
+    "displayName": "Ix_atts",
+    "description": "",
+    "objectSummary": {
+        "Event-Based": 0,
+        "Transaction-Based": 0,
+        "Search-Based": 1
+    },
+    "objects": [
+        {
+            "objectName": "SearchObject",
+            "displayName": "Search Object",
+            "parentName": "BaseSearch",
+            "fields": [
+                {
+                    "fieldName": "Ip",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Ip",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Ix",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Ix",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Kp",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Kp",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Kpv",
+                    "owner": "SearchObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Kpv",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Ty",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Ty",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "srcIp",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "srcIp",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "SearchObject",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "dip",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "dip",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sip",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sip",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [],
+            "lineage": "SearchObject",
+            "baseSearch": "sourcetype=\"diameter_kpi_m\"  | eval srcIp = Ix+\"-(\"+Ip+\")\" | Convert num(kpv)"
+        }
+    ],
+    "objectNameList": [
+        "SearchObject"
+    ]
+}

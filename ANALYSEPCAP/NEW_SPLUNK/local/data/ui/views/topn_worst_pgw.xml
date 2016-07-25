@@ -1,0 +1,396 @@
+<form>
+  <fieldset submitButton="false">
+    <input type="time" token="tok_time" searchWhenChanged="true">
+      <label>Time Interval</label>
+      <default>
+        <earliest></earliest>
+        <latest></latest>
+      </default>
+    </input>
+    <input type="dropdown" token="Ix" searchWhenChanged="true">
+      <label>Interface</label>
+      <search>
+        <query>sourcetype="diameter_kpi"|streamstats | stats estdc(Ix) as count by Ix | fields Ix</query>
+        <earliest>$tok_time.earliest$</earliest>
+        <latest>$tok_time.latest$</latest>
+      </search>
+      <fieldForLabel>Ix</fieldForLabel>
+      <fieldForValue>Ix</fieldForValue>
+    </input>
+    <input type="dropdown" token="kpi" searchWhenChanged="true">
+      <label>Trend KPI</label>
+      <!--
+      <choice value=" sum(atts) as Attempts,avg(f_perc) as Failure ">Failure Rate(%)</choice>
+      <choice value=" sum(atts) as Attempts,avg(s_perc) as Success ">Success Rate(%)</choice>
+      <choice value=" sum(atts) as Attempts,sum(fail) as Failure ">Failure</choice>
+      <choice value=" sum(atts) as Attempts,sum(suc) as Success">Success</choice>
+      <choice value=" sum(atts) as Attempts,avg(latency) as Latency ">Avg Latency(ms)</choice>
+      <choice value=" sum(atts) as Attempts,sum(tout) as Timeout">Timeout</choice>
+      <choice value=" sum(atts) as TotalAttempts ">Attempts</choice>
+      <choice value="">Timeout Rate(%)</choice> -->
+      <change>
+        <!-- use predefined input tokens to set -->
+        <!-- tokens for the selected label and value -->
+        <condition match="match(label, &quot;Initial&quot;)">
+          <set token="Ty_tok">INITIAL</set>
+          <set token="date_label">$label$</set>
+        </condition>
+        <condition match="match(label, &quot;Update&quot;)">
+          <set token="Ty_tok">UPDATE</set>
+          <set token="date_label">$label$</set>
+        </condition>
+        <condition match="match(label, &quot;Terminate&quot;)">
+          <set token="Ty_tok">TERMINATE</set>
+          <set token="date_label">$label$</set>
+        </condition>
+        <condition match="match(label, &quot;Event&quot;)">
+          <set token="Ty_tok">EVENT</set>
+          <set token="date_label">$label$</set>
+        </condition>
+        <condition>
+          <set token="Ty_tok">*</set>
+          <set token="date_label">$label$</set>
+        </condition>
+      </change>
+      <search>
+        <query>|inputlookup trend_kpi.csv|search Interface=$Ix$</query>
+      </search>
+      <fieldForLabel>Trend_KPI</fieldForLabel>
+      <fieldForValue>Query</fieldForValue>
+    </input>
+    <input type="dropdown" token="type1" searchWhenChanged="true">
+      <label>Dimension Type 1</label>
+      <choice value="PGW">PGW</choice>
+      <choice value="AAA">AAA</choice>
+      <choice value="OCS">OCS</choice>
+      <choice value="PCRF">PCRF</choice>
+    </input>
+    <input type="dropdown" token="srch1" searchWhenChanged="true">
+      <label>PGW Search</label>
+      <choice value="*">ALL</choice>
+      <search>
+        <query>sourcetype="diameter_kpi" sip|lookup node_type.csv Ip as sip OUTPUT NodeName NodeType|search sip NodeType=$type1$ Ix=$Ix$|streamstats | stats estdc(NodeName) as count by NodeName | fields NodeName</query>
+        <earliest>$tok_time.earliest$</earliest>
+        <latest>$tok_time.latest$</latest>
+      </search>
+      <fieldForLabel>NodeName</fieldForLabel>
+      <fieldForValue>NodeName</fieldForValue>
+    </input>
+    <input type="dropdown" token="type2" searchWhenChanged="true">
+      <label>Dimension Type 2</label>
+      <choice value="AAA">AAA</choice>
+      <choice value="PGW">PGW</choice>
+      <choice value="OCS">OCS</choice>
+      <choice value="PCRF">PCRF</choice>
+    </input>
+    <input type="dropdown" token="srch2" searchWhenChanged="true">
+      <label>AAA Search</label>
+      <choice value="*">ALL</choice>
+      <search>
+        <query>sourcetype="diameter_kpi" dip|lookup node_type.csv Ip as dip OUTPUT NodeName NodeType|search dip NodeType=$type2$|streamstats | stats estdc(NodeName) as count by NodeName | fields NodeName</query>
+        <earliest>$tok_time.earliest$</earliest>
+        <latest>$tok_time.latest$</latest>
+      </search>
+      <fieldForLabel>NodeName</fieldForLabel>
+      <fieldForValue>NodeName</fieldForValue>
+    </input>
+    <input type="radio" token="tok_interval" searchWhenChanged="true">
+      <label>Based On:</label>
+      <choice value="5m">Minute</choice>
+      <choice value="1h">Hourly</choice>
+      <choice value="1d">Daily</choice>
+    </input>
+  </fieldset>
+  <label>Diameter KPI</label>
+  <row>
+    <panel depends="$tok_interval$">
+      <chart>
+        <title>$date_label$ $Ty_tok$</title>
+        <search>
+          <query>sourcetype="diameter_kpi"|lookup node_type.csv Ip as sip OUTPUT NodeName as SNodeName NodeType as SNodeType|lookup node_type.csv Ip as dip OUTPUT NodeName as DNodeName NodeType as DNodeType|search Ix Ty=$Ty_tok$|eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Suc","SUCCESS",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Suc",Kpv,Kp!="Suc",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|eval latency =case(Kp=="Laty",Kpv,Kp!="Laty",0)|eval tout =case(Kp=="Tout",Kpv,Kp!="Tout",0)|convert num(kpv)|eval time=strftime(_time,"%b %d, %Y %H:%M")|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s,sum(tout) as tout_s by time|eval s_perc=suc_s*100/atts_s|eval f_perc=fail_s*100/atts_s|eval t_perc=tout_s*100/atts_s|timechart span=$tok_interval$ $kpi$</query>
+          <earliest>$tok_time.earliest$</earliest>
+          <latest>$tok_time.latest$</latest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">1</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.overlayFields">Attempts</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+        <drilldown>
+          <set token="node_value">$click.value2$</set>
+          <set token="node_value1">$click.value$</set>
+          <set token="node_name">$click.name2$</set>
+          <set token="node_name2">$click.name$</set>
+          
+            <set token="clicked_earliest">$earliest$</set>
+   		    <set token="clicked_latest">$latest$</set>
+   			<set token="clicked_group">$click.name2$</set>
+
+           <set token="arg.earliest">$search.timeRange.earliest$</set>
+ 			<set token="arg.latest">$search.timeRange.label$</set>
+          <set token="arg.latest1">$search$</set>
+        </drilldown>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$clicked_earliest$">
+      <chart>
+        <title>Top-N Worst Diameter Authentication and Authorization Failure $arg.earliest$ - $arg.latest$  $arg.latest1$</title>
+        <search>
+          <query>| pivot laty_diameter SearchObject sum(Kpv) AS "Failure" SPLITROW SNodeName AS Ip FILTER Kp is Fail FILTER Ix is * FILTER Ty is $Ty_tok$ FILTER SNodeType is $type1$ FILTER SNodeName is $srch1$ FILTER DNodeType is $type2$ FILTER DNodeName is $srch2$ TOP 10 sum(Kpv) ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>$clicked_earliest$</earliest>
+          <latest>$clicked_latest$</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$clicked_earliest$">
+      <chart>
+        <title>Top-N Worst $type1$ Diameter Authentication and Authorization Avg Latency(ms)</title>
+        <search>
+          <query>| pivot laty_diameter SearchObject avg(Kpv) AS "Latency" SPLITROW SNodeName AS Ip FILTER Kp is Laty FILTER Ix is * FILTER Ty is $Ty_tok$ FILTER Ix is * FILTER SNodeType is $type1$ FILTER SNodeName is $srch1$ FILTER DNodeType is $type2$ FILTER DNodeName is $srch2$ TOP 10 avg(Kpv) ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>$tok_time.earliest$</earliest>
+          <latest>$tok_time.latest$</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">none</option>
+      </chart>
+    </panel>
+    <panel depends="$clicked_earliest$">
+      <chart>
+        <title>Top-N Worst $type1$ Diameter Authentication and Authorization Attempts</title>
+        <search>
+          <query>| pivot laty_diameter SearchObject sum(Kpv) AS "Attempts" SPLITROW SNodeName AS Ip FILTER Kp is Att FILTER Ix is * FILTER Ty is $Ty_tok$ FILTER SNodeType is $type1$ FILTER SNodeName is $srch1$ FILTER DNodeType is $type2$ FILTER DNodeName is $srch2$ TOP 10 avg(Kpv) ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>$tok_time.earliest$</earliest>
+          <latest>$tok_time.latest$</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">none</option>
+      </chart>
+    </panel>
+    <panel depends="$clicked_earliest$">
+      <chart>
+        <title>Top-N Worst $type1$ Diameter Authentication and Authorization Timeout</title>
+        <search>
+          <query>| pivot laty_diameter SearchObject sum(Kpv) AS "Timeout" SPLITROW SNodeName AS Ip FILTER Kp is Tout FILTER Ix is * FILTER Ty is $Ty_tok$ FILTER SNodeType is $type1$ FILTER SNodeName is $srch1$ FILTER DNodeType is $type2$ FILTER DNodeName is $srch2$ TOP 10 avg(Kpv) ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 0 SHOWOTHER 1</query>
+          <earliest>$tok_time.earliest$</earliest>
+          <latest>$tok_time.latest$</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$clicked_earliest$">
+      <chart>
+        <title>Top-N Worst $type1$ Diameter Authentication and Authorization Success Rate(%)</title>
+        <search>
+          <query>sourcetype="diameter_kpi"|lookup node_type.csv Ip as sip OUTPUT NodeName as SNodeName NodeType as SNodeType|lookup node_type.csv Ip as dip OUTPUT NodeName as DNodeName NodeType as DNodeType|search SNodeType=$type1$ SNodeName=$srch1$ DNodeType=$type2$ DNodeName=$srch2$ | eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Suc","SUCCESS",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Suc",Kpv,Kp!="Suc",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|eval s_perc=suc_s*100/atts_s|eval f_perc=fail_s*100/atts_s|stats avg(s_perc) as SUCCESS by SNodeName</query>
+          <earliest>$tok_time.earliest$</earliest>
+          <latest>$tok_time.latest$</latest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel depends="$clicked_earliest$">
+      <chart>
+        <title>Top-N Worst $type1$ Diameter Authentication and Authorization Failure Rate(%)</title>
+        <search>
+          <query>sourcetype="diameter_kpi"|lookup node_type.csv Ip as sip OUTPUT NodeName as SNodeName NodeType as SNodeType|lookup node_type.csv Ip as dip OUTPUT NodeName as DNodeName NodeType as DNodeType|search SNodeType=$type1$ SNodeName=$srch1$ DNodeType=$type2$ DNodeName=$srch2$ Ty=$Ty_tok%| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Suc","SUCCESS",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Suc",Kpv,Kp!="Suc",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|eval s_perc=suc_s*100/atts_s|eval f_perc=fail_s*100/atts_s|stats avg(f_perc) as FAILURE by SNodeName</query>
+          <earliest>$tok_time.earliest$</earliest>
+          <latest>$tok_time.latest$</latest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel depends="$clicked_earliest$">
+      <chart>
+        <title>Top-N Worst $type1$ Diameter Authentication and Authorization Timeout Rate(%)</title>
+        <search>
+          <query>sourcetype="diameter_kpi"|lookup node_type.csv Ip as sip OUTPUT NodeName as SNodeName NodeType as SNodeType|lookup node_type.csv Ip as dip OUTPUT NodeName as DNodeName NodeType as DNodeType|search SNodeType=$type1$ SNodeName=$srch1$ DNodeType=$type2$ DNodeName=$srch2$ Ty=$Ty_tok%| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Suc","SUCCESS",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Suc",Kpv,Kp!="Suc",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|eval timout=case(Kp=="Tout",Kpv,Kp!="Tout",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s,sum(timout) as tout_s by _time|eval t_perc=tout_s*100/atts_s|stats avg(t_perc) as TIMEOUT by SNodeName</query>
+          <earliest>$tok_time.earliest$</earliest>
+          <latest>$tok_time.latest$</latest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+  </row>
+</form>

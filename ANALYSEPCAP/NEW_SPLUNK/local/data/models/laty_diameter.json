@@ -1,0 +1,206 @@
+{
+    "modelName": "laty_diameter",
+    "displayName": "laty_diameter",
+    "description": "",
+    "objectSummary": {
+        "Event-Based": 0,
+        "Transaction-Based": 0,
+        "Search-Based": 1
+    },
+    "objects": [
+        {
+            "objectName": "SearchObject",
+            "displayName": "Search Object",
+            "parentName": "BaseSearch",
+            "fields": [
+                {
+                    "fieldName": "Ip",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Ip",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Ix",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Ix",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Kp",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Kp",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Kpv",
+                    "owner": "SearchObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Kpv",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "Ty",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "Ty",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "kpDesc",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "kpDesc",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "srcIp",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "srcIp",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "_time",
+                    "owner": "SearchObject",
+                    "type": "timestamp",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "_time",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "dip",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "dip",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "sip",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "sip",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "DNodeName",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "DNodeName",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "DNodeType",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "DNodeType",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "SNodeName",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "SNodeName",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "SNodeType",
+                    "owner": "SearchObject",
+                    "type": "string",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "SNodeType",
+                    "comment": ""
+                },
+                {
+                    "fieldName": "time",
+                    "owner": "SearchObject",
+                    "type": "number",
+                    "fieldSearch": "",
+                    "required": false,
+                    "multivalue": false,
+                    "hidden": false,
+                    "editable": true,
+                    "displayName": "time",
+                    "comment": ""
+                }
+            ],
+            "calculations": [],
+            "constraints": [],
+            "lineage": "SearchObject",
+            "baseSearch": "sourcetype=\"diameter_kpi\"|lookup node_type.csv Ip as sip OUTPUT NodeName as SNodeName NodeType as SNodeType|lookup node_type.csv Ip as dip OUTPUT NodeName as DNodeName NodeType as DNodeType|eval srcIp = sip+\"-(\"+dip+\")\" | eval kpDesc= case(Kp==\"Suc\",\"SUCCESS\",Kp==\"Fail\",\"FAILURE\",Kp=\"Att\",\"ATTS\")|eval time=_time | convert num(kpv)"
+        }
+    ],
+    "objectNameList": [
+        "SearchObject"
+    ]
+}

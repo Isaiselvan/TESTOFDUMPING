@@ -1,0 +1,488 @@
+<form>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="Ix">
+      <label>Interface</label>
+      <search>
+        <query>sip|streamstats | stats estdc(Ix) as count by Ix | fields Ix</query>
+        <earliest>rt-24h</earliest>
+        <latest>rt</latest>
+      </search>
+      <fieldForLabel>Ix</fieldForLabel>
+      <fieldForValue>Ix</fieldForValue>
+    </input>
+    <input type="dropdown" token="sip" searchWhenChanged="true">
+      <label>Source IP</label>
+      <search>
+        <query>sip Ix=$Ix$|streamstats | stats estdc(sip) as count by sip | fields sip</query>
+        <earliest>rt-24h</earliest>
+        <latest>rt</latest>
+      </search>
+      <fieldForLabel>sip</fieldForLabel>
+      <fieldForValue>sip</fieldForValue>
+      <choice value="*">ALL</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="dip" searchWhenChanged="true">
+      <label>Destination IP</label>
+      <search>
+        <query>sip=$sip$ Ix=$Ix$|streamstats | stats estdc(dip) as count by dip | fields dip</query>
+      </search>
+      <fieldForLabel>dip</fieldForLabel>
+      <fieldForValue>dip</fieldForValue>
+      <choice value="*">ALL</choice>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <label>Gx Diameter Attempts Metrics</label>
+  <row>
+    <panel depends="$dip$">
+      <chart>
+        <title>Initial-Timeout Vs Attempts</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" INITIAL sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval Time = _time |eval kpDesc= case(Kp=="Tout","TIMEOUT",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Tout",Kpv,Kp!="Tout",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|stats avg(suc_s) as TIMEOUT,avg(atts_s) as Attempts by Time|eval Time=strftime(Time, "%m/%d %H:%M")</query>
+          <earliest>rt-24h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1]</option>
+        <option name="charting.chart.data">@data1</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Timeout</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <option name="charting.axisTitleY2.text">Attempts</option>
+        <option name="charting.axisLabelsY2.placement">right</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>-->
+       <!--- <option name="charting.backgroundColor">0xFFFFFF</option> -->
+        <!--<option name="charting.chart.backgroundColor">0xFFFFFF</option> -->
+         
+        
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.text">Value</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">column</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+        <param name="charting.primaryAxisLabels.majorLabelVisibility">show</param>
+        <option name="charting.chart.overlayFields">Attempts</option>
+        
+        
+        <option name="charting.axisY2.enabled">true</option>
+        <option name="charting.axisY2.fields">Attempts</option>
+        <option name="charting.areaFillOpacity">1.0</option>
+        
+        
+      </chart>
+    </panel>
+    <panel depends="$dip$">
+      <chart>
+        <title>Initial-Failure Vs Attempts</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" INITIAL sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Tout","TIMEOUT",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Tout",Kpv,Kp!="Tout",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|stats avg(fail_s) as FAILURE,avg(atts_s) as ATTEMPTS by _time</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1]</option>
+        <option name="charting.chart.data">@data1</option>
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[0,2]</option>
+        <option name="charting.chart2.data">@data2</option>
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <!--create the 1st chart -->
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Failure</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <!--create the 2nd chart -->
+        <option name="charting.chart2">line</option>
+        <option name="charting.chart2.nullValueMode">zero</option>
+        <option name="charting.chart2.axisY">@axisY2</option>
+        <!-- the Yaxis of chart 2 is a link to charting.axisY2 -->
+        <option name="charting.axisTitleY2">axisTitle</option>
+        <option name="charting.axisTitleY2.text">Attempts</option>
+        <option name="charting.axisLabelsY2.placement">right</option>
+        <!-- throw the structure to layout -->
+        <option name="charting.layout.charts">[@chart,@chart2]</option>
+        <option name="charting.layout.axisLabels">[@axisLabelsX,@axisLabelsY,@axisLabelsY2]</option>
+        <option name="charting.layout.axisTitles">[@axisTitleX,@axisTitleY,@axisTitleY2]</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$dip$">
+      <chart>
+        <title>Terminate-Timeout Vs Attempts</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" TERMINATE sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Tout","TIMEOUT",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Tout",Kpv,Kp!="Tout",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|stats avg(suc_s) as TIMEOUT,avg(atts_s) as ATTEMPTS by _time</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1]</option>
+        <option name="charting.chart.data">@data1</option>
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[0,2]</option>
+        <option name="charting.chart2.data">@data2</option>
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <!--create the 1st chart -->
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Timeout</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <!--create the 2nd chart -->
+        <option name="charting.chart2">line</option>
+        <option name="charting.chart2.nullValueMode">zero</option>
+        <option name="charting.chart2.axisY">@axisY2</option>
+        <!-- the Yaxis of chart 2 is a link to charting.axisY2 -->
+        <option name="charting.axisTitleY2">axisTitle</option>
+        <option name="charting.axisTitleY2.text">Attempts</option>
+        <option name="charting.axisLabelsY2.placement">right</option>
+        <!-- throw the structure to layout -->
+        <option name="charting.layout.charts">[@chart,@chart2]</option>
+        <option name="charting.layout.axisLabels">[@axisLabelsX,@axisLabelsY,@axisLabelsY2]</option>
+        <option name="charting.layout.axisTitles">[@axisTitleX,@axisTitleY,@axisTitleY2]</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel depends="$dip$">
+      <chart>
+        <title>Terminate-Failure Vs Attempts</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" TERMINATE sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Tout","TIMEOUT",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Tout",Kpv,Kp!="Tout",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|stats avg(fail_s) as FAILURE,avg(atts_s) as ATTEMPTS by _time</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1]</option>
+        <option name="charting.chart.data">@data1</option>
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[0,2]</option>
+        <option name="charting.chart2.data">@data2</option>
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <!--create the 1st chart -->
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Failure</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <!--create the 2nd chart -->
+        <option name="charting.chart2">line</option>
+        <option name="charting.chart2.nullValueMode">zero</option>
+        <option name="charting.chart2.axisY">@axisY2</option>
+        <!-- the Yaxis of chart 2 is a link to charting.axisY2 -->
+        <option name="charting.axisTitleY2">axisTitle</option>
+        <option name="charting.axisTitleY2.text">Attempts</option>
+        <option name="charting.axisLabelsY2.placement">right</option>
+        <!-- throw the structure to layout -->
+        <option name="charting.layout.charts">[@chart,@chart2]</option>
+        <option name="charting.layout.axisLabels">[@axisLabelsX,@axisLabelsY,@axisLabelsY2]</option>
+        <option name="charting.layout.axisTitles">[@axisTitleX,@axisTitleY,@axisTitleY2]</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$dip$">
+      <chart>
+        <title>Update-Timeout Vs Attempts</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" UPDATE sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Suc","SUCCESS",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Tout",Kpv,Kp!="Tout",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|stats avg(suc_s) as TIMEOUT,avg(atts_s) as ATTEMPTS by _time</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1]</option>
+        <option name="charting.chart.data">@data1</option>
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[0,2]</option>
+        <option name="charting.chart2.data">@data2</option>
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <!--create the 1st chart -->
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Timeout</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <!--create the 2nd chart -->
+        <option name="charting.chart2">area</option>
+        <option name="charting.chart2.nullValueMode">zero</option>
+        <option name="charting.chart2.axisY">@axisY2</option>
+        <!-- the Yaxis of chart 2 is a link to charting.axisY2 -->
+        <option name="charting.axisTitleY2">axisTitle</option>
+        <option name="charting.axisTitleY2.text">Attempts</option>
+        <option name="charting.axisLabelsY2.placement">right</option>
+        <!-- throw the structure to layout -->
+        <option name="charting.layout.charts">[@chart,@chart2]</option>
+        <option name="charting.layout.axisLabels">[@axisLabelsX,@axisLabelsY,@axisLabelsY2]</option>
+        <option name="charting.layout.axisTitles">[@axisTitleX,@axisTitleY,@axisTitleY2]</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">linear</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel depends="$dip$">
+      <chart>
+        <title>Update-Failure Vs Attempts</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" UPDATE sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Tout","TIMEOUT",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Tout",Kpv,Kp!="Tout",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|stats avg(fail_s) as FAILURE,avg(atts_s) as ATTEMPTS by _time</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1]</option>
+        <option name="charting.chart.data">@data1</option>
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[0,2]</option>
+        <option name="charting.chart2.data">@data2</option>
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <!--create the 1st chart -->
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Failure</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <!--create the 2nd chart -->
+        <!--- <option name="charting.chart2">area</option> -->
+        <option name="charting.chart2.nullValueMode">zero</option>
+        <option name="charting.chart2.axisY">@axisY2</option>
+        <!-- the Yaxis of chart 2 is a link to charting.axisY2 -->
+        <option name="charting.axisTitleY2">axisTitle</option>
+        <option name="charting.axisTitleY2.text">Attempts</option>
+        <option name="charting.axisLabelsY2.placement">right</option>
+        <!-- throw the structure to layout -->
+        <option name="charting.layout.charts">[@chart,@chart2]</option>
+        <option name="charting.layout.axisLabels">[@axisLabelsX,@axisLabelsY,@axisLabelsY2]</option>
+        <option name="charting.layout.axisTitles">[@axisTitleX,@axisTitleY,@axisTitleY2]</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+  </row>
+</form>

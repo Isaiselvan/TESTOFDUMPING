@@ -1,0 +1,401 @@
+<form>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="Ix">
+      <label>Interface</label>
+      <search>
+        <query>sip|streamstats | stats estdc(Ix) as count by Ix | fields Ix</query>
+        <earliest>rt-24h</earliest>
+        <latest>rt</latest>
+      </search>
+      <fieldForLabel>Ix</fieldForLabel>
+      <fieldForValue>Ix</fieldForValue>
+    </input>
+    <input type="dropdown" token="sip" searchWhenChanged="true">
+      <label>Source IP</label>
+      <search>
+        <query>sip Ix=$Ix$|streamstats | stats estdc(sip) as count by sip | fields sip</query>
+        <earliest>rt-24h</earliest>
+        <latest>rt</latest>
+      </search>
+      <fieldForLabel>sip</fieldForLabel>
+      <fieldForValue>sip</fieldForValue>
+      <choice value="*">ALL</choice>
+    </input>
+    <input type="dropdown" token="dip" searchWhenChanged="true">
+      <label>Destination IP</label>
+      <search>
+        <query>sip=$sip$ Ix=$Ix$|streamstats | stats estdc(dip) as count by dip | fields dip</query>
+      </search>
+      <fieldForLabel>dip</fieldForLabel>
+      <fieldForValue>dip</fieldForValue>
+      <choice value="*">ALL</choice>
+    </input>
+  </fieldset>
+  <label>Diameter Metrics</label>
+  <row>
+    <panel depends="$dip$">
+      <chart>
+        <title>Initial</title>
+        <search>
+          <query>| pivot diameter_Ty SearchObject sum(Kpv) AS "Value" SPLITROW _time AS _time PERIOD auto SPLITCOL kpDesc FILTER kpDesc isNot OTHERS FILTER Ty is INITIAL FILTER sip is $sip$ FILTER dip is $dip$ FILTER Ix is $Ix$ SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 100 SHOWOTHER 1</query>
+          <earliest>rt-24h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.text">Value</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">column</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel depends="$dip$">
+      <chart>
+        <title>Terminate</title>
+        <search>
+          <query>| pivot diameter_Ty SearchObject sum(Kpv) AS "Value" SPLITROW _time AS _time PERIOD auto SPLITCOL kpDesc FILTER kpDesc isNot OTHERS FILTER Ty is TERMINATE FILTER sip is $sip$ FILTER dip is $dip$ FILTER Ix is $Ix$ SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 100 SHOWOTHER 1</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.text">Value</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">column</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel depends="$dip$">
+      <chart>
+        <title>Update</title>
+        <search>
+          <query>| pivot diameter_Ty SearchObject sum(Kpv) AS "Value" SPLITROW _time AS _time PERIOD auto SPLITCOL kpDesc FILTER kpDesc isNot OTHERS FILTER Ty is UPDATE FILTER sip is $sip$ FILTER dip is $dip$ FILTER Ix is $Ix$ SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 100 SHOWOTHER 1</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.text">Value</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">column</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$dip$">
+      <chart>
+        <title>Initial(%)</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" INITIAL sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Tout","TIMEOUT",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Tout",Kpv,Kp!="Tout",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|eval s_perc=suc_s*100/atts_s|eval f_perc=fail_s*100/atts_s|stats avg(s_perc) as TIMEOUT,avg(f_perc) as FAILURE by _time</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1,2]</option>
+        <option name="charting.chart.data">@data1</option>
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[0,4,5]</option>
+        <option name="charting.chart2.data">@data2</option>
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <param name="charting.axisX">time</param>
+        <!--create the 1st chart -->
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Percentage</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel depends="$dip$">
+      <chart>
+        <title>Terminate(%)</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" TERMINATE sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Tout","TIMEOUT",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Tout",Kpv,Kp!="Tout",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|eval s_perc=suc_s*100/atts_s|eval f_perc=fail_s*100/atts_s|stats avg(s_perc) as TIMEOUT,avg(f_perc) as FAILURE by _time</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1,2]</option>
+        <option name="charting.chart.data">@data1</option>
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[0,4,5]</option>
+        <option name="charting.chart2.data">@data2</option>
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <param name="charting.axisX">time</param>
+        <!--create the 1st chart -->
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Percentage</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+    <panel depends="$dip$">
+      <chart>
+        <title>Update(%)</title>
+        <search>
+          <query>sourcetype="diameter_kpi_m" UPDATE sip=$sip$ dip=$dip$ Ix=$Ix$| eval srcIp = Ix+"-("+Ip+")" | eval kpDesc= case(Kp=="Tout","TIMEOUT",Kp=="Fail","FAILURE",Kp="Att","ATTEMPTS")|eval suc =case(Kp=="Suc",Kpv,Kp!="Suc",0)|eval fail =case(Kp=="Fail",Kpv,Kp!="Fail",0)|eval atts =case(Kp=="Att",Kpv,Kp!="Att",0)|convert num(kpv)|eventstats sum(suc) as suc_s,sum(atts) as atts_s,sum(fail) as fail_s by _time|eval s_perc=suc_s*100/atts_s|eval f_perc=fail_s*100/atts_s|stats avg(s_perc) as TIMEOUT,avg(f_perc) as FAILURE by _time</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <!-- set up alternative palatte for stacked chart, transparancy makes the line chart more visible -->
+        <option name="charting.transparentBrushPalette">solidFill</option>
+        <option name="charting.transparentBrushPalette.colorPalette">@colorPalette</option>
+        <option name="charting.transparentBrushPalette.alpha">0.7</option>
+        <!-- set chart to use columns 0,1,2,3 where @data is the original "cube", and 0 is the time-->
+        <option name="charting.data1">view</option>
+        <option name="charting.data1.table">@data</option>
+        <option name="charting.data1.columns">[0,1,2]</option>
+        <option name="charting.chart.data">@data1</option>
+        <!-- set chart2 to use columns 0,4,5, where 0 is time, 4 + 5 are data -->
+        <option name="charting.data2">view</option>
+        <option name="charting.data2.table">@data</option>
+        <option name="charting.data2.columns">[0,4,5]</option>
+        <option name="charting.chart2.data">@data2</option>
+        <!-- splunk doesnt suppory 2 Y axis, so we have to clone -->
+        <option name="charting.axisY2">#axisY</option>
+        <!-- clone the Yaxis into axisY2 -->
+        <option name="charting.axisLabelsY2">#axisLabelsY</option>
+        <!-- clone the Yaxis Labels -->
+        <option name="charting.axisLabelsY2.axis">@axisY2</option>
+        <!-- associate the new Y2 axis-labels with the Y2 axis -->
+        <param name="charting.axisX">time</param>
+        <!--create the 1st chart -->
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.columnBrushPalette">@transparentBrushPalette</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.useAbsoluteSpacing">True</option>
+        <option name="charting.chart.columnSpacing">20</option>
+        <option name="charting.chart.columnAlignment">.5</option>
+        <option name="charting.axisTitleY.text">Percentage</option>
+        <option name="charting.axisLabelsY.placement">left</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$dip$">
+      <chart>
+        <title>Interfacewise Attempts</title>
+        <search>
+          <query>| pivot Ix_atts SearchObject sum(Kpv) AS "Attempts" SPLITROW _time AS _time PERIOD auto SPLITCOL Ty FILTER Ty isNot NULL FILTER sip is $sip$ FILTER dip is $dip$ FILTER Ix is $Ix$ SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 100 SHOWOTHER 1</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.text">Attempts</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$dip$">
+      <chart>
+        <title>Response Time</title>
+        <search>
+          <query>| pivot laty_diameter SearchObject sum(Kpv) AS "Request Time" SPLITROW _time AS _time PERIOD auto SPLITCOL Ty FILTER Ty isNot AA FILTER Kp is Laty FILTER sip is $sip$ FILTER dip is $dip$ FILTER Ix is $Ix$ SORT 100 _time ROWSUMMARY 0 COLSUMMARY 0 NUMCOLS 5 SHOWOTHER 1</query>
+          <earliest>rt-5h</earliest>
+          <latest>rt-4h</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.text">Response Time</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+      </chart>
+    </panel>
+  </row>
+</form>
