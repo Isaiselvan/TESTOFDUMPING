@@ -58,14 +58,14 @@ public:
     m_pkt.clear();
     }; 
      
-   int addPkt(libtrace_packet_t *, m_Packet *);///Used in template use the same name in other classes  
+   inline int addPkt(libtrace_packet_t *, m_Packet *) __attribute__((always_inline));///Used in template use the same name in other classes  
    unsigned long int bandWidthCalc();
    void calculatemetrics();
    void displaymetrics(std::string splunkkey);
    int addSession(libtrace_packet_t *pkt,m_Packet tcppkt);
    int getPercUplink();
    int getPercDownLink();
-   Interface* getInterface(Diameter dPkt, std::string &nodeip);
+   inline Interface* getInterface(Diameter &dPkt, std::string &nodeip) __attribute__((always_inline)); 
 };
 
 #endif //TCP_PROTO_H

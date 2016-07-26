@@ -315,8 +315,7 @@ int main(int argc , char * argv [])
               }
         }
     }
-   
-    filesList.sort(); 
+    
     /*
     //Count threads 
     DIR *dirp1 = NULL;

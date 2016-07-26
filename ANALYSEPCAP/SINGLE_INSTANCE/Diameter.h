@@ -49,16 +49,17 @@ class Diameter
         int request;
         unsigned int cc;
         unsigned int appId;
-        uint32_t hopIdentifier;
+        long long int hopIdentifier;
         int resCode;
         char *originHost;
         unsigned int reqType;
-        double timeStamp;
+        long double timeStamp;
+         bool valid;
 
         Diameter(char* Msg);
         void printPkt();
 
-        inline void setTimeStamp(unsigned int time)
+        inline void setTimeStamp(unsigned int time) __attribute__((always_inline))
         {
             timeStamp = time;
         }

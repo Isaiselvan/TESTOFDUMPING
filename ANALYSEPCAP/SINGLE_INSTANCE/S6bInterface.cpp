@@ -3,13 +3,13 @@
 #include <time.h>
 #include "S6bInterface.h"
 
-S6BInterface::S6BInterface()
+S6BInterface::S6BInterface(std::string &nodepair)
 {
     memset(&s6bStats,0,sizeof(s6bStats));
     startTime = 0;
     endTime   = 0;
     TS        = 0;
-    RTT       = 0; 
+    RTT       = 0;
 }
 
 int S6BInterface::addPkt(Diameter &pkt)
@@ -119,28 +119,28 @@ void S6BInterface::printStats(std::string &node)
                 break;
         }
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Att"  
                                                           << " Kpv=" << s6bStats.attempts[i]     << std::endl;
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Suc"
                                                           << " Kpv="  << s6bStats.succCount[i]     << " " << std::endl;
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Fail"
                                                           << " Kpv="      << s6bStats.failCount[i]    << " " << std::endl;
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Tout"
                                                           << " Kpv="   << s6bStats.timeoutCount[i] << " " << std::endl;
 
        if(s6bStats.latencySize[i] > 0)
        {
-           std::cout << curTime << " Ip=" << node <<   " Ix=" << "S6B"                    << " "
+          std::cout << curTime << " " << node <<   " Ix=" << "S6B"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
                                                           << " Kpv=" << (int) ((s6bStats.latency[i]/s6bStats.latencySize[i])*1000) << std::endl; 
@@ -151,6 +151,4 @@ void S6BInterface::printStats(std::string &node)
 void S6BInterface::clearStats()
 {
     memset(&s6bStats,0,sizeof(s6bStats));
-    //req.clear();
-    //res.clear();
 }

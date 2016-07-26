@@ -3,14 +3,14 @@
 #include <string>
 #include <time.h>
 
-GyInterface::GyInterface()
+GyInterface::GyInterface(std::string &nodepair)
 {
     memset(&GyStats,0,sizeof(CCGyStats));
     startTime = 0;
     endTime   = 0;
     reqtype   = 0;
     TS        = 0;
-    RTT       = 0; 
+    RTT       = 0;
 }
 
 int GyInterface::addPkt(Diameter &pkt)
@@ -43,7 +43,7 @@ int GyInterface::addPkt(Diameter &pkt)
             break;
 
         case 0:
-           // Handle response
+            /* Handle Response */
             TS = req[reqtype][pkt.hopIdentifier];
             if(TS == 0)
             {
@@ -74,7 +74,7 @@ int GyInterface::addPkt(Diameter &pkt)
            }
 
            req[reqtype].erase(pkt.hopIdentifier);
-           break;
+             break;
 
         default:
             return 1;
@@ -132,28 +132,28 @@ void GyInterface::printStats(std::string &node)
                 break;
         }
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Att"  
                                                           << " Kpv=" << GyStats.attempts[i-1]     << std::endl;
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Suc"
                                                           << " Kpv="  << GyStats.succCount[i-1]     << " " << std::endl;
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Fail"
                                                           << " Kpv="      << GyStats.failCount[i-1]    << " " << std::endl;
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Tout"
                                                           << " Kpv="   << GyStats.timeoutCount[i-1] << " " << std::endl;
 
        if(GyStats.latencySize[i-1] > 0)
        {
-           std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gy"                    << " "
+           std::cout << curTime << " " << node <<   " Ix=" << "Gy"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Laty"
                                                           << " Kpv=" << (int) ((GyStats.latency[i-1]/GyStats.latencySize[i-1])*1000) << std::endl; 
@@ -165,6 +165,4 @@ void GyInterface::printStats(std::string &node)
 void GyInterface::clearStats()
 {
     memset(&GyStats,0,sizeof(CCGyStats));
-    //req.clear();
-    //res.clear();
 }

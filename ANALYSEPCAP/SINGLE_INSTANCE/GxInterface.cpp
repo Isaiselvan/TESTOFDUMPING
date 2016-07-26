@@ -2,14 +2,14 @@
 #include <unordered_map>
 #include <string>
 
-GxInterface::GxInterface()
+GxInterface::GxInterface(std::string &nodepair)
 {
     memset(&GxStats,0,sizeof(CCGxStats));
     startTime = 0;
     endTime   = 0;
     reqtype   = 0;
     TS        = 0;
-    RTT       = 0; 
+    RTT       = 0;
 }
 
 int GxInterface::addPkt(Diameter &pkt)
@@ -40,7 +40,6 @@ int GxInterface::addPkt(Diameter &pkt)
             break;
 
         case 0:
-
             /* Handle Response */
             TS = req[reqtype][pkt.hopIdentifier];
             if(TS == 0)
@@ -126,31 +125,32 @@ void GxInterface::printStats(std::string &node)
                 msgType = "TERMINATE";
                 break;
         }
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Att"  
                                                           << " Kpv=" << GxStats.attempts[i-1]     << std::endl;
 
-        std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+        std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Suc"
                                                           << " Kpv="  << GxStats.succCount[i-1]     << " " << std::endl;
 
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Fail"
                                                           << " Kpv="      << GxStats.failCount[i-1]    << " " << std::endl;
-       std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
+       std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
                                                           << "Ty="      << msgType                 << " "
                                                           << "Kp=Tout"
                                                           << " Kpv="      << GxStats.timeoutCount[i-1]    << " " << std::endl;
 
+
        if(GxStats.latencySize[i-1] > 0)
        {
-           std::cout << curTime << " Ip=" << node <<   " Ix=" << "Gx"                    << " "
-                                                              << "Ty="      << msgType                 << " "
-                                                              << "Kp=Laty"
-                                                              << " Kpv=" <<  (int)((GxStats.latency[i-1]/GxStats.latencySize[i-1])*1000)<< std::endl; 
+           std::cout << curTime << " " << node <<   " Ix=" << "Gx"                    << " "
+                                                           << "Ty="      << msgType                 << " "
+                                                           << "Kp=Laty"
+                                                           << " Kpv=" <<  (int)((GxStats.latency[i-1]/GxStats.latencySize[i-1]) * 1000)<< std::endl;
        }
     }
 }
@@ -158,6 +158,4 @@ void GxInterface::printStats(std::string &node)
 void GxInterface::clearStats()
 {
     memset(&GxStats,0,sizeof(CCGxStats));
-    //req.clear();
-    //res.clear();
 }

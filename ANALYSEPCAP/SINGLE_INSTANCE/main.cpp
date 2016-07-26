@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "displayStats.h"
 #include "libtrace_parallel.h"
-using namespace std;
+
 
 #define DIRPATH "/apps/opt/LIBTRACE/test/"
 #define MAX_THREAD 20
@@ -206,6 +206,60 @@ int main(int argc , char * argv [])
        for(int c =0 ; c < MAX_THREAD ; c++)
              threads[c] = 0 ;
     parse_args(argc,argv); 
+    double  ii = 0;
+    SharedHashFile * shf = new SharedHashFile;
+    char  testShfName[256];
+    char  testShfFolder[] = "/dev/shm";
+    int nodecount             = 1;
+    sprintf(testShfName, "node-%d", nodecount);
+    long long int hopid = 509078234981;
+    if(shf && !shf->IsAttached())
+      {
+        if(!shf->AttachExisting(testShfFolder, testShfName))    
+             shf->Attach(testShfFolder, testShfName, 1);
+
+         //shf->SetIsLockable (1);
+      }
+      shf->SetDataNeedFactor (250);
+      //std::string key(itoa(hopid));
+//while(ii++ < 1000000)
+while (1)
+{
+      char key1[50];
+      sprintf(key1, "%lld", hopid);
+      std::string key(key1); 
+      long long int responsetm;
+      shf->MakeHash(key.c_str(), key.length());      
+      responsetm = 1999234956;
+     //responsetm++;
+      sprintf(key1, "%lld",responsetm);
+      std::string keyV = std::to_string(responsetm);//(key1);
+      
+      int uid = shf->PutKeyVal(keyV.c_str(), keyV.length());
+      bzero(shf_val, sizeof(shf_val));
+      shf->GetKeyValCopy () ;
+             responsetm = atoi(shf_val);
+      std::cout << "Test Key=" << keyV << "Value=" << responsetm << std::endl; 
+      shf->DelKeyVal();
+//
+      shf->MakeHash("test1",5);
+      shf->PutKeyVal("1234", 4) ;
+      bzero(shf_val, sizeof(shf_val));
+      shf->GetKeyValCopy () ;
+             responsetm = atoi(shf_val); 
+      std::cout << "Test " << responsetm << std::endl;
+      shf->DelKeyVal();
+
+}
+//
+/*     shf->MakeHash(key.c_str(), key.length()-1);
+     bzero(shf_val, sizeof(shf_val));
+     if(shf->GetKeyValCopy () )
+      {
+             responsetm = atoi(shf_val);
+             std::cout << "Test " << responsetm << std::endl;
+      }*/
+#if 0
   while(1) 
  {
     DIR *dirp = NULL;
@@ -316,5 +370,5 @@ int main(int argc , char * argv [])
     filesList.clear();  
     (void)closedir(dirp);
  }
-
+#endif 
 }

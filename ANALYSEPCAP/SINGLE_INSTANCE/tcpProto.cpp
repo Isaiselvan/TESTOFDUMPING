@@ -5,12 +5,13 @@
 #include "S6bInterface.h"
 #include <time.h>
 #include <unordered_map>
+#include <sstream>
 
 std::unordered_map <std::string, GxInterface  * > GxMap;
 std::unordered_map <std::string, GyInterface  * > GyMap;
 std::unordered_map <std::string, S6BInterface * > S6bMap;
 
-int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
+inline int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt) 
 {
  //DownLink flag can be set here to tcppkt
      m_totalpkts++;
@@ -53,6 +54,9 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
      if(tcppkt->srcPort == 3868 || tcppkt->dstPort == 3868)
      {
          Diameter dPkt(tcppkt->pay_load);
+         if(!dPkt.valid)
+             return -1;
+
          dPkt.timeStamp = tcppkt->timeStamp;
          //dPkt.printPkt();
          //
@@ -98,6 +102,11 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
                  interface->addPkt(dPkt);
                  break;
              case 2:
+                 std::string src, dst;
+                 std::stringstream split(node);
+                 getline(split, src, '-');
+                 getline(split, dst, '-');
+                 node = "sip=" + src + " dip=" + dst;
                  interface->printStats(node);
                  interface->clearStats();
                  interface->addPkt(dPkt);
@@ -107,7 +116,7 @@ int protocolTCP::addPkt(libtrace_packet_t *pkt, m_Packet *tcppkt)
      
 }
 
-Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
+inline Interface* protocolTCP::getInterface(Diameter &dPkt, std::string &nodeip)
 {
   GxInterface  *gxInterface  = NULL;
   GyInterface  *gyInterface  = NULL;
@@ -122,19 +131,19 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
             //else
               if(!gxInterface)
                 {
-                gxInterface = new GxInterface; //gxInterface = my_map[nodeip];
+                gxInterface = new GxInterface(nodeip); //gxInterface = my_map[nodeip];
                 //std::cout << "Creating new node " << nodeip << std::endl; 
                 GxMap[nodeip] = gxInterface;
                 }
 //Distinct HOH TEST starts here
 	      static uint64_t reqHopid= 0;
-	      static uint64_t resHopid= 100000;
+	      static uint64_t resHopid= 100;
 
-	      if(reqHopid == 100000)
+	      if(reqHopid == 100)
 		      reqHopid = 0;
 
 	      if(resHopid == 0)
-		      resHopid = 100000;
+		      resHopid = 100;
 
 	      if(dPkt.request)
 	      {
@@ -146,7 +155,6 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
 	      }
 
 //Distinct HOH TEST ends here
-
             return gxInterface;
             break; 
 
@@ -154,19 +162,18 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
             gyInterface = GyMap[nodeip];
             if(!gyInterface)
                 {
-                gyInterface = new GyInterface; //gxInterface = my_map[nodeip];
+                gyInterface = new GyInterface(nodeip); //gxInterface = my_map[nodeip];
                 GyMap[nodeip] = gyInterface;
                 }
-          
 //Distinct HOH TEST starts here
 	      static uint64_t yreqHopid= 0;
-	      static uint64_t yresHopid= 10000;
+	      static uint64_t yresHopid= 100;
 
-	      if(yreqHopid == 10000)
+	      if(yreqHopid == 100)
 		      yreqHopid = 0;
 
 	      if(yresHopid == 0)
-		      yresHopid = 10000;
+		      yresHopid = 100;
 
 	      if(dPkt.request)
 	      {
@@ -178,25 +185,24 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
 	      }
 
 //Distinct HOH TEST ends here
-
             return gyInterface;
             break; 
         case S6B:
             s6bInterface = S6bMap[nodeip]; 
             if(!s6bInterface)
                 {
-                 s6bInterface = new S6BInterface; //gxInterface = my_map[nodeip];
+                 s6bInterface = new S6BInterface(nodeip); //gxInterface = my_map[nodeip];
                  S6bMap[nodeip] = s6bInterface;
                 }
 //Distinct HOH TEST starts here
 	      static uint64_t sreqHopid= 0;
-	      static uint64_t sresHopid= 10000;
+	      static uint64_t sresHopid= 100;
 
-	      if(sreqHopid == 10000)
+	      if(sreqHopid == 100)
 		      sreqHopid = 0;
 
 	      if(sresHopid == 0)
-		      sresHopid = 10000;
+		      sresHopid = 100;
 
 	      if(dPkt.request)
 	      {
@@ -208,7 +214,6 @@ Interface* protocolTCP::getInterface(Diameter dPkt, std::string &nodeip)
 	      }
 
 //Distinct HOH TEST ends here
- 
             return s6bInterface;
             break;
 
