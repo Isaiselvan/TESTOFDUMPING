@@ -47,8 +47,6 @@ int packet_producer(__attribute__((unused)) void * arg){
         while(1) {
                           //PRINT_INFO( "portid%d \n", readportid);
 			/* Timestamp the packet */
-			ret = gettimeofday(&t_pack, NULL);
-			if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
                   nb_rx = 0;
                 //while ((m = rte_pktmbuf_alloc(pktmbuf_pool) ) == NULL );   
 
@@ -69,8 +67,10 @@ int packet_producer(__attribute__((unused)) void * arg){
                               break;
                             }
                       }
-                        if(unlikely(nb_rx <0))
+                        if(nb_rx <= 0)
                               continue ;
+			ret = gettimeofday(&t_pack, NULL);
+			if (ret != 0) FATAL_ERROR("Error: gettimeofday failed. Quitting...\n");
 
                            for (idx= 0;idx<nb_rx;idx++)
                            {
@@ -82,8 +82,8 @@ int packet_producer(__attribute__((unused)) void * arg){
                                              
                             m_numberofpackets[lcore_id] += ret;
                             missedouts[lcore_id] += nb_rx -ret;
-    
-                         for(;ret<=nb_rx;ret++) 
+
+                         for(;ret<nb_rx;ret++) 
                             rte_pktmbuf_free((struct rte_mbuf *)pkts_burst[ret]);
 
 
